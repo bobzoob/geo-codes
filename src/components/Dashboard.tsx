@@ -7,16 +7,15 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import { useAppState } from "../state/appContext";
 
-// interface (bauplan) structures this class, sets properties and types
-// this class must recieve a prop DashboardProps
 interface DashboardProps {
-  // type: a function stat takes no arguments and returns nothing
-  onSelectMap: () => void;
   isDataLoaded: boolean;
 }
 
-function Dashboard({ onSelectMap, isDataLoaded }: DashboardProps) {
+function Dashboard({ isDataLoaded }: DashboardProps) {
+  const { dispatch } = useAppState();
+
   return (
     <Box sx={{ padding: 4 }}>
       <Typography variant="h2" component="h1" gutterBottom textAlign="center">
@@ -24,26 +23,23 @@ function Dashboard({ onSelectMap, isDataLoaded }: DashboardProps) {
       </Typography>
       <Grid container spacing={4} justifyContent="center">
         <Grid>
-          {/*here is where the Cards go*/}
           <Card sx={{ maxWidth: 345 }}>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 Hans Kelsen
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Project discripion, can be a little bit longer maybe this long
-                ...
+                Project description, can be a little bit longer maybe this
+                long...
               </Typography>
             </CardContent>
             <CardActions>
-              {/* onClick calls the function passed down from App.tsx  -> onSelectMap but we only provide the function, the acctual call happens at runtime*/}
               <Button
                 size="small"
                 variant="contained"
-                onClick={onSelectMap}
+                onClick={() => dispatch({ type: "SET_VIEW", payload: "map" })}
                 disabled={!isDataLoaded}
               >
-                {/* here should go the button text, but we whant it to be dynamic*/}
                 {isDataLoaded ? "Go" : "Loading..."}
               </Button>
             </CardActions>

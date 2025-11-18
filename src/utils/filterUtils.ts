@@ -1,5 +1,5 @@
 import type { HistoricalFeature } from "../types/geojson";
-import type { TimeRange, SearchState } from "../App";
+import type { TimeRange, SearchState } from "../types/state";
 
 /**
  * this function filters a feature based on the timeline range.
@@ -25,7 +25,8 @@ const filterBySearch = (
   feature: HistoricalFeature,
   searchState: SearchState
 ): boolean => {
-  const { plainText, sender, recipient } = searchState;
+  const { plainText, sender, recipient, searchStartDate, searchEndDate } =
+    searchState;
   const props = feature.properties;
 
   // case insensitive
@@ -33,15 +34,29 @@ const filterBySearch = (
   const senderLower = sender.toLowerCase();
   const recipientLower = recipient.toLowerCase();
 
-  // search across multiple fields
+  // search across multiple fields, optional chaining (?.) for safty
   if (plainTextLower) {
+    const inName = props.name?.toLowerCase().includes(plainTextLower);
     const inSender = props.sender?.toLowerCase().includes(plainTextLower);
     const inRecipient = props.recipient?.toLowerCase().includes(plainTextLower);
     const inDescription = props.description
       ?.toLowerCase()
       .includes(plainTextLower);
     // if plainText is present at least one field must match
-    if (!(inSender || inRecipient || inDescription)) {
+    if (!(inName || inSender || inRecipient || inDescription)) {
+      return false;
+    }
+  }
+
+  // date-specific search
+  if (searchStartDate) {
+    if (new Date(props.endDate) < new Date(searchStartDate)) {
+      return false;
+    }
+  }
+
+  if (searchEndDate) {
+    if (new Date(props.startDate) > new Date(searchEndDate)) {
       return false;
     }
   }

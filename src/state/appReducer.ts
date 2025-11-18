@@ -1,0 +1,92 @@
+// this file will contain all the logic for updating applications states
+// reducer is a pure function that takes the current state and an "action" and returns the next state.
+import type { LayerConfig, SearchState, TimeRange, View } from "../types/state";
+import type { HistoricalFeatureCollection } from "../types/geojson";
+
+// shape of the applications state
+export interface AppState {
+  currentView: View;
+  geoJsonData: Record<string, HistoricalFeatureCollection> | null;
+  layerConfig: LayerConfig[];
+  committedTimeRange: TimeRange;
+  liveTimeRange: TimeRange;
+}
+
+// all possible actions, that can change the state
+//this is a "discriminated union", ts function: represent multiple possible variants, distinguished by a common property called a discriminator
+export type AppAction =
+  | { type: "SET_VIEW"; payload: View }
+  | {
+      type: "SET_GEOJSON_DATA";
+      payload: Record<string, HistoricalFeatureCollection>;
+    }
+  | {
+      type: "SET_LAYER_VISIBILITY";
+      payload: { layerId: string; isVisible: boolean };
+    }
+  | {
+      type: "SET_LAYER_TOOLTIPS";
+      payload: { layerId: string; showAll: boolean };
+    }
+  | {
+      type: "UPDATE_LAYER_SEARCH";
+      payload: { layerId: string; searchState: SearchState };
+    }
+  | { type: "SET_COMMITTED_TIME_RANGE"; payload: TimeRange }
+  | { type: "SET_LIVE_TIME_RANGE"; payload: TimeRange };
+
+//  handle all state updates
+export const appReducer = (state: AppState, action: AppAction): AppState => {
+  switch (action.type) {
+    case "SET_VIEW":
+      return { ...state, currentView: action.payload };
+
+    case "SET_GEOJSON_DATA":
+      return { ...state, geoJsonData: action.payload };
+
+    case "SET_LAYER_VISIBILITY":
+      return {
+        ...state,
+        layerConfig: state.layerConfig.map((layer) =>
+          layer.id === action.payload.layerId
+            ? { ...layer, visible: action.payload.isVisible }
+            : layer
+        ),
+      };
+
+    case "SET_LAYER_TOOLTIPS":
+      return {
+        ...state,
+        layerConfig: state.layerConfig.map((layer) =>
+          layer.id === action.payload.layerId
+            ? { ...layer, showAllTooltips: action.payload.showAll }
+            : layer
+        ),
+      };
+
+    case "UPDATE_LAYER_SEARCH":
+      return {
+        ...state,
+        layerConfig: state.layerConfig.map((layer) =>
+          layer.id === action.payload.layerId
+            ? { ...layer, search: action.payload.searchState }
+            : layer
+        ),
+      };
+
+    case "SET_COMMITTED_TIME_RANGE":
+      // here: when user finishes sliding: both time ranges are synced
+      return {
+        ...state,
+        committedTimeRange: action.payload,
+        liveTimeRange: action.payload,
+      };
+
+    case "SET_LIVE_TIME_RANGE":
+      // here: during sliding, only the live range is updated -> important!
+      return { ...state, liveTimeRange: action.payload };
+
+    default:
+      return state;
+  }
+};

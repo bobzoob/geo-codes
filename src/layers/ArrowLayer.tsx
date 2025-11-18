@@ -1,4 +1,4 @@
-import ArrowPolyline from "./ArrowPolyline";
+import ArrowPolyline from "../layers/ArrowPolyline";
 import type { HistoricalFeatureCollection } from "../types/geojson";
 import L from "leaflet";
 

@@ -1,15 +1,12 @@
 import type { HistoricalFeatureCollection } from "../types/geojson";
-import type { LayerConfig, TimeRange } from "../App";
-import GeoJSONLayer from "./GeoJSONLayer";
-import PointLayer from "./PointLayer";
-import ArrowLayer from "./ArrowLayer";
+import type { LayerConfig, TimeRange } from "../types/state";
 import { applyFilters } from "../utils/filterUtils";
+import { layerRegistry } from "../layers/layerRegistry";
 
 interface LayerManagerProps {
   layers: LayerConfig[];
   data: Record<string, HistoricalFeatureCollection> | null;
   timeRange: TimeRange;
-  //featureFilter: (feature: any) => boolean;
 }
 
 function LayerManager({ layers, data, timeRange }: LayerManagerProps) {
@@ -25,7 +22,7 @@ function LayerManager({ layers, data, timeRange }: LayerManagerProps) {
         const layerData = data[layer.id];
         if (!layerData) return null;
 
-        //serach filter
+        // filtering logic
         const filteredFeatures = layerData.features.filter((feature) =>
           applyFilters(feature, timeRange, layer.search)
         );
@@ -35,43 +32,28 @@ function LayerManager({ layers, data, timeRange }: LayerManagerProps) {
           features: filteredFeatures,
         };
 
-        //fully dynamic key for ALL layer types: guarantees a re-render when the time or tooltip settings change
+        // dynamic rendering
+        // look up the component in the registry using the type of the layer
+        const LayerComponent = layerRegistry[layer.type];
+
+        // if no component is found render nothing + warning
+        if (!LayerComponent) {
+          console.warn(`No renderer found for layer type: "${layer.type}"`);
+          return null;
+        }
+
+        // if a component is found, render with the required props
         const dynamicKey = `${layer.id}-${timeRange.join("-")}-${
           layer.showAllTooltips
         }`;
 
-        //** add new layer type here: **
-        switch (layer.type) {
-          case "polygon":
-            return (
-              <GeoJSONLayer
-                key={dynamicKey}
-                data={filteredData}
-                showAllTooltips={layer.showAllTooltips}
-              />
-            );
-
-          case "point":
-            return (
-              <PointLayer
-                key={dynamicKey}
-                data={filteredData}
-                showAllTooltips={layer.showAllTooltips}
-              />
-            );
-
-          case "line":
-            return (
-              <ArrowLayer
-                key={dynamicKey}
-                data={filteredData}
-                showAllTooltips={layer.showAllTooltips}
-              />
-            );
-
-          default:
-            return null;
-        }
+        return (
+          <LayerComponent
+            key={dynamicKey}
+            data={filteredData}
+            showAllTooltips={layer.showAllTooltips}
+          />
+        );
       })}
     </>
   );
