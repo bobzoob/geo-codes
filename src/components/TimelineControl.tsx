@@ -17,11 +17,6 @@ function TimelineControl({
   return (
     <Box
       sx={{
-        position: "absolute",
-        bottom: 20,
-        left: "50%", // center horizontally
-        transform: "translateX(-50%)",
-        width: "60%",
         backgroundColor: "rgba(255, 255, 255, 0.9)",
         padding: 2,
         borderRadius: 2,

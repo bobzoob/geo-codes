@@ -27,5 +27,5 @@ export interface LayerConfig {
   showAllTooltips: boolean;
   search?: SearchState;
   // this is a an optional React component that accepts FilterComponentProps
-  FilterComponent?: ComponentType<FilterComponentProps>;
+  FilterComponents?: ComponentType<FilterComponentProps>[];
 }

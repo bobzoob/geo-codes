@@ -18,6 +18,10 @@ const initialState: AppState = {
   layerConfig: initialLayerConfig,
   committedTimeRange: [1800, 1930],
   liveTimeRange: [1800, 1930],
+  selectedLayerId: null,
+  isOptionsPanelVisible: true,
+  isLayerPanelCollapsed: false,
+  isBottomPanelCollapsed: false,
 };
 
 // context

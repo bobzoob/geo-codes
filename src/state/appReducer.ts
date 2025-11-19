@@ -10,12 +10,20 @@ export interface AppState {
   layerConfig: LayerConfig[];
   committedTimeRange: TimeRange;
   liveTimeRange: TimeRange;
+  selectedLayerId: string | null;
+  // collapse flags
+  isLayerPanelCollapsed: boolean;
+  isBottomPanelCollapsed: boolean;
 }
 
 // all possible actions, that can change the state
 //this is a "discriminated union", ts function: represent multiple possible variants, distinguished by a common property called a discriminator
 export type AppAction =
+  | { type: "TOGGLE_LAYER_PANEL" }
+  | { type: "TOGGLE_BOTTOM_PANEL" }
   | { type: "SET_VIEW"; payload: View }
+  | { type: "SELECT_LAYER"; playload: string | null }
+  | { type: "CLEAR_ALL_FILTERS" }
   | {
       type: "SET_GEOJSON_DATA";
       payload: Record<string, HistoricalFeatureCollection>;
@@ -38,6 +46,35 @@ export type AppAction =
 //  handle all state updates
 export const appReducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
+    case "TOGGLE_LAYER_PANEL":
+      return { ...state, isLayerPanelCollapsed: !state.isLayerPanelCollapsed };
+    case "TOGGLE_BOTTOM_PANEL":
+      return {
+        ...state,
+        isBottomPanelCollapsed: !state.isBottomPanelCollapsed,
+      };
+    case "SELECT_LAYER":
+      return { ...state, selectedLayerId: action.playload };
+
+    case "CLEAR_ALL_FILTERS":
+      return {
+        ...state,
+        // map over every layer and reset search state
+        layerConfig: state.layerConfig.map((layer) => {
+          if (!layer.search) return layer; // if layer has no search, do nothing
+          return {
+            ...layer,
+            search: {
+              // to reset to the initial empty state
+              plainText: "",
+              sender: "",
+              recipient: "",
+              searchStartDate: "",
+              searchEndDate: "",
+            },
+          };
+        }),
+      };
     case "SET_VIEW":
       return { ...state, currentView: action.payload };
 

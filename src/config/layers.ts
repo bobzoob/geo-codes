@@ -1,5 +1,6 @@
 import type { LayerConfig } from "../types/state";
-import SearchForm from "../components/SearchFormMultiField";
+import SearchFormText from "../components/SearchFormText";
+import SearchFormMultiField from "../components/SearchFormMultiField";
 //import PointFilterContainer from "../components/PointFilterContainer";
 
 export const initialLayerConfig: LayerConfig[] = [
@@ -25,6 +26,7 @@ export const initialLayerConfig: LayerConfig[] = [
       searchStartDate: "",
       searchEndDate: "",
     },
+    FilterComponents: [SearchFormText],
   },
   {
     id: "letters-1",
@@ -40,6 +42,6 @@ export const initialLayerConfig: LayerConfig[] = [
       searchStartDate: "",
       searchEndDate: "",
     },
-    FilterComponent: SearchForm,
+    FilterComponents: [SearchFormMultiField],
   },
 ];

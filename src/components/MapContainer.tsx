@@ -1,13 +1,13 @@
 import { Box } from "@mui/material";
-import TimelineControl from "./TimelineControl";
 import MapWrapper from "./MapWrapper";
 import LayerManager from "./LayerManager";
 import { useAppState } from "../state/appContext";
-import type { TimeRange } from "../types/state";
+
+import BottomPanel from "./BottomPanel";
 
 function MapContainer() {
-  const { state, dispatch } = useAppState();
-  const { geoJsonData, layerConfig, committedTimeRange, liveTimeRange } = state;
+  const { state } = useAppState();
+  const { geoJsonData, layerConfig, committedTimeRange } = state;
 
   return (
     <Box sx={{ height: "100%", width: "100%", position: "relative" }}>
@@ -18,15 +18,9 @@ function MapContainer() {
           timeRange={committedTimeRange}
         />
       </MapWrapper>
-      <TimelineControl
-        range={liveTimeRange}
-        onTimeChange={(newRange: TimeRange) =>
-          dispatch({ type: "SET_LIVE_TIME_RANGE", payload: newRange })
-        }
-        onTimeChangeCommitted={(newRange: TimeRange) =>
-          dispatch({ type: "SET_COMMITTED_TIME_RANGE", payload: newRange })
-        }
-      />
+
+      {/* bottom controls life inside BottomPanel */}
+      <BottomPanel />
     </Box>
   );
 }
