@@ -22,7 +22,7 @@ export type AppAction =
   | { type: "TOGGLE_LAYER_PANEL" }
   | { type: "TOGGLE_BOTTOM_PANEL" }
   | { type: "SET_VIEW"; payload: View }
-  | { type: "SELECT_LAYER"; playload: string | null }
+  | { type: "SELECT_LAYER"; payload: string | null }
   | { type: "CLEAR_ALL_FILTERS" }
   | {
       type: "SET_GEOJSON_DATA";
@@ -54,7 +54,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         isBottomPanelCollapsed: !state.isBottomPanelCollapsed,
       };
     case "SELECT_LAYER":
-      return { ...state, selectedLayerId: action.playload };
+      return { ...state, selectedLayerId: action.payload };
 
     case "CLEAR_ALL_FILTERS":
       return {

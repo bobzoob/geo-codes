@@ -7,7 +7,7 @@ function LayerPanel() {
 
   const handleSelectLayer = (layerId: string) => {
     const newSelectedId = selectedLayerId === layerId ? null : layerId;
-    dispatch({ type: "SELECT_LAYER", playload: newSelectedId });
+    dispatch({ type: "SELECT_LAYER", payload: newSelectedId });
   };
 
   return (
@@ -45,15 +45,15 @@ function LayerPanel() {
                 onClick={() => handleSelectLayer(layer.id)}
               >
                 <Stack spacing={0.5} alignItems="center">
-                  {/* Item 1: The Layer Name */}
+                  {/*layer name */}
                   <Typography variant="body1" fontWeight="medium">
                     {layer.name}
                   </Typography>
 
-                  {/* Item 2: The Visibility Switch */}
+                  {/* visibility switch */}
                   <Switch
                     checked={layer.visible}
-                    // This is crucial: it stops the click from triggering the Paper's onClick
+                    // this is crucial: it stops the click from triggering onClick
                     onClick={(e) => e.stopPropagation()}
                     onChange={(event) =>
                       dispatch({
