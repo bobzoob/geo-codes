@@ -1,36 +1,77 @@
-import { Stack, TextField } from "@mui/material";
-import type { SearchState } from "../types/state";
+import { useState } from "react";
+import { Stack, TextField, Button } from "@mui/material";
+import type { FilterComponentProps } from "../types/state";
+import { useAppState } from "../state/appContext";
 
-interface SearchFormDateProps {
-  searchState: SearchState;
-  onSearchChange: (newSearchState: SearchState) => void;
-}
+function SearchFormDate({ layer }: FilterComponentProps) {
+  const { dispatch } = useAppState();
+  const [startDate, setStartDate] = useState(
+    layer.search?.searchStartDate || ""
+  );
+  const [endDate, setEndDate] = useState(layer.search?.searchEndDate || "");
 
-function SearchFormDate({ searchState, onSearchChange }: SearchFormDateProps) {
+  const handleApply = () => {
+    dispatch({
+      type: "UPDATE_LAYER_SEARCH",
+      payload: {
+        layerId: layer.id,
+        searchState: {
+          ...layer.search!,
+          searchStartDate: startDate,
+          searchEndDate: endDate,
+        },
+      },
+    });
+  };
+
+  const handleClear = () => {
+    setStartDate("");
+    setEndDate("");
+    dispatch({
+      type: "UPDATE_LAYER_SEARCH",
+      payload: {
+        layerId: layer.id,
+        searchState: {
+          ...layer.search!,
+          searchStartDate: "",
+          searchEndDate: "",
+        },
+      },
+    });
+  };
+
   return (
-    <Stack direction="row" spacing={2}>
-      <TextField
-        label="Start Date"
-        type="date"
-        variant="outlined"
-        size="small"
-        value={searchState.searchStartDate || ""}
-        onChange={(e) =>
-          onSearchChange({ ...searchState, searchStartDate: e.target.value })
-        }
-        InputLabelProps={{ shrink: true }} // keep label from overlapping -> expanded function
-      />
-      <TextField
-        label="End Date"
-        type="date"
-        variant="outlined"
-        size="small"
-        value={searchState.searchEndDate || ""}
-        onChange={(e) =>
-          onSearchChange({ ...searchState, searchEndDate: e.target.value })
-        }
-        InputLabelProps={{ shrink: true }}
-      />
+    <Stack spacing={1}>
+      <Stack direction="row" spacing={2}>
+        <TextField
+          label="Start Date"
+          type="date"
+          variant="outlined"
+          size="small"
+          fullWidth
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          InputLabelProps={{ shrink: true }}
+        />
+        <TextField
+          label="End Date"
+          type="date"
+          variant="outlined"
+          size="small"
+          fullWidth
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+          InputLabelProps={{ shrink: true }}
+        />
+      </Stack>
+      <Stack direction="row" spacing={1}>
+        <Button size="small" variant="outlined" onClick={handleApply}>
+          Apply
+        </Button>
+        <Button size="small" onClick={handleClear}>
+          Clear
+        </Button>
+      </Stack>
     </Stack>
   );
 }

@@ -6,7 +6,7 @@ import { useAppState } from "../state/appContext";
 // it receives FilterComponentProps
 function SearchForm({ layer }: FilterComponentProps) {
   const { dispatch } = useAppState(); // and gets dispatch from the appContext, as it gets it from appReducer
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   // but search state must already exist if this component is rendered
   // ! -> tells TypeScript that we are certain layer.search is not undefined, otherwise compeiler will complain
