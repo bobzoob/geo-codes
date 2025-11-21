@@ -1,4 +1,4 @@
-import { Box, Button, Typography, Paper, Switch, Stack } from "@mui/material";
+import { Box, Typography, Paper, Switch, Stack } from "@mui/material";
 import { useAppState } from "../state/appContext";
 
 function LayerPanel() {

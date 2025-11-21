@@ -1,5 +1,5 @@
-import { Stack, Typography, Paper, TextField } from "@mui/material";
-import type { SearchState, FilterComponentProps } from "../types/state";
+import { Stack, Typography, Paper } from "@mui/material";
+import type { FilterComponentProps } from "../types/state";
 
 import SearchField from "./SearchField";
 

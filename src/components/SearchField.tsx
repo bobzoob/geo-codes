@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Stack, TextField, Button, Typography } from "@mui/material";
+import { Stack, TextField, Button } from "@mui/material";
 import type { LayerConfig, SearchState } from "../types/state";
 import { useAppState } from "../state/appContext";
 
