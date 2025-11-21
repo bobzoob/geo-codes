@@ -1,45 +1,37 @@
-import { Box, CssBaseline, Stack } from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
 import Header from "./components/Header";
-import LayerPanel from "./components/LayerPanel";
-import MapContainer from "./components/MapContainer";
 import Dashboard from "./components/Dashboard";
 import { useAppState } from "./state/appContext";
-import CollapsiblePanel from "./components/CollapsiblePanel";
+import MapViewLayout from "./components/MapViewLayout";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-// types
-export type { TimeRange, View, SearchState, LayerConfig } from "./types/state";
+/**
+ * root component of the application
+ * responsibility is rendering Header, switching between main Dashboard and MapContainer view
+ */
+
+const theme = createTheme();
 
 function App() {
-  // getcurrent state from our global context
-  const { state, dispatch } = useAppState();
-  const { currentView, geoJsonData, isLayerPanelCollapsed } = state;
+  const { state } = useAppState();
+  const { currentView, geoJsonData } = state;
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <CssBaseline />
-      <Header />
-      <Stack direction="row" sx={{ flexGrow: 1 }}>
-        {/* LayerPanel area */}
-        {currentView === "map" && ( // will we only show the collapsible panel in map view?
-          <CollapsiblePanel
-            isCollapsed={isLayerPanelCollapsed}
-            onToggle={() => dispatch({ type: "TOGGLE_LAYER_PANEL" })}
-            width={240}
-          >
-            <LayerPanel />
-          </CollapsiblePanel>
-        )}
+    <ThemeProvider theme={theme}>
+      <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+        <CssBaseline />
+        <Header />
 
-        <Box component="main" sx={{ flexGrow: 1, overflow: "auto" }}>
+        {/* this is the main content area that fills the remeining space */}
+        <Box sx={{ flexGrow: 1, position: "relative" }}>
           {currentView === "dashboard" ? (
             <Dashboard isDataLoaded={geoJsonData !== null} />
           ) : (
-            // MapContainer gets all its data from state
-            <MapContainer />
+            <MapViewLayout />
           )}
         </Box>
-      </Stack>
-    </Box>
+      </Box>{" "}
+    </ThemeProvider>
   );
 }
 

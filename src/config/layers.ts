@@ -6,7 +6,7 @@ import SearchFormDate from "../components/SearchFormDate";
 export const initialLayerConfig: LayerConfig[] = [
   {
     id: "territories-1",
-    name: "some historical territories",
+    name: "LAYER I (polygons)",
     visible: true,
     type: "polygon",
     source: "/territories-data.geojson",
@@ -14,7 +14,7 @@ export const initialLayerConfig: LayerConfig[] = [
   },
   {
     id: "event-1",
-    name: "important Event",
+    name: "LAYER II (points)",
     visible: true,
     type: "point",
     source: "/events-data.geojson",
@@ -30,7 +30,7 @@ export const initialLayerConfig: LayerConfig[] = [
   },
   {
     id: "letters-1",
-    name: "Kelsen letters",
+    name: "LAYER III (transitions)",
     visible: true,
     type: "line",
     source: "/letters-data.geojson",

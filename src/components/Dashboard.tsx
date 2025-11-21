@@ -8,6 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useAppState } from "../state/appContext";
+import { mapTheme } from "../config/mapTheme";
+import { ThemeProvider } from "@mui/material/styles";
 
 interface DashboardProps {
   isDataLoaded: boolean;
@@ -17,16 +19,16 @@ function Dashboard({ isDataLoaded }: DashboardProps) {
   const { dispatch } = useAppState();
 
   return (
-    <Box sx={{ padding: 4 }}>
+    <ThemeProvider theme={mapTheme}>
       <Typography variant="h2" component="h1" gutterBottom textAlign="center">
-        Geo Perspektiven
+        WEBSITE TITLE
       </Typography>
       <Grid container spacing={4} justifyContent="center">
         <Grid>
           <Card sx={{ maxWidth: 345 }}>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Hans Kelsen
+                Some Map Title
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Project description, can be a little bit longer maybe this
@@ -46,7 +48,7 @@ function Dashboard({ isDataLoaded }: DashboardProps) {
           </Card>
         </Grid>
       </Grid>
-    </Box>
+    </ThemeProvider>
   );
 }
 

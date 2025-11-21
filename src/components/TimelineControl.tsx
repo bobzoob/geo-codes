@@ -1,5 +1,5 @@
 import { Box, Slider, Typography } from "@mui/material";
-import type { TimeRange } from "../App";
+import type { TimeRange } from "../types/state";
 
 interface TimelineControlProps {
   range: TimeRange;
@@ -17,15 +17,18 @@ function TimelineControl({
   return (
     <Box
       sx={{
-        backgroundColor: "rgba(255, 255, 255, 0.9)",
-        padding: 2,
-        borderRadius: 2,
+        // backgroundColor: "background.paper",
+        color: "text.primary",
+        textTransform: "none",
+        fontWeight: "bold",
+        whiteSpace: "nowrap",
         boxShadow: 3,
+        "&:hover": { backgroundColor: "action.paper" },
         zIndex: 1000, // very hight up in hirarchy of layers
       }}
     >
       <Typography id="range-slider" gutterBottom>
-        Zeitspanne: {range[0]} - {range[1]}
+        Selected Time: {range[0]} - {range[1]}
       </Typography>
       <Slider
         // slider value default stting

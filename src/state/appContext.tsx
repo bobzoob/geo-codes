@@ -20,7 +20,8 @@ const initialState: AppState = {
   liveTimeRange: [1800, 1930],
   selectedLayerId: null,
   isLayerPanelCollapsed: false,
-  isBottomPanelCollapsed: false,
+  isOptionsPanelCollapsed: true,
+  activeMobilePanel: "layers",
 };
 
 // context

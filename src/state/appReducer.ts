@@ -13,14 +13,16 @@ export interface AppState {
   selectedLayerId: string | null;
   // collapse flags
   isLayerPanelCollapsed: boolean;
-  isBottomPanelCollapsed: boolean;
+  isOptionsPanelCollapsed: boolean;
+  activeMobilePanel: "layers" | "options" | "none";
 }
 
 // all possible actions, that can change the state
 //this is a "discriminated union", ts function: represent multiple possible variants, distinguished by a common property called a discriminator
 export type AppAction =
   | { type: "TOGGLE_LAYER_PANEL" }
-  | { type: "TOGGLE_BOTTOM_PANEL" }
+  | { type: "TOGGLE_OPTIONS_PANEL" }
+  | { type: "SET_ACTIVE_MOBILE_PANEL"; payload: "layers" | "options" | "none" }
   | { type: "SET_VIEW"; payload: View }
   | { type: "SELECT_LAYER"; payload: string | null }
   | { type: "CLEAR_ALL_FILTERS" }
@@ -46,13 +48,24 @@ export type AppAction =
 //  handle all state updates
 export const appReducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
-    case "TOGGLE_LAYER_PANEL":
-      return { ...state, isLayerPanelCollapsed: !state.isLayerPanelCollapsed };
-    case "TOGGLE_BOTTOM_PANEL":
+    case "SELECT_LAYER":
       return {
         ...state,
-        isBottomPanelCollapsed: !state.isBottomPanelCollapsed,
+        selectedLayerId: action.payload,
+        isOptionsPanelCollapsed: false,
       };
+
+    case "TOGGLE_LAYER_PANEL":
+      return { ...state, isLayerPanelCollapsed: !state.isLayerPanelCollapsed };
+
+    case "TOGGLE_OPTIONS_PANEL":
+      return {
+        ...state,
+        isOptionsPanelCollapsed: !state.isOptionsPanelCollapsed,
+      };
+
+    case "SET_ACTIVE_MOBILE_PANEL":
+      return { ...state, activeMobilePanel: action.payload };
     case "SELECT_LAYER":
       return { ...state, selectedLayerId: action.payload };
 

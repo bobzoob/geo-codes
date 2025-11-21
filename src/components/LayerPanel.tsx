@@ -11,17 +11,12 @@ function LayerPanel() {
   };
 
   return (
-    <Box sx={{ padding: 2 }}>
-      <Typography variant="h6">Menu</Typography>
-      <Button
-        variant="text"
-        onClick={() => dispatch({ type: "SET_VIEW", payload: "dashboard" })}
-      >
-        Home
-      </Button>
+    <Box sx={{ padding: 1.5 }}>
       {currentView === "map" && (
-        <Box mt={4}>
-          <Typography variant="h6">Layers</Typography>
+        <Box mt={2}>
+          <Typography variant="h6" sx={{ marginBottom: 2 }}>
+            Layers
+          </Typography>
           {layerConfig.map((layer) => {
             const isSelected = layer.id === selectedLayerId;
             return (
@@ -33,13 +28,21 @@ function LayerPanel() {
                   paddingX: 2,
                   marginBottom: 1,
                   cursor: "pointer",
-                  borderColor: isSelected ? "primary.main" : "transparent",
                   transition: "all 0.2s",
+                  backgroundImage: "none",
                   backgroundColor: isSelected
-                    ? "action.selected"
-                    : "transparent",
+                    ? "rgba(144, 202, 249, 0.18)" // Selected: Faint Blue Glass
+                    : "transparent", // Unselected: Fully Transparent
+
+                  borderColor: isSelected ? "primary.main" : "transparent",
+                  borderWidth: "1px",
+                  borderStyle: "solid",
+
                   "&:hover": {
-                    borderColor: isSelected ? "primary.main" : "grey.400",
+                    borderColor: isSelected ? "primary.main" : "divider",
+                    backgroundColor: isSelected
+                      ? "rgba(144, 202, 249, 0.25)"
+                      : "rgba(255, 255, 255, 0.05)",
                   },
                 }}
                 onClick={() => handleSelectLayer(layer.id)}
