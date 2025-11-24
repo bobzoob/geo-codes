@@ -53,6 +53,7 @@ function MapViewLayout() {
             gap: "20px",
             pointerEvents: "none", // licks pass through to the map
             zIndex: 1000,
+            overflow: "hidden",
             // on mobile
             flexDirection: "row",
             alignItems: "flex-start",

@@ -7,7 +7,8 @@
         "name": "Hans Kelsen visits Vienna",
         "description": "Legal scholar Hans Kelsen lived and worked in Vienna during this period and came up with stuff.",
         "startDate": "1890-01-01",
-        "endDate": "1924-12-31"
+        "endDate": "1924-12-31",
+        "place": "Vienna"
       },
       "geometry": {
         "type": "Point",
@@ -20,7 +21,8 @@
         "name": "Vienna Congress",
         "description": "Major diplomatic conference in Vienna, 1814-1815.",
         "startDate": "1814-09-01",
-        "endDate": "1815-06-09"
+        "endDate": "1815-06-09",
+        "place": "Test"
       },
       "geometry": {
         "type": "Point",
@@ -33,7 +35,8 @@
         "name": "Otto Wagner's First Project",
         "description": "Early architectural work by Otto Wagner in Vienna.",
         "startDate": "1864-01-01",
-        "endDate": "1864-12-31"
+        "endDate": "1864-12-31",
+        "place": "Vienna"
       },
       "geometry": {
         "type": "Point",

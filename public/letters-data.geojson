@@ -9,7 +9,9 @@
         "startDate": "1919-04-10",
         "endDate": "1919-04-10",
         "sender": "Hans Kelsen",
-        "recipient": "Karl Renner"
+        "recipient": "Karl Renner",
+        "sourcePlace": "Vienna",
+        "destinationPlace": "Prague"
       },
       "geometry": {
         "type": "LineString",
@@ -27,7 +29,9 @@
         "startDate": "1926-08-22",
         "endDate": "1926-08-22",
         "sender": "Hans Kelsen",
-        "recipient": "Max Adler"
+        "recipient": "Max Adler",
+        "sourcePlace": "Cologne",
+        "destinationPlace": "Vienna"
       },
       "geometry": {
         "type": "LineString",
@@ -45,7 +49,9 @@
         "startDate": "1931-05-15",
         "endDate": "1931-05-15",
         "sender": "Sigmund Freud",
-        "recipient": "Stefan Zweig"
+        "recipient": "Stefan Zweig",
+        "sourcePlace": "Vienna",
+        "destinationPlace": "Salzburg"
       },
       "geometry": {
         "type": "LineString",

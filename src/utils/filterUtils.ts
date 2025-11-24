@@ -25,8 +25,14 @@ const filterBySearch = (
   feature: HistoricalFeature,
   searchState: SearchState
 ): boolean => {
-  const { plainText, sender, recipient, searchStartDate, searchEndDate } =
-    searchState;
+  const {
+    plainText,
+    sender,
+    recipient,
+    location,
+    searchStartDate,
+    searchEndDate,
+  } = searchState;
   const props = feature.properties;
 
   // case insensitive
@@ -72,6 +78,22 @@ const filterBySearch = (
     !props.recipient?.toLowerCase().includes(recipientLower)
   ) {
     return false;
+  }
+
+  // location-specific search
+  if (location) {
+    const searchLoc = location.toLowerCase();
+
+    //  point data
+    const matchPlace = props.place?.toLowerCase().includes(searchLoc);
+
+    // line data (source OR destination)
+    const matchSource = props.sourcePlace?.toLowerCase().includes(searchLoc);
+    const matchDest = props.destinationPlace?.toLowerCase().includes(searchLoc);
+
+    if (!matchPlace && !matchSource && !matchDest) {
+      return false;
+    }
   }
 
   return true;

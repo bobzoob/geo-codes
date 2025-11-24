@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Stack, TextField, Button } from "@mui/material";
+import { Stack, TextField, Button, Paper, Typography } from "@mui/material";
 import type { FilterComponentProps } from "../types/state";
 import { useAppState } from "../state/appContext";
 
@@ -29,24 +29,29 @@ function SearchFormText({ layer }: FilterComponentProps) {
   };
 
   return (
-    <Stack spacing={1}>
-      <TextField
-        label="Search Name/Description"
-        variant="outlined"
-        fullWidth
-        size="small"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
-      <Stack direction="row" spacing={1}>
-        <Button size="small" variant="outlined" onClick={handleApply}>
-          Apply
-        </Button>
-        <Button size="small" onClick={handleClear}>
-          Clear
-        </Button>
+    <Paper variant="outlined" sx={{ padding: 2 }}>
+      <Stack spacing={2}>
+        {/* heading */}
+        <Typography variant="subtitle2">All Text Search</Typography>
+
+        <TextField
+          label="Search Name/Description"
+          variant="outlined"
+          fullWidth
+          size="small"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+        <Stack direction="row" spacing={1}>
+          <Button size="small" variant="outlined" onClick={handleApply}>
+            Apply
+          </Button>
+          <Button size="small" onClick={handleClear}>
+            Clear
+          </Button>
+        </Stack>
       </Stack>
-    </Stack>
+    </Paper>
   );
 }
 

@@ -66,8 +66,6 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
 
     case "SET_ACTIVE_MOBILE_PANEL":
       return { ...state, activeMobilePanel: action.payload };
-    case "SELECT_LAYER":
-      return { ...state, selectedLayerId: action.payload };
 
     case "CLEAR_ALL_FILTERS":
       return {

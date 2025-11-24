@@ -34,14 +34,23 @@ function CollapsiblePanel({
   );
 
   return (
-    <Box sx={{ display: "flex", alignItems: "flex-start", height: "100%" }}>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "flex-start",
+        // height: "auto",
+        maxHeight: "100%",
+        pointerEvents: "none",
+      }}
+    >
       {/* Content Area */}
       <Collapse in={!isCollapsed} orientation="horizontal">
         <Paper
           elevation={4}
           sx={{
             width: `${width}px`,
-            height: "100%",
+
+            maxHeight: "calc(100vh - 190px)",
             overflowY: "auto",
             pointerEvents: "auto",
             borderRadius: 1,

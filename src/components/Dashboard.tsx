@@ -34,6 +34,7 @@ function Dashboard({ isDataLoaded }: DashboardProps) {
                 long...
               </Typography>
             </CardContent>
+
             <CardActions>
               <Button
                 size="small"

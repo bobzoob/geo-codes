@@ -32,13 +32,25 @@ function OptionsPanel() {
       </Box>
     );
   }
+
+  // placement of the layers, due to array from layers.ts
+  const activeFilters = selectedLayer.filters || [];
+
+  const timelineFilters = activeFilters.filter(
+    (f) => f.placement === "timeline-area"
+  );
+
+  const searchFilters = activeFilters.filter(
+    (f) => f.placement === "search-area"
+  );
+
   return (
     <Box sx={{ padding: 2 }}>
       <Typography variant="h6" gutterBottom>
-        Options
+        Options for {selectedLayer.name}
       </Typography>
       <Stack spacing={3}>
-        {/* SECTION 1: timeline */}
+        {/* SECTION 1: Timeline Area */}
         <Box>
           <TimelineControl
             range={liveTimeRange}
@@ -49,17 +61,26 @@ function OptionsPanel() {
               dispatch({ type: "SET_COMMITTED_TIME_RANGE", payload: newRange })
             }
           />
+
+          {/* Render any filter configured for this area (e.g., Date Search) */}
+          {timelineFilters.map((module, index) => {
+            const Component = module.component;
+            return (
+              <Box key={`time-filter-${index}`} sx={{ marginTop: 2 }}>
+                <Component layer={selectedLayer} />
+              </Box>
+            );
+          })}
         </Box>
 
         <Divider />
 
-        {/* SECTION 2: options and serach filter */}
+        {/* SECTION 2: Search Area */}
         <Box>
           <Typography variant="h6" gutterBottom>
-            Options for {selectedLayer.name}
+            Toggle Options
           </Typography>
           <Stack spacing={2} alignItems="flex-start">
-            {/* General Options */}
             <FormControlLabel
               control={
                 <Checkbox
@@ -78,25 +99,25 @@ function OptionsPanel() {
               label="Show all tooltips"
             />
 
-            {/* Dynamic Filter Components */}
-            {FilterComponents.length > 0 && (
-              <Typography
-                variant="subtitle1"
-                gutterBottom
-                sx={{ paddingTop: 2 }}
-              >
-                Search Filters
+            {searchFilters.length > 0 && (
+              <Typography variant="h6" gutterBottom sx={{ paddingTop: 2 }}>
+                Search Options
               </Typography>
             )}
-            {FilterComponents.map((FilterComponent, index) => (
-              <Box key={index} sx={{ width: "100%" }}>
-                <FilterComponent layer={selectedLayer} />
-              </Box>
-            ))}
+
+            {/* Render any filter configured for the search area */}
+            {searchFilters.map((module, index) => {
+              const Component = module.component;
+              return (
+                <Box key={`search-filter-${index}`} sx={{ width: "100%" }}>
+                  <Component layer={selectedLayer} />
+                </Box>
+              );
+            })}
           </Stack>
         </Box>
 
-        {/* SECTION 3: global */}
+        {/* SECTION 3: Global Actions */}
         <Box
           sx={{ display: "flex", justifyContent: "flex-end", paddingTop: 2 }}
         >

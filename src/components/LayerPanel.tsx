@@ -19,32 +19,12 @@ function LayerPanel() {
           </Typography>
           {layerConfig.map((layer) => {
             const isSelected = layer.id === selectedLayerId;
+
             return (
               <Paper
                 key={layer.id}
+                className={isSelected ? "LayerCard active" : "LayerCard"}
                 elevation={isSelected ? 4 : 1}
-                sx={{
-                  paddingY: 1,
-                  paddingX: 2,
-                  marginBottom: 1,
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                  backgroundImage: "none",
-                  backgroundColor: isSelected
-                    ? "rgba(144, 202, 249, 0.18)" // Selected: Faint Blue Glass
-                    : "transparent", // Unselected: Fully Transparent
-
-                  borderColor: isSelected ? "primary.main" : "transparent",
-                  borderWidth: "1px",
-                  borderStyle: "solid",
-
-                  "&:hover": {
-                    borderColor: isSelected ? "primary.main" : "divider",
-                    backgroundColor: isSelected
-                      ? "rgba(144, 202, 249, 0.25)"
-                      : "rgba(255, 255, 255, 0.05)",
-                  },
-                }}
                 onClick={() => handleSelectLayer(layer.id)}
               >
                 <Stack spacing={0.5} alignItems="center">

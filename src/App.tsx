@@ -1,9 +1,11 @@
 import { Box, CssBaseline } from "@mui/material";
 import Header from "./components/Header";
 import Dashboard from "./components/Dashboard";
+import Footer from "./components/Footer";
 import { useAppState } from "./state/appContext";
 import MapViewLayout from "./components/MapViewLayout";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { mapTheme } from "./config/mapTheme";
 
 /**
  * root component of the application
@@ -17,7 +19,7 @@ function App() {
   const { currentView, geoJsonData } = state;
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={mapTheme}>
       <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
         <CssBaseline />
         <Header />
@@ -30,6 +32,7 @@ function App() {
             <MapViewLayout />
           )}
         </Box>
+        <Footer />
       </Box>{" "}
     </ThemeProvider>
   );

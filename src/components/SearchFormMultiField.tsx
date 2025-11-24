@@ -11,7 +11,7 @@ function SearchFormMultiField({ layer }: FilterComponentProps) {
   return (
     <Paper variant="outlined" sx={{ padding: 2 }}>
       <Stack spacing={2}>
-        <Typography variant="subtitle2">Search Filters</Typography>
+        <Typography variant="subtitle2">Text Filters</Typography>
         {/* Arrange the individual search fields horizontally */}
         <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
           <SearchField layer={layer} label="All Text" searchKey="plainText" />

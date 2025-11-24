@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Stack, TextField, Button } from "@mui/material";
+import { Stack, TextField, Button, Paper, Typography } from "@mui/material";
 import type { FilterComponentProps } from "../types/state";
 import { useAppState } from "../state/appContext";
 
@@ -41,38 +41,42 @@ function SearchFormDate({ layer }: FilterComponentProps) {
   };
 
   return (
-    <Stack spacing={1}>
-      <Stack direction="row" spacing={2}>
-        <TextField
-          label="Start Date"
-          type="date"
-          variant="outlined"
-          size="small"
-          fullWidth
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          InputLabelProps={{ shrink: true }}
-        />
-        <TextField
-          label="End Date"
-          type="date"
-          variant="outlined"
-          size="small"
-          fullWidth
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          InputLabelProps={{ shrink: true }}
-        />
+    <Paper variant="outlined" sx={{ padding: 2 }}>
+      <Stack spacing={2}>
+        <Typography variant="subtitle2">Date Filter</Typography>
+
+        <Stack direction="row" spacing={2}>
+          <TextField
+            label="Start Date"
+            type="date"
+            variant="outlined"
+            size="small"
+            fullWidth
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+          />
+          <TextField
+            label="End Date"
+            type="date"
+            variant="outlined"
+            size="small"
+            fullWidth
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+          />
+        </Stack>
+        <Stack direction="row" spacing={1}>
+          <Button size="small" variant="outlined" onClick={handleApply}>
+            Apply
+          </Button>
+          <Button size="small" onClick={handleClear}>
+            Clear
+          </Button>
+        </Stack>
       </Stack>
-      <Stack direction="row" spacing={1}>
-        <Button size="small" variant="outlined" onClick={handleApply}>
-          Apply
-        </Button>
-        <Button size="small" onClick={handleClear}>
-          Clear
-        </Button>
-      </Stack>
-    </Stack>
+    </Paper>
   );
 }
 

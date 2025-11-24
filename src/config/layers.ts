@@ -2,6 +2,7 @@ import type { LayerConfig } from "../types/state";
 import SearchFormText from "../components/SearchFormText";
 import SearchFormMultiField from "../components/SearchFormMultiField";
 import SearchFormDate from "../components/SearchFormDate";
+import SearchFormPlace from "../components/SearchFormPlace";
 
 export const initialLayerConfig: LayerConfig[] = [
   {
@@ -11,6 +12,10 @@ export const initialLayerConfig: LayerConfig[] = [
     type: "polygon",
     source: "/territories-data.geojson",
     showAllTooltips: false,
+    filters: [
+      { component: SearchFormText, placement: "search-area" },
+      { component: SearchFormDate, placement: "timeline-area" },
+    ],
   },
   {
     id: "event-1",
@@ -23,10 +28,16 @@ export const initialLayerConfig: LayerConfig[] = [
       plainText: "",
       sender: "",
       recipient: "",
+      location: "",
       searchStartDate: "",
       searchEndDate: "",
     },
-    FilterComponents: [SearchFormText],
+
+    filters: [
+      { component: SearchFormText, placement: "search-area" },
+      { component: SearchFormPlace, placement: "search-area" },
+      { component: SearchFormDate, placement: "timeline-area" },
+    ],
   },
   {
     id: "letters-1",
@@ -39,9 +50,14 @@ export const initialLayerConfig: LayerConfig[] = [
       plainText: "",
       sender: "",
       recipient: "",
+      location: "",
       searchStartDate: "",
       searchEndDate: "",
     },
-    FilterComponents: [SearchFormMultiField, SearchFormDate],
+    filters: [
+      { component: SearchFormDate, placement: "timeline-area" },
+      { component: SearchFormMultiField, placement: "search-area" },
+      { component: SearchFormPlace, placement: "search-area" },
+    ],
   },
 ];
