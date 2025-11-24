@@ -4,15 +4,13 @@ import Dashboard from "./components/Dashboard";
 import Footer from "./components/Footer";
 import { useAppState } from "./state/appContext";
 import MapViewLayout from "./components/MapViewLayout";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { mapTheme } from "./config/mapTheme";
 
 /**
  * root component of the application
  * responsibility is rendering Header, switching between main Dashboard and MapContainer view
  */
-
-const theme = createTheme();
 
 function App() {
   const { state } = useAppState();

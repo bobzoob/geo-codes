@@ -22,7 +22,7 @@ function OptionsPanel() {
   const selectedLayer = layerConfig.find(
     (layer) => layer.id === selectedLayerId
   );
-  const FilterComponents = selectedLayer?.FilterComponents || [];
+  //const FilterComponents = selectedLayer?.FilterComponents || [];
 
   // fallback: only render when layer is selected
   if (!selectedLayer) {

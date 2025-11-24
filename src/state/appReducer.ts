@@ -82,6 +82,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
               recipient: "",
               searchStartDate: "",
               searchEndDate: "",
+              location: "",
             },
           };
         }),
