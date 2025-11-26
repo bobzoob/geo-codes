@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import type { LayerConfig as LayerConfigBase } from "./state";
+import type { HistoricalFeatureCollection, EntityMap } from "./geojson";
 
 // basic types
 export type TimeRange = [number, number];
@@ -39,6 +40,7 @@ export interface FilterModule {
 export interface LayerConfig {
   id: string;
   name: string;
+  description?: string;
   visible: boolean;
   type: string;
   source: string;
@@ -46,4 +48,10 @@ export interface LayerConfig {
   search?: SearchState;
   // to arrange modules on panels
   filters?: FilterModule[];
+}
+
+export interface LayerComponentProps {
+  data: HistoricalFeatureCollection;
+  showAllTooltips: boolean;
+  entities: EntityMap;
 }

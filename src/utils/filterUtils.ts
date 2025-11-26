@@ -1,4 +1,4 @@
-import type { HistoricalFeature } from "../types/geojson";
+import type { HistoricalFeature, EntityMap } from "../types/geojson";
 import type { TimeRange, SearchState } from "../types/state";
 
 /**
@@ -18,12 +18,12 @@ const filterByTime = (
 };
 
 /**
- * this function filters a feature based on the search criteria, for now only "letters" layer
-
+ * this function filters a feature based on the search criteria, using the entity diectionary
  */
 const filterBySearch = (
   feature: HistoricalFeature,
-  searchState: SearchState
+  searchState: SearchState,
+  entities: EntityMap
 ): boolean => {
   const {
     plainText,
@@ -35,63 +35,75 @@ const filterBySearch = (
   } = searchState;
   const props = feature.properties;
 
-  // case insensitive
-  const plainTextLower = plainText.toLowerCase();
-  const senderLower = sender.toLowerCase();
-  const recipientLower = recipient.toLowerCase();
+  // resolve ID to Name
+  const getName = (id?: string): string => {
+    if (!id || !entities[id]) return "";
+    return entities[id].name.toLowerCase();
+  };
 
-  // search across multiple fields, optional chaining (?.) for safty
-  if (plainTextLower) {
-    const inName = props.name?.toLowerCase().includes(plainTextLower);
-    const inSender = props.sender?.toLowerCase().includes(plainTextLower);
-    const inRecipient = props.recipient?.toLowerCase().includes(plainTextLower);
-    const inDescription = props.description
-      ?.toLowerCase()
-      .includes(plainTextLower);
-    // if plainText is present at least one field must match
-    if (!(inName || inSender || inRecipient || inDescription)) {
-      return false;
-    }
-  }
-
-  // date-specific search
+  // date specific search
   if (searchStartDate) {
-    if (new Date(props.endDate) < new Date(searchStartDate)) {
-      return false;
-    }
+    if (new Date(props.endDate) < new Date(searchStartDate)) return false;
   }
-
   if (searchEndDate) {
-    if (new Date(props.startDate) > new Date(searchEndDate)) {
+    if (new Date(props.startDate) > new Date(searchEndDate)) return false;
+  }
+
+  // plain text search
+  if (plainText) {
+    const term = plainText.toLowerCase();
+
+    // direct properties on the letter
+    const inName = props.name?.toLowerCase().includes(term);
+    const inDesc = props.description?.toLowerCase().includes(term);
+
+    // entities (for now: sender/recipient)
+    const senderName = getName(props.senderId);
+    const recipientName = getName(props.recipientId);
+
+    // mentioned entities
+    const mentionsMatch = props.mentionedEntityIds?.some((id) =>
+      getName(id).includes(term)
+    );
+
+    if (
+      !inName &&
+      !inDesc &&
+      !senderName.includes(term) &&
+      !recipientName.includes(term) &&
+      !mentionsMatch
+    ) {
       return false;
     }
   }
 
-  // sender-specific search
-  if (senderLower && !props.sender?.toLowerCase().includes(senderLower)) {
-    return false;
+  // field specific search, where we want only certain fields to be checked
+
+  // sender
+  if (sender) {
+    const senderName = getName(props.senderId);
+    if (!senderName.includes(sender.toLowerCase())) return false;
   }
 
-  // recipient-specific search
-  if (
-    recipientLower &&
-    !props.recipient?.toLowerCase().includes(recipientLower)
-  ) {
-    return false;
+  // recipient
+  if (recipient) {
+    const recipientName = getName(props.recipientId);
+    if (!recipientName.includes(recipient.toLowerCase())) return false;
   }
 
-  // location-specific search
+  // location (source, destination, place)
   if (location) {
-    const searchLoc = location.toLowerCase();
+    const term = location.toLowerCase();
 
-    //  point data
-    const matchPlace = props.place?.toLowerCase().includes(searchLoc);
+    const sourceName = getName(props.sourcePlaceId);
+    const destName = getName(props.destinationPlaceId);
+    const placeName = getName(props.placeId);
 
-    // line data (source OR destination)
-    const matchSource = props.sourcePlace?.toLowerCase().includes(searchLoc);
-    const matchDest = props.destinationPlace?.toLowerCase().includes(searchLoc);
-
-    if (!matchPlace && !matchSource && !matchDest) {
+    if (
+      !sourceName.includes(term) &&
+      !destName.includes(term) &&
+      !placeName.includes(term)
+    ) {
       return false;
     }
   }
@@ -100,21 +112,22 @@ const filterBySearch = (
 };
 
 /**
- * main filter function
+ * Main filter function
  */
 export const applyFilters = (
   feature: HistoricalFeature,
   timeRange: TimeRange,
+  entities: EntityMap,
   searchState?: SearchState
 ): boolean => {
-  //  feature must always be within the time range
+  // time filter
   if (!filterByTime(feature, timeRange)) {
     return false;
   }
 
-  // if a search is active for this layer -> only then apply search filters
+  // search filter (if active)
   if (searchState) {
-    if (!filterBySearch(feature, searchState)) {
+    if (!filterBySearch(feature, searchState, entities)) {
       return false;
     }
   }

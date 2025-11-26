@@ -2,6 +2,7 @@ import type { HistoricalFeatureCollection } from "../types/geojson";
 import type { LayerConfig, TimeRange } from "../types/state";
 import { applyFilters } from "../utils/filterUtils";
 import { layerRegistry } from "../layers/layerRegistry";
+import { useAppState } from "../state/appContext";
 
 interface LayerManagerProps {
   layers: LayerConfig[];
@@ -10,6 +11,9 @@ interface LayerManagerProps {
 }
 
 function LayerManager({ layers, data, timeRange }: LayerManagerProps) {
+  const { state } = useAppState();
+  const { entities } = state;
+
   if (!data) return null;
 
   return (
@@ -24,7 +28,7 @@ function LayerManager({ layers, data, timeRange }: LayerManagerProps) {
 
         // filtering logic
         const filteredFeatures = layerData.features.filter((feature) =>
-          applyFilters(feature, timeRange, layer.search)
+          applyFilters(feature, timeRange, entities, layer.search)
         );
 
         const filteredData = {
@@ -36,7 +40,7 @@ function LayerManager({ layers, data, timeRange }: LayerManagerProps) {
         // look up the component in the registry using the type of the layer
         const LayerComponent = layerRegistry[layer.type];
 
-        // if no component is found render nothing + warning
+        // if no component is found render nothing
         if (!LayerComponent) {
           console.warn(`No renderer found for layer type: "${layer.type}"`);
           return null;
@@ -52,6 +56,7 @@ function LayerManager({ layers, data, timeRange }: LayerManagerProps) {
             key={dynamicKey}
             data={filteredData}
             showAllTooltips={layer.showAllTooltips}
+            entities={entities}
           />
         );
       })}

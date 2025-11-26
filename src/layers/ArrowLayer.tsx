@@ -1,13 +1,18 @@
 import ArrowPolyline from "../layers/ArrowPolyline";
-import type { HistoricalFeatureCollection } from "../types/geojson";
+import type { HistoricalFeatureCollection, EntityMap } from "../types/geojson";
 import L from "leaflet";
 
 interface ArrowLayerProps {
   data: HistoricalFeatureCollection;
   showAllTooltips: boolean;
+  entities: EntityMap;
 }
 
-function ArrowLayer({ data, showAllTooltips }: ArrowLayerProps) {
+function ArrowLayer({ data, showAllTooltips, entities }: ArrowLayerProps) {
+  const getName = (id?: string) => {
+    if (!id || !entities[id]) return "Unknown";
+    return entities[id].name;
+  };
   return (
     <>
       {data.features.map((feature, index) => {
@@ -21,12 +26,27 @@ function ArrowLayer({ data, showAllTooltips }: ArrowLayerProps) {
           (coord) => [coord[1], coord[0]] as L.LatLngTuple
         );
 
+        // resolve data
+        const props = feature.properties;
+        const senderName = getName(props.senderId);
+        const recipientName = getName(props.recipientId);
+
+        const richDescription = `
+          From: ${senderName}
+          To: ${recipientName}
+          
+          ${props.description || ""}
+        `;
+
+        // label for tooltip
+        const label = `${senderName} → ${recipientName}`;
+
         return (
           <ArrowPolyline
-            key={index}
+            key={feature.properties.id || index}
             positions={positions}
-            title={feature.properties.name}
-            text={feature.properties.description}
+            title={label}
+            text={richDescription}
             showAllTooltips={showAllTooltips}
           />
         );

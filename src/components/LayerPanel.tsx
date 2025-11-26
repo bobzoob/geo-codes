@@ -27,15 +27,16 @@ function LayerPanel() {
                 elevation={isSelected ? 4 : 1}
                 onClick={() => handleSelectLayer(layer.id)}
               >
-                <Stack spacing={0.5} alignItems="center">
-                  {/*layer name */}
-                  <Typography variant="body1" fontWeight="medium">
-                    {layer.name}
-                  </Typography>
-
+                <Stack
+                  alignItems="center"
+                  direction="row"
+                  spacing={2}
+                  sx={{ width: "100%" }}
+                >
                   {/* visibility switch */}
                   <Switch
                     checked={layer.visible}
+                    size="small"
                     // this is crucial: it stops the click from triggering onClick
                     onClick={(e) => e.stopPropagation()}
                     onChange={(event) =>
@@ -48,6 +49,31 @@ function LayerPanel() {
                       })
                     }
                   />
+                  {/* title & description */}
+                  <Box sx={{ flexGrow: 1 }}>
+                    <Typography
+                      variant="body1"
+                      fontWeight="medium"
+                      sx={{ lineHeight: 1.2 }}
+                    >
+                      {layer.name}
+                    </Typography>
+
+                    {/* description gets rendered only if it exists */}
+                    {layer.description && (
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          display: "block",
+                          marginTop: 0.5,
+                          opacity: 0.8, // slightly transparent
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        {layer.description}
+                      </Typography>
+                    )}
+                  </Box>
                 </Stack>
               </Paper>
             );

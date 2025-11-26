@@ -32,10 +32,12 @@ function SearchFormText({ layer }: FilterComponentProps) {
     <Paper variant="outlined" sx={{ padding: 2 }}>
       <Stack spacing={2}>
         {/* heading */}
-        <Typography variant="subtitle2">All Text Search</Typography>
+        <Typography variant="subtitle2">
+          Mentioned Entities and Text Search
+        </Typography>
 
         <TextField
-          label="Search Name/Description"
+          label="Search Entities/Name/Description"
           variant="outlined"
           fullWidth
           size="small"

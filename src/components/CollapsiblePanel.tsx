@@ -4,6 +4,7 @@ import {
   IconButton,
   Paper,
   Button,
+  Tooltip,
   useMediaQuery,
   type Theme,
 } from "@mui/material";
@@ -18,7 +19,7 @@ interface CollapsiblePanelProps {
   children: ReactNode;
   isCollapsed: boolean;
   onToggle: () => void;
-  width: number; // width panel when opend
+  maxWidth: number; // width panel when opend
   label: string;
 }
 
@@ -26,7 +27,7 @@ function CollapsiblePanel({
   children,
   isCollapsed,
   onToggle,
-  width,
+  maxWidth,
   label,
 }: CollapsiblePanelProps) {
   const isMobile = useMediaQuery((theme: Theme) =>
@@ -48,7 +49,11 @@ function CollapsiblePanel({
         <Paper
           elevation={4}
           sx={{
-            width: `${width}px`,
+            width: "fit-content",
+            // 2. "minWidth": Ensures it never gets too narrow (e.g., keeps buttons usable)
+            minWidth: "280px",
+            // 3. "maxWidth": The cap you passed in (e.g. 500px)
+            maxWidth: isMobile ? "calc(100vw - 80px)" : `${maxWidth}px`,
 
             maxHeight: "calc(100vh - 190px)",
             overflowY: "auto",
@@ -73,14 +78,16 @@ function CollapsiblePanel({
         {isCollapsed ? (
           isMobile ? (
             // button shrink in mobil
-            <IconButton
-              onClick={onToggle}
-              sx={{
-                boxShadow: 3,
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
+            <Tooltip title={label} placement="bottom" arrow>
+              <IconButton
+                onClick={onToggle}
+                sx={{
+                  boxShadow: 3,
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Tooltip>
           ) : (
             // desktop: full text
             <Button

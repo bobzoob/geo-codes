@@ -1,5 +1,5 @@
 import { Marker, Popup, Tooltip } from "react-leaflet";
-import type { HistoricalFeatureCollection } from "../types/geojson";
+import type { HistoricalFeatureCollection, EntityMap } from "../types/geojson";
 import type { LatLngExpression } from "leaflet";
 
 //**
@@ -9,9 +9,13 @@ import type { LatLngExpression } from "leaflet";
 interface PointLayerProps {
   data: HistoricalFeatureCollection;
   showAllTooltips: boolean;
+  entities: EntityMap;
 }
 
-function PointLayer({ data, showAllTooltips }: PointLayerProps) {
+function PointLayer({ data, showAllTooltips, entities }: PointLayerProps) {
+  const getName = (id?: string) =>
+    id && entities[id] ? entities[id].name : null;
+
   return (
     <>
       {data.features.map((feature) => {
@@ -22,16 +26,28 @@ function PointLayer({ data, showAllTooltips }: PointLayerProps) {
         // but leaflet expects [latitude, longitude] -> reverse!
         const [longitude, latitude] = feature.geometry.coordinates;
         const position: LatLngExpression = [latitude, longitude];
+        const props = feature.properties;
+
+        //resolve place
+        const placeName = getName(props.placeId);
+
+        //fallback if pkacename links nowhere
+        const displayName = props.name || placeName || "Unknown Location";
 
         return (
-          <Marker key={feature.properties.name} position={position}>
+          <Marker key={props.id || props.name} position={position}>
             <Tooltip permanent={showAllTooltips}>
-              <strong>{feature.properties.name}</strong>
+              <strong>{displayName}</strong>
             </Tooltip>
 
             <Popup>
-              <strong>{feature.properties.name}</strong>
-              <p>{feature.properties.description}</p>
+              <strong>{displayName}</strong>
+              {placeName && placeName !== props.name && (
+                <div style={{ fontSize: "0.85em", color: "#666" }}>
+                  Location: {placeName}
+                </div>
+              )}
+              <p>{props.description}</p>
             </Popup>
           </Marker>
         );

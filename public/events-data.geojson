@@ -4,11 +4,61 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Hans Kelsen visits Vienna",
-        "description": "Legal scholar Hans Kelsen lived and worked in Vienna during this period and came up with stuff.",
-        "startDate": "1890-01-01",
-        "endDate": "1924-12-31",
-        "place": "Vienna"
+        "id": "event_1931_meeting",
+        "name": "Meeting: Freud and Zweig",
+        "description": "A meeting in Salzburg where they discussed the future of Europe.",
+        "startDate": "1931-06-01",
+        "endDate": "1931-06-01",
+        "placeId": "place_salzburg",
+        "mentionedEntityIds": ["person_freud", "person_zweig"]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [13.055, 47.8095]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "event_1926_lecture",
+        "name": "Lecture: Kelsen on Democracy",
+        "description": "Hans Kelsen giving a lecture at the University of Cologne.",
+        "startDate": "1926-09-10",
+        "endDate": "1926-09-10",
+        "placeId": "place_cologne",
+        "mentionedEntityIds": ["person_kelsen"]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [6.9603, 50.9375]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "event_1941_speech",
+        "name": "Speech: Kelsen on Constitutional Law",
+        "description": "Hans Kelsen speaks on constitutional law at Harvard University.",
+        "startDate": "1941-04-15",
+        "endDate": "1941-04-15",
+        "placeId": "place_oxford",
+        "mentionedEntityIds": ["person_freud"]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-71.1167, 42.373611]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "event_1934_lecture",
+        "name": "Lecture: Kelsen on Legal Positivism",
+        "description": "Kelsen delivers a lecture on legal positivism at the University of Vienna.",
+        "startDate": "1934-11-23",
+        "endDate": "1934-11-23",
+        "placeId": "place_vienna",
+        "mentionedEntityIds": ["person_kelsen"]
       },
       "geometry": {
         "type": "Point",
@@ -18,393 +68,97 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Vienna Congress",
-        "description": "Major diplomatic conference in Vienna, 1814-1815.",
-        "startDate": "1814-09-01",
-        "endDate": "1815-06-09",
-        "place": "Test"
+        "id": "event_1949_symposium",
+        "name": "Symposium: European Law and Democracy",
+        "description": "A symposium on European law and democracy in Paris.",
+        "startDate": "1949-06-17",
+        "endDate": "1949-06-18",
+        "placeId": "place_vienna",
+        "mentionedEntityIds": ["person_kelsen", "person_freud"]
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [16.3686, 48.2076]
+        "coordinates": [16.3738, 48.3082]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "name": "Otto Wagner's First Project",
-        "description": "Early architectural work by Otto Wagner in Vienna.",
-        "startDate": "1864-01-01",
-        "endDate": "1864-12-31",
-        "place": "Vienna"
+        "id": "event_1932_lecture",
+        "name": "Lecture: Kelsen on the Rule of Law",
+        "description": "Kelsen delivers a lecture on the rule of law at Yale University.",
+        "startDate": "1932-10-10",
+        "endDate": "1932-10-10",
+        "placeId": "place_vienna",
+        "mentionedEntityIds": ["person_kelsen", "person_hart"]
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [16.35, 48.22]
+        "coordinates": [16.738, 48.2082]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "name": "Founding of the Vienna Secession",
-        "description": "Art movement established in Vienna.",
-        "startDate": "1897-04-03",
-        "endDate": "1897-04-03"
+        "id": "event_1938_workshop",
+        "name": "Workshop: Kelsen and Legal Theory",
+        "description": "A private workshop with Hans Kelsen on legal theory at the University of Berlin.",
+        "startDate": "1938-05-22",
+        "endDate": "1938-05-22",
+        "placeId": "place_berlin",
+        "mentionedEntityIds": ["person_kelsen"]
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [16.367, 48.2017]
+        "coordinates": [13.405, 52.52]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "name": "Franz Joseph I Coronation",
-        "description": "Emperor Franz Joseph I crowned in Vienna.",
-        "startDate": "1848-12-02",
-        "endDate": "1848-12-02"
+        "id": "event_1944_lecture",
+        "name": "Lecture: Kelsen on the United Nations",
+        "description": "Hans Kelsen discusses the role of the United Nations at the University of New York.",
+        "startDate": "1944-11-05",
+        "endDate": "1944-11-05",
+        "placeId": "place_new_york",
+        "mentionedEntityIds": ["person_kelsen"]
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [16.365, 48.205]
+        "coordinates": [-74.006, 40.7128]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "name": "Opening of Wiener Riesenrad",
-        "description": "The iconic Ferris wheel in Prater opened.",
-        "startDate": "1897-06-21",
-        "endDate": "1897-06-21"
+        "id": "event_1929_publication",
+        "name": "Publication: Kelsen's Pure Theory of Law",
+        "description": "Hans Kelsen publishes his seminal work 'Pure Theory of Law' in Vienna.",
+        "startDate": "1929-01-01",
+        "endDate": "1929-01-01",
+        "placeId": "place_vienna",
+        "mentionedEntityIds": ["person_kelsen"]
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [16.397, 48.216]
+        "coordinates": [16.1738, 48.2482]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "name": "Gustav Klimt finishes 'The Kiss'",
-        "description": "Iconic Art Nouveau painting completed in Vienna.",
-        "startDate": "1908-01-01",
-        "endDate": "1908-12-31"
+        "id": "event_1930_lecture",
+        "name": "Lecture: Kelsen on International Law",
+        "description": "Hans Kelsen gives a lecture on international law at Columbia University.",
+        "startDate": "1930-11-02",
+        "endDate": "1930-11-02",
+        "placeId": "place_vienna",
+        "mentionedEntityIds": ["person_kelsen", "person_hart"]
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [16.377, 48.19]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Sigmund Freud moves to London",
-        "description": "Freud departs Vienna due to Nazi persecution.",
-        "startDate": "1938-06-04",
-        "endDate": "1938-06-04"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.3698, 48.2152]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "First World War Begins",
-        "description": "Austria-Hungary declares war on Serbia.",
-        "startDate": "1914-07-28",
-        "endDate": "1914-07-28"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.37, 48.2]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Anschluss to Nazi Germany",
-        "description": "Austria incorporated into Nazi Germany.",
-        "startDate": "1938-03-12",
-        "endDate": "1938-03-12"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.37, 48.2]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Second World War Ends",
-        "description": "Allied occupation of Austria begins.",
-        "startDate": "1945-05-08",
-        "endDate": "1945-05-08"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.37, 48.2]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Austrian State Treaty Signed",
-        "description": "Restoration of Austrian sovereignty.",
-        "startDate": "1955-05-15",
-        "endDate": "1955-05-15"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.37, 48.2]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Construction of Vienna Ringstrasse",
-        "description": "Major urban development project starts.",
-        "startDate": "1857-01-01",
-        "endDate": "1857-12-31"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.36, 48.21]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Mozart's Birthplace (Salzburg)",
-        "description": "Wolfgang Amadeus Mozart was born in Salzburg.",
-        "startDate": "1756-01-27",
-        "endDate": "1756-01-27"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [13.045, 47.8]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Beethoven's residence in Heiligenstadt",
-        "description": "Ludwig van Beethoven lived in Heiligenstadt, a district of Vienna.",
-        "startDate": "1802-01-01",
-        "endDate": "1802-12-31"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.36, 48.26]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Sisi's Assassination",
-        "description": "Empress Elisabeth of Austria assassinated in Geneva.",
-        "startDate": "1898-09-10",
-        "endDate": "1898-09-10"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.35, 48.2]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Inauguration of the Hochstrahlbrunnen",
-        "description": "Fountain at Schwarzenbergplatz in Vienna.",
-        "startDate": "1873-10-21",
-        "endDate": "1873-10-21"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.3735, 48.1966]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Vienna World's Fair",
-        "description": "International exposition held in Vienna.",
-        "startDate": "1873-05-01",
-        "endDate": "1873-10-31"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.4, 48.21]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Founding of the First Austrian Republic",
-        "description": "Following the collapse of Austria-Hungary.",
-        "startDate": "1918-11-12",
-        "endDate": "1918-11-12"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.37, 48.2]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Austrian Civil War",
-        "description": "Brief but intense conflict in Austria.",
-        "startDate": "1934-02-12",
-        "endDate": "1934-02-16"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.37, 48.2]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Opening of Belvedere Museum",
-        "description": "Baroque palace complex repurposed as a museum.",
-        "startDate": "1923-01-01",
-        "endDate": "1923-12-31"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.381, 48.19]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Freud's 'Interpretation of Dreams' published",
-        "description": "Key work by Sigmund Freud.",
-        "startDate": "1899-11-04",
-        "endDate": "1899-11-04"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.35, 48.22]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Vienna U-Bahn opens (first line)",
-        "description": "Initial phase of Vienna's subway system.",
-        "startDate": "1976-02-25",
-        "endDate": "1976-02-25"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.36, 48.2]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Post-war reconstruction begins in Vienna",
-        "description": "Efforts to rebuild Vienna after WWII.",
-        "startDate": "1945-05-01",
-        "endDate": "1945-12-31"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.37, 48.2]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Schönbrunn Palace becomes public",
-        "description": "Former imperial residence opened to the public.",
-        "startDate": "1918-01-01",
-        "endDate": "1918-12-31"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.3117, 48.1852]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "First performance of 'Die Fledermaus'",
-        "description": "Johann Strauss II's operetta premieres.",
-        "startDate": "1874-04-05",
-        "endDate": "1874-04-05"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.373, 48.2083]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Centennial of Vienna Congress",
-        "description": "Commemoration of the Vienna Congress.",
-        "startDate": "1914-01-01",
-        "endDate": "1914-12-31"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.3686, 48.2076]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Opening of St. Stephen's Cathedral South Tower",
-        "description": "Completion of a major part of the cathedral.",
-        "startDate": "1433-01-01",
-        "endDate": "1433-12-31"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.373, 48.2084]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Coffee House Culture Flourishes",
-        "description": "Vienna's famous coffee house culture becomes prominent.",
-        "startDate": "1800-01-01",
-        "endDate": "1900-12-31"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.37, 48.2]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Vienna Circle formed",
-        "description": "Group of philosophers and scientists meet.",
-        "startDate": "1924-01-01",
-        "endDate": "1924-12-31"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [16.36, 48.21]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "First Modern Winter Olympics (Chamonix, France)",
-        "description": "Though not in Austria, it's a significant event for winter sports.",
-        "startDate": "1924-01-25",
-        "endDate": "1924-02-05"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [6.8694, 45.9237]
+        "coordinates": [16.1238, 48.782]
       }
     }
   ]

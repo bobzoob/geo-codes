@@ -3,6 +3,7 @@ import { useAppState } from "../state/appContext";
 import CollapsiblePanel from "./CollapsiblePanel";
 import LayerPanel from "./LayerPanel";
 import OptionsPanel from "./OptionsPanel";
+import ActiveFiltersPanel from "./ActiveFiltersPanel";
 import MapContainer from "./MapContainer";
 import { ThemeProvider } from "@mui/material/styles";
 import { mapTheme } from "../config/mapTheme";
@@ -17,14 +18,18 @@ function MapViewLayout() {
     isLayerPanelCollapsed,
     isOptionsPanelCollapsed,
     activeMobilePanel,
-    selectedLayerId,
+    // selectedLayerId,
+    isActiveFiltersPanelCollapsed,
   } = state;
 
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("md")
   );
-  const layerPanelWidth = 240;
-  const optionsPanelWidth = isMobile ? 300 : 500;
+
+  // Panels width
+  const layerPanelMax = 400;
+  const optionsPanelMax = 500;
+  const filtersPanelMax = 300;
 
   const isLayerPanelVisible = isMobile
     ? activeMobilePanel === "layers"
@@ -32,6 +37,9 @@ function MapViewLayout() {
   const isOptionsPanelVisible = isMobile
     ? activeMobilePanel === "options"
     : !isOptionsPanelCollapsed;
+  const isFiltersPanelVisible = isMobile
+    ? activeMobilePanel === "filters"
+    : !isActiveFiltersPanelCollapsed;
 
   return (
     <Box sx={{ height: "100%", width: "100%", position: "relative" }}>
@@ -75,34 +83,55 @@ function MapViewLayout() {
                 dispatch({ type: "TOGGLE_LAYER_PANEL" });
               }
             }}
-            width={layerPanelWidth}
+            maxWidth={layerPanelMax}
           >
             <LayerPanel />
           </CollapsiblePanel>
 
           {/* Panel 2: OptionsPanel */}
-          {selectedLayerId && (
-            <CollapsiblePanel
-              label="Options"
-              isCollapsed={!isOptionsPanelVisible}
-              onToggle={() => {
-                if (isMobile) {
-                  const nextState =
-                    activeMobilePanel === "options" ? "none" : "options";
-                  dispatch({
-                    type: "SET_ACTIVE_MOBILE_PANEL",
-                    payload: nextState,
-                  });
-                } else {
-                  dispatch({ type: "TOGGLE_OPTIONS_PANEL" });
-                }
-              }}
-              // pass dynamic width
-              width={optionsPanelWidth}
-            >
-              <OptionsPanel />
-            </CollapsiblePanel>
-          )}
+
+          <CollapsiblePanel
+            label="Options"
+            isCollapsed={!isOptionsPanelVisible}
+            onToggle={() => {
+              if (isMobile) {
+                const nextState =
+                  activeMobilePanel === "options" ? "none" : "options";
+                dispatch({
+                  type: "SET_ACTIVE_MOBILE_PANEL",
+                  payload: nextState,
+                });
+              } else {
+                dispatch({ type: "TOGGLE_OPTIONS_PANEL" });
+              }
+            }}
+            // pass dynamic width
+            maxWidth={optionsPanelMax}
+          >
+            <OptionsPanel />
+          </CollapsiblePanel>
+
+          {/* 3. Active Filters (New) */}
+          {/* Only render if a layer is selected, or always? Usually tied to layer/global time */}
+          <CollapsiblePanel
+            label="Filters"
+            isCollapsed={!isFiltersPanelVisible}
+            onToggle={() => {
+              if (isMobile) {
+                const nextState =
+                  activeMobilePanel === "filters" ? "none" : "filters";
+                dispatch({
+                  type: "SET_ACTIVE_MOBILE_PANEL",
+                  payload: nextState,
+                });
+              } else {
+                dispatch({ type: "TOGGLE_ACTIVE_FILTERS_PANEL" });
+              }
+            }}
+            maxWidth={filtersPanelMax}
+          >
+            <ActiveFiltersPanel />
+          </CollapsiblePanel>
         </Box>
       </ThemeProvider>
     </Box>

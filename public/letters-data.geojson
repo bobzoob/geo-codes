@@ -4,34 +4,22 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Letter: Kelsen to Renner (1919)",
-        "description": "From Vienna to Prague, discussing early constitutional ideas.",
-        "startDate": "1919-04-10",
-        "endDate": "1919-04-10",
-        "sender": "Hans Kelsen",
-        "recipient": "Karl Renner",
-        "sourcePlace": "Vienna",
-        "destinationPlace": "Prague"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [14.4378, 50.0755]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
+        "id": "letter_1926_kelsen_adler",
         "name": "Letter: Kelsen to Adler (1926)",
-        "description": "From Cologne to Vienna, regarding legal positivism.",
+        "description": "Regarding legal positivism...mentioned",
         "startDate": "1926-08-22",
         "endDate": "1926-08-22",
-        "sender": "Hans Kelsen",
-        "recipient": "Max Adler",
-        "sourcePlace": "Cologne",
-        "destinationPlace": "Vienna"
+        "senderId": "person_kelsen",
+        "recipientId": "person_adler",
+        "sourcePlaceId": "place_cologne",
+        "destinationPlaceId": "place_vienna",
+        "mentionedEntityIds": [
+          "person_austin",
+          "work_province",
+          "place_cologne",
+          "place_vienna",
+          "person_hart"
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -44,410 +32,60 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Letter: Freud to Zweig (1931)",
-        "description": "From Vienna to Salzburg, on the topic of biographical psychoanalysis.",
-        "startDate": "1931-05-15",
-        "endDate": "1931-05-15",
-        "sender": "Sigmund Freud",
-        "recipient": "Stefan Zweig",
-        "sourcePlace": "Vienna",
-        "destinationPlace": "Salzburg"
+        "id": "letter_1930_kelsen_hart",
+        "name": "Letter: Kelsen to H.L.A. Hart (1930)",
+        "description": "Discussing the interaction between natural law and positivism.",
+        "startDate": "1930-06-15",
+        "endDate": "1930-06-15",
+        "senderId": "person_kelsen",
+        "recipientId": "person_hart",
+        "sourcePlaceId": "place_vienna",
+        "destinationPlaceId": "place_oxford",
+        "mentionedEntityIds": ["person_hart", "place_vienna", "place_oxford"]
       },
       "geometry": {
         "type": "LineString",
         "coordinates": [
           [16.3738, 48.2082],
-          [13.055, 47.8095]
+          [-1.2544, 51.7547]
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "name": "Letter: Wittgenstein to Russell (1914)",
-        "description": "From Cambridge to Vienna, discussing notes on logic.",
-        "startDate": "1914-03-12",
-        "endDate": "1914-03-12",
-        "sender": "Ludwig Wittgenstein",
-        "recipient": "Bertrand Russell"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [0.1218, 52.2053],
-          [16.3738, 48.2082]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Klimt to Mahler (1905)",
-        "description": "From Vienna to New York, about a commissioned portrait.",
-        "startDate": "1905-11-01",
-        "endDate": "1905-11-01",
-        "sender": "Gustav Klimt",
-        "recipient": "Alma Mahler"
+        "id": "letter_1932_kelsen_rawls",
+        "name": "Letter: Kelsen to John Rawls (1932)",
+        "description": "A philosophical exchange on justice and the rule of law.",
+        "startDate": "1932-10-12",
+        "endDate": "1932-10-12",
+        "senderId": "person_kelsen",
+        "recipientId": "person_rawls",
+        "sourcePlaceId": "place_vienna",
+        "destinationPlaceId": "place_oxford",
+        "mentionedEntityIds": ["person_rawls", "place_vienna", "place_oxford"]
       },
       "geometry": {
         "type": "LineString",
         "coordinates": [
           [16.3738, 48.2082],
-          [-74.006, 40.7128]
+          [-1.2544, 51.7547]
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "name": "Letter: Hayek to Popper (1944)",
-        "description": "From London to Vienna, debating economic principles.",
-        "startDate": "1944-09-20",
-        "endDate": "1944-09-20",
-        "sender": "Friedrich Hayek",
-        "recipient": "Karl Popper"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [-0.1278, 51.5074],
-          [16.3738, 48.2082]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Schiele to Neuzil (1912)",
-        "description": "From Neulengbach to Vienna, a personal correspondence.",
-        "startDate": "1912-07-03",
-        "endDate": "1912-07-03",
-        "sender": "Egon Schiele",
-        "recipient": "Wally Neuzil"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [15.9083, 48.2],
-          [16.3738, 48.2082]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Bauer to Adler (1918)",
-        "description": "From Vienna to Zurich, concerning post-war political strategy.",
-        "startDate": "1918-12-05",
-        "endDate": "1918-12-05",
-        "sender": "Otto Bauer",
-        "recipient": "Victor Adler"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [8.5417, 47.3769]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Musil to Fischer (1930)",
-        "description": "From Berlin to Vienna, regarding manuscript submission.",
-        "startDate": "1930-02-18",
-        "endDate": "1930-02-18",
-        "sender": "Robert Musil",
-        "recipient": "Samuel Fischer"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [13.405, 52.52],
-          [16.3738, 48.2082]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: von Suttner to Nobel (1895)",
-        "description": "From Vienna to Paris, advocating for a peace prize.",
-        "startDate": "1895-06-11",
-        "endDate": "1895-06-11",
-        "sender": "Bertha von Suttner",
-        "recipient": "Alfred Nobel"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [2.3522, 48.8566]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: A. Freud to S. Freud (1938)",
-        "description": "From London to Vienna, discussing emigration logistics.",
-        "startDate": "1938-04-02",
-        "endDate": "1938-04-02",
-        "sender": "Anna Freud",
-        "recipient": "Sigmund Freud"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [-0.1278, 51.5074],
-          [16.3738, 48.2082]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Schnitzler to Hofmannsthal (1901)",
-        "description": "From Vienna to Rodaun, about a new theatre production.",
-        "startDate": "1901-10-29",
-        "endDate": "1901-10-29",
-        "sender": "Arthur Schnitzler",
-        "recipient": "Hugo von Hofmannsthal"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [16.2667, 48.1333]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Kraus to Loos (1910)",
-        "description": "From Vienna to Paris, a critique of modern ornamentation.",
-        "startDate": "1910-01-07",
-        "endDate": "1910-01-07",
-        "sender": "Karl Kraus",
-        "recipient": "Adolf Loos"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [2.3522, 48.8566]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Frankl to Binswanger (1946)",
-        "description": "From Vienna to Kreuzlingen, on logotherapy after the war.",
-        "startDate": "1946-08-14",
-        "endDate": "1946-08-14",
-        "sender": "Viktor Frankl",
-        "recipient": "Ludwig Binswanger"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [9.1743, 47.6482]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Lazarsfeld to Jahoda (1933)",
-        "description": "From Vienna to New York, about sociological research funding.",
-        "startDate": "1933-11-30",
-        "endDate": "1933-11-30",
-        "sender": "Paul Lazarsfeld",
-        "recipient": "Marie Jahoda"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [-74.006, 40.7128]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Renner to Bauer (1922)",
-        "description": "From Vienna to Linz, discussing party politics.",
-        "startDate": "1922-03-21",
-        "endDate": "1922-03-21",
-        "sender": "Karl Renner",
-        "recipient": "Otto Bauer"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [14.2858, 48.3069]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Zweig to Rolland (1925)",
-        "description": "From Salzburg to Villeneuve, on European pacifism.",
-        "startDate": "1925-07-09",
-        "endDate": "1925-07-09",
-        "sender": "Stefan Zweig",
-        "recipient": "Romain Rolland"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [13.055, 47.8095],
-          [6.9333, 46.4]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Kelsen to Einstein (1933)",
-        "description": "From Geneva to Princeton, a query on law and physics.",
-        "startDate": "1933-12-10",
-        "endDate": "1933-12-10",
-        "sender": "Hans Kelsen",
-        "recipient": "Albert Einstein"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [6.1432, 46.2044],
-          [-74.6572, 40.3487]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Mahler to Gropius (1911)",
-        "description": "From Vienna to Weimar, a personal and emotional letter.",
-        "startDate": "1911-02-04",
-        "endDate": "1911-02-04",
-        "sender": "Alma Mahler",
-        "recipient": "Walter Gropius"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [11.3297, 50.9795]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Popper to Hayek (1945)",
-        "description": "From Christchurch to London, sending a manuscript of 'The Open Society'.",
-        "startDate": "1945-01-15",
-        "endDate": "1945-01-15",
-        "sender": "Karl Popper",
-        "recipient": "Friedrich Hayek"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [172.6362, -43.5321],
-          [-0.1278, 51.5074]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Kafka to Brod (1917)",
-        "description": "From Prague to Berlin, discussing his health and writing.",
-        "startDate": "1917-09-05",
-        "endDate": "1917-09-05",
-        "sender": "Franz Kafka",
-        "recipient": "Max Brod"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [14.4378, 50.0755],
-          [13.405, 52.52]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Rilke to Andreas-Salomé (1913)",
-        "description": "From Paris to Vienna, on poetry and psychoanalysis.",
-        "startDate": "1913-06-28",
-        "endDate": "1913-06-28",
-        "sender": "Rainer Maria Rilke",
-        "recipient": "Lou Andreas-Salomé"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [2.3522, 48.8566],
-          [16.3738, 48.2082]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Herzl to Rothschild (1896)",
-        "description": "From Vienna to London, outlining the Zionist vision.",
-        "startDate": "1896-02-15",
-        "endDate": "1896-02-15",
-        "sender": "Theodor Herzl",
-        "recipient": "Edmond de Rothschild"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [-0.1278, 51.5074]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Schrödinger to Bohr (1926)",
-        "description": "From Zurich to Copenhagen, debating quantum mechanics.",
-        "startDate": "1926-10-23",
-        "endDate": "1926-10-23",
-        "sender": "Erwin Schrödinger",
-        "recipient": "Niels Bohr"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [8.5417, 47.3769],
-          [12.5683, 55.6761]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Kokoschka to Mahler (1913)",
-        "description": "From Vienna to Berlin, a passionate and artistic declaration.",
-        "startDate": "1913-04-19",
-        "endDate": "1913-04-19",
-        "sender": "Oskar Kokoschka",
-        "recipient": "Alma Mahler"
+        "id": "letter_1935_kelsen_dworkin",
+        "name": "Letter: Kelsen to Ronald Dworkin (1935)",
+        "description": "Correspondence on the interpretation of legal principles.",
+        "startDate": "1935-05-04",
+        "endDate": "1935-05-04",
+        "senderId": "person_kelsen",
+        "recipientId": "person_dworkin",
+        "sourcePlaceId": "place_vienna",
+        "destinationPlaceId": "place_berlin",
+        "mentionedEntityIds": ["person_dworkin", "place_vienna", "place_berlin"]
       },
       "geometry": {
         "type": "LineString",
@@ -460,612 +98,27 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Letter: Adler to Freud (1911)",
-        "description": "From Vienna to Vienna, announcing his break from the psychoanalytic society.",
-        "startDate": "1911-05-24",
-        "endDate": "1911-05-24",
-        "sender": "Alfred Adler",
-        "recipient": "Sigmund Freud"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3581, 48.2082],
-          [16.3698, 48.2152]
+        "id": "letter_1940_kelsen_adler",
+        "name": "Letter: Kelsen to Max Adler (1940)",
+        "description": "On the evolution of legal positivism in Europe.",
+        "startDate": "1940-02-17",
+        "endDate": "1940-02-17",
+        "senderId": "person_kelsen",
+        "recipientId": "person_adler",
+        "sourcePlaceId": "place_oxford",
+        "destinationPlaceId": "place_cologne",
+        "mentionedEntityIds": [
+          "person_adler",
+          "place_vienna",
+          "place_cologne",
+          "place_oxford"
         ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Pauli to Heisenberg (1930)",
-        "description": "From Zurich to Leipzig, proposing the existence of the neutrino.",
-        "startDate": "1930-12-04",
-        "endDate": "1930-12-04",
-        "sender": "Wolfgang Pauli",
-        "recipient": "Werner Heisenberg"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [8.5417, 47.3769],
-          [12.3731, 51.3397]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Loos to Kraus (1908)",
-        "description": "From Chicago to Vienna, on American architecture.",
-        "startDate": "1908-09-16",
-        "endDate": "1908-09-16",
-        "sender": "Adolf Loos",
-        "recipient": "Karl Kraus"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [-87.6298, 41.8781],
-          [16.3738, 48.2082]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Mann to Zweig (1936)",
-        "description": "From Zurich to Salzburg, about the political situation in Germany.",
-        "startDate": "1936-01-03",
-        "endDate": "1936-01-03",
-        "sender": "Thomas Mann",
-        "recipient": "Stefan Zweig"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [8.5417, 47.3769],
-          [13.055, 47.8095]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Celan to Bachmann (1949)",
-        "description": "From Paris to Vienna, a poetic exchange.",
-        "startDate": "1949-05-20",
-        "endDate": "1949-05-20",
-        "sender": "Paul Celan",
-        "recipient": "Ingeborg Bachmann"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [2.3522, 48.8566],
-          [16.3738, 48.2082]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Schoenberg to Kandinsky (1911)",
-        "description": "From Berlin to Munich, on the relationship between music and painting.",
-        "startDate": "1911-01-18",
-        "endDate": "1911-01-18",
-        "sender": "Arnold Schoenberg",
-        "recipient": "Wassily Kandinsky"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [13.405, 52.52],
-          [11.582, 48.1351]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Gödel to von Neumann (1930)",
-        "description": "From Vienna to Berlin, hinting at his incompleteness theorems.",
-        "startDate": "1930-03-19",
-        "endDate": "1930-03-19",
-        "sender": "Kurt Gödel",
-        "recipient": "John von Neumann"
       },
       "geometry": {
         "type": "LineString",
         "coordinates": [
           [16.3738, 48.2082],
-          [13.405, 52.52]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Roth to Landauer (1925)",
-        "description": "From Paris to Vienna, a journalist's observations.",
-        "startDate": "1925-04-08",
-        "endDate": "1925-04-08",
-        "sender": "Joseph Roth",
-        "recipient": "Gustav Landauer"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [2.3522, 48.8566],
-          [16.3738, 48.2082]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Meitner to Hahn (1938)",
-        "description": "From Stockholm to Berlin, discussing nuclear fission experiments.",
-        "startDate": "1938-12-19",
-        "endDate": "1938-12-19",
-        "sender": "Lise Meitner",
-        "recipient": "Otto Hahn"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [18.0686, 59.3293],
-          [13.405, 52.52]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Canetti to Venohr (1942)",
-        "description": "From London to Manchester, on the psychology of crowds.",
-        "startDate": "1942-11-05",
-        "endDate": "1942-11-05",
-        "sender": "Elias Canetti",
-        "recipient": "Wolfgang Venohr"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [-0.1278, 51.5074],
-          [-2.2426, 53.4808]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Perutz to Kendrew (1953)",
-        "description": "From Cambridge to Cambridge, about the structure of hemoglobin.",
-        "startDate": "1953-07-22",
-        "endDate": "1953-07-22",
-        "sender": "Max Perutz",
-        "recipient": "John Kendrew"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [0.1218, 52.2053],
-          [0.122, 52.205]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Kelsen to Verdross (1934)",
-        "description": "From Geneva to Vienna, a dispute on international law.",
-        "startDate": "1934-02-28",
-        "endDate": "1934-02-28",
-        "sender": "Hans Kelsen",
-        "recipient": "Alfred Verdross"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [6.1432, 46.2044],
-          [16.3738, 48.2082]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Freud to Jones (1920)",
-        "description": "From Vienna to London, regarding the international psychoanalytic movement.",
-        "startDate": "1920-09-14",
-        "endDate": "1920-09-14",
-        "sender": "Sigmund Freud",
-        "recipient": "Ernest Jones"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [-0.1278, 51.5074]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Zweig to Verhaeren (1910)",
-        "description": "From Vienna to Brussels, expressing admiration for his poetry.",
-        "startDate": "1910-03-03",
-        "endDate": "1910-03-03",
-        "sender": "Stefan Zweig",
-        "recipient": "Emile Verhaeren"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [4.3517, 50.8503]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Wittgenstein to Keynes (1929)",
-        "description": "From Cambridge to London, a request for financial assistance.",
-        "startDate": "1929-06-18",
-        "endDate": "1929-06-18",
-        "sender": "Ludwig Wittgenstein",
-        "recipient": "John Maynard Keynes"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [0.1218, 52.2053],
-          [-0.1278, 51.5074]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Klimt to Flöge (1900)",
-        "description": "From Ravenna to Vienna, describing the Byzantine mosaics.",
-        "startDate": "1900-05-12",
-        "endDate": "1900-05-12",
-        "sender": "Gustav Klimt",
-        "recipient": "Emilie Flöge"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [12.2036, 44.4184],
-          [16.3738, 48.2082]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Hayek to Mises (1935)",
-        "description": "From London to Geneva, on the socialist calculation debate.",
-        "startDate": "1935-10-01",
-        "endDate": "1935-10-01",
-        "sender": "Friedrich Hayek",
-        "recipient": "Ludwig von Mises"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [-0.1278, 51.5074],
-          [6.1432, 46.2044]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Schiele to Roessler (1915)",
-        "description": "From Vienna to Prague, concerning military service.",
-        "startDate": "1915-08-25",
-        "endDate": "1915-08-25",
-        "sender": "Egon Schiele",
-        "recipient": "Arthur Roessler"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [14.4378, 50.0755]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Bauer to Trotsky (1921)",
-        "description": "From Vienna to Moscow, a critique of Bolshevik policy.",
-        "startDate": "1921-04-11",
-        "endDate": "1921-04-11",
-        "sender": "Otto Bauer",
-        "recipient": "Leon Trotsky"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [37.6173, 55.7558]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Musil to his publisher (1941)",
-        "description": "From Geneva to Zurich, a desperate plea for an advance.",
-        "startDate": "1941-07-07",
-        "endDate": "1941-07-07",
-        "sender": "Robert Musil",
-        "recipient": "Emil Oprecht"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [6.1432, 46.2044],
-          [8.5417, 47.3769]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: von Suttner to Carnegie (1905)",
-        "description": "From Vienna to New York, thanking him for his peace endowment.",
-        "startDate": "1905-12-20",
-        "endDate": "1905-12-20",
-        "sender": "Bertha von Suttner",
-        "recipient": "Andrew Carnegie"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [-74.006, 40.7128]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: A. Freud to Burlingham (1940)",
-        "description": "From London to London, about their work with war-traumatized children.",
-        "startDate": "1940-10-15",
-        "endDate": "1940-10-15",
-        "sender": "Anna Freud",
-        "recipient": "Dorothy Burlingham"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [-0.1774, 51.5485],
-          [-0.177, 51.548]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Schnitzler to Bahr (1906)",
-        "description": "From Vienna to Salzburg, discussing the 'Young Vienna' movement.",
-        "startDate": "1906-08-01",
-        "endDate": "1906-08-01",
-        "sender": "Arthur Schnitzler",
-        "recipient": "Hermann Bahr"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [13.055, 47.8095]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Kraus to a subscriber (1928)",
-        "description": "From Vienna to Berlin, a sharp reply to a reader's criticism.",
-        "startDate": "1928-05-22",
-        "endDate": "1928-05-22",
-        "sender": "Karl Kraus",
-        "recipient": "A Subscriber"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [13.405, 52.52]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Frankl to Allers (1939)",
-        "description": "From Vienna to Washington D.C., on the philosophical roots of psychotherapy.",
-        "startDate": "1939-03-10",
-        "endDate": "1939-03-10",
-        "sender": "Viktor Frankl",
-        "recipient": "Rudolf Allers"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [-77.0369, 38.9072]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Jahoda to Zeisel (1932)",
-        "description": "From Vienna to Vienna, planning the Marienthal study.",
-        "startDate": "1932-01-20",
-        "endDate": "1932-01-20",
-        "sender": "Marie Jahoda",
-        "recipient": "Hans Zeisel"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.37, 48.21],
-          [16.375, 48.205]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Renner to Seitz (1927)",
-        "description": "From Vienna to Graz, on municipal housing projects.",
-        "startDate": "1927-11-08",
-        "endDate": "1927-11-08",
-        "sender": "Karl Renner",
-        "recipient": "Karl Seitz"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [15.4395, 47.0707]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Zweig to Freud (1939)",
-        "description": "From Bath to London, a final farewell.",
-        "startDate": "1939-09-01",
-        "endDate": "1939-09-01",
-        "sender": "Stefan Zweig",
-        "recipient": "Sigmund Freud"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [-2.3599, 51.3758],
-          [-0.1278, 51.5074]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Kelsen to the League of Nations (1935)",
-        "description": "From Geneva to Geneva, a memo on international arbitration.",
-        "startDate": "1935-06-05",
-        "endDate": "1935-06-05",
-        "sender": "Hans Kelsen",
-        "recipient": "League of Nations Secretariat"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [6.1482, 46.2084],
-          [6.1457, 46.2244]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Mahler to Klimt (1903)",
-        "description": "From Vienna to Venice, describing her travels.",
-        "startDate": "1903-08-17",
-        "endDate": "1903-08-17",
-        "sender": "Alma Mahler",
-        "recipient": "Gustav Klimt"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [12.3155, 45.4408]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Popper to Gombrich (1948)",
-        "description": "From London to London, on the poverty of historicism.",
-        "startDate": "1948-02-13",
-        "endDate": "1948-02-13",
-        "sender": "Karl Popper",
-        "recipient": "Ernst Gombrich"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [-0.1659, 51.5187],
-          [-0.1287, 51.5194]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Kafka to his father (1919)",
-        "description": "From Prague to Prague, the famous unsent letter.",
-        "startDate": "1919-11-10",
-        "endDate": "1919-11-10",
-        "sender": "Franz Kafka",
-        "recipient": "Hermann Kafka"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [14.4214, 50.088],
-          [14.4208, 50.0876]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Rilke to a young poet (1903)",
-        "description": "From Paris to Prague, offering advice on art and life.",
-        "startDate": "1903-02-17",
-        "endDate": "1903-02-17",
-        "sender": "Rainer Maria Rilke",
-        "recipient": "Franz Xaver Kappus"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [2.3522, 48.8566],
-          [14.4378, 50.0755]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Letter: Herzl to the Sultan (1901)",
-        "description": "From Vienna to Istanbul, a proposal for a Jewish charter in Palestine.",
-        "startDate": "1901-05-17",
-        "endDate": "1901-05-17",
-        "sender": "Theodor Herzl",
-        "recipient": "Sultan Abdul Hamid II"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.3738, 48.2082],
-          [28.9784, 41.0082]
+          [6.9603, 50.9375]
         ]
       }
     }

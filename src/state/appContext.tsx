@@ -15,13 +15,15 @@ import { initialLayerConfig } from "../config/layers";
 const initialState: AppState = {
   currentView: "dashboard",
   geoJsonData: null,
+  entities: {},
   layerConfig: initialLayerConfig,
-  committedTimeRange: [1800, 1930],
-  liveTimeRange: [1800, 1930],
+  committedTimeRange: [1800, 1960],
+  liveTimeRange: [1800, 1960],
   selectedLayerId: null,
   isLayerPanelCollapsed: false,
   isOptionsPanelCollapsed: true,
   activeMobilePanel: "layers",
+  isActiveFiltersPanelCollapsed: true,
 };
 
 // context
@@ -41,6 +43,13 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        //fetch dictionary entites
+        const entitiesRes = await fetch("/entities.json");
+        const entitiesData = await entitiesRes.json();
+
+        dispatch({ type: "SET_ENTITIES", payload: entitiesData });
+
+        // fetch layers
         const promises = state.layerConfig.map((layer) =>
           fetch(layer.source).then((res) => res.json())
         );

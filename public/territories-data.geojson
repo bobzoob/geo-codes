@@ -7,7 +7,8 @@
         "name": "Vienna",
         "description": "A more accurate, but simplified, polygon representing the city of Vienna.",
         "startDate": "1854-01-01",
-        "endDate": "1925-12-31"
+        "endDate": "1925-12-31",
+        "mentionedEntityIds": ["place_vienna"]
       },
       "geometry": {
         "type": "Polygon",
@@ -32,7 +33,8 @@
         "name": "Austria",
         "description": "A more accurate, but simplified, polygon representing the country of Austria.",
         "startDate": "1900-01-01",
-        "endDate": "1910-12-31"
+        "endDate": "1910-12-31",
+        "mentionedEntityIds": ["person_kelsen"]
       },
       "geometry": {
         "type": "Polygon",
