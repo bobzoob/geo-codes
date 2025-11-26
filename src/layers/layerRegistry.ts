@@ -1,5 +1,4 @@
-import React, { type ComponentType } from "react";
-import type { HistoricalFeatureCollection } from "../types/geojson";
+import { type ComponentType } from "react";
 import type { LayerComponentProps } from "../types/state";
 
 // ** ADD NWE layer rendering components HERE **
