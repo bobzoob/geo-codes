@@ -7,17 +7,8 @@ import GeoJSONLayer from "./GeoJSONLayer";
 import PointLayer from "./PointLayer";
 import ArrowLayer from "./ArrowLayer";
 
-// props that every layer component must accept
-export interface LayerRendererProps {
-  data: HistoricalFeatureCollection;
-  showAllTooltips: boolean;
-}
-
-// registrys type signature
-// keys are strings and values are React components that accept LayerRendererProps
-type LayerRegistry = Record<string, React.ComponentType<LayerRendererProps>>;
-
 // registry instance
+// ComponentType<LayerComponentProps>> to ensure all registered components accept data, showAllTooltips, AND entities
 export const layerRegistry: Record<
   string,
   ComponentType<LayerComponentProps>
