@@ -10,6 +10,7 @@ import {
 import { appReducer, type AppState, type AppAction } from "./appReducer";
 import type { HistoricalFeatureCollection } from "../types/geojson";
 import { initialLayerConfig } from "../config/layers";
+import { APP_CONFIG } from "../config/appConfig";
 
 // initial state of application
 const initialState: AppState = {
@@ -17,8 +18,8 @@ const initialState: AppState = {
   geoJsonData: null,
   entities: {},
   layerConfig: initialLayerConfig,
-  committedTimeRange: [1800, 1960],
-  liveTimeRange: [1800, 1960],
+  committedTimeRange: [APP_CONFIG.timeRange.min, APP_CONFIG.timeRange.max],
+  liveTimeRange: [APP_CONFIG.timeRange.min, APP_CONFIG.timeRange.max],
   selectedLayerId: null,
   isLayerPanelCollapsed: false,
   isOptionsPanelCollapsed: true,

@@ -1,5 +1,6 @@
 import { type ComponentType } from "react";
 import type { LayerComponentProps } from "../types/state";
+import HeatMapLayer from "./HeatMapLayer";
 
 // ** ADD NWE layer rendering components HERE **
 import GeoJSONLayer from "./GeoJSONLayer";
@@ -16,4 +17,5 @@ export const layerRegistry: Record<
   polygon: GeoJSONLayer,
   point: PointLayer,
   line: ArrowLayer,
+  heatmap: HeatMapLayer,
 };

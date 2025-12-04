@@ -1,7 +1,10 @@
-// this file will contain all the logic for updating applications states
-// reducer is a pure function that takes the current state and an "action" and returns the next state.
-import type { LayerConfig, SearchState, TimeRange, View } from "../types/state";
+/**
+ * this file will contain all the logic for updating applications states
+ * reducer is a pure function that takes the current state and an "action" and returns the next state.
+ */
+import type { LayerConfig, FilterValue, TimeRange, View } from "../types/state";
 import type { HistoricalFeatureCollection, EntityMap } from "../types/geojson";
+import { APP_CONFIG } from "../config/appConfig";
 
 // shape of the applications state
 export interface AppState {
@@ -32,11 +35,15 @@ export type AppAction =
   | { type: "SELECT_LAYER"; payload: string | null }
   | { type: "CLEAR_ALL_FILTERS" }
   | { type: "TOGGLE_ACTIVE_FILTERS_PANEL" }
+
+  // Data loading
   | {
       type: "SET_GEOJSON_DATA";
       payload: Record<string, HistoricalFeatureCollection>;
     }
   | { type: "SET_ENTITIES"; payload: EntityMap }
+
+  // Layer config
   | {
       type: "SET_LAYER_VISIBILITY";
       payload: { layerId: string; isVisible: boolean };
@@ -45,10 +52,13 @@ export type AppAction =
       type: "SET_LAYER_TOOLTIPS";
       payload: { layerId: string; showAll: boolean };
     }
+  // Generic filter
   | {
-      type: "UPDATE_LAYER_SEARCH";
-      payload: { layerId: string; searchState: SearchState };
+      type: "UPDATE_FILTER_VALUE";
+      payload: { layerId: string; filterId: string; value: FilterValue };
     }
+
+  // time control
   | { type: "SET_COMMITTED_TIME_RANGE"; payload: TimeRange }
   | { type: "SET_LIVE_TIME_RANGE"; payload: TimeRange };
 
@@ -57,12 +67,6 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
     case "SET_ENTITIES":
       return { ...state, entities: action.payload };
-    case "SELECT_LAYER":
-      return {
-        ...state,
-        selectedLayerId: action.payload,
-        isOptionsPanelCollapsed: false,
-      };
 
     case "TOGGLE_LAYER_PANEL":
       return { ...state, isLayerPanelCollapsed: !state.isLayerPanelCollapsed };
@@ -75,41 +79,19 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
 
     case "SET_ACTIVE_MOBILE_PANEL":
       return { ...state, activeMobilePanel: action.payload };
-
-    case "CLEAR_ALL_FILTERS":
-      return {
-        ...state,
-        // Also reset time to default
-        committedTimeRange: [1800, 1960],
-        liveTimeRange: [1800, 1960],
-        // Auto-close panel when cleared? Or keep open to show it's empty?
-        // Let's keep it open so they see it worked, or user can close it.
-        layerConfig: state.layerConfig.map((layer) => {
-          if (!layer.search) return layer;
-          return {
-            ...layer,
-            search: {
-              plainText: "",
-              sender: "",
-              recipient: "",
-              location: "",
-              searchStartDate: "",
-              searchEndDate: "",
-            },
-          };
-        }),
-      };
-
-    case "TOGGLE_ACTIVE_FILTERS_PANEL":
-      return {
-        ...state,
-        isActiveFiltersPanelCollapsed: !state.isActiveFiltersPanelCollapsed,
-      };
     case "SET_VIEW":
       return { ...state, currentView: action.payload };
 
     case "SET_GEOJSON_DATA":
       return { ...state, geoJsonData: action.payload };
+
+    // Layer
+    case "SELECT_LAYER":
+      return {
+        ...state,
+        selectedLayerId: action.payload,
+        isOptionsPanelCollapsed: false,
+      };
 
     case "SET_LAYER_VISIBILITY":
       return {
@@ -130,16 +112,45 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
             : layer
         ),
       };
+    // Filter
 
-    case "UPDATE_LAYER_SEARCH":
+    case "UPDATE_FILTER_VALUE":
       return {
         ...state,
-        // isActiveFiltersPanelCollapsed: false,
-        layerConfig: state.layerConfig.map((layer) =>
-          layer.id === action.payload.layerId
-            ? { ...layer, search: action.payload.searchState }
-            : layer
-        ),
+        layerConfig: state.layerConfig.map((layer) => {
+          if (layer.id !== action.payload.layerId) return layer;
+
+          return {
+            ...layer,
+            filterValues: {
+              ...layer.filterValues,
+              [action.payload.filterId]: action.payload.value,
+            },
+          };
+        }),
+      };
+
+    case "CLEAR_ALL_FILTERS":
+      return {
+        ...state,
+        // reset time to default
+        committedTimeRange: [
+          APP_CONFIG.timeRange.min,
+          APP_CONFIG.timeRange.max,
+        ],
+        liveTimeRange: [APP_CONFIG.timeRange.min, APP_CONFIG.timeRange.max],
+        // reset filter
+        layerConfig: state.layerConfig.map((layer) => ({
+          ...layer,
+          // empty -> automatically defaultValue from the registry
+          filterValues: {},
+        })),
+      };
+
+    case "TOGGLE_ACTIVE_FILTERS_PANEL":
+      return {
+        ...state,
+        isActiveFiltersPanelCollapsed: !state.isActiveFiltersPanelCollapsed,
       };
 
     case "SET_COMMITTED_TIME_RANGE":
@@ -148,11 +159,6 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         committedTimeRange: action.payload,
         liveTimeRange: action.payload,
-        // Auto-open if range differs from default (1800-1960)
-        // isActiveFiltersPanelCollapsed:
-        //   action.payload[0] === 1800 && action.payload[1] === 1960
-        //     ? state.isActiveFiltersPanelCollapsed
-        //     : false,
       };
 
     case "SET_LIVE_TIME_RANGE":

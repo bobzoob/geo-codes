@@ -9,14 +9,18 @@ interface ArrowLayerProps {
 }
 
 function ArrowLayer({ data, showAllTooltips, entities }: ArrowLayerProps) {
-  const getName = (id?: string) => {
-    if (!id || !entities[id]) return "Unknown";
-    return entities[id].name;
+  const resolveMentions = (ids?: string[]) => {
+    if (!ids || ids.length === 0) return "";
+    return ids
+      .map((id) => entities[id]?.label)
+      .filter(Boolean)
+      .join(", ");
   };
   return (
     <>
       {data.features.map((feature, index) => {
         // typescript often causes errors when it cant be sure that we only process the correct type, here: LineString
+        if (!feature.geometry) return null;
         if (feature.geometry.type !== "LineString") {
           return null;
         }
@@ -28,19 +32,27 @@ function ArrowLayer({ data, showAllTooltips, entities }: ArrowLayerProps) {
 
         // resolve data
         const props = feature.properties;
-        const senderName = getName(props.senderId);
-        const recipientName = getName(props.recipientId);
+        const label = props.title || "Unknown Correspondence";
+
+        const previewText = props.full_text
+          ? props.full_text.substring(0, 200) +
+            (props.full_text.length > 200 ? "..." : "")
+          : "";
+
+        const mentionedNames = resolveMentions(props.mentions);
 
         const richDescription = `
-          From: ${senderName}
-          To: ${recipientName}
-          
-          ${props.description || ""}
+          <strong>Date:</strong> ${props.date_start}<br/>
+          ${
+            mentionedNames
+              ? `<strong>Mentions:</strong> ${mentionedNames}<br/>`
+              : ""
+          }
+          <hr/>
+          <div style="max-height: 150px; overflow-y: auto; font-style: italic;">
+            "${previewText}"
+          </div>
         `;
-
-        // label for tooltip
-        const label = `${senderName} → ${recipientName}`;
-
         return (
           <ArrowPolyline
             key={feature.properties.id || index}

@@ -151,8 +151,8 @@
         "id": "event_1930_lecture",
         "name": "Lecture: Kelsen on International Law",
         "description": "Hans Kelsen gives a lecture on international law at Columbia University.",
-        "startDate": "1930-11-02",
-        "endDate": "1930-11-02",
+        "startDate": "1830-11-02",
+        "endDate": "1830-11-02",
         "placeId": "place_vienna",
         "mentionedEntityIds": ["person_kelsen", "person_hart"]
       },

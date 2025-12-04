@@ -1,6 +1,10 @@
 import { Box, Slider, Typography } from "@mui/material";
 import type { TimeRange } from "../types/state";
+import { APP_CONFIG } from "../config/appConfig";
 
+/**
+ * THE TIMERANGE IS CONTROLLED IN appConfig
+ */
 interface TimelineControlProps {
   range: TimeRange;
   onTimeChange: (newRange: TimeRange) => void;
@@ -11,8 +15,8 @@ function TimelineControl({
   onTimeChange,
   onTimeChangeCommitted,
 }: TimelineControlProps) {
-  const minYear = 1800;
-  const maxYear = 1960;
+  const minYear = APP_CONFIG.timeRange.min;
+  const maxYear = APP_CONFIG.timeRange.max;
 
   return (
     <Box

@@ -13,15 +13,18 @@ interface PointLayerProps {
 }
 
 function PointLayer({ data, showAllTooltips, entities }: PointLayerProps) {
-  const getName = (id?: string) =>
-    id && entities[id] ? entities[id].name : null;
+  const getEntityLabel = (id?: string) =>
+    id && entities[id] ? entities[id].label : null;
 
   return (
     <>
-      {data.features.map((feature) => {
-        if (feature.geometry.type !== "Point") {
-          return null;
-        }
+      {data.features.map((feature, index) => {
+        // SAFETY CHECK: If geometry is missing, skip this item
+        if (!feature.geometry) return null;
+
+        // Now it is safe to access .type
+        if (feature.geometry.type !== "Point") return null;
+
         // GeoJSON coordinates are [lon feature.geometry.coordinates;
         // but leaflet expects [latitude, longitude] -> reverse!
         const [longitude, latitude] = feature.geometry.coordinates;
@@ -29,25 +32,23 @@ function PointLayer({ data, showAllTooltips, entities }: PointLayerProps) {
         const props = feature.properties;
 
         //resolve place
-        const placeName = getName(props.placeId);
-
         //fallback if pkacename links nowhere
-        const displayName = props.name || placeName || "Unknown Location";
+        const displayName =
+          props.title ||
+          props.name ||
+          getEntityLabel(props.placeId) ||
+          "Unknown Location";
 
         return (
-          <Marker key={props.id || props.name} position={position}>
+          <Marker key={feature.id || index} position={position}>
             <Tooltip permanent={showAllTooltips}>
               <strong>{displayName}</strong>
             </Tooltip>
 
             <Popup>
               <strong>{displayName}</strong>
-              {placeName && placeName !== props.name && (
-                <div style={{ fontSize: "0.85em", color: "#666" }}>
-                  Location: {placeName}
-                </div>
-              )}
-              <p>{props.description}</p>
+              {props.date_start && <div>Date: {props.date_start}</div>}
+              <p>{props.description || props.full_text || ""}</p>
             </Popup>
           </Marker>
         );

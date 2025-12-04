@@ -1,6 +1,6 @@
 import type { HistoricalFeatureCollection } from "../types/geojson";
 import type { LayerConfig, TimeRange } from "../types/state";
-import { applyFilters } from "../utils/filterUtils";
+import { applyFilters } from "../filters/filterUtils";
 import { layerRegistry } from "../layers/layerRegistry";
 import { useAppState } from "../state/appContext";
 
@@ -28,7 +28,7 @@ function LayerManager({ layers, data, timeRange }: LayerManagerProps) {
 
         // filtering logic
         const filteredFeatures = layerData.features.filter((feature) =>
-          applyFilters(feature, timeRange, entities, layer.search)
+          applyFilters(feature, timeRange, entities, layer)
         );
 
         const filteredData = {
@@ -45,11 +45,12 @@ function LayerManager({ layers, data, timeRange }: LayerManagerProps) {
           console.warn(`No renderer found for layer type: "${layer.type}"`);
           return null;
         }
+        // Create a unique key that changes when filters change
+        // We stringify the filterValues to ensure re-render on filter update
+        const filterKey = JSON.stringify(layer.filterValues);
 
         // if a component is found, render with the required props
-        const dynamicKey = `${layer.id}-${timeRange.join("-")}-${
-          layer.showAllTooltips
-        }`;
+        const dynamicKey = `${layer.id}-${timeRange.join("-")}-${filterKey}`;
 
         return (
           <LayerComponent

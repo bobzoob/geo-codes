@@ -1,6 +1,9 @@
 import { MapContainer as LeafletMapContainer, TileLayer } from "react-leaflet";
 import type { ReactNode } from "react";
 
+/**
+ * HERE IS WHERE YOU CONTROLL THE VIEW OF THE MAP
+ */
 interface MapWrapperProps {
   children: ReactNode;
 }
@@ -8,8 +11,8 @@ interface MapWrapperProps {
 function MapWrapper({ children }: MapWrapperProps) {
   return (
     <LeafletMapContainer
-      center={[48.2082, 16.3738]}
-      zoom={9}
+      center={[50.92878, 11.5899]}
+      zoom={7}
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer

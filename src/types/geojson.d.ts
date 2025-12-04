@@ -1,22 +1,26 @@
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
 
-// ---------------------------------------------------------------------------
-// GeoJSON Feature Properties
-// ---------------------------------------------------------------------------
-
+// *
 // Here we define the structure that *this* specific GeoJSON data will have
-// to enrich the dataformat we set up a new type here
+// to enrich the dataformat we set up new type here
 // every file MUST have these properties
-export type EntityType = "Person" | "Place" | "Work" | "Event" | "Organization";
+// CHANGE TO YOUR SPECFIC JSON KEYS HERE AND ADD LOGIC IN filterRegistry.ts
+//*
 
 export interface Entity {
-  id: string;
-  type: EntityType;
-  name: string;
+  // id: string;
+  // type: EntityType;
+  type: string;
+  label: string;
   description?: string;
-  authorityId?: string; // this could also be a  wikidataId, GNDid, URL ...
+  //authorityId?: string; // this could also be a  wikidataId, GNDid, URL ...
 
-  // keep coordinates both in entitiey-data and GEOjson data
+  authority?: {
+    gnd?: string;
+    [key: string]: string | undefined;
+  };
+
+  // we keep coordinates both in entitiey-data and GEOjson data for performance
   lat?: number;
   lng?: number;
 }
@@ -25,38 +29,57 @@ export interface Entity {
 export type EntityMap = Record<string, Entity>;
 
 export interface HistoricalFeatureProperties extends GeoJsonProperties {
-  id: string; // id for the feature itself
-  name: string;
-  description?: string;
-  startDate: string; //"YYYY-MM-DD"
-  endDate: string;
+  id: string; // id for the feature itself -> react
 
-  // ---------------------------------------------------------------------------
-  // Foreign Keys
-  // ---------------------------------------------------------------------------
+  title: string;
 
-  // correspondence
+  // letters
   senderId?: string;
   recipientId?: string;
 
+  // dates
+  date_start: string; // "YYYY-MM-DD"
+  date_end?: string;
+  date_sort?: string;
+
+  has_coordinates?: boolean;
+
+  // context
+  full_text?: string;
+  status?: string;
+  url?: string;
+
+  // classification
+  topics?: string[];
+  speech_acts?: string[];
+
+  // *
+  // relations/ forein keys
+  //*
+
+  // correspondence
+  mentions?: string[];
+
   // points
   placeId?: string;
+  name: string;
+  description?: string;
 
-  // lines/transitions
-  sourcePlaceId?: string;
-  destinationPlaceId?: string;
+  // // lines/transitions
+  // sourcePlaceId?: string;
+  // destinationPlaceId?: string;
 
-  // references (persons, works, places, etc.)
-  mentionedEntityIds?: string[];
+  // // references (persons, works, places, etc.)
+  // mentionedEntityIds?: string[];
 }
 
-// ---------------------------------------------------------------------------
+// *
 // Wrappers
-// ---------------------------------------------------------------------------
+//*
 
 // a generic TypeScript feature that MUST have a geometry and MUST match the properties above
 export interface HistoricalFeature
-  extends Feature<Geometry, HistoricalFeatureProperties> {
+  extends Feature<Geometry | null, HistoricalFeatureProperties> {
   properties: HistoricalFeatureProperties;
 }
 export interface HistoricalFeatureCollection {

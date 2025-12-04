@@ -1,75 +1,47 @@
 import type { LayerConfig } from "../types/state";
-import SearchFormText from "../components/SearchFormText";
-import SearchFormMultiField from "../components/SearchFormMultiField";
-import SearchFormDate from "../components/SearchFormDate";
-import SearchFormPlace from "../components/SearchFormPlace";
+
+/**
+ * REGISTER NEW LAYERS HERE
+ */
 
 export const initialLayerConfig: LayerConfig[] = [
   {
-    id: "territories-1",
-    name: "Layer 1 (polygons)",
-    description: "Here geos the description",
-    visible: true,
-    type: "polygon",
-    source: "/territories-data.geojson",
-    showAllTooltips: false,
-    search: {
-      plainText: "",
-      sender: "",
-      recipient: "",
-      location: "",
-      searchStartDate: "",
-      searchEndDate: "",
-    },
-    filters: [
-      { component: SearchFormText, placement: "search-area" },
-      { component: SearchFormDate, placement: "timeline-area" },
-    ],
-  },
-  {
-    id: "event-1",
-    name: "Layer 2 (points)",
-    description: "Here geos the description",
-    visible: true,
-    type: "point",
-    source: "/events-data.geojson",
-    showAllTooltips: false,
-    search: {
-      plainText: "",
-      sender: "",
-      recipient: "",
-      location: "",
-      searchStartDate: "",
-      searchEndDate: "",
-    },
-
-    filters: [
-      { component: SearchFormText, placement: "search-area" },
-      { component: SearchFormPlace, placement: "search-area" },
-      { component: SearchFormDate, placement: "timeline-area" },
-    ],
-  },
-  {
     id: "letters-1",
-    name: "Layer 3 (transitions)",
-    // description: "",
+    name: "Letters",
     visible: true,
     type: "line",
     source: "/letters-data.geojson",
     showAllTooltips: false,
-    search: {
-      plainText: "",
-      sender: "",
-      recipient: "",
-      location: "",
-      searchStartDate: "",
-      searchEndDate: "",
+
+    // Initial State
+    filterValues: {},
+
+    // Composition: Pick which blocks you want
+    activeFilters: [
+      { moduleId: "dateRange", placement: "timeline-area" },
+      { moduleId: "plainText", placement: "search-area" },
+      {
+        moduleId: "entitySearch",
+        placement: "search-area",
+        section: "advanced",
+      },
+      { moduleId: "sender", placement: "search-area", section: "advanced" },
+      { moduleId: "recipient", placement: "search-area", section: "advanced" },
+    ],
+  },
+  {
+    id: "topics-heatmap",
+    name: "Topics Heatmap",
+    visible: false,
+    type: "heatmap",
+    source: "/letters-data.geojson",
+    showAllTooltips: false,
+    filterValues: {
+      // topic: "Literaturbetrieb", // set default ?
     },
-    filters: [
-      { component: SearchFormDate, placement: "timeline-area" },
-      { component: SearchFormMultiField, placement: "search-area" },
-      { component: SearchFormText, placement: "search-area" },
-      { component: SearchFormPlace, placement: "search-area" },
+    activeFilters: [
+      { moduleId: "dateRange", placement: "timeline-area" },
+      { moduleId: "topic", placement: "search-area" },
     ],
   },
 ];

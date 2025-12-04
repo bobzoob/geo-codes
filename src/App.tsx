@@ -1,9 +1,9 @@
 import { Box, CssBaseline } from "@mui/material";
-import Header from "./components/Header";
+import Header from "./components/layout/Header";
 import Dashboard from "./components/Dashboard";
-import Footer from "./components/Footer";
+import Footer from "./components/layout/Footer";
 import { useAppState } from "./state/appContext";
-import MapViewLayout from "./components/MapViewLayout";
+import MapViewLayout from "./components/layout/MapViewLayout";
 import { ThemeProvider } from "@mui/material/styles";
 import { mapTheme } from "./config/mapTheme";
 
