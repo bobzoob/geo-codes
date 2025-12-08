@@ -14,7 +14,7 @@ import { mapTheme } from "./config/mapTheme";
 
 function App() {
   const { state } = useAppState();
-  const { currentView, geoJsonData } = state;
+  const { currentView } = state;
 
   return (
     <ThemeProvider theme={mapTheme}>
@@ -24,11 +24,7 @@ function App() {
 
         {/* this is the main content area that fills the remeining space */}
         <Box sx={{ flexGrow: 1, position: "relative" }}>
-          {currentView === "dashboard" ? (
-            <Dashboard isDataLoaded={geoJsonData !== null} />
-          ) : (
-            <MapViewLayout />
-          )}
+          {currentView === "dashboard" ? <Dashboard /> : <MapViewLayout />}
         </Box>
         <Footer />
       </Box>{" "}
