@@ -25,6 +25,7 @@ const initialState: AppState = {
   isOptionsPanelCollapsed: true,
   activeMobilePanel: "layers",
   isActiveFiltersPanelCollapsed: true,
+  loadingProgress: 0,
 };
 
 // context
@@ -44,18 +45,38 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // progress calculation
+        const totalTasks = 1 + state.layerConfig.length;
+        let completedTasks = 0;
+
+        // Helper to update progress
+        const updateProgress = () => {
+          completedTasks++;
+          const percentage = Math.round((completedTasks / totalTasks) * 100);
+          dispatch({ type: "SET_LOADING_PROGRESS", payload: percentage });
+        };
+
         //fetch dictionary entites
         const entitiesRes = await fetch("/entities.json");
         const entitiesData = await entitiesRes.json();
 
         dispatch({ type: "SET_ENTITIES", payload: entitiesData });
+        updateProgress();
 
         // fetch layers
-        const promises = state.layerConfig.map((layer) =>
-          fetch(layer.source).then((res) => res.json())
-        );
-        const responses = await Promise.all(promises);
+        const layerPromises = state.layerConfig.map(async (layer) => {
+          const res = await fetch(layer.source);
+          const json = await res.json();
+          updateProgress(); // progress: ++/total
+          return json;
+        });
+        // const promises = state.layerConfig.map((layer) =>
+        //   fetch(layer.source).then((res) => res.json())
+        // );
+        // const responses = await Promise.all(promises);
+        const responses = await Promise.all(layerPromises);
 
+        // map data to id#s
         const dataMap: Record<string, HistoricalFeatureCollection> = {};
         state.layerConfig.forEach((layer, index) => {
           dataMap[layer.id] = responses[index] as HistoricalFeatureCollection;

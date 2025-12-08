@@ -5,17 +5,18 @@ import {
   CardContent,
   Grid,
   Typography,
+  Fade,
 } from "@mui/material";
 import { useAppState } from "../state/appContext";
 import { mapTheme } from "../config/mapTheme";
 import { ThemeProvider } from "@mui/material/styles";
+import { LoadingBar } from "./LoadingBar";
 
-interface DashboardProps {
-  isDataLoaded: boolean;
-}
+function Dashboard() {
+  const { state, dispatch } = useAppState();
+  const { loadingProgress, geoJsonData } = state;
 
-function Dashboard({ isDataLoaded }: DashboardProps) {
-  const { dispatch } = useAppState();
+  const isLoaded = loadingProgress === 100 && geoJsonData !== null;
 
   return (
     <ThemeProvider theme={mapTheme}>
@@ -26,13 +27,41 @@ function Dashboard({ isDataLoaded }: DashboardProps) {
         <Grid>
           <Card sx={{ maxWidth: 345 }}>
             <CardContent>
+              <img
+                src="assets/img-map.jpg"
+                alt="Image Description"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: "8px",
+                  marginBottom: "16px", // space between image and text
+                }}
+              />
               <Typography gutterBottom variant="h5" component="div">
-                Some Map Title
+                Lorem ipsum dolor sit amet
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Project description, can be a little bit longer maybe this
-                long...
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                aliquyam erat, sed diam voluptua. At vero eos et accusam et
+                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
+                dolor sit amet.
               </Typography>
+              {/* CONDITIONAL RENDERING */}
+              {!isLoaded ? (
+                <LoadingBar progress={loadingProgress} />
+              ) : (
+                <Fade in={isLoaded}>
+                  <Typography
+                    variant="body2"
+                    color="success.main"
+                    fontWeight="bold"
+                    textAlign="center"
+                    sx={{ mt: 2, mb: 1 }}
+                  ></Typography>
+                </Fade>
+              )}
             </CardContent>
 
             <CardActions>
@@ -40,9 +69,10 @@ function Dashboard({ isDataLoaded }: DashboardProps) {
                 size="small"
                 variant="contained"
                 onClick={() => dispatch({ type: "SET_VIEW", payload: "map" })}
-                disabled={!isDataLoaded}
+                disabled={!isLoaded}
+                sx={{ width: "100%" }}
               >
-                {isDataLoaded ? "Go" : "Loading..."}
+                Open Map
               </Button>
             </CardActions>
           </Card>

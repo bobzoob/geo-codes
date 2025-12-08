@@ -20,6 +20,7 @@ export interface AppState {
   isOptionsPanelCollapsed: boolean;
   isActiveFiltersPanelCollapsed: boolean;
   activeMobilePanel: "layers" | "options" | "filters" | "none";
+  loadingProgress: number; // 0 to 100, for progress tracking
 }
 
 // all possible actions, that can change the state
@@ -42,6 +43,7 @@ export type AppAction =
       payload: Record<string, HistoricalFeatureCollection>;
     }
   | { type: "SET_ENTITIES"; payload: EntityMap }
+  | { type: "SET_LOADING_PROGRESS"; payload: number }
 
   // Layer config
   | {
@@ -84,6 +86,10 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
 
     case "SET_GEOJSON_DATA":
       return { ...state, geoJsonData: action.payload };
+
+    // loading progress
+    case "SET_LOADING_PROGRESS":
+      return { ...state, loadingProgress: action.payload };
 
     // Layer
     case "SELECT_LAYER":
