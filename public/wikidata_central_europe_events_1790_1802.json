@@ -1,0 +1,2003 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "Q3403838",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.083333333,
+          47.416666666
+        ]
+      },
+      "properties": {
+        "title": "Eroberung von Porrentruy",
+        "date_start": "1792-04-28",
+        "date_end": "1792-04-28",
+        "date_sort": "1792-04-28",
+        "status": "confirmed",
+        "original_status": "1792 battle of the War of the First Coalition",
+        "full_text": "1792 battle of the War of the First Coalition",
+        "topics": [
+          "Belagerung"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q3403838",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q3403838",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.07779,
+          47.4181
+        ]
+      },
+      "properties": {
+        "title": "Eroberung von Porrentruy",
+        "date_start": "1792-04-28",
+        "date_end": "1792-04-28",
+        "date_sort": "1792-04-28",
+        "status": "confirmed",
+        "original_status": "1792 battle of the War of the First Coalition",
+        "full_text": "1792 battle of the War of the First Coalition",
+        "topics": [
+          "Belagerung"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q3403838",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q572883",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.38842,
+          49.1608
+        ]
+      },
+      "properties": {
+        "title": "Belagerung von Verdun",
+        "date_start": "1792-08-29",
+        "date_end": "1792-08-29",
+        "date_sort": "1792-08-29",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q572883",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q18380015",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.0667,
+          50.3834
+        ]
+      },
+      "properties": {
+        "title": "Battle of Limburg",
+        "date_start": "1792-11-09",
+        "date_end": "1792-11-09",
+        "date_sort": "1792-11-09",
+        "status": "confirmed",
+        "original_status": "1792",
+        "full_text": "1792",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q18380015",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q558435",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.27111,
+          50.0
+        ]
+      },
+      "properties": {
+        "title": "Belagerung von Mainz 1793",
+        "date_start": "1793-01-01",
+        "date_end": "1793-01-01",
+        "date_sort": "1793-01-01",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege im Jahr 1793",
+        "full_text": "Schlacht der Koalitionskriege im Jahr 1793",
+        "topics": [
+          "Belagerung"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q558435",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q11795080",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.861536,
+          52.071028
+        ]
+      },
+      "properties": {
+        "title": "Q11795080",
+        "date_start": "1793-01-27",
+        "date_end": "1793-01-27",
+        "date_sort": "1793-01-27",
+        "status": "confirmed",
+        "original_status": "Historical event: Q11795080",
+        "full_text": "Historical event: Q11795080",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q11795080",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q17984374",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.28306,
+          50.8958
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Aldenhoven (1793)",
+        "date_start": "1793-03-01",
+        "date_end": "1793-03-01",
+        "date_sort": "1793-03-01",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q17984374",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1085392",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.05,
+          50.7667
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Neerwinden",
+        "date_start": "1793-03-18",
+        "date_end": "1793-03-18",
+        "date_sort": "1793-03-18",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege (1793)",
+        "full_text": "Schlacht der Koalitionskriege (1793)",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q1085392",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2984734",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.811425,
+          49.682402777
+        ]
+      },
+      "properties": {
+        "title": "Gefecht bei Arlon (1793)",
+        "date_start": "1793-06-09",
+        "date_end": "1793-06-09",
+        "date_sort": "1793-06-09",
+        "status": "confirmed",
+        "original_status": "1793 battle in future Belgium",
+        "full_text": "1793 battle in future Belgium",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2984734",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16898546",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.6,
+          49.2
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Pirmasens",
+        "date_start": "1793-09-14",
+        "date_end": "1793-09-14",
+        "date_sort": "1793-09-14",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q16898546",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q19963063",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.53222222,
+          47.71083333
+        ]
+      },
+      "properties": {
+        "title": "Gefechte bei Rheinweiler und Hüningen",
+        "date_start": "1793-09-17",
+        "date_end": "1793-09-17",
+        "date_sort": "1793-09-17",
+        "status": "confirmed",
+        "original_status": "1793 battle",
+        "full_text": "1793 battle",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q19963063",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q5452548",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.94694,
+          49.0383
+        ]
+      },
+      "properties": {
+        "title": "First Battle of Wissembourg",
+        "date_start": "1793-10-13",
+        "date_end": "1793-10-13",
+        "date_sort": "1793-10-13",
+        "status": "confirmed",
+        "original_status": "1793 battle during the War of the First Coalition",
+        "full_text": "1793 battle during the War of the First Coalition",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q5452548",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q38252110",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.066666666,
+          50.383333333
+        ]
+      },
+      "properties": {
+        "title": "Schlacht von Friedberg",
+        "date_start": "1793-11-10",
+        "date_end": "1793-11-10",
+        "date_sort": "1793-11-10",
+        "status": "confirmed",
+        "original_status": "Historical event: Schlacht von Friedberg",
+        "full_text": "Historical event: Schlacht von Friedberg",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q38252110",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q55520753",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.205277777,
+          49.221111111
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Biesingen",
+        "date_start": "1793-11-17",
+        "date_end": "1793-11-17",
+        "date_sort": "1793-11-17",
+        "status": "confirmed",
+        "original_status": "militärische Auseinandersetzung zwischen Preußen und Franzosen im ersten Revolutionskrieg von 1793",
+        "full_text": "militärische Auseinandersetzung zwischen Preußen und Franzosen im ersten Revolutionskrieg von 1793",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q55520753",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q386601",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.76361111,
+          49.47027778
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Kaiserslautern",
+        "date_start": "1793-11-30",
+        "date_end": "1793-11-30",
+        "date_sort": "1793-11-30",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q386601",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4872758",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.74639,
+          48.9397
+        ]
+      },
+      "properties": {
+        "title": "Battle of Wœrth",
+        "date_start": "1793-12-22",
+        "date_end": "1793-12-22",
+        "date_sort": "1793-12-22",
+        "status": "confirmed",
+        "original_status": "1793 battle",
+        "full_text": "1793 battle",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q4872758",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4872758",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.63333,
+          48.3833
+        ]
+      },
+      "properties": {
+        "title": "Battle of Wœrth",
+        "date_start": "1793-12-22",
+        "date_end": "1793-12-22",
+        "date_sort": "1793-12-22",
+        "status": "confirmed",
+        "original_status": "1793 battle",
+        "full_text": "1793 battle",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q4872758",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2890769",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.946944,
+          49.038333
+        ]
+      },
+      "properties": {
+        "title": "Battle of Geisberg",
+        "date_start": "1793-12-26",
+        "date_end": "1793-12-26",
+        "date_sort": "1793-12-26",
+        "status": "confirmed",
+        "original_status": "1793 battle",
+        "full_text": "1793 battle",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2890769",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2985001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.811425,
+          49.682402777
+        ]
+      },
+      "properties": {
+        "title": "Battle of Arlon",
+        "date_start": "1794-01-01",
+        "date_end": "1794-01-01",
+        "date_sort": "1794-01-01",
+        "status": "confirmed",
+        "original_status": "1794 battle in future Belgium",
+        "full_text": "1794 battle in future Belgium",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2985001",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q23305634",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.316666666,
+          51.7
+        ]
+      },
+      "properties": {
+        "title": "Siege of 's-Hertogenbosch",
+        "date_start": "1794-01-01",
+        "date_end": "1794-01-01",
+        "date_sort": "1794-01-01",
+        "status": "confirmed",
+        "original_status": "1794 siege",
+        "full_text": "1794 siege",
+        "topics": [
+          "Belagerung"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q23305634",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16851365",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.76889,
+          49.4447
+        ]
+      },
+      "properties": {
+        "title": "Battle of Kaiserslautern",
+        "date_start": "1794-05-23",
+        "date_end": "1794-05-23",
+        "date_sort": "1794-05-23",
+        "status": "confirmed",
+        "original_status": "1794 battle of the War of the First Coalition",
+        "full_text": "1794 battle of the War of the First Coalition",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q16851365",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q735960",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.774444,
+          49.359167
+        ]
+      },
+      "properties": {
+        "title": "Battle of the Vosges",
+        "date_start": "1794-07-13",
+        "date_end": "1794-07-13",
+        "date_sort": "1794-07-13",
+        "status": "confirmed",
+        "original_status": "1794 battle",
+        "full_text": "1794 battle",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q735960",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4872062",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.107777,
+          50.347777
+        ]
+      },
+      "properties": {
+        "title": "Battle of Platzberg",
+        "date_start": "1794-07-13",
+        "date_end": "1794-07-13",
+        "date_sort": "1794-07-13",
+        "status": "confirmed",
+        "original_status": "1794 battle",
+        "full_text": "1794 battle",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q4872062",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2890044",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.705,
+          50.4911
+        ]
+      },
+      "properties": {
+        "title": "Battle of Sprimont",
+        "date_start": "1794-09-18",
+        "date_end": "1794-09-18",
+        "date_sort": "1794-09-18",
+        "status": "confirmed",
+        "original_status": "1794 battle during French Revolutionary Wars",
+        "full_text": "1794 battle during French Revolutionary Wars",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2890044",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q880348",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.28306,
+          50.8958
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Aldenhoven (1794)",
+        "date_start": "1794-10-02",
+        "date_end": "1794-10-02",
+        "date_sort": "1794-10-02",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q880348",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2236833",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.011111,
+          53.125
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Bromberg",
+        "date_start": "1794-10-02",
+        "date_end": "1794-10-02",
+        "date_sort": "1794-10-02",
+        "status": "confirmed",
+        "original_status": "1794 battle in the Kościuszko Uprising",
+        "full_text": "1794 battle in the Kościuszko Uprising",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2236833",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16840995",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.68694,
+          49.4289
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Handschuhsheim",
+        "date_start": "1795-09-24",
+        "date_end": "1795-09-24",
+        "date_sort": "1795-09-24",
+        "status": "confirmed",
+        "original_status": "militärische Auseinandersetzung im Rahmen des ersten Revolutionskrieges",
+        "full_text": "militärische Auseinandersetzung im Rahmen des ersten Revolutionskrieges",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q16840995",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16898354",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.28333,
+          49.65
+        ]
+      },
+      "properties": {
+        "title": "Schlacht von Pfeddersheim",
+        "date_start": "1795-11-10",
+        "date_end": "1795-11-10",
+        "date_sort": "1795-11-10",
+        "status": "confirmed",
+        "original_status": "Schlacht im Jahr 1795 bei Worms",
+        "full_text": "Schlacht im Jahr 1795 bei Worms",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q16898354",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2237301",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.645556,
+          50.687222
+        ]
+      },
+      "properties": {
+        "title": "Schlacht von Altenkirchen",
+        "date_start": "1796-06-04",
+        "date_end": "1796-06-04",
+        "date_sort": "1796-06-04",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2237301",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2237301",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.64556,
+          50.6872
+        ]
+      },
+      "properties": {
+        "title": "Schlacht von Altenkirchen",
+        "date_start": "1796-06-04",
+        "date_end": "1796-06-04",
+        "date_sort": "1796-06-04",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2237301",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q17018134",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.5,
+          50.56666667
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Wetzlar",
+        "date_start": "1796-06-15",
+        "date_end": "1796-06-15",
+        "date_sort": "1796-06-15",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q17018134",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q38251913",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.379444444,
+          49.454166666
+        ]
+      },
+      "properties": {
+        "title": "Schlacht von Maudach",
+        "date_start": "1796-06-15",
+        "date_end": "1796-06-15",
+        "date_sort": "1796-06-15",
+        "status": "confirmed",
+        "original_status": "Gefecht am 15. Juni 1796 bei Ludwigshafen",
+        "full_text": "Gefecht am 15. Juni 1796 bei Ludwigshafen",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q38251913",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2237543",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.428477,
+          50.705085
+        ]
+      },
+      "properties": {
+        "title": "Schlacht von Kircheib",
+        "date_start": "1796-06-19",
+        "date_end": "1796-06-19",
+        "date_sort": "1796-06-19",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2237543",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4872167",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.2,
+          48.85
+        ]
+      },
+      "properties": {
+        "title": "Gefecht von Rastatt (1796)",
+        "date_start": "1796-07-05",
+        "date_end": "1796-07-05",
+        "date_sort": "1796-07-05",
+        "status": "confirmed",
+        "original_status": "Gefecht der französischen Revolutionskriege",
+        "full_text": "Gefecht der französischen Revolutionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q4872167",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4870989",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.40917,
+          48.9433
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Malsch",
+        "date_start": "1796-07-09",
+        "date_end": "1796-07-09",
+        "date_sort": "1796-07-09",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q4870989",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2887824",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.0167,
+          49.8
+        ]
+      },
+      "properties": {
+        "title": "Schlacht von Altendorf",
+        "date_start": "1796-08-09",
+        "date_end": "1796-08-09",
+        "date_sort": "1796-08-09",
+        "status": "confirmed",
+        "original_status": "Gefecht bei ALtendorf im Landkreis Bamberg, 1796",
+        "full_text": "Gefecht bei ALtendorf im Landkreis Bamberg, 1796",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2887824",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1217073",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.334444444,
+          48.754166666
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Neresheim",
+        "date_start": "1796-08-11",
+        "date_end": "1796-08-11",
+        "date_sort": "1796-08-11",
+        "status": "confirmed",
+        "original_status": "1796 battle during the War of the First Coalition",
+        "full_text": "1796 battle during the War of the First Coalition",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q1217073",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q106328102",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.738494,
+          49.505328
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Sulzbach",
+        "date_start": "1796-08-17",
+        "date_end": "1796-08-17",
+        "date_sort": "1796-08-17",
+        "status": "confirmed",
+        "original_status": "militärische Aktion 1796 zwischen der französischen und österreichischen Armee",
+        "full_text": "militärische Aktion 1796 zwischen der französischen und österreichischen Armee",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q106328102",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q481466",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.831111111,
+          49.471111111
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Amberg",
+        "date_start": "1796-08-21",
+        "date_end": "1796-08-21",
+        "date_sort": "1796-08-21",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q481466",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2984777",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.9797,
+          48.3549
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Friedberg",
+        "date_start": "1796-08-24",
+        "date_end": "1796-08-24",
+        "date_sort": "1796-08-24",
+        "status": "confirmed",
+        "original_status": "1796 battle of the War of the First Coalition",
+        "full_text": "1796 battle of the War of the First Coalition",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2984777",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1415566",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.92958333,
+          49.79344444
+        ]
+      },
+      "properties": {
+        "title": "Schlacht von Würzburg",
+        "date_start": "1796-09-03",
+        "date_end": "1796-09-03",
+        "date_sort": "1796-09-03",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q1415566",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q18920219",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.81667,
+          48.5667
+        ]
+      },
+      "properties": {
+        "title": "Second Battle of Kehl",
+        "date_start": "1796-09-18",
+        "date_end": "1796-09-18",
+        "date_sort": "1796-09-18",
+        "status": "confirmed",
+        "original_status": "1796 battle of The French Revolutionary Wars",
+        "full_text": "1796 battle of The French Revolutionary Wars",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q18920219",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4870481",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.8,
+          48.1
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Biberach",
+        "date_start": "1796-10-02",
+        "date_end": "1796-10-02",
+        "date_sort": "1796-10-02",
+        "status": "confirmed",
+        "original_status": "Schlacht am 2. Oktober 1796",
+        "full_text": "Schlacht am 2. Oktober 1796",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q4870481",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q46495816",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.5152701,
+          51.7094964
+        ]
+      },
+      "properties": {
+        "title": "Großer Brand von Sankt Andreasberg",
+        "date_start": "1796-10-08",
+        "date_end": "1796-10-08",
+        "date_sort": "1796-10-08",
+        "status": "confirmed",
+        "original_status": "Brandkatastrophe im Jahr 1796 im Harz",
+        "full_text": "Brandkatastrophe im Jahr 1796 im Harz",
+        "topics": [
+          "Stadtbrand"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q46495816",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4870967",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.84917,
+          48.1214
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Emmendingen",
+        "date_start": "1796-10-19",
+        "date_end": "1796-10-19",
+        "date_sort": "1796-10-19",
+        "status": "confirmed",
+        "original_status": "Schlacht während des Feldzuges der französischen Rhein- und Moselarmme",
+        "full_text": "Schlacht während des Feldzuges der französischen Rhein- und Moselarmme",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q4870967",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q182831",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.57722222,
+          47.75555556
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Schliengen",
+        "date_start": "1796-10-24",
+        "date_end": "1796-10-24",
+        "date_sort": "1796-10-24",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q182831",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4870873",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.883333333,
+          48.65
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Diersheim",
+        "date_start": "1797-01-01",
+        "date_end": "1797-01-01",
+        "date_sort": "1797-01-01",
+        "status": "confirmed",
+        "original_status": "1797 battle of the War of the First Coalition",
+        "full_text": "1797 battle of the War of the First Coalition",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q4870873",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q819999",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.805,
+          48.575
+        ]
+      },
+      "properties": {
+        "title": "Fall von Kehl",
+        "date_start": "1797-01-09",
+        "date_end": "1797-01-09",
+        "date_sort": "1797-01-09",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Belagerung"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q819999",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q819999",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.808888888,
+          48.571111111
+        ]
+      },
+      "properties": {
+        "title": "Fall von Kehl",
+        "date_start": "1797-01-09",
+        "date_end": "1797-01-09",
+        "date_sort": "1797-01-09",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Belagerung"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q819999",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q443501",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.454166666,
+          50.453333333
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Neuwied 1797",
+        "date_start": "1797-04-18",
+        "date_end": "1797-04-18",
+        "date_sort": "1797-04-18",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege im Jahr 1797",
+        "full_text": "Schlacht der Koalitionskriege im Jahr 1797",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q443501",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16964597",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.36667,
+          47.1819
+        ]
+      },
+      "properties": {
+        "title": "Battle of Longeau",
+        "date_start": "1798-03-02",
+        "date_end": "1798-03-02",
+        "date_sort": "1798-03-02",
+        "status": "confirmed",
+        "original_status": "1798 battle",
+        "full_text": "1798 battle",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q16964597",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q281461",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.5,
+          47.01666667
+        ]
+      },
+      "properties": {
+        "title": "Schlacht am Grauholz",
+        "date_start": "1798-03-05",
+        "date_end": "1798-03-05",
+        "date_sort": "1798-03-05",
+        "status": "confirmed",
+        "original_status": "Schlacht während des Franzoseneinfalls in der Schweiz",
+        "full_text": "Schlacht während des Franzoseneinfalls in der Schweiz",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q281461",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16964596",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.5269,
+          47.085
+        ]
+      },
+      "properties": {
+        "title": "Battle of Fraubrunnen",
+        "date_start": "1798-03-05",
+        "date_end": "1798-03-05",
+        "date_sort": "1798-03-05",
+        "status": "confirmed",
+        "original_status": "1798 battle",
+        "full_text": "1798 battle",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q16964596",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q15238595",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.083333333,
+          51.133333333
+        ]
+      },
+      "properties": {
+        "title": "Battle of Meerhout",
+        "date_start": "1798-11-12",
+        "date_end": "1798-11-12",
+        "date_sort": "1798-11-12",
+        "status": "confirmed",
+        "original_status": "1798 battle",
+        "full_text": "1798 battle",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q15238595",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q9173018",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.333333333,
+          50.933333333
+        ]
+      },
+      "properties": {
+        "title": "Battle of Hasselt",
+        "date_start": "1798-12-05",
+        "date_end": "1798-12-05",
+        "date_sort": "1798-12-05",
+        "status": "confirmed",
+        "original_status": "1798 battle",
+        "full_text": "1798 battle",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q9173018",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2237048",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.383333333,
+          47.95
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Ostrach",
+        "date_start": "1799-03-21",
+        "date_end": "1799-03-21",
+        "date_sort": "1799-03-21",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege 1799",
+        "full_text": "Schlacht der Koalitionskriege 1799",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2237048",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2236891",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.598333,
+          47.238056
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Feldkirch",
+        "date_start": "1799-03-23",
+        "date_end": "1799-03-23",
+        "date_sort": "1799-03-23",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2236891",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q186107",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.57722222,
+          47.75555556
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Stockach",
+        "date_start": "1799-03-25",
+        "date_end": "1799-03-25",
+        "date_sort": "1799-03-25",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q186107",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q685798",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.75,
+          47.5
+        ]
+      },
+      "properties": {
+        "title": "Gefecht bei Winterthur",
+        "date_start": "1799-05-27",
+        "date_end": "1799-05-27",
+        "date_sort": "1799-05-27",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q685798",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q575973",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.55,
+          47.366666666
+        ]
+      },
+      "properties": {
+        "title": "Erste Schlacht von Zürich",
+        "date_start": "1799-06-07",
+        "date_end": "1799-06-07",
+        "date_sort": "1799-06-07",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege 1799",
+        "full_text": "Schlacht der Koalitionskriege 1799",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q575973",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q19896027",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.46917,
+          49.4889
+        ]
+      },
+      "properties": {
+        "title": "Schlacht von Mannheim 1799",
+        "date_start": "1799-09-18",
+        "date_end": "1799-09-18",
+        "date_sort": "1799-09-18",
+        "status": "confirmed",
+        "original_status": "Schlacht im Zweiten Koalitionskrieg",
+        "full_text": "Schlacht im Zweiten Koalitionskrieg",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q19896027",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q55605034",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.016666666,
+          47.15
+        ]
+      },
+      "properties": {
+        "title": "Battle of Linth River",
+        "date_start": "1799-09-26",
+        "date_end": "1799-09-26",
+        "date_sort": "1799-09-26",
+        "status": "confirmed",
+        "original_status": "1799 battle in Switzerland",
+        "full_text": "1799 battle in Switzerland",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q55605034",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q821120",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.6721,
+          49.2935
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Wiesloch",
+        "date_start": "1799-12-03",
+        "date_end": "1799-12-03",
+        "date_sort": "1799-12-03",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q821120",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4871838",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.530588,
+          47.62908
+        ]
+      },
+      "properties": {
+        "title": "Battle of Möerskirch",
+        "date_start": "1800-05-01",
+        "date_end": "1800-05-01",
+        "date_sort": "1800-05-01",
+        "status": "confirmed",
+        "original_status": "1800 battle",
+        "full_text": "1800 battle",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q4871838",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q840006",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1,
+          47.51
+        ]
+      },
+      "properties": {
+        "title": "Zweite Schlacht bei Stockach",
+        "date_start": "1800-05-03",
+        "date_end": "1800-05-03",
+        "date_sort": "1800-05-03",
+        "status": "confirmed",
+        "original_status": "Schlacht am 3. Mai 1800 in und um Stockach zwischen der von Lecourbe befehligten französischen Armee und der österreichischen Armee unter dem Befehl des Prinzen von Lothringen-Vaudémont",
+        "full_text": "Schlacht am 3. Mai 1800 in und um Stockach zwischen der von Lecourbe befehligten französischen Armee und der österreichischen Armee unter dem Befehl des Prinzen von Lothringen-Vaudémont",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q840006",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q982604",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.77139,
+          47.8528
+        ]
+      },
+      "properties": {
+        "title": "Schlacht von Engen",
+        "date_start": "1800-05-03",
+        "date_end": "1800-05-03",
+        "date_sort": "1800-05-03",
+        "status": "confirmed",
+        "original_status": "1800 battle",
+        "full_text": "1800 battle",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q982604",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q475544",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1127,
+          47.993
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Meßkirch",
+        "date_start": "1800-05-05",
+        "date_end": "1800-05-05",
+        "date_sort": "1800-05-05",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q475544",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2888142",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.8,
+          48.1
+        ]
+      },
+      "properties": {
+        "title": "Battle of Biberach",
+        "date_start": "1800-05-09",
+        "date_end": "1800-05-09",
+        "date_sort": "1800-05-09",
+        "status": "confirmed",
+        "original_status": "1800 battle during the War of the Second Coalition",
+        "full_text": "1800 battle during the War of the Second Coalition",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2888142",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4870981",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.88778,
+          48.32806
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Erbach",
+        "date_start": "1800-05-15",
+        "date_end": "1800-05-15",
+        "date_sort": "1800-05-15",
+        "status": "confirmed",
+        "original_status": "1800 battle",
+        "full_text": "1800 battle",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q4870981",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q262648",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.55,
+          48.6
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Höchstädt",
+        "date_start": "1800-06-19",
+        "date_end": "1800-06-19",
+        "date_sort": "1800-06-19",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q262648",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1353437",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.1036,
+          48.7191
+        ]
+      },
+      "properties": {
+        "title": "Gefecht bei Oberhausen",
+        "date_start": "1800-06-27",
+        "date_end": "1800-06-27",
+        "date_sort": "1800-06-27",
+        "status": "confirmed",
+        "original_status": "Schlacht am am 27. Juni 1800",
+        "full_text": "Schlacht am am 27. Juni 1800",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q1353437",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q18206471",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.0833,
+          48.7167
+        ]
+      },
+      "properties": {
+        "title": "Battle of Neuburg",
+        "date_start": "1800-06-27",
+        "date_end": "1800-06-27",
+        "date_sort": "1800-06-27",
+        "status": "confirmed",
+        "original_status": "1800 battle of the war of the second coalition",
+        "full_text": "1800 battle of the war of the second coalition",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q18206471",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2887847",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.3875,
+          48.235
+        ]
+      },
+      "properties": {
+        "title": "Battle of Ampfing",
+        "date_start": "1800-12-01",
+        "date_end": "1800-12-01",
+        "date_sort": "1800-12-01",
+        "status": "confirmed",
+        "original_status": "1800 a battle during the French revolutionary wars",
+        "full_text": "1800 a battle during the French revolutionary wars",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q2887847",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q705813",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.997944444,
+          48.159666666
+        ]
+      },
+      "properties": {
+        "title": "Schlacht bei Hohenlinden",
+        "date_start": "1800-12-03",
+        "date_end": "1800-12-03",
+        "date_sort": "1800-12-03",
+        "status": "confirmed",
+        "original_status": "Schlacht der Koalitionskriege",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "Schlacht"
+        ],
+        "speech_acts": [],
+        "mentions": [],
+        "url": "http://www.wikidata.org/entity/Q705813",
+        "has_coordinates": true
+      }
+    }
+  ]
+}

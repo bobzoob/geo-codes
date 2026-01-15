@@ -1,63 +1,44 @@
-import type { HistoricalFeatureCollection } from "../types/geojson";
-import type { LayerConfig, TimeRange } from "../types/state";
-import { applyFilters } from "../filters/filterUtils";
-import { layerRegistry } from "../layers/layerRegistry";
+import { useMemo } from "react";
+
+import { LayerWrapper } from "./LayerWrapper";
 import { useAppState } from "../state/appContext";
+import { layerRegistry } from "../layers/layerRegistry";
 
-interface LayerManagerProps {
-  layers: LayerConfig[];
-  data: Record<string, HistoricalFeatureCollection> | null;
-  timeRange: TimeRange;
-}
-
-function LayerManager({ layers, data, timeRange }: LayerManagerProps) {
+// LayerManager get its logic from LayerWrapper
+function LayerManager() {
   const { state } = useAppState();
-  const { entities } = state;
+  const { layerConfig, geoJsonData, committedTimeRange } = state;
 
-  if (!data) return null;
+  if (!geoJsonData) return null; // maybe no data at all
 
+  // sort layers (points over lines over polygon etc)
+  const sortedLayers = useMemo(() => {
+    return [...layerConfig].sort((a, b) => {
+      const zIndexA = layerRegistry[a.type]?.zIndex ?? 0;
+      const zIndexB = layerRegistry[b.type]?.zIndex ?? 0;
+
+      return zIndexA - zIndexB; // ascending: 0 -> 10 -> 20
+    });
+  }, [layerConfig]);
+
+  // render
   return (
     <>
-      {layers.map((layer) => {
-        if (!layer.visible) {
-          return null;
-        }
+      {sortedLayers.map((layer) => {
+        // if visible
+        if (!layer.visible) return null;
 
-        const layerData = data[layer.id];
+        // if data is available
+        const layerData = geoJsonData[layer.id];
         if (!layerData) return null;
 
-        // filtering logic
-        const filteredFeatures = layerData.features.filter((feature) =>
-          applyFilters(feature, timeRange, entities, layer)
-        );
-
-        const filteredData = {
-          ...layerData,
-          features: filteredFeatures,
-        };
-
-        // dynamic rendering
-        // look up the component in the registry using the type of the layer
-        const LayerComponent = layerRegistry[layer.type];
-
-        // if no component is found render nothing
-        if (!LayerComponent) {
-          console.warn(`No renderer found for layer type: "${layer.type}"`);
-          return null;
-        }
-        // Create a unique key that changes when filters change
-        // We stringify the filterValues to ensure re-render on filter update
-        const filterKey = JSON.stringify(layer.filterValues);
-
-        // if a component is found, render with the required props
-        const dynamicKey = `${layer.id}-${timeRange.join("-")}-${filterKey}`;
-
+        // we render the wrapper
         return (
-          <LayerComponent
-            key={dynamicKey}
-            data={filteredData}
-            showAllTooltips={layer.showAllTooltips}
-            entities={entities}
+          <LayerWrapper
+            key={layer.id}
+            layer={layer}
+            data={layerData}
+            timeRange={committedTimeRange}
           />
         );
       })}

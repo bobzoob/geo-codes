@@ -3,13 +3,7 @@
   "features": [
     {
       "type": "Feature",
-      "properties": {
-        "name": "Vienna",
-        "description": "A more accurate, but simplified, polygon representing the city of Vienna.",
-        "startDate": "1854-01-01",
-        "endDate": "1925-12-31",
-        "mentionedEntityIds": ["place_vienna"]
-      },
+      "id": "place_vienna_polygon",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -25,17 +19,27 @@
             [16.182, 48.208]
           ]
         ]
+      },
+      "properties": {
+        "title": "Vienna",
+        "senderId": "place_vienna",
+        "recipientId": "place_vienna",
+        "date_start": "1780-01-01",
+        "date_end": "1802-12-31",
+        "date_sort": "1799-01-01",
+        "status": "confirmed",
+        "original_status": "A more accurate, but simplified, polygon representing the city of Vienna.",
+        "full_text": "A more accurate, but simplified, polygon representing the city of Vienna.",
+        "topics": ["Geography", "Urban Planning"],
+        "speech_acts": ["describe"],
+        "mentions": ["place_vienna"],
+        "url": "place_vienna_polygon",
+        "has_coordinates": true
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "name": "Austria",
-        "description": "A more accurate, but simplified, polygon representing the country of Austria.",
-        "startDate": "1900-01-01",
-        "endDate": "1910-12-31",
-        "mentionedEntityIds": ["person_kelsen"]
-      },
+      "id": "place_austria_polygon",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -56,6 +60,22 @@
             [9.531, 47.044]
           ]
         ]
+      },
+      "properties": {
+        "title": "Austria",
+        "senderId": "place_austria",
+        "recipientId": "place_austria",
+        "date_start": "1780-01-01",
+        "date_end": "1800-12-31",
+        "date_sort": "1790-01-01",
+        "status": "confirmed",
+        "original_status": "A more accurate, but simplified, polygon representing the country of Austria.",
+        "full_text": "A more accurate, but simplified, polygon representing the country of Austria.",
+        "topics": ["Geography", "Politics"],
+        "speech_acts": ["describe"],
+        "mentions": ["place_austria"],
+        "url": "place_austria_polygon",
+        "has_coordinates": true
       }
     }
   ]

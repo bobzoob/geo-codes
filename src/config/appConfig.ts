@@ -7,6 +7,6 @@ export const APP_CONFIG = {
   // SET MAP DEFAULT
   map: {
     defaultCenter: [50.92878, 11.5899],
-    defaultZoom: 7,
+    defaultZoom: 5,
   },
 };

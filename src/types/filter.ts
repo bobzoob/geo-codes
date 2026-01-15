@@ -16,6 +16,7 @@ export interface FilterComponentProps {
   layerId: string;
   value: FilterValue;
   label?: string;
+
   onChange: (newValue: FilterValue) => void;
 }
 

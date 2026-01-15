@@ -1,0 +1,4037 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "Q4870790",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.86667,
+          51.2833
+        ]
+      },
+      "properties": {
+        "title": "Battle of Corbach",
+        "date_start": "1760-07-10",
+        "date_end": "1760-07-10",
+        "date_sort": "1760-07-10",
+        "status": "confirmed",
+        "full_text": "battle on 10 July 1760 during the Seven Years' War",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q4870790",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q29168588",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.225833333,
+          51.353055555
+        ]
+      },
+      "properties": {
+        "title": "Battle of Oschatz",
+        "date_start": "1760-08-20",
+        "date_end": "1760-08-20",
+        "date_sort": "1760-08-20",
+        "status": "confirmed",
+        "full_text": "1760 conflict",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q29168588",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q701139",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.16666667,
+          51.21666667
+        ]
+      },
+      "properties": {
+        "title": "Battle of Liegnitz",
+        "date_start": "1760-08-15",
+        "date_end": "1760-08-15",
+        "date_sort": "1760-08-15",
+        "status": "confirmed",
+        "full_text": "1760 Prussian victory over Austrian army in the Seven Years' War",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q701139",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q688802",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.9146,
+          51.5733
+        ]
+      },
+      "properties": {
+        "title": "Battle of Torgau",
+        "date_start": "1760-11-03",
+        "date_end": "1760-11-03",
+        "date_sort": "1760-11-03",
+        "status": "confirmed",
+        "full_text": "battle of \"Seven Years War\"",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q688802",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2889766",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.79672,
+          51.16906
+        ]
+      },
+      "properties": {
+        "title": "Battle of Rhadern",
+        "date_start": "1760-09-13",
+        "date_end": "1760-09-13",
+        "date_sort": "1760-09-13",
+        "status": "confirmed",
+        "full_text": "1760 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2889766",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16246530",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.98997,
+          53.50627
+        ]
+      },
+      "properties": {
+        "title": "Battle of Pasewalk",
+        "date_start": "1760-10-03",
+        "date_end": "1760-10-03",
+        "date_sort": "1760-10-03",
+        "status": "confirmed",
+        "full_text": "1760 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q16246530",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q573963",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.51611111,
+          51.50222222
+        ]
+      },
+      "properties": {
+        "title": "Battle of Kloster Kampen",
+        "date_start": "1760-10-15",
+        "date_end": "1760-10-15",
+        "date_sort": "1760-10-15",
+        "status": "confirmed",
+        "full_text": "1760 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q573963",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q506909",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.128952777,
+          51.497361111
+        ]
+      },
+      "properties": {
+        "title": "Battle of Warburg",
+        "date_start": "1760-07-31",
+        "date_end": "1760-07-31",
+        "date_sort": "1760-07-31",
+        "status": "confirmed",
+        "full_text": "1760 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q506909",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q561824",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.916666666,
+          50.816666666
+        ]
+      },
+      "properties": {
+        "title": "Battle of Emsdorf",
+        "date_start": "1760-07-14",
+        "date_end": "1760-07-14",
+        "date_sort": "1760-07-14",
+        "status": "confirmed",
+        "full_text": "1760 battle during the Seven Years' War",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q561824",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q697913",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.033333,
+          50.783333
+        ]
+      },
+      "properties": {
+        "title": "Battle of Landeshut",
+        "date_start": "1760-06-23",
+        "date_end": "1760-06-23",
+        "date_sort": "1760-06-23",
+        "status": "confirmed",
+        "full_text": "1760 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q697913",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q167143",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4081,
+          52.5186
+        ]
+      },
+      "properties": {
+        "title": "Raid on Berlin",
+        "date_start": "1760-10-01",
+        "date_end": "1760-10-01",
+        "date_sort": "1760-10-01",
+        "status": "confirmed",
+        "full_text": "1760 battle during the Seven Years' War",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q167143",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q86361172",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.579166666,
+          50.319722222
+        ]
+      },
+      "properties": {
+        "title": "Battle of Neustadt (1760)",
+        "date_start": "1760-03-25",
+        "date_end": "1760-03-25",
+        "date_sort": "1760-03-25",
+        "status": "confirmed",
+        "full_text": "18th century battle between Prussia and Austria",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q86361172",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q74119",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.6468,
+          51.108
+        ]
+      },
+      "properties": {
+        "title": "Battle of Langensalza",
+        "date_start": "1761-02-15",
+        "date_end": "1761-02-15",
+        "date_sort": "1761-02-15",
+        "status": "confirmed",
+        "full_text": "1761 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q74119",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q74122",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.496667,
+          52.286111
+        ]
+      },
+      "properties": {
+        "title": "Battle of Ölper",
+        "date_start": "1761-10-13",
+        "date_end": "1761-10-13",
+        "date_sort": "1761-10-13",
+        "status": "confirmed",
+        "full_text": "1761 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q74122",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2888705",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.95,
+          50.6
+        ]
+      },
+      "properties": {
+        "title": "Battle of Grünberg",
+        "date_start": "1761-03-21",
+        "date_end": "1761-03-21",
+        "date_sort": "1761-03-21",
+        "status": "confirmed",
+        "full_text": "1761 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2888705",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4871879",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.75,
+          53.5
+        ]
+      },
+      "properties": {
+        "title": "Battle of Neuensund",
+        "date_start": "1761-09-18",
+        "date_end": "1761-09-18",
+        "date_sort": "1761-09-18",
+        "status": "confirmed",
+        "full_text": "1761 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q4871879",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q3485856",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.49778,
+          51.3197
+        ]
+      },
+      "properties": {
+        "title": "Siege of Cassel",
+        "date_start": "1761-03-01",
+        "date_end": "1761-03-01",
+        "date_sort": "1761-03-01",
+        "status": "confirmed",
+        "full_text": "1761 failed attempt by Duke Ferdinand of Brunswick to capture French-held Kassel",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q3485856",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q98498617",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.42638,
+          53.74278
+        ]
+      },
+      "properties": {
+        "title": "skirmish at Roepnak",
+        "date_start": "1761-08-06",
+        "date_end": "1761-08-06",
+        "date_sort": "1761-08-06",
+        "status": "confirmed",
+        "full_text": "1761 military operation",
+        "topics": [
+          "military operation"
+        ],
+        "url": "http://www.wikidata.org/entity/Q98498617",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q521923",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.0,
+          53.55
+        ]
+      },
+      "properties": {
+        "title": "Treaty of Hamburg",
+        "date_start": "1762-01-01",
+        "date_end": "1762-01-01",
+        "date_sort": "1762-01-01",
+        "status": "confirmed",
+        "full_text": "Treaty that ended the Pomeranian War",
+        "topics": [
+          "treaty"
+        ],
+        "url": "http://www.wikidata.org/entity/Q521923",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2444672",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.59972222,
+          51.35
+        ]
+      },
+      "properties": {
+        "title": "Battle of Lutterberg",
+        "date_start": "1762-07-23",
+        "date_end": "1762-07-23",
+        "date_sort": "1762-07-23",
+        "status": "confirmed",
+        "full_text": "battle 1762",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2444672",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q644004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.4,
+          51.4166667
+        ]
+      },
+      "properties": {
+        "title": "Battle of Wilhelmsthal",
+        "date_start": "1762-06-24",
+        "date_end": "1762-06-24",
+        "date_sort": "1762-06-24",
+        "status": "confirmed",
+        "full_text": "1762 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q644004",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q815230",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.491388888,
+          50.846111111
+        ]
+      },
+      "properties": {
+        "title": "Siege of Schweidnitz",
+        "date_start": "1762-10-01",
+        "date_end": "1762-10-01",
+        "date_sort": "1762-10-01",
+        "status": "confirmed",
+        "full_text": "1762 siege",
+        "topics": [
+          "siege"
+        ],
+        "url": "http://www.wikidata.org/entity/Q815230",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q74391",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.72555,
+          50.36482
+        ]
+      },
+      "properties": {
+        "title": "Battle of Nauheim",
+        "date_start": "1762-08-30",
+        "date_end": "1762-08-30",
+        "date_sort": "1762-08-30",
+        "status": "confirmed",
+        "full_text": "1762 battle of the Seven Years' War",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q74391",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2943339",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.783333333,
+          53.816666666
+        ]
+      },
+      "properties": {
+        "title": "Battle of Neukalen",
+        "date_start": "1762-01-02",
+        "date_end": "1762-01-02",
+        "date_sort": "1762-01-02",
+        "status": "confirmed",
+        "full_text": "1762 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2943339",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q677892",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.342778,
+          50.911945
+        ]
+      },
+      "properties": {
+        "title": "Battle of Freiberg",
+        "date_start": "1762-10-29",
+        "date_end": "1762-10-29",
+        "date_sort": "1762-10-29",
+        "status": "confirmed",
+        "full_text": "battle in 1762 in Germany",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q677892",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1626731",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9378,
+          50.79345
+        ]
+      },
+      "properties": {
+        "title": "Battle of Brücker Mill",
+        "date_start": "1762-09-21",
+        "date_end": "1762-09-21",
+        "date_sort": "1762-09-21",
+        "status": "confirmed",
+        "full_text": "1762 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1626731",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q15792664",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.062194444,
+          51.401194444
+        ]
+      },
+      "properties": {
+        "title": "Bombardment of Arnsberg",
+        "date_start": "1762-04-01",
+        "date_end": "1762-04-01",
+        "date_sort": "1762-04-01",
+        "status": "confirmed",
+        "full_text": "1762 siege",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q15792664",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q697982",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.46611111,
+          50.79305556
+        ]
+      },
+      "properties": {
+        "title": "Battle of Burkersdorf",
+        "date_start": "1762-07-21",
+        "date_end": "1762-07-21",
+        "date_sort": "1762-07-21",
+        "status": "confirmed",
+        "full_text": "1762 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q697982",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q110270678",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.77774,
+          50.62405
+        ]
+      },
+      "properties": {
+        "title": "Battle of Teplice",
+        "date_start": "1762-08-02",
+        "date_end": "1762-08-02",
+        "date_sort": "1762-08-02",
+        "status": "confirmed",
+        "full_text": "1762 battle of th Seven Years War",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q110270678",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q20203438",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.705571,
+          50.507975
+        ]
+      },
+      "properties": {
+        "title": "Battle of Grüningen",
+        "date_start": "1762-08-25",
+        "date_end": "1762-08-25",
+        "date_sort": "1762-08-25",
+        "status": "confirmed",
+        "full_text": "1762 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q20203438",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1486433",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.156388888,
+          47.735833333
+        ]
+      },
+      "properties": {
+        "title": "1763 Komárom earthquake",
+        "date_start": "1763-06-28",
+        "date_end": "1763-06-28",
+        "date_sort": "1763-06-28",
+        "status": "confirmed",
+        "full_text": "Earthquake affecting Hungary",
+        "topics": [
+          "earthquake"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1486433",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q111505364",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.594,
+          50.927
+        ]
+      },
+      "properties": {
+        "title": "Student Peace Festival in Jena 1763",
+        "date_start": "1763-05-02",
+        "date_end": "1763-05-02",
+        "date_sort": "1763-05-02",
+        "status": "confirmed",
+        "full_text": "Friedensfest am 2. Mai 1763 aus Anlass des Hubertusburger Friedens",
+        "topics": [
+          "occurrence"
+        ],
+        "url": "http://www.wikidata.org/entity/Q111505364",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q698686",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.9398,
+          51.2774
+        ]
+      },
+      "properties": {
+        "title": "Treaty of Hubertusburg",
+        "date_start": "1763-02-15",
+        "date_end": "1763-02-15",
+        "date_sort": "1763-02-15",
+        "status": "confirmed",
+        "full_text": "1763 peace treaty ending the Third Silesian War, part of the Seven Years' War",
+        "topics": [
+          "peace treaty"
+        ],
+        "url": "http://www.wikidata.org/entity/Q698686",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q116763949",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.582777777,
+          53.459444444
+        ]
+      },
+      "properties": {
+        "title": "1764 Woldegk tornado",
+        "date_start": "1764-06-29",
+        "date_end": "1764-06-29",
+        "date_sort": "1764-06-29",
+        "status": "confirmed",
+        "full_text": "one of the strongest tornadoes ever documented on Earth",
+        "topics": [
+          "tornado"
+        ],
+        "url": "http://www.wikidata.org/entity/Q116763949",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q66792812",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.310576465,
+          49.872064383
+        ]
+      },
+      "properties": {
+        "title": "Q66792812",
+        "date_start": "1769-05-25",
+        "date_end": "1769-05-25",
+        "date_sort": "1769-05-25",
+        "status": "confirmed",
+        "full_text": "Historical event: Q66792812",
+        "topics": [
+          "conflagration"
+        ],
+        "url": "http://www.wikidata.org/entity/Q66792812",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2744398",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.75,
+          52.666666666
+        ]
+      },
+      "properties": {
+        "title": "Q2744398",
+        "date_start": "1770-12-22",
+        "date_end": "1770-12-22",
+        "date_sort": "1770-12-22",
+        "status": "confirmed",
+        "full_text": "Historical event: Q2744398",
+        "topics": [
+          "civil disorder"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2744398",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q126053166",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.268444568,
+          49.949406112
+        ]
+      },
+      "properties": {
+        "title": "Q126053166",
+        "date_start": "1770-08-12",
+        "date_end": "1770-08-12",
+        "date_sort": "1770-08-12",
+        "status": "confirmed",
+        "full_text": "Historical event: Q126053166",
+        "topics": [
+          "conflagration"
+        ],
+        "url": "http://www.wikidata.org/entity/Q126053166",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q47086800",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.858333333,
+          50.199444444
+        ]
+      },
+      "properties": {
+        "title": "Nastätter Rezesse",
+        "date_start": "1774-06-27",
+        "date_end": "1774-06-27",
+        "date_sort": "1774-06-27",
+        "status": "confirmed",
+        "full_text": "Vergleich über die Zuteilung von Land und die Auflösung des \"Vierherrischen\"",
+        "topics": [
+          "Rezess"
+        ],
+        "url": "http://www.wikidata.org/entity/Q47086800",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q71175299",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.310576465,
+          49.872064383
+        ]
+      },
+      "properties": {
+        "title": "Q71175299",
+        "date_start": "1775-01-01",
+        "date_end": "1775-01-01",
+        "date_sort": "1775-01-01",
+        "status": "confirmed",
+        "full_text": "Historical event: Q71175299",
+        "topics": [
+          "conflagration"
+        ],
+        "url": "http://www.wikidata.org/entity/Q71175299",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q157548",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.333333333,
+          49.833333333
+        ]
+      },
+      "properties": {
+        "title": "War of the Bavarian Succession",
+        "date_start": "1778-01-01",
+        "date_end": "1778-01-01",
+        "date_sort": "1778-01-01",
+        "status": "confirmed",
+        "full_text": "dispute between the Austrian Habsburg monarchy and an alliance of Saxony and Prussia",
+        "topics": [
+          "war"
+        ],
+        "url": "http://www.wikidata.org/entity/Q157548",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q73225441",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.352954,
+          48.229042
+        ]
+      },
+      "properties": {
+        "title": "Explosion des Pulverturmes in Wien",
+        "date_start": "1779-06-26",
+        "date_end": "1779-06-26",
+        "date_sort": "1779-06-26",
+        "status": "confirmed",
+        "full_text": "Brand mit Explosion des Pulverturmes an der Stelle der heutigen Pulverturmgasse am 26. Juni 1779",
+        "topics": [
+          "explosion"
+        ],
+        "url": "http://www.wikidata.org/entity/Q73225441",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q681391",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.633333333,
+          49.75
+        ]
+      },
+      "properties": {
+        "title": "Treaty of Teschen",
+        "date_start": "1779-05-13",
+        "date_end": "1779-05-13",
+        "date_sort": "1779-05-13",
+        "status": "confirmed",
+        "full_text": "1779 peace treaty ending the War of the Bavarian Succession",
+        "topics": [
+          "peace treaty"
+        ],
+        "url": "http://www.wikidata.org/entity/Q681391",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q13862199",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.69668198,
+          53.078909
+        ]
+      },
+      "properties": {
+        "title": "Q13862199",
+        "date_start": "1780-09-14",
+        "date_end": "1780-09-14",
+        "date_sort": "1780-09-14",
+        "status": "confirmed",
+        "full_text": "Historical event: Q13862199",
+        "topics": [
+          "homicide"
+        ],
+        "url": "http://www.wikidata.org/entity/Q13862199",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q124311840",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.08242,
+          50.87818
+        ]
+      },
+      "properties": {
+        "title": "Geraer Stadtbrand 1780",
+        "date_start": "1780-01-01",
+        "date_end": "1780-01-01",
+        "date_sort": "1780-01-01",
+        "status": "confirmed",
+        "full_text": "Feuerkatastrophe in der Stadt Gera",
+        "topics": [
+          "city fire"
+        ],
+        "url": "http://www.wikidata.org/entity/Q124311840",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q111395995",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.651944444,
+          49.192777777
+        ]
+      },
+      "properties": {
+        "title": "Q111395995",
+        "date_start": "1781-10-14",
+        "date_end": "1781-10-14",
+        "date_sort": "1781-10-14",
+        "status": "confirmed",
+        "full_text": "Historical event: Q111395995",
+        "topics": [
+          "riot"
+        ],
+        "url": "http://www.wikidata.org/entity/Q111395995",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q109567949",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.770659141,
+          49.003709466
+        ]
+      },
+      "properties": {
+        "title": "Q109567949",
+        "date_start": "1781-07-12",
+        "date_end": "1781-07-12",
+        "date_sort": "1781-07-12",
+        "status": "confirmed",
+        "full_text": "Historical event: Q109567949",
+        "topics": [
+          "conflagration"
+        ],
+        "url": "http://www.wikidata.org/entity/Q109567949",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q113661159",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.89503,
+          48.02181
+        ]
+      },
+      "properties": {
+        "title": "Q113661159",
+        "date_start": "1782-08-24",
+        "date_end": "1782-08-24",
+        "date_sort": "1782-08-24",
+        "status": "confirmed",
+        "full_text": "Historical event: Q113661159",
+        "topics": [
+          "mass murder"
+        ],
+        "url": "http://www.wikidata.org/entity/Q113661159",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q114903608",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0514,
+          50.9847
+        ]
+      },
+      "properties": {
+        "title": "Battle of Diest",
+        "date_start": "1789-01-01",
+        "date_end": "1789-01-01",
+        "date_sort": "1789-01-01",
+        "status": "confirmed",
+        "full_text": "battle at Diest, southern Netherlands in November 1789",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q114903608",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1527921",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.575680555,
+          50.645280555
+        ]
+      },
+      "properties": {
+        "title": "Liège Revolution",
+        "date_start": "1789-01-01",
+        "date_end": "1789-01-01",
+        "date_sort": "1789-01-01",
+        "status": "confirmed",
+        "full_text": "conflict",
+        "topics": [
+          "revolution"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1527921",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q116490663",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.421388888,
+          50.0875
+        ]
+      },
+      "properties": {
+        "title": "Q116490663",
+        "date_start": "1791-01-01",
+        "date_end": "1791-01-01",
+        "date_sort": "1791-01-01",
+        "status": "confirmed",
+        "full_text": "Historical event: Q116490663",
+        "topics": [
+          "trade fair"
+        ],
+        "url": "http://www.wikidata.org/entity/Q116490663",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q5247548",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.3725,
+          48.208333333
+        ]
+      },
+      "properties": {
+        "title": "death of Wolfgang Amadeus Mozart",
+        "date_start": "1791-12-05",
+        "date_end": "1791-12-05",
+        "date_sort": "1791-12-05",
+        "status": "confirmed",
+        "full_text": "1791 death of Austrian composer Mozart",
+        "topics": [
+          "death"
+        ],
+        "url": "http://www.wikidata.org/entity/Q5247548",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q3403838",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.083333333,
+          47.416666666
+        ]
+      },
+      "properties": {
+        "title": "Capture of Porrentruy",
+        "date_start": "1792-04-28",
+        "date_end": "1792-04-28",
+        "date_sort": "1792-04-28",
+        "status": "confirmed",
+        "full_text": "1792 battle of the War of the First Coalition",
+        "topics": [
+          "siege"
+        ],
+        "url": "http://www.wikidata.org/entity/Q3403838",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q15053704",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.14062,
+          48.690959
+        ]
+      },
+      "properties": {
+        "title": "Coalition Wars",
+        "date_start": "1792-01-01",
+        "date_end": "1792-01-01",
+        "date_sort": "1792-01-01",
+        "status": "confirmed",
+        "full_text": "1792–1815 series of conflicts between the French and several European monarchies",
+        "topics": [
+          "series of wars"
+        ],
+        "url": "http://www.wikidata.org/entity/Q15053704",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q18380015",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.0667,
+          50.3834
+        ]
+      },
+      "properties": {
+        "title": "Battle of Limburg",
+        "date_start": "1792-11-09",
+        "date_end": "1792-11-09",
+        "date_sort": "1792-11-09",
+        "status": "confirmed",
+        "full_text": "1792",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q18380015",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q572883",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.38842,
+          49.1608
+        ]
+      },
+      "properties": {
+        "title": "Battle of Verdun",
+        "date_start": "1792-08-29",
+        "date_end": "1792-08-29",
+        "date_sort": "1792-08-29",
+        "status": "confirmed",
+        "full_text": "1792 battle during the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q572883",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4872758",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.74639,
+          48.9397
+        ]
+      },
+      "properties": {
+        "title": "Battle of Wœrth",
+        "date_start": "1793-12-22",
+        "date_end": "1793-12-22",
+        "date_sort": "1793-12-22",
+        "status": "confirmed",
+        "full_text": "1793 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q4872758",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q11795080",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.861536,
+          52.071028
+        ]
+      },
+      "properties": {
+        "title": "Q11795080",
+        "date_start": "1793-01-27",
+        "date_end": "1793-01-27",
+        "date_sort": "1793-01-27",
+        "status": "confirmed",
+        "full_text": "Historical event: Q11795080",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q11795080",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q5452548",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.94694,
+          49.0383
+        ]
+      },
+      "properties": {
+        "title": "First Battle of Wissembourg",
+        "date_start": "1793-10-13",
+        "date_end": "1793-10-13",
+        "date_sort": "1793-10-13",
+        "status": "confirmed",
+        "full_text": "1793 battle during the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q5452548",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q17984374",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.28306,
+          50.8958
+        ]
+      },
+      "properties": {
+        "title": "Battle of Aldenhoven (1793)",
+        "date_start": "1793-03-01",
+        "date_end": "1793-03-01",
+        "date_sort": "1793-03-01",
+        "status": "confirmed",
+        "full_text": "1793 battle of the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q17984374",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16898546",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.6,
+          49.2
+        ]
+      },
+      "properties": {
+        "title": "Battle of Pirmasens",
+        "date_start": "1793-09-14",
+        "date_end": "1793-09-14",
+        "date_sort": "1793-09-14",
+        "status": "confirmed",
+        "full_text": "1793 battle of the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q16898546",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q55520753",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.205277777,
+          49.221111111
+        ]
+      },
+      "properties": {
+        "title": "Battle of Biesingen",
+        "date_start": "1793-11-17",
+        "date_end": "1793-11-17",
+        "date_sort": "1793-11-17",
+        "status": "confirmed",
+        "full_text": "1793 battle of the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q55520753",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q38252110",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.066666666,
+          50.383333333
+        ]
+      },
+      "properties": {
+        "title": "Battle of Friedberg",
+        "date_start": "1793-11-10",
+        "date_end": "1793-11-10",
+        "date_sort": "1793-11-10",
+        "status": "confirmed",
+        "full_text": "Historical event: Battle of Friedberg",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q38252110",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q19963063",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.53222222,
+          47.71083333
+        ]
+      },
+      "properties": {
+        "title": "Battles near Rheinweiler and Hüningen",
+        "date_start": "1793-09-17",
+        "date_end": "1793-09-17",
+        "date_sort": "1793-09-17",
+        "status": "confirmed",
+        "full_text": "1793 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q19963063",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q386601",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.76361111,
+          49.47027778
+        ]
+      },
+      "properties": {
+        "title": "Battle of Kaiserslautern",
+        "date_start": "1793-11-30",
+        "date_end": "1793-11-30",
+        "date_sort": "1793-11-30",
+        "status": "confirmed",
+        "full_text": "1793 battle during the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q386601",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q558435",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.27111,
+          50.0
+        ]
+      },
+      "properties": {
+        "title": "Siege of Mainz",
+        "date_start": "1793-01-01",
+        "date_end": "1793-01-01",
+        "date_sort": "1793-01-01",
+        "status": "confirmed",
+        "full_text": "1793 siege during the War of the First Coalition",
+        "topics": [
+          "siege"
+        ],
+        "url": "http://www.wikidata.org/entity/Q558435",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1085392",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.05,
+          50.7667
+        ]
+      },
+      "properties": {
+        "title": "Battle of Neerwinden",
+        "date_start": "1793-03-18",
+        "date_end": "1793-03-18",
+        "date_sort": "1793-03-18",
+        "status": "confirmed",
+        "full_text": "1793 battle during the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1085392",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2890769",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.946944,
+          49.038333
+        ]
+      },
+      "properties": {
+        "title": "Battle of Geisberg",
+        "date_start": "1793-12-26",
+        "date_end": "1793-12-26",
+        "date_sort": "1793-12-26",
+        "status": "confirmed",
+        "full_text": "1793 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2890769",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2984734",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.811425,
+          49.682402777
+        ]
+      },
+      "properties": {
+        "title": "Battle of Arlon",
+        "date_start": "1793-06-09",
+        "date_end": "1793-06-09",
+        "date_sort": "1793-06-09",
+        "status": "confirmed",
+        "full_text": "1793 battle in future Belgium",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2984734",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q735960",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.774444,
+          49.359167
+        ]
+      },
+      "properties": {
+        "title": "Battle of the Vosges",
+        "date_start": "1794-07-13",
+        "date_end": "1794-07-13",
+        "date_sort": "1794-07-13",
+        "status": "confirmed",
+        "full_text": "1794 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q735960",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2236833",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.011111,
+          53.125
+        ]
+      },
+      "properties": {
+        "title": "Battle of Bydgoszcz",
+        "date_start": "1794-10-02",
+        "date_end": "1794-10-02",
+        "date_sort": "1794-10-02",
+        "status": "confirmed",
+        "full_text": "1794 battle in the Kościuszko Uprising",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2236833",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q880348",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.28306,
+          50.8958
+        ]
+      },
+      "properties": {
+        "title": "Battle of Aldenhoven (1794)",
+        "date_start": "1794-10-02",
+        "date_end": "1794-10-02",
+        "date_sort": "1794-10-02",
+        "status": "confirmed",
+        "full_text": "1794 battle during the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q880348",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16851365",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.76889,
+          49.4447
+        ]
+      },
+      "properties": {
+        "title": "Battle of Kaiserslautern",
+        "date_start": "1794-05-23",
+        "date_end": "1794-05-23",
+        "date_sort": "1794-05-23",
+        "status": "confirmed",
+        "full_text": "1794 battle of the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q16851365",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4872062",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.107777,
+          50.347777
+        ]
+      },
+      "properties": {
+        "title": "Battle of Platzberg",
+        "date_start": "1794-07-13",
+        "date_end": "1794-07-13",
+        "date_sort": "1794-07-13",
+        "status": "confirmed",
+        "full_text": "1794 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q4872062",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2890044",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.705,
+          50.4911
+        ]
+      },
+      "properties": {
+        "title": "Battle of Sprimont",
+        "date_start": "1794-09-18",
+        "date_end": "1794-09-18",
+        "date_sort": "1794-09-18",
+        "status": "confirmed",
+        "full_text": "1794 battle during French Revolutionary Wars",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2890044",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q23305634",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.316666666,
+          51.7
+        ]
+      },
+      "properties": {
+        "title": "Siege of 's-Hertogenbosch",
+        "date_start": "1794-01-01",
+        "date_end": "1794-01-01",
+        "date_sort": "1794-01-01",
+        "status": "confirmed",
+        "full_text": "1794 siege",
+        "topics": [
+          "siege"
+        ],
+        "url": "http://www.wikidata.org/entity/Q23305634",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q61670428",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.4473,
+          51.8035
+        ]
+      },
+      "properties": {
+        "title": "Stadtbrand von Altenau am 6. Juli 1794",
+        "date_start": "1794-07-06",
+        "date_end": "1794-07-06",
+        "date_sort": "1794-07-06",
+        "status": "confirmed",
+        "full_text": "Historical event: Stadtbrand von Altenau am 6. Juli 1794",
+        "topics": [
+          "city fire"
+        ],
+        "url": "http://www.wikidata.org/entity/Q61670428",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q15857734",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.163888888,
+          49.303888888
+        ]
+      },
+      "properties": {
+        "title": "Battle of Kirrweiler",
+        "date_start": "1794-05-28",
+        "date_end": "1794-05-28",
+        "date_sort": "1794-05-28",
+        "status": "confirmed",
+        "full_text": "1794 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q15857734",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2985001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.811425,
+          49.682402777
+        ]
+      },
+      "properties": {
+        "title": "Battle of Arlon",
+        "date_start": "1794-01-01",
+        "date_end": "1794-01-01",
+        "date_sort": "1794-01-01",
+        "status": "confirmed",
+        "full_text": "1794 battle in future Belgium",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2985001",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q18655321",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5903,
+          51.8792
+        ]
+      },
+      "properties": {
+        "title": "Battle of Puiflijk",
+        "date_start": "1794-10-19",
+        "date_end": "1794-10-19",
+        "date_sort": "1794-10-19",
+        "status": "confirmed",
+        "full_text": "1794",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q18655321",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1117601",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.934166666,
+          52.408333333
+        ]
+      },
+      "properties": {
+        "title": "Greater Poland Uprising of 1794",
+        "date_start": "1794-12-01",
+        "date_end": "1794-12-01",
+        "date_sort": "1794-12-01",
+        "status": "confirmed",
+        "full_text": "armed uprising of the Polish population",
+        "topics": [
+          "rebellion"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1117601",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16840995",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.68694,
+          49.4289
+        ]
+      },
+      "properties": {
+        "title": "Battle of Handschuhsheim",
+        "date_start": "1795-09-24",
+        "date_end": "1795-09-24",
+        "date_sort": "1795-09-24",
+        "status": "confirmed",
+        "full_text": "1795 battle of the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q16840995",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16898354",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.28333,
+          49.65
+        ]
+      },
+      "properties": {
+        "title": "Battle of Pfeddersheim",
+        "date_start": "1795-11-10",
+        "date_end": "1795-11-10",
+        "date_sort": "1795-11-10",
+        "status": "confirmed",
+        "full_text": "battle of 1795",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q16898354",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q46495816",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.5152701,
+          51.7094964
+        ]
+      },
+      "properties": {
+        "title": "Great Fire of Sankt Andreasberg",
+        "date_start": "1796-10-08",
+        "date_end": "1796-10-08",
+        "date_sort": "1796-10-08",
+        "status": "confirmed",
+        "full_text": "Brandkatastrophe im Jahr 1796 im Harz",
+        "topics": [
+          "city fire"
+        ],
+        "url": "http://www.wikidata.org/entity/Q46495816",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q182831",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.57722222,
+          47.75555556
+        ]
+      },
+      "properties": {
+        "title": "Battle of Schliengen",
+        "date_start": "1796-10-24",
+        "date_end": "1796-10-24",
+        "date_sort": "1796-10-24",
+        "status": "confirmed",
+        "full_text": "1796 battle during the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q182831",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q481466",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.831111111,
+          49.471111111
+        ]
+      },
+      "properties": {
+        "title": "Battle of Amberg",
+        "date_start": "1796-08-21",
+        "date_end": "1796-08-21",
+        "date_sort": "1796-08-21",
+        "status": "confirmed",
+        "full_text": "1796 battle during the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q481466",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4870989",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.40917,
+          48.9433
+        ]
+      },
+      "properties": {
+        "title": "Battle of Ettlingen",
+        "date_start": "1796-07-09",
+        "date_end": "1796-07-09",
+        "date_sort": "1796-07-09",
+        "status": "confirmed",
+        "full_text": "1796 battle of the French Revolutionary Wars",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q4870989",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4870967",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.84917,
+          48.1214
+        ]
+      },
+      "properties": {
+        "title": "Battle of Emmendingen",
+        "date_start": "1796-10-19",
+        "date_end": "1796-10-19",
+        "date_sort": "1796-10-19",
+        "status": "confirmed",
+        "full_text": "1796 battle of the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q4870967",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1217073",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.334444444,
+          48.754166666
+        ]
+      },
+      "properties": {
+        "title": "Battle of Neresheim",
+        "date_start": "1796-08-11",
+        "date_end": "1796-08-11",
+        "date_sort": "1796-08-11",
+        "status": "confirmed",
+        "full_text": "1796 battle during the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1217073",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2237301",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.64556,
+          50.6872
+        ]
+      },
+      "properties": {
+        "title": "Battle of Altenkirchen",
+        "date_start": "1796-06-04",
+        "date_end": "1796-06-04",
+        "date_sort": "1796-06-04",
+        "status": "confirmed",
+        "full_text": "1796 battle of the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2237301",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4870481",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.8,
+          48.1
+        ]
+      },
+      "properties": {
+        "title": "Battle of Biberach",
+        "date_start": "1796-10-02",
+        "date_end": "1796-10-02",
+        "date_sort": "1796-10-02",
+        "status": "confirmed",
+        "full_text": "1796 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q4870481",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q108568815",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.420589996,
+          49.223475602
+        ]
+      },
+      "properties": {
+        "title": "Fire in the town of Týn nad Vltavou (1796)",
+        "date_start": "1796-03-12",
+        "date_end": "1796-03-12",
+        "date_sort": "1796-03-12",
+        "status": "confirmed",
+        "full_text": "conflagration in Týn nad Vltavou",
+        "topics": [
+          "conflagration"
+        ],
+        "url": "http://www.wikidata.org/entity/Q108568815",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q17018134",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.5,
+          50.56666667
+        ]
+      },
+      "properties": {
+        "title": "Battle of Wetzlar",
+        "date_start": "1796-06-15",
+        "date_end": "1796-06-15",
+        "date_sort": "1796-06-15",
+        "status": "confirmed",
+        "full_text": "1796 battle of the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q17018134",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q15844355",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.204444444,
+          50.801388888
+        ]
+      },
+      "properties": {
+        "title": "Battle of Siegburg",
+        "date_start": "1796-06-01",
+        "date_end": "1796-06-01",
+        "date_sort": "1796-06-01",
+        "status": "confirmed",
+        "full_text": "1796 first engagement of the French offensive across the River Rhine",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q15844355",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1415566",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.92958333,
+          49.79344444
+        ]
+      },
+      "properties": {
+        "title": "Battle of Würzburg",
+        "date_start": "1796-09-03",
+        "date_end": "1796-09-03",
+        "date_sort": "1796-09-03",
+        "status": "confirmed",
+        "full_text": "1796 battle during the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1415566",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4872167",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.2,
+          48.85
+        ]
+      },
+      "properties": {
+        "title": "Battle of Rastatt",
+        "date_start": "1796-07-05",
+        "date_end": "1796-07-05",
+        "date_sort": "1796-07-05",
+        "status": "confirmed",
+        "full_text": "1796 battle of the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q4872167",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q106328102",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.738494,
+          49.505328
+        ]
+      },
+      "properties": {
+        "title": "Battle of Sulzbach",
+        "date_start": "1796-08-17",
+        "date_end": "1796-08-17",
+        "date_sort": "1796-08-17",
+        "status": "confirmed",
+        "full_text": "military action in 1796 between the French and Austrian army",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q106328102",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q18920219",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.81667,
+          48.5667
+        ]
+      },
+      "properties": {
+        "title": "Second Battle of Kehl",
+        "date_start": "1796-09-18",
+        "date_end": "1796-09-18",
+        "date_sort": "1796-09-18",
+        "status": "confirmed",
+        "full_text": "1796 battle of The French Revolutionary Wars",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q18920219",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q38251913",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.379444444,
+          49.454166666
+        ]
+      },
+      "properties": {
+        "title": "Battle of Maudach",
+        "date_start": "1796-06-15",
+        "date_end": "1796-06-15",
+        "date_sort": "1796-06-15",
+        "status": "confirmed",
+        "full_text": "battle of the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q38251913",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2237543",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.428477,
+          50.705085
+        ]
+      },
+      "properties": {
+        "title": "Battle of Kircheib",
+        "date_start": "1796-06-19",
+        "date_end": "1796-06-19",
+        "date_sort": "1796-06-19",
+        "status": "confirmed",
+        "full_text": "1796 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2237543",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2889982",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.204444444,
+          50.801388888
+        ]
+      },
+      "properties": {
+        "title": "Battle of Siegburg",
+        "date_start": "1796-06-01",
+        "date_end": "1796-06-01",
+        "date_sort": "1796-06-01",
+        "status": "confirmed",
+        "full_text": "1796 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2889982",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2984777",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.9797,
+          48.3549
+        ]
+      },
+      "properties": {
+        "title": "Battle of Friedberg",
+        "date_start": "1796-08-24",
+        "date_end": "1796-08-24",
+        "date_sort": "1796-08-24",
+        "status": "confirmed",
+        "full_text": "1796 battle of the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2984777",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2887824",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.0167,
+          49.8
+        ]
+      },
+      "properties": {
+        "title": "Battle of Altendorf",
+        "date_start": "1796-08-09",
+        "date_end": "1796-08-09",
+        "date_sort": "1796-08-09",
+        "status": "confirmed",
+        "full_text": "1796 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2887824",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q443501",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.454166666,
+          50.453333333
+        ]
+      },
+      "properties": {
+        "title": "Battle of Neuwied",
+        "date_start": "1797-04-18",
+        "date_end": "1797-04-18",
+        "date_sort": "1797-04-18",
+        "status": "confirmed",
+        "full_text": "1797 battle during the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q443501",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q819999",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.808888888,
+          48.571111111
+        ]
+      },
+      "properties": {
+        "title": "Siege of Kehl",
+        "date_start": "1797-01-09",
+        "date_end": "1797-01-09",
+        "date_sort": "1797-01-09",
+        "status": "confirmed",
+        "full_text": "part of the Rhine Campaign of 1796 during the War of the First Coalition",
+        "topics": [
+          "siege"
+        ],
+        "url": "http://www.wikidata.org/entity/Q819999",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4870873",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.883333333,
+          48.65
+        ]
+      },
+      "properties": {
+        "title": "Battle of Diersheim",
+        "date_start": "1797-01-01",
+        "date_end": "1797-01-01",
+        "date_sort": "1797-01-01",
+        "status": "confirmed",
+        "full_text": "1797 battle of the War of the First Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q4870873",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1346429",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.097222222,
+          47.381666666
+        ]
+      },
+      "properties": {
+        "title": "Treaty of Leoben",
+        "date_start": "1797-04-18",
+        "date_end": "1797-04-18",
+        "date_sort": "1797-04-18",
+        "status": "confirmed",
+        "full_text": "1797 treaty during the War of the First Coalition",
+        "topics": [
+          "peace treaty"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1346429",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2122372",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.1508,
+          53.2792
+        ]
+      },
+      "properties": {
+        "title": "Q2122372",
+        "date_start": "1797-02-01",
+        "date_end": "1797-02-01",
+        "date_sort": "1797-02-01",
+        "status": "confirmed",
+        "full_text": "Historical event: Q2122372",
+        "topics": [
+          "rebellion"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2122372",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q9173018",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.333333333,
+          50.933333333
+        ]
+      },
+      "properties": {
+        "title": "Battle of Hasselt",
+        "date_start": "1798-12-05",
+        "date_end": "1798-12-05",
+        "date_sort": "1798-12-05",
+        "status": "confirmed",
+        "full_text": "1798 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q9173018",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q281461",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.5,
+          47.01666667
+        ]
+      },
+      "properties": {
+        "title": "Battle of Grauholz",
+        "date_start": "1798-03-05",
+        "date_end": "1798-03-05",
+        "date_sort": "1798-03-05",
+        "status": "confirmed",
+        "full_text": "1798 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q281461",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16964596",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.5269,
+          47.085
+        ]
+      },
+      "properties": {
+        "title": "Battle of Fraubrunnen",
+        "date_start": "1798-03-05",
+        "date_end": "1798-03-05",
+        "date_sort": "1798-03-05",
+        "status": "confirmed",
+        "full_text": "1798 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q16964596",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q15238595",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.083333333,
+          51.133333333
+        ]
+      },
+      "properties": {
+        "title": "Battle of Meerhout",
+        "date_start": "1798-11-12",
+        "date_end": "1798-11-12",
+        "date_sort": "1798-11-12",
+        "status": "confirmed",
+        "full_text": "1798 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q15238595",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1450451",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.920113,
+          47.056806
+        ]
+      },
+      "properties": {
+        "title": "French invasion of Switzerland",
+        "date_start": "1798-05-17",
+        "date_end": "1798-05-17",
+        "date_sort": "1798-05-17",
+        "status": "confirmed",
+        "full_text": "1798 invasion during the French Revolutionary Wars",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1450451",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16964597",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.36667,
+          47.1819
+        ]
+      },
+      "properties": {
+        "title": "Battle of Longeau",
+        "date_start": "1798-03-02",
+        "date_end": "1798-03-02",
+        "date_sort": "1798-03-02",
+        "status": "confirmed",
+        "full_text": "1798 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q16964597",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1362250",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.718333333,
+          50.948888888
+        ]
+      },
+      "properties": {
+        "title": "First European congress of astronomers",
+        "date_start": "1798-01-01",
+        "date_end": "1798-01-01",
+        "date_sort": "1798-01-01",
+        "status": "confirmed",
+        "full_text": "astronomy conference in Gotha, Germany (1798)",
+        "topics": [
+          "convention"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1362250",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q685798",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.75,
+          47.5
+        ]
+      },
+      "properties": {
+        "title": "Battle of Winterthur",
+        "date_start": "1799-05-27",
+        "date_end": "1799-05-27",
+        "date_sort": "1799-05-27",
+        "status": "confirmed",
+        "full_text": "1799 battle of the French Revolutionary Wars",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q685798",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2237048",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.383333333,
+          47.95
+        ]
+      },
+      "properties": {
+        "title": "Battle of Ostrach",
+        "date_start": "1799-03-21",
+        "date_end": "1799-03-21",
+        "date_sort": "1799-03-21",
+        "status": "confirmed",
+        "full_text": "1799 battle of the War of the Second Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2237048",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1497900",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.896388888,
+          47.555833333
+        ]
+      },
+      "properties": {
+        "title": "Battle of Frauenfeld",
+        "date_start": "1799-05-25",
+        "date_end": "1799-05-25",
+        "date_sort": "1799-05-25",
+        "status": "confirmed",
+        "full_text": "1799 War of the Second Coalition battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1497900",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q821120",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.6721,
+          49.2935
+        ]
+      },
+      "properties": {
+        "title": "Battle of Wiesloch",
+        "date_start": "1799-12-03",
+        "date_end": "1799-12-03",
+        "date_sort": "1799-12-03",
+        "status": "confirmed",
+        "full_text": "battle of the Coalition Wars, 1799",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q821120",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q575973",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.55,
+          47.366666666
+        ]
+      },
+      "properties": {
+        "title": "First Battle of Zurich",
+        "date_start": "1799-06-07",
+        "date_end": "1799-06-07",
+        "date_sort": "1799-06-07",
+        "status": "confirmed",
+        "full_text": "1799 battle during the War of the Second Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q575973",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q186107",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.57722222,
+          47.75555556
+        ]
+      },
+      "properties": {
+        "title": "Battle of Stockach",
+        "date_start": "1799-03-25",
+        "date_end": "1799-03-25",
+        "date_sort": "1799-03-25",
+        "status": "confirmed",
+        "full_text": "1799 battle during the War of the Second Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q186107",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2236891",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.598333,
+          47.238056
+        ]
+      },
+      "properties": {
+        "title": "Battle of Feldkirch",
+        "date_start": "1799-03-23",
+        "date_end": "1799-03-23",
+        "date_sort": "1799-03-23",
+        "status": "confirmed",
+        "full_text": "1799 battle during the War of the Second Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2236891",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q118670639",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.062777777,
+          47.098888888
+        ]
+      },
+      "properties": {
+        "title": "Battle of Glarus",
+        "date_start": "1799-01-01",
+        "date_end": "1799-01-01",
+        "date_sort": "1799-01-01",
+        "status": "confirmed",
+        "full_text": "1799 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q118670639",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q55605034",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.016666666,
+          47.15
+        ]
+      },
+      "properties": {
+        "title": "Battle of Linth River",
+        "date_start": "1799-09-26",
+        "date_end": "1799-09-26",
+        "date_sort": "1799-09-26",
+        "status": "confirmed",
+        "full_text": "1799 battle in Switzerland",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q55605034",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q7100582",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.011388888,
+          47.851388888
+        ]
+      },
+      "properties": {
+        "title": "Order of battle at the Battle of Stockach",
+        "date_start": "1799-03-25",
+        "date_end": "1799-03-25",
+        "date_sort": "1799-03-25",
+        "status": "confirmed",
+        "full_text": "Historical event: Order of battle at the Battle of Stockach",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q7100582",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q127685737",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.259722222,
+          47.570555555
+        ]
+      },
+      "properties": {
+        "title": "Battle of Döttingen",
+        "date_start": "1799-08-17",
+        "date_end": "1799-08-17",
+        "date_sort": "1799-08-17",
+        "status": "confirmed",
+        "full_text": "gescheiterte Überquerung der Aare im Zweiten Koalitionskrieg (1799)",
+        "topics": [
+          "engagement"
+        ],
+        "url": "http://www.wikidata.org/entity/Q127685737",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q19896027",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.46917,
+          49.4889
+        ]
+      },
+      "properties": {
+        "title": "Battle of Mannheim",
+        "date_start": "1799-09-18",
+        "date_end": "1799-09-18",
+        "date_sort": "1799-09-18",
+        "status": "confirmed",
+        "full_text": "1799 battle of the War of the Second Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q19896027",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q16006226",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.203055555,
+          48.857222222
+        ]
+      },
+      "properties": {
+        "title": "Rastatter Gesandtenmord",
+        "date_start": "1799-04-29",
+        "date_end": "1799-04-29",
+        "date_sort": "1799-04-29",
+        "status": "confirmed",
+        "full_text": "Ermordung von französischen Diplomaten am 29. April 1799",
+        "topics": [
+          "murder"
+        ],
+        "url": "http://www.wikidata.org/entity/Q16006226",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q112764010",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.09083,
+          49.35194
+        ]
+      },
+      "properties": {
+        "title": "Battle of Obrigheim",
+        "date_start": "1799-11-04",
+        "date_end": "1799-11-04",
+        "date_sort": "1799-11-04",
+        "status": "confirmed",
+        "full_text": "1799 engagement",
+        "topics": [
+          "engagement"
+        ],
+        "url": "http://www.wikidata.org/entity/Q112764010",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q705813",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.997944444,
+          48.159666666
+        ]
+      },
+      "properties": {
+        "title": "Battle of Hohenlinden",
+        "date_start": "1800-12-03",
+        "date_end": "1800-12-03",
+        "date_sort": "1800-12-03",
+        "status": "confirmed",
+        "full_text": "1800 battle during the War of the Second Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q705813",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q475544",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1127,
+          47.993
+        ]
+      },
+      "properties": {
+        "title": "Battle of Messkirch",
+        "date_start": "1800-05-05",
+        "date_end": "1800-05-05",
+        "date_sort": "1800-05-05",
+        "status": "confirmed",
+        "full_text": "1800 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q475544",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q840006",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1,
+          47.51
+        ]
+      },
+      "properties": {
+        "title": "Battle of Stockach",
+        "date_start": "1800-05-03",
+        "date_end": "1800-05-03",
+        "date_sort": "1800-05-03",
+        "status": "confirmed",
+        "full_text": "battle fought on 3 May 1800",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q840006",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q262648",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.55,
+          48.6
+        ]
+      },
+      "properties": {
+        "title": "Battle of Höchstädt",
+        "date_start": "1800-06-19",
+        "date_end": "1800-06-19",
+        "date_sort": "1800-06-19",
+        "status": "confirmed",
+        "full_text": "1800 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q262648",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2888142",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.8,
+          48.1
+        ]
+      },
+      "properties": {
+        "title": "Battle of Biberach",
+        "date_start": "1800-05-09",
+        "date_end": "1800-05-09",
+        "date_sort": "1800-05-09",
+        "status": "confirmed",
+        "full_text": "1800 battle during the War of the Second Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2888142",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1353437",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.1036,
+          48.7191
+        ]
+      },
+      "properties": {
+        "title": "La Tour monument",
+        "date_start": "1800-06-27",
+        "date_end": "1800-06-27",
+        "date_sort": "1800-06-27",
+        "status": "confirmed",
+        "full_text": "1800 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1353437",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2887847",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.3875,
+          48.235
+        ]
+      },
+      "properties": {
+        "title": "Battle of Ampfing",
+        "date_start": "1800-12-01",
+        "date_end": "1800-12-01",
+        "date_sort": "1800-12-01",
+        "status": "confirmed",
+        "full_text": "1800 a battle during the French revolutionary wars",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2887847",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2236718",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.966666666,
+          47.766666666
+        ]
+      },
+      "properties": {
+        "title": "Battle of Walserfeld",
+        "date_start": "1800-01-01",
+        "date_end": "1800-01-01",
+        "date_sort": "1800-01-01",
+        "status": "confirmed",
+        "full_text": "Schlacht der Koalitionskriege",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2236718",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q982604",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.77139,
+          47.8528
+        ]
+      },
+      "properties": {
+        "title": "Battle of Engen",
+        "date_start": "1800-05-03",
+        "date_end": "1800-05-03",
+        "date_sort": "1800-05-03",
+        "status": "confirmed",
+        "full_text": "1800 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q982604",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4871838",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.530588,
+          47.62908
+        ]
+      },
+      "properties": {
+        "title": "Battle of Möerskirch",
+        "date_start": "1800-05-01",
+        "date_end": "1800-05-01",
+        "date_sort": "1800-05-01",
+        "status": "confirmed",
+        "full_text": "1800 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q4871838",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q121070193",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.516944444,
+          47.168055555
+        ]
+      },
+      "properties": {
+        "title": "Harten- und Lindenhändel",
+        "date_start": "1800-01-01",
+        "date_end": "1800-01-01",
+        "date_sort": "1800-01-01",
+        "status": "confirmed",
+        "full_text": "politische und soziale Unruhen des 18. Jahrhunderts in Stadt und Amt Zug",
+        "topics": [
+          "riot"
+        ],
+        "url": "http://www.wikidata.org/entity/Q121070193",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q4870981",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.88778,
+          48.32806
+        ]
+      },
+      "properties": {
+        "title": "Battle of Erbach",
+        "date_start": "1800-05-15",
+        "date_end": "1800-05-15",
+        "date_sort": "1800-05-15",
+        "status": "confirmed",
+        "full_text": "1800 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q4870981",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q127601098",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.286388888,
+          48.305833333
+        ]
+      },
+      "properties": {
+        "title": "Stadtbrand von Linz 1808",
+        "date_start": "1800-08-15",
+        "date_end": "1800-08-15",
+        "date_sort": "1800-08-15",
+        "status": "confirmed",
+        "full_text": "Brand in der oberösterreichischen Landeshauptstadt Linz",
+        "topics": [
+          "city fire"
+        ],
+        "url": "http://www.wikidata.org/entity/Q127601098",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q18206471",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.0833,
+          48.7167
+        ]
+      },
+      "properties": {
+        "title": "Battle of Neuburg",
+        "date_start": "1800-06-27",
+        "date_end": "1800-06-27",
+        "date_sort": "1800-06-27",
+        "status": "confirmed",
+        "full_text": "1800 battle of the war of the second coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q18206471",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q156447",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.501666666,
+          48.589444444
+        ]
+      },
+      "properties": {
+        "title": "Treaty of Lunéville",
+        "date_start": "1801-02-09",
+        "date_end": "1801-02-09",
+        "date_sort": "1801-02-09",
+        "status": "confirmed",
+        "full_text": "1801 Treaty during the War of the Second Coalition",
+        "topics": [
+          "peace treaty"
+        ],
+        "url": "http://www.wikidata.org/entity/Q156447",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q131154563",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.823333333,
+          47.985
+        ]
+      },
+      "properties": {
+        "title": "Tuttlinger Stadtbrand",
+        "date_start": "1803-11-01",
+        "date_end": "1803-11-01",
+        "date_sort": "1803-11-01",
+        "status": "confirmed",
+        "full_text": "Stadtbrand in Tuttlingen am 1. November 1803",
+        "topics": [
+          "city fire"
+        ],
+        "url": "http://www.wikidata.org/entity/Q131154563",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q107558003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.06666667,
+          50.53333333
+        ]
+      },
+      "properties": {
+        "title": "Hochwasser der Ahr am 21. Juli 1804",
+        "date_start": "1804-07-21",
+        "date_end": "1804-07-21",
+        "date_sort": "1804-07-21",
+        "status": "confirmed",
+        "full_text": "Unwetterereignis",
+        "topics": [
+          "flood"
+        ],
+        "url": "http://www.wikidata.org/entity/Q107558003",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q100700078",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.226888888,
+          49.864111111
+        ]
+      },
+      "properties": {
+        "title": "Stadtbrand von Volkach 1804",
+        "date_start": "1804-01-01",
+        "date_end": "1804-01-01",
+        "date_sort": "1804-01-01",
+        "status": "confirmed",
+        "full_text": "Brand im Juni 1804, zerstörte über 120 Gebäude im Nordosten der Volkacher Altstadt im damaligen Kurpfalz-Bayern",
+        "topics": [
+          "city fire"
+        ],
+        "url": "http://www.wikidata.org/entity/Q100700078",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q154102",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.112777777,
+          48.144722222
+        ]
+      },
+      "properties": {
+        "title": "Peace of Pressburg",
+        "date_start": "1805-01-01",
+        "date_end": "1805-01-01",
+        "date_sort": "1805-01-01",
+        "status": "confirmed",
+        "full_text": "1805 peace treaty closing the war of the third coalition",
+        "topics": [
+          "peace treaty"
+        ],
+        "url": "http://www.wikidata.org/entity/Q154102",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q697034",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.8667,
+          48.1167
+        ]
+      },
+      "properties": {
+        "title": "Battle of Amstetten",
+        "date_start": "1805-11-05",
+        "date_end": "1805-11-05",
+        "date_sort": "1805-11-05",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q697034",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1500070",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.31227,
+          48.18479
+        ]
+      },
+      "properties": {
+        "title": "Treaty of Schönbrunn",
+        "date_start": "1805-12-15",
+        "date_end": "1805-12-15",
+        "date_sort": "1805-12-15",
+        "status": "confirmed",
+        "full_text": "1805 failed treaty, superseeded by another one in 1806",
+        "topics": [
+          "treaty"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1500070",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1960626",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.6792,
+          48.5556
+        ]
+      },
+      "properties": {
+        "title": "Battle of Wertingen",
+        "date_start": "1805-10-08",
+        "date_end": "1805-10-08",
+        "date_sort": "1805-10-08",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1960626",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q699665",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.52027778,
+          48.38722222
+        ]
+      },
+      "properties": {
+        "title": "Battle of Dürenstein",
+        "date_start": "1805-11-11",
+        "date_end": "1805-11-11",
+        "date_sort": "1805-11-11",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q699665",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q159072",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.983333333,
+          48.383333333
+        ]
+      },
+      "properties": {
+        "title": "Battle of Ulm",
+        "date_start": "1805-10-20",
+        "date_end": "1805-10-20",
+        "date_sort": "1805-10-20",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q159072",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q771598",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.98,
+          48.4
+        ]
+      },
+      "properties": {
+        "title": "Battle of Haslach-Jungingen",
+        "date_start": "1805-10-11",
+        "date_end": "1805-10-11",
+        "date_sort": "1805-10-11",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q771598",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q1625621",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.4168,
+          48.05
+        ]
+      },
+      "properties": {
+        "title": "Battle of Steyr",
+        "date_start": "1805-11-04",
+        "date_end": "1805-11-04",
+        "date_sort": "1805-11-04",
+        "status": "confirmed",
+        "full_text": "1805 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q1625621",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q657502",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.090555555,
+          48.454166666
+        ]
+      },
+      "properties": {
+        "title": "Battle of Elchingen",
+        "date_start": "1805-10-14",
+        "date_end": "1805-10-14",
+        "date_sort": "1805-10-14",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q657502",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q952479",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.3164,
+          47.7731
+        ]
+      },
+      "properties": {
+        "title": "Battle of Mariazell",
+        "date_start": "1805-11-08",
+        "date_end": "1805-11-08",
+        "date_sort": "1805-11-08",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q952479",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q134114",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.7625,
+          49.128055555
+        ]
+      },
+      "properties": {
+        "title": "Battle of Austerlitz",
+        "date_start": "1805-12-02",
+        "date_end": "1805-12-02",
+        "date_sort": "1805-12-02",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q134114",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q948810",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.06561111,
+          48.59258333
+        ]
+      },
+      "properties": {
+        "title": "Battle of Schöngrabern",
+        "date_start": "1805-11-16",
+        "date_end": "1805-11-16",
+        "date_sort": "1805-11-16",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q948810",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q61641849",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.33305556,
+          51.80361111
+        ]
+      },
+      "properties": {
+        "title": "Stadtbrand von Clausthal 1805",
+        "date_start": "1805-01-01",
+        "date_end": "1805-01-01",
+        "date_sort": "1805-01-01",
+        "status": "confirmed",
+        "full_text": "Historical event: Stadtbrand von Clausthal 1805",
+        "topics": [
+          "city fire"
+        ],
+        "url": "http://www.wikidata.org/entity/Q61641849",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2237017",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4894,
+          48.219
+        ]
+      },
+      "properties": {
+        "title": "Battle of Mehrnbach",
+        "date_start": "1805-10-30",
+        "date_end": "1805-10-30",
+        "date_sort": "1805-10-30",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2237017",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q3206342",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.27,
+          48.45
+        ]
+      },
+      "properties": {
+        "title": "Battle of Günzburg",
+        "date_start": "1805-10-09",
+        "date_end": "1805-10-09",
+        "date_sort": "1805-10-09",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition}",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q3206342",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q5035984",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.75,
+          47.416666666
+        ]
+      },
+      "properties": {
+        "title": "Capitulation of Dornbirn",
+        "date_start": "1805-11-13",
+        "date_end": "1805-11-13",
+        "date_sort": "1805-11-13",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q5035984",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2984761",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.8,
+          48.7
+        ]
+      },
+      "properties": {
+        "title": "Battle of Donauwörth",
+        "date_start": "1805-10-07",
+        "date_end": "1805-10-07",
+        "date_sort": "1805-10-07",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2984761",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2889480",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.0992,
+          48.5289
+        ]
+      },
+      "properties": {
+        "title": "Battle of Nerenstetten",
+        "date_start": "1805-10-16",
+        "date_end": "1805-10-16",
+        "date_sort": "1805-10-16",
+        "status": "confirmed",
+        "full_text": "1805 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2889480",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2889482",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.3344,
+          48.7542
+        ]
+      },
+      "properties": {
+        "title": "Battle of Neresheim",
+        "date_start": "1805-10-17",
+        "date_end": "1805-10-17",
+        "date_sort": "1805-10-17",
+        "status": "confirmed",
+        "full_text": "1805 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2889482",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2984784",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.27,
+          48.45
+        ]
+      },
+      "properties": {
+        "title": "Battle of Günzburg",
+        "date_start": "1805-10-09",
+        "date_end": "1805-10-09",
+        "date_sort": "1805-10-09",
+        "status": "confirmed",
+        "full_text": "1805 battle",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2984784",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2890386",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.9982,
+          49.2769
+        ]
+      },
+      "properties": {
+        "title": "Battle at Wischau",
+        "date_start": "1805-11-28",
+        "date_end": "1805-11-28",
+        "date_sort": "1805-11-28",
+        "status": "confirmed",
+        "full_text": "1805 battle of Napoleonian Wars",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2890386",
+        "has_coordinates": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Q2984823",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.1811,
+          47.9878
+        ]
+      },
+      "properties": {
+        "title": "Battle of Memmingen",
+        "date_start": "1805-10-14",
+        "date_end": "1805-10-14",
+        "date_sort": "1805-10-14",
+        "status": "confirmed",
+        "full_text": "1805 battle during the War of the Third Coalition",
+        "topics": [
+          "battle"
+        ],
+        "url": "http://www.wikidata.org/entity/Q2984823",
+        "has_coordinates": true
+      }
+    }
+  ]
+}

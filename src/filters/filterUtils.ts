@@ -22,8 +22,9 @@ export const applyFilters = (
   layerConfig: LayerConfig
 ): boolean => {
   // 1. Global Time Check
-  if (!filterByGlobalTime(feature, globalTimeRange)) return false;
-
+  if (!layerConfig.ignoreTimeFilter) {
+    if (!filterByGlobalTime(feature, globalTimeRange)) return false;
+  }
   // 2. Dynamic Filter Check
   // Iterate over the filters configured for this layer
   for (const filterConfig of layerConfig.activeFilters) {

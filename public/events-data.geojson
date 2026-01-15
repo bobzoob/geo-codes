@@ -3,162 +3,242 @@
   "features": [
     {
       "type": "Feature",
-      "properties": {
-        "id": "event_1931_meeting",
-        "name": "Meeting: Freud and Zweig",
-        "description": "A meeting in Salzburg where they discussed the future of Europe.",
-        "startDate": "1931-06-01",
-        "endDate": "1931-06-01",
-        "placeId": "place_salzburg",
-        "mentionedEntityIds": ["person_freud", "person_zweig"]
-      },
+      "id": "event_1931_meeting",
       "geometry": {
         "type": "Point",
         "coordinates": [13.055, 47.8095]
+      },
+      "properties": {
+        "title": "Meeting: Freud and Zweig",
+        "senderId": "person_freud",
+        "recipientId": "person_zweig",
+        "date_start": "1791-06-01",
+        "date_end": "1791-06-01",
+        "date_sort": "1791-06-01",
+        "status": "confirmed",
+        "original_status": "Meeting in Salzburg discussing the future of Europe",
+        "full_text": "A meeting in Salzburg where they discussed the future of Europe.",
+        "topics": ["History", "Politics"],
+        "speech_acts": ["discuss"],
+        "mentions": ["person_freud", "person_zweig"],
+        "url": "event_1931_meeting",
+        "has_coordinates": true
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "id": "event_1926_lecture",
-        "name": "Lecture: Kelsen on Democracy",
-        "description": "Hans Kelsen giving a lecture at the University of Cologne.",
-        "startDate": "1926-09-10",
-        "endDate": "1926-09-10",
-        "placeId": "place_cologne",
-        "mentionedEntityIds": ["person_kelsen"]
-      },
+      "id": "event_1926_lecture",
       "geometry": {
         "type": "Point",
         "coordinates": [6.9603, 50.9375]
+      },
+      "properties": {
+        "title": "Lecture: Kelsen on Democracy",
+        "senderId": "person_kelsen",
+        "recipientId": null,
+        "date_start": "1792-09-10",
+        "date_end": "1792-09-10",
+        "date_sort": "1792-09-10",
+        "status": "confirmed",
+        "original_status": "Lecture at the University of Cologne",
+        "full_text": "Hans Kelsen giving a lecture at the University of Cologne.",
+        "topics": ["Law", "Democracy"],
+        "speech_acts": ["give lecture"],
+        "mentions": ["person_kelsen"],
+        "url": "event_1926_lecture",
+        "has_coordinates": true
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "id": "event_1941_speech",
-        "name": "Speech: Kelsen on Constitutional Law",
-        "description": "Hans Kelsen speaks on constitutional law at Harvard University.",
-        "startDate": "1941-04-15",
-        "endDate": "1941-04-15",
-        "placeId": "place_oxford",
-        "mentionedEntityIds": ["person_freud"]
-      },
+      "id": "event_1941_speech",
       "geometry": {
         "type": "Point",
         "coordinates": [-71.1167, 42.373611]
+      },
+      "properties": {
+        "title": "Speech: Kelsen on Constitutional Law",
+        "senderId": "person_kelsen",
+        "recipientId": null,
+        "date_start": "1793-04-15",
+        "date_end": "1793-04-15",
+        "date_sort": "1793-04-15",
+        "status": "confirmed",
+        "original_status": "Speech at Harvard University",
+        "full_text": "Hans Kelsen speaks on constitutional law at Harvard University.",
+        "topics": ["Law", "Constitutional Law"],
+        "speech_acts": ["speak"],
+        "mentions": ["person_freud"],
+        "url": "event_1941_speech",
+        "has_coordinates": true
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "id": "event_1934_lecture",
-        "name": "Lecture: Kelsen on Legal Positivism",
-        "description": "Kelsen delivers a lecture on legal positivism at the University of Vienna.",
-        "startDate": "1934-11-23",
-        "endDate": "1934-11-23",
-        "placeId": "place_vienna",
-        "mentionedEntityIds": ["person_kelsen"]
-      },
+      "id": "event_1934_lecture",
       "geometry": {
         "type": "Point",
         "coordinates": [16.3738, 48.2082]
+      },
+      "properties": {
+        "title": "Lecture: Kelsen on Legal Positivism",
+        "senderId": "person_kelsen",
+        "recipientId": null,
+        "date_start": "1794-11-23",
+        "date_end": "1794-11-23",
+        "date_sort": "1794-11-23",
+        "status": "confirmed",
+        "original_status": "Lecture at the University of Vienna",
+        "full_text": "Kelsen delivers a lecture on legal positivism at the University of Vienna.",
+        "topics": ["Law", "Legal Positivism"],
+        "speech_acts": ["give lecture"],
+        "mentions": ["person_kelsen"],
+        "url": "event_1934_lecture",
+        "has_coordinates": true
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "id": "event_1949_symposium",
-        "name": "Symposium: European Law and Democracy",
-        "description": "A symposium on European law and democracy in Paris.",
-        "startDate": "1949-06-17",
-        "endDate": "1949-06-18",
-        "placeId": "place_vienna",
-        "mentionedEntityIds": ["person_kelsen", "person_freud"]
-      },
+      "id": "event_1949_symposium",
       "geometry": {
         "type": "Point",
         "coordinates": [16.3738, 48.3082]
+      },
+      "properties": {
+        "title": "Symposium: European Law and Democracy",
+        "senderId": "person_kelsen",
+        "recipientId": null,
+        "date_start": "1795-06-17",
+        "date_end": "1795-06-18",
+        "date_sort": "1795-06-17",
+        "status": "confirmed",
+        "original_status": "Symposium in Paris",
+        "full_text": "A symposium on European law and democracy in Paris.",
+        "topics": ["Law", "Democracy"],
+        "speech_acts": ["discuss", "present"],
+        "mentions": ["person_kelsen", "person_freud"],
+        "url": "event_1949_symposium",
+        "has_coordinates": true
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "id": "event_1932_lecture",
-        "name": "Lecture: Kelsen on the Rule of Law",
-        "description": "Kelsen delivers a lecture on the rule of law at Yale University.",
-        "startDate": "1932-10-10",
-        "endDate": "1932-10-10",
-        "placeId": "place_vienna",
-        "mentionedEntityIds": ["person_kelsen", "person_hart"]
-      },
+      "id": "event_1932_lecture",
       "geometry": {
         "type": "Point",
         "coordinates": [16.738, 48.2082]
+      },
+      "properties": {
+        "title": "Lecture: Kelsen on the Rule of Law",
+        "senderId": "person_kelsen",
+        "recipientId": null,
+        "date_start": "1796-10-10",
+        "date_end": "1796-10-10",
+        "date_sort": "1796-10-10",
+        "status": "confirmed",
+        "original_status": "Lecture at Yale University",
+        "full_text": "Kelsen delivers a lecture on the rule of law at Yale University.",
+        "topics": ["Law", "Rule of Law"],
+        "speech_acts": ["give lecture"],
+        "mentions": ["person_kelsen", "person_hart"],
+        "url": "event_1932_lecture",
+        "has_coordinates": true
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "id": "event_1938_workshop",
-        "name": "Workshop: Kelsen and Legal Theory",
-        "description": "A private workshop with Hans Kelsen on legal theory at the University of Berlin.",
-        "startDate": "1938-05-22",
-        "endDate": "1938-05-22",
-        "placeId": "place_berlin",
-        "mentionedEntityIds": ["person_kelsen"]
-      },
+      "id": "event_1938_workshop",
       "geometry": {
         "type": "Point",
         "coordinates": [13.405, 52.52]
+      },
+      "properties": {
+        "title": "Workshop: Kelsen and Legal Theory",
+        "senderId": "person_kelsen",
+        "recipientId": null,
+        "date_start": "1797-05-22",
+        "date_end": "1797-05-22",
+        "date_sort": "1797-05-22",
+        "status": "confirmed",
+        "original_status": "Workshop at the University of Berlin",
+        "full_text": "A private workshop with Hans Kelsen on legal theory at the University of Berlin.",
+        "topics": ["Law", "Legal Theory"],
+        "speech_acts": ["workshop"],
+        "mentions": ["person_kelsen"],
+        "url": "event_1938_workshop",
+        "has_coordinates": true
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "id": "event_1944_lecture",
-        "name": "Lecture: Kelsen on the United Nations",
-        "description": "Hans Kelsen discusses the role of the United Nations at the University of New York.",
-        "startDate": "1944-11-05",
-        "endDate": "1944-11-05",
-        "placeId": "place_new_york",
-        "mentionedEntityIds": ["person_kelsen"]
-      },
+      "id": "event_1944_lecture",
       "geometry": {
         "type": "Point",
         "coordinates": [-74.006, 40.7128]
+      },
+      "properties": {
+        "title": "Lecture: Kelsen on the United Nations",
+        "senderId": "person_kelsen",
+        "recipientId": null,
+        "date_start": "1798-11-05",
+        "date_end": "1798-11-05",
+        "date_sort": "1798-11-05",
+        "status": "confirmed",
+        "original_status": "Lecture at the University of New York",
+        "full_text": "Hans Kelsen discusses the role of the United Nations at the University of New York.",
+        "topics": ["Law", "International Law"],
+        "speech_acts": ["discuss"],
+        "mentions": ["person_kelsen"],
+        "url": "event_1944_lecture",
+        "has_coordinates": true
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "id": "event_1929_publication",
-        "name": "Publication: Kelsen's Pure Theory of Law",
-        "description": "Hans Kelsen publishes his seminal work 'Pure Theory of Law' in Vienna.",
-        "startDate": "1929-01-01",
-        "endDate": "1929-01-01",
-        "placeId": "place_vienna",
-        "mentionedEntityIds": ["person_kelsen"]
-      },
+      "id": "event_1929_publication",
       "geometry": {
         "type": "Point",
         "coordinates": [16.1738, 48.2482]
+      },
+      "properties": {
+        "title": "Publication: Kelsen's Pure Theory of Law",
+        "senderId": "person_kelsen",
+        "recipientId": null,
+        "date_start": "1799-01-01",
+        "date_end": "1799-01-01",
+        "date_sort": "1799-01-01",
+        "status": "confirmed",
+        "original_status": "Publication in Vienna",
+        "full_text": "Hans Kelsen publishes his seminal work 'Pure Theory of Law' in Vienna.",
+        "topics": ["Law", "Philosophy"],
+        "speech_acts": ["publish"],
+        "mentions": ["person_kelsen"],
+        "url": "event_1929_publication",
+        "has_coordinates": true
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "id": "event_1930_lecture",
-        "name": "Lecture: Kelsen on International Law",
-        "description": "Hans Kelsen gives a lecture on international law at Columbia University.",
-        "startDate": "1830-11-02",
-        "endDate": "1830-11-02",
-        "placeId": "place_vienna",
-        "mentionedEntityIds": ["person_kelsen", "person_hart"]
-      },
+      "id": "event_1930_lecture",
       "geometry": {
         "type": "Point",
         "coordinates": [16.1238, 48.782]
+      },
+      "properties": {
+        "title": "Lecture: Kelsen on International Law",
+        "senderId": "person_kelsen",
+        "recipientId": null,
+        "date_start": "1800-11-02",
+        "date_end": "1800-11-02",
+        "date_sort": "1800-11-02",
+        "status": "confirmed",
+        "original_status": "Lecture at Columbia University",
+        "full_text": "Hans Kelsen gives a lecture on international law at Columbia University.",
+        "topics": ["Law", "International Law"],
+        "speech_acts": ["give lecture"],
+        "mentions": ["person_kelsen", "person_hart"],
+        "url": "event_1930_lecture",
+        "has_coordinates": true
       }
     }
   ]

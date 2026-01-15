@@ -64,13 +64,6 @@ export interface HistoricalFeatureProperties extends GeoJsonProperties {
   placeId?: string;
   name: string;
   description?: string;
-
-  // // lines/transitions
-  // sourcePlaceId?: string;
-  // destinationPlaceId?: string;
-
-  // // references (persons, works, places, etc.)
-  // mentionedEntityIds?: string[];
 }
 
 // *

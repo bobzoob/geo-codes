@@ -1,21 +1,34 @@
 import { type ComponentType } from "react";
 import type { LayerComponentProps } from "../types/state";
-import HeatMapLayer from "./HeatMapLayer";
 
 // ** ADD NWE layer rendering components HERE **
 import GeoJSONLayer from "./GeoJSONLayer";
 import PointLayer from "./PointLayer";
 import ArrowLayer from "./ArrowLayer";
 
+// plugin interface
+export interface LayerPlugin {
+  Component: ComponentType<LayerComponentProps>;
+  getInteractiveIds: (layerId: string) => string[];
+  zIndex: number;
+}
+
 // registry instance
-// ComponentType<LayerComponentProps>> to ensure all registered components accept data, showAllTooltips, AND entities
-export const layerRegistry: Record<
-  string,
-  ComponentType<LayerComponentProps>
-> = {
-  // ** TO ADD A NEW LAYER TYPE, ADD AN ENTRY HERE **
-  polygon: GeoJSONLayer,
-  point: PointLayer,
-  line: ArrowLayer,
-  heatmap: HeatMapLayer,
+// ** TO ADD A NEW LAYER TYPE, ADD AN ENTRY HERE **
+export const layerRegistry: Record<string, LayerPlugin> = {
+  point: {
+    Component: PointLayer,
+    getInteractiveIds: (id) => [`${id}-circle`, `${id}-label`],
+    zIndex: 20,
+  },
+  line: {
+    Component: ArrowLayer,
+    getInteractiveIds: (id) => [`${id}-lines`, `${id}-symbol`],
+    zIndex: 10,
+  },
+  polygon: {
+    Component: GeoJSONLayer,
+    getInteractiveIds: (id) => [`${id}-fill`],
+    zIndex: 0,
+  },
 };

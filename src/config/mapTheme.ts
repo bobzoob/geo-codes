@@ -1,9 +1,9 @@
 import { createTheme } from "@mui/material/styles";
 
 export const mapTheme = createTheme({
-  // 1. TYPOGRAPHY CONFIGURATION
+  // TYPOGRAPHY
   typography: {
-    // Standard System Font Stack (No Google Fonts required)
+    // Font Stack
     fontFamily: [
       "-apple-system",
       "BlinkMacSystemFont",
@@ -17,23 +17,23 @@ export const mapTheme = createTheme({
       '"Segoe UI Symbol"',
     ].join(","),
 
-    // Panel Titles (e.g. "LAYERS", "OPTIONS")
+    // Panel Titles ("LAYERS", "OPTIONS")
     h6: {
       fontWeight: 700,
-      textTransform: "uppercase", // Forces ALL CAPS
-      letterSpacing: "0.12em", // Spaced out letters for readability
-      fontSize: "0.9rem", // Slightly smaller to balance the caps
+      textTransform: "uppercase",
+      letterSpacing: "0.12em",
+      fontSize: "0.9rem",
       lineHeight: 1.4,
       color: "#ff9800",
     },
 
-    // Sub-headers (e.g. "Search Filters", "Global Timeline")
+    // Sub-headers ("Search Filters", "Global Timeline")
     subtitle2: {
       fontWeight: 600,
       textTransform: "uppercase",
       letterSpacing: "0.08em",
       fontSize: "0.75rem",
-      color: "rgba(255, 255, 255, 0.7)", // Muted white
+      color: "rgba(255, 255, 255, 0.7)",
     },
 
     // Body text (Layer Names, etc.)
@@ -43,9 +43,11 @@ export const mapTheme = createTheme({
     },
     button: {
       fontWeight: 700,
-      letterSpacing: "0.05em", // Buttons look better with slight spacing
+      letterSpacing: "0.05em",
     },
   },
+
+  // COLORS
   palette: {
     mode: "dark",
     primary: {
@@ -67,15 +69,15 @@ export const mapTheme = createTheme({
     MuiLink: {
       styleOverrides: {
         root: {
-          color: "#ff9800", // Default to Orange
+          color: "#ff9800",
           textDecoration: "none",
-          fontWeight: 600, // Medium-Bold
+          fontWeight: 600,
           transition: "color 0.2s ease-in-out",
           cursor: "pointer",
           "&:hover": {
-            color: "#ffffff", // Turn White on hover
+            color: "#ffffff", // turn White on hover
             textDecoration: "underline",
-            textDecorationColor: "#ff9800", // Orange underline
+            textDecorationColor: "#ff9800",
           },
         },
       },
@@ -89,7 +91,7 @@ export const mapTheme = createTheme({
           border: "1px solid rgba(255, 255, 255, 0.1)",
           color: "#ffffff",
 
-          // --- .LayerCard ---
+          //  .LayerCard
           "&.LayerCard": {
             padding: theme.spacing(1, 2),
             marginBottom: theme.spacing(1),
@@ -107,9 +109,8 @@ export const mapTheme = createTheme({
               borderColor: theme.palette.secondary.main,
             },
 
-            // active
+            // .active
             "&.active": {
-              // backgroundColor: "rgba(255, 152, 0, 0.15)",
               borderColor: theme.palette.secondary.main,
               boxShadow: theme.shadows[4],
 
@@ -117,7 +118,7 @@ export const mapTheme = createTheme({
                 backgroundColor: "rgba(255, 152, 0, 0.25)",
               },
 
-              //  CHILD ELEMENTS: Change text color when card is active
+              //  CHILD ELEMENTS: change text color when card is active
               "& .MuiTypography-root": {
                 color: theme.palette.secondary.main,
                 transition: "color 0.2s",

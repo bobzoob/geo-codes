@@ -56,7 +56,7 @@ export function SearchSection({ layer }: SearchSectionProps) {
               }
             />
           }
-          label="Show all tooltips"
+          label="Show nearby labels (Flashlight)"
         />
 
         {/* Standard Filters */}
