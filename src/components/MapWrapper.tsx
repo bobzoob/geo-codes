@@ -12,7 +12,7 @@ import { useAppState } from "../state/appContext";
 
 import { layerRegistry } from "../layers/layerRegistry";
 
-import { Paper, Typography, Box } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 
 interface MapWrapperProps {
   children: ReactNode;

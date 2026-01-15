@@ -23,6 +23,7 @@ function PointLayer({
 
   // DYNAMIC SIZE
   let circleRadius: any;
+  let circleColor: any;
 
   if (intensityField) {
     circleRadius = [
@@ -30,13 +31,32 @@ function PointLayer({
       ["linear"],
       ["get", intensityField],
       1,
-      4, // min value, min size
+      4, // Smallest
       50,
-      20, // max value, max size
+      12, // Medium
+      150,
+      22, // Large
+      250,
+      30, // Largest
+    ];
+
+    circleColor = [
+      "interpolate",
+      ["linear"],
+      ["get", intensityField],
+      1,
+      "#FFEB3B", // Bright Yellow
+      50,
+      "#FB8C00", // Deep Orange
+      150,
+      "#D32F2F", // Red
+      250,
+      "#880E4F", // Dark Burgundy
     ];
   } else {
     // STATIC SIZE: based on zoom only
     circleRadius = ["interpolate", ["linear"], ["zoom"], 5, 4, 12, 7];
+    circleColor = "#808080"; // grey
   }
   // CIRCLE STYLE
   const circleStyle: LayerProps = {
@@ -46,10 +66,10 @@ function PointLayer({
     filter: ["match", ["geometry-type"], ["Point", "MultiPoint"], true, false],
     paint: {
       "circle-radius": circleRadius,
-      "circle-color": "#ff7800",
+      "circle-color": circleColor,
       "circle-stroke-width": 1,
       "circle-stroke-color": "#ffffff",
-      "circle-opacity": 0.9,
+      "circle-opacity": 0.85,
     },
   };
 
