@@ -103,7 +103,7 @@ export const initialLayerConfig: LayerConfig[] = [
 
     styleConfig: {
       color: ["#BBDEFB", "#5C6BC0", "#6A1B9A"], // we deffine the point colors here
-      radius: [4, 30], // Min 4px, Max 30px
+      radius: [4, 35], // Min 4px, Max 30px
       opacity: 0.8,
     },
     processor: {
@@ -154,7 +154,7 @@ export const initialLayerConfig: LayerConfig[] = [
 
     styleConfig: {
       color: ["#FFEB3B", "#FB8C00", "#D32F2F"], // we deffine the point colors here
-      radius: [4, 30], // Min 4px, Max 30px
+      radius: [4, 35], // Min 4px, Max 30px
       opacity: 0.8,
     },
 

@@ -43,16 +43,23 @@ function PointLayer({
   // 2. CONSTRUCT RADIUS EXPRESSION
   let circleRadius: any;
   if (intensityField && Array.isArray(baseRadius)) {
+    const min = baseRadius[0];
+    const max = baseRadius[1];
+
     circleRadius = [
       "interpolate",
       ["linear"],
       ["get", intensityField],
       1,
-      baseRadius[0], // 1 item
-      20,
-      baseRadius[1] * 0.6, // 20 items = 60% of max
-      100,
-      baseRadius[1], // 100+ items = max radius (e.g. 30)
+      min, // 1 entry: Smallest
+      10,
+      min + (max - min) * 0.2, // 10 entries: Small-Medium
+      50,
+      min + (max - min) * 0.5, // 50 entries: Medium
+      150,
+      min + (max - min) * 0.8, // 150 entries: Large
+      300,
+      max, // 300+ entries: Maximum
     ];
   } else if (Array.isArray(baseRadius)) {
     circleRadius = baseRadius[0]; // Fallback if no intensity field
@@ -72,14 +79,18 @@ function PointLayer({
   // 3. CONSTRUCT COLOR EXPRESSION
   let circleColor: any;
   if (intensityField && Array.isArray(baseColor)) {
-    // Create a color ramp: [interpolate, linear, get(field), val1, color1, val2, color2...]
+    // color ramp: [interpolate, linear, get(field), val1, color1, val2, color2...]
     circleColor = ["interpolate", ["linear"], ["get", intensityField]];
 
-    // Distribute colors evenly across an intensity range of 1 to 250
-    const maxVal = 50;
-    const step = maxVal / (baseColor.length - 1);
+    const stops = [1, 10, 50, 150, 300];
+
     baseColor.forEach((color, index) => {
-      circleColor.push(Math.round(index * step) || 1, color);
+      const stopIndex = Math.round(
+        (index / (baseColor.length - 1)) * (stops.length - 1)
+      );
+      const stopValue = stops[stopIndex];
+
+      circleColor.push(stopValue, color);
     });
   } else {
     circleColor = baseColor;
