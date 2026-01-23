@@ -129,7 +129,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
           return {
             ...layer,
             filterValues: {
-              ...layer.filterValues,
+              ...(layer.filterValues || {}),
               [action.payload.filterId]: action.payload.value,
             },
           };

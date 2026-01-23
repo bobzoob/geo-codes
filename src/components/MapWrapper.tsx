@@ -38,19 +38,19 @@ function MapWrapper({ children }: MapWrapperProps) {
       return plugin.getInteractiveIds(layer.id);
     });
 
-  // HELPER: Extract Title and Subtitle from the generic fields for the Tooltip
+  // HELPER: extract Title and Subtitle from the generic fields of tooltp
   const getTooltipContent = () => {
     if (!hoverInfo) return { title: "", subtitle: null };
 
     const fields = hoverInfo.data.fields;
 
-    // 1. Find the Header (Title)
+    // Header (FROM TO)
     const titleField = fields.find((f) => f.type === "header");
     const title = titleField ? titleField.value : "Unknown";
 
-    // 2. Find a Subtitle (First "text" field, usually Date)
-    const subtitleField = fields.find((f) => f.type === "text");
-    const subtitle = subtitleField ? subtitleField.value : null;
+    // Subtitle (Date)
+    const dateField = fields.find((f) => f.type === "text");
+    const subtitle = dateField ? dateField.value : null;
 
     return { title, subtitle };
   };

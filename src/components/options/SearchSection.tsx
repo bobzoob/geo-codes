@@ -41,29 +41,31 @@ export function SearchSection({ layer }: SearchSectionProps) {
 
       <Stack spacing={2} alignItems="flex-start">
         {/* Tooltip Toggle */}
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={layer.showAllTooltips}
-              onChange={(e) =>
-                dispatch({
-                  type: "SET_LAYER_TOOLTIPS",
-                  payload: {
-                    layerId: layer.id,
-                    showAll: e.target.checked,
-                  },
-                })
-              }
-            />
-          }
-          label="Show nearby labels (Flashlight)"
-        />
-
+        {/* ONLY RENDER IF THE FLAG IS TRUE */}
+        {layer.hasFlashlight && (
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={layer.showAllTooltips}
+                onChange={(e) =>
+                  dispatch({
+                    type: "SET_LAYER_TOOLTIPS",
+                    payload: {
+                      layerId: layer.id,
+                      showAll: e.target.checked,
+                    },
+                  })
+                }
+              />
+            }
+            label="Show Near Tooltips (Flashlight)"
+          />
+        )}
         {/* Standard Filters */}
         <FilterList
           layerId={layer.id}
           filters={standardFilters}
-          values={layer.filterValues}
+          values={layer.filterValues || {}}
         />
 
         {/* Advanced Filters Accordion */}

@@ -39,7 +39,7 @@ export function useActiveFilters() {
       const module = filterRegistry[filterConfig.moduleId];
       if (!module) return;
 
-      const rawValue = selectedLayer.filterValues[module.id];
+      const rawValue = (selectedLayer.filterValues || {})[module.id];
       if (!rawValue) return;
 
       // --- Formatting Logic ---

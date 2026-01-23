@@ -1,81 +1,54 @@
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
 
 // *
-// Here we define the structure that *this* specific GeoJSON data will have
-// to enrich the dataformat we set up new type here
-// every file MUST have these properties
-// CHANGE TO YOUR SPECFIC JSON KEYS HERE AND ADD LOGIC IN filterRegistry.ts
+// Here we only define the general structure of GeoJSON data
+// we set up generic types here
+// contract: every file MUST have these properties
+// layers.ts is our SCHEMA and tells the app what exact properties they are
+// ADD LOGIC IN filterRegistry.ts
 //*
 
 export interface Entity {
-  // id: string;
-  // type: EntityType;
-  type: string;
-  label: string;
-  description?: string;
-  //authorityId?: string; // this could also be a  wikidataId, GNDid, URL ...
-
+  name: string;
+  type?: string;
+  class?: string;
   authority?: {
     gnd?: string;
-    [key: string]: string | undefined;
+    geonames?: string;
+    [key: string]: any; // we allow extra entity fields here too
   };
-
-  // we keep coordinates both in entitiey-data and GEOjson data for performance
-  lat?: number;
-  lng?: number;
+  [key: string]: any;
 }
 
-//  map id's to entities
+// map of keys (id) and obejects (enteties)
 export type EntityMap = Record<string, Entity>;
+export interface HistoricalFeatureProperties {
+  id?: string;
+  title?: string;
 
-export interface HistoricalFeatureProperties extends GeoJsonProperties {
-  id: string; // id for the feature itself -> react
-
-  title: string;
-
-  // letters
-  senderId?: string;
-  recipientId?: string;
-
-  // dates
-  date_start: string; // "YYYY-MM-DD"
+  // time
+  date_start?: string;
   date_end?: string;
   date_sort?: string;
+  active_years?: number[];
 
-  has_coordinates?: boolean;
+  // styling
+  weight?: number;
 
-  // context
-  full_text?: string;
-  status?: string;
-  url?: string;
-
-  // classification
-  topics?: string[];
-  speech_acts?: string[];
-
-  // *
-  // relations/ forein keys
-  //*
-
-  // correspondence
-  mentions?: string[];
-
-  // points
-  placeId?: string;
-  name: string;
-  description?: string;
+  //  "Index Signature"
+  // meening: this object can have ANY other property with a string key
+  // This allows 'sender_ids', 'born', 'died', 'is_local' without defining them here
+  [key: string]: any;
 }
 
-// *
-// Wrappers
-//*
+// single feature (line, point)
+export type HistoricalFeature = Feature<
+  Geometry | null,
+  HistoricalFeatureProperties
+>;
 
-// a generic TypeScript feature that MUST have a geometry and MUST match the properties above
-export interface HistoricalFeature
-  extends Feature<Geometry | null, HistoricalFeatureProperties> {
-  properties: HistoricalFeatureProperties;
-}
-export interface HistoricalFeatureCollection {
-  type: "FeatureCollection";
-  features: HistoricalFeature[];
-}
+// collections of features
+export type HistoricalFeatureCollection = FeatureCollection<
+  Geometry | null,
+  HistoricalFeatureProperties
+>;

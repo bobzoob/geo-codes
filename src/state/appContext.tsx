@@ -57,7 +57,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         };
 
         //fetch dictionary entites
-        const entitiesRes = await fetch("/entities.json");
+        const entitiesRes = await fetch("/final_manifest.json");
         const entitiesData = await entitiesRes.json();
 
         dispatch({ type: "SET_ENTITIES", payload: entitiesData });

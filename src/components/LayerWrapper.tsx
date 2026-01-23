@@ -6,8 +6,15 @@ import type {
 import type { LayerConfig, TimeRange } from "../types/state";
 import { applyFilters } from "../filters/filterUtils";
 import { layerRegistry } from "../layers/layerRegistry";
+import { processorRegistry } from "../processors/processorRegistry";
 import { useAppState } from "../state/appContext";
 
+/**
+ * applications engine room,
+ * takes raw data
+ * wrapps them so the map can draw them
+ *
+ *  */
 interface LayerWrapperProps {
   layer: LayerConfig;
   data: HistoricalFeatureCollection;
@@ -18,19 +25,43 @@ export function LayerWrapper({ layer, data, timeRange }: LayerWrapperProps) {
   const { state } = useAppState();
   const { entities } = state;
 
-  // filter data (and memoiz for performance)
-  const filteredData = useMemo(() => {
-    const filteredFeatures = data.features.filter(
-      (feature: HistoricalFeature) =>
-        applyFilters(feature, timeRange, entities, layer)
+  // processed data (for data sometimes needs pre-processing aka is_local)
+  // now, i used useMemo here, which is not the best choice
+
+  const processedData = useMemo(() => {
+    //FILTER
+    // const activeFilterValues = layer.filterValues || {};
+    const filteredFeatures = data.features.filter((f: HistoricalFeature) =>
+      applyFilters(f, timeRange, entities, {
+        ...layer,
+        filterValues: layer.filterValues || {},
+      })
     );
+
+    //PROCESSING
+    // agregate data with generic processor
+    if (layer.processor) {
+      const processorModule = processorRegistry[layer.processor.type];
+      if (processorModule) {
+        return processorModule.execute(
+          filteredFeatures,
+          layer.processor.params,
+          entities
+        );
+      } else {
+        console.warn(`Processor not found: ${layer.processor.type}`);
+      }
+    }
+
+    // DEFAULT
     return {
       ...data,
       features: filteredFeatures,
     };
-  }, [data, timeRange, layer.filterValues, entities, layer]);
+  }, [data, timeRange, layer.filterValues, entities, layer.processor]);
 
-  // find plugin in Registry
+  // FIND RENDERING PLUG-IN
+
   const plugin = layerRegistry[layer.type];
 
   if (!plugin) {
@@ -38,17 +69,17 @@ export function LayerWrapper({ layer, data, timeRange }: LayerWrapperProps) {
     return null;
   }
 
-  // get component from Plugin definition
   const LayerComponent = plugin.Component;
 
-  // render
   return (
     <LayerComponent
       id={layer.id}
-      data={filteredData}
-      showAllTooltips={layer.showAllTooltips}
+      data={processedData}
+      // fallback: optional config values
+      showAllTooltips={layer.showAllTooltips ?? false} //Nullish Coalescing Operator (??)
       entities={entities}
       intensityField={layer.intensityField}
+      styleConfig={layer.styleConfig}
     />
   );
 }

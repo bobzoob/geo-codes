@@ -25,8 +25,7 @@ export function FilterList({ layerId, filters, values }: FilterListProps) {
         if (!module) return null;
 
         const Component = module.component;
-        const currentValue = values[moduleId] ?? module.defaultValue;
-
+        const currentValue = (values || {})[moduleId] ?? module.defaultValue;
         return (
           <Box
             key={`${moduleId}-${index}`}

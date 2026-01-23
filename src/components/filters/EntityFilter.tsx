@@ -11,7 +11,7 @@ function EntityFilter({ value, onChange, label }: FilterComponentProps) {
         <Typography variant="subtitle2">{label || "Entity Filter"}</Typography>
 
         <TextField
-          label="Name / ID"
+          label="Search Entity..."
           variant="outlined"
           size="small"
           fullWidth

@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import type { MapLayerMouseEvent } from "react-map-gl/maplibre";
 import { useAppState } from "../state/appContext";
 import {
@@ -34,6 +34,37 @@ export function useMapInteraction() {
     );
   };
 
+  // Helper to listen to clicks on the list
+  useEffect(() => {
+    const handleDrillDown = (e: any) => {
+      const { feature, layerId } = e.detail;
+
+      // find correct config for detail view ("Letters" layer config)
+      const config = state.layerConfig.find((l) => l.id === layerId);
+      if (!config) return;
+
+      const popupData = extractGenericPopupData(
+        feature,
+        config.popupConfig,
+        state.entities
+      );
+
+      // update popup but, keeping the same map location
+      setSelectedFeature((prev) =>
+        prev
+          ? {
+              ...prev,
+              data: popupData,
+            }
+          : null
+      );
+    };
+
+    window.addEventListener("app:select-feature", handleDrillDown);
+    return () =>
+      window.removeEventListener("app:select-feature", handleDrillDown);
+  }, [state.layerConfig, state.entities]);
+
   // CLICK HANDLER
   const onMapClick = useCallback(
     (event: MapLayerMouseEvent) => {
@@ -54,11 +85,10 @@ export function useMapInteraction() {
 
       // here we extract the data using the configuration rules
       const popupData = extractGenericPopupData(
-        feature,
+        feature, // we pass the FULL feature directly
         config.popupConfig,
         state.entities
       );
-
       setSelectedFeature({
         longitude: event.lngLat.lng,
         latitude: event.lngLat.lat,

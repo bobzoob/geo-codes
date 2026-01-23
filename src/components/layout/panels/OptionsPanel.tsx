@@ -49,7 +49,7 @@ function OptionsPanel() {
               filters={selectedLayer.activeFilters.filter(
                 (f) => f.placement === "timeline-area"
               )}
-              values={selectedLayer.filterValues}
+              values={selectedLayer.filterValues || {}}
             />
           </Box>
 

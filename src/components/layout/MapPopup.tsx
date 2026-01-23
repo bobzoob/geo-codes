@@ -6,9 +6,11 @@ import {
   List,
   ListItem,
   ListItemText,
+  ListItemButton,
   Chip,
 } from "@mui/material";
 import type { SelectedFeature } from "../../hooks/useMapInteraction";
+import { useAppState } from "../../state/appContext";
 
 interface MapPopupProps {
   feature: SelectedFeature;
@@ -16,6 +18,9 @@ interface MapPopupProps {
 }
 
 export function MapPopup({ feature, onClose }: MapPopupProps) {
+  const { state } = useAppState();
+  const { entities } = state;
+
   // feature.data is now GenericPopupData
   const { fields, url } = feature.data;
 
@@ -38,7 +43,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
         }}
       >
         {fields.map((field, index) => {
-          // --- TYPE: HEADER ---
+          // TYPE: HEADER
           if (field.type === "header") {
             return (
               <Typography
@@ -52,7 +57,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
             );
           }
 
-          // --- TYPE: TEXT (Simple) ---
+          // TYPE: TEXT (Simple)
           if (field.type === "text") {
             return (
               <Typography key={index} variant="body2" gutterBottom>
@@ -61,7 +66,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
             );
           }
 
-          // --- TYPE: TAGS (Mentions) ---
+          // TYPE: TAGS (Mentions)
           if (field.type === "tags" && Array.isArray(field.value)) {
             return (
               <Box key={index} sx={{ mb: 1 }}>
@@ -86,7 +91,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
             );
           }
 
-          // --- TYPE: LONG TEXT (Auto-Scroll Logic) ---
+          // TYPE: LONG TEXT (Auto-Scroll)
           if (field.type === "long-text") {
             const isLong = field.value.length > 300;
             return (
@@ -109,10 +114,77 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
             );
           }
 
-          // --- TYPE: LIST & TIMED-LIST (Auto-Scroll Logic) ---
+          // TYPE: FEATURE-LIST
+          if (field.type === "feature-list" && Array.isArray(field.value)) {
+            // Use a fallback empty object to prevent destructuring errors
+            const meta = field.meta || {};
+            const listLabelField = meta.listLabelField || "title";
+            const detailLayerId = meta.detailLayerId;
+
+            return (
+              <Box key={index} sx={{ mt: 2 }}>
+                <Typography variant="subtitle2" color="primary" gutterBottom>
+                  {field.label || "Items"}:
+                </Typography>
+                <List
+                  dense
+                  sx={{
+                    maxHeight: 200,
+                    overflow: "auto",
+                    bgcolor: "action.hover",
+                    borderRadius: 1,
+                  }}
+                >
+                  {field.value.map((childFeature: any, i: number) => {
+                    // 1. Get the label from the child feature properties
+                    const label =
+                      childFeature.properties[listLabelField] || "Unknown Item";
+
+                    // 2. Get the sender name for the sub-label (specific to letters)
+                    const senderId = childFeature.properties.sender_ids?.[0];
+                    const senderName = senderId
+                      ? entities[senderId]?.name || senderId
+                      : "";
+
+                    return (
+                      <ListItem key={i} divider disablePadding>
+                        <ListItemButton
+                          onClick={() => {
+                            window.dispatchEvent(
+                              new CustomEvent("app:select-feature", {
+                                detail: {
+                                  feature: childFeature,
+                                  layerId: detailLayerId,
+                                },
+                              })
+                            );
+                          }}
+                        >
+                          <ListItemText
+                            primary={label}
+                            secondary={senderName}
+                            primaryTypographyProps={{
+                              variant: "caption",
+                              fontWeight: "bold",
+                            }}
+                            secondaryTypographyProps={{
+                              variant: "caption",
+                              sx: { opacity: 0.7 },
+                            }}
+                          />
+                        </ListItemButton>
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              </Box>
+            );
+          }
+
+          // TYPE: LIST & TIMED-LIST (Auto-Scroll)
           if (field.type === "list" || field.type === "timed-list") {
             const items = field.value;
-            const isLongList = items.length > 5; // PERSISTENT LOGIC: > 5 items = scroll
+            const isLongList = items.length > 5; // > 5 items = scroll
 
             return (
               <Box key={index} sx={{ mt: 1, mb: 1 }}>

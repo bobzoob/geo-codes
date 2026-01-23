@@ -1,11 +1,14 @@
 import type { EntityMap } from "../types/geojson";
 import type { PopupFieldConfig } from "../types/state";
 
-// The shape of data passed to the UI
 export interface ProcessedField {
   label?: string;
   value: any;
   type: string;
+  meta?: {
+    listLabelField?: string;
+    detailLayerId?: string;
+  };
 }
 
 export interface GenericPopupData {
@@ -13,51 +16,155 @@ export interface GenericPopupData {
   url?: string;
 }
 
-// Helper to resolve IDs
-const resolve = (ids: any, entities: EntityMap): string[] => {
+/**
+ * Helper to resolve IDs to Names and optionally filter by Entity Type
+ */
+const resolveAndFilter = (
+  ids: any,
+  entities: EntityMap,
+  typeFilter?: string
+): string[] => {
   if (!ids) return [];
-  let list = Array.isArray(ids) ? ids : [ids];
-  // Handle stringified JSON if necessary
-  if (typeof ids === "string" && ids.startsWith("[")) {
-    try {
-      list = JSON.parse(ids);
-    } catch (e) {}
+
+  // Handle strings that look like arrays "[id1, id2]" or single strings
+  let list: string[] = [];
+  if (Array.isArray(ids)) {
+    list = ids;
+  } else if (typeof ids === "string") {
+    if (ids.startsWith("[")) {
+      try {
+        list = JSON.parse(ids);
+      } catch (e) {
+        list = [ids];
+      }
+    } else {
+      list = [ids];
+    }
   }
-  return list.map((id: string) => entities[id]?.label || id).filter(Boolean);
+
+  return list
+    .map((id) => {
+      // additional white-space problems?
+      const cleanId = typeof id === "string" ? id.trim() : id;
+      let entity = entities[cleanId];
+
+      // we try to find the key in dictionary but trimm whitspace too
+      if (!entity) {
+        const fuzzyKey = Object.keys(entities).find(
+          (k) => k.trim() === cleanId
+        );
+        if (fuzzyKey) entity = entities[fuzzyKey];
+      }
+
+      if (!entity) {
+        console.warn(`Lookup failed for ID: "${cleanId}"`);
+        return cleanId;
+      }
+
+      // we filter for a type (like "Person")
+      if (
+        typeFilter &&
+        entity.type &&
+        entity.type.toLowerCase() !== typeFilter.toLowerCase()
+      ) {
+        return null;
+      }
+      return entity.name;
+    })
+    .filter((item): item is string => item !== null && item !== undefined);
 };
 
+/**
+ * Main function to transform raw GeoJSON properties into UI-ready Popup Data
+ */
 export const extractGenericPopupData = (
-  feature: { properties: any },
+  feature: any,
   config: PopupFieldConfig[],
   entities: EntityMap
 ): GenericPopupData => {
-  const props = feature.properties;
+  const props = feature.properties || {};
+
+  console.log("Available properties in popup:", Object.keys(props));
+
+  // Ensure we have the ID available (from properties or root)
+  const featureId = props.id || feature.id || "";
+
   const fields: ProcessedField[] = [];
 
   config.forEach((conf) => {
-    let rawValue = props[conf.field];
+    // SPECIAL CASE: Composite Header (Sender to Recipient)
+    if (conf.type === "header" && conf.field === "composite_letter_header") {
+      const senders = resolveAndFilter(props.sender_ids, entities);
+      const recipients = resolveAndFilter(props.recipient_ids, entities);
 
-    // Skip if data is missing
-    if (!rawValue || (Array.isArray(rawValue) && rawValue.length === 0)) return;
+      const senderText =
+        senders.length > 0 ? senders.join(", ") : "Unknown Sender";
+      const recipientText =
+        recipients.length > 0 ? recipients.join(", ") : "Unknown Recipient";
+
+      fields.push({
+        type: "header",
+        value: `${senderText} to ${recipientText}`,
+      });
+      return;
+    }
+
+    // STANDARD LOGIC:
+    let rawValue = props[conf.field];
+    // for generic feature-list
+    if (conf.type === "feature-list") {
+      let listValue = rawValue;
+      if (typeof listValue === "string") {
+        try {
+          listValue = JSON.parse(listValue);
+        } catch (e) {
+          console.error("Failed to parse feature-list JSON", e);
+          return;
+        }
+      }
+
+      if (!listValue || !Array.isArray(listValue)) return;
+
+      fields.push({
+        label: conf.label,
+        type: "feature-list",
+        value: listValue,
+        meta: {
+          listLabelField: conf.listLabelField,
+          detailLayerId: conf.detailLayerId,
+        },
+      });
+      return;
+    }
+
+    if (!rawValue) return;
+    if (Array.isArray(rawValue) && rawValue.length === 0) return;
 
     let processedValue = rawValue;
 
-    // Resolve Entities (if needed)
     if (conf.resolveEntities) {
       if (conf.type === "timed-list") {
-        // Special handling for [ID, Date] arrays
-        if (typeof rawValue === "string")
+        // Handle the specific [ID, Date] array structure
+        let listData = rawValue;
+        if (typeof rawValue === "string") {
           try {
-            rawValue = JSON.parse(rawValue);
+            listData = JSON.parse(rawValue);
           } catch (e) {}
-
-        processedValue = rawValue.map((entry: string[]) => ({
-          label: entities[entry[0]]?.label || "Unknown",
-          subLabel: entry[1],
-        }));
+        }
+        if (Array.isArray(listData)) {
+          processedValue = listData.map((entry: any) => ({
+            label: entities[entry[0]]?.name || entry[0],
+            subLabel: entry[1],
+          }));
+        }
       } else {
-        // Standard ID list
-        processedValue = resolve(rawValue, entities);
+        // Standard ID resolution
+        processedValue = resolveAndFilter(
+          rawValue,
+          entities,
+          conf.entityTypeFilter
+        );
+        if (processedValue.length === 0) return;
       }
     }
 
