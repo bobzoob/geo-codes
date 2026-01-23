@@ -87,7 +87,7 @@ export const extractGenericPopupData = (
   console.log("Available properties in popup:", Object.keys(props));
 
   // Ensure we have the ID available (from properties or root)
-  const featureId = props.id || feature.id || "";
+  //const featureId = props.id || feature.id || "";
 
   const fields: ProcessedField[] = [];
 
