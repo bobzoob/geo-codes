@@ -10,14 +10,17 @@ function LayerPanel() {
     dispatch({ type: "SELECT_LAYER", payload: newSelectedId });
   };
 
+  // hide layer from layerPanel
+  const visibleLayers = layerConfig.filter((l) => l.showInPanel !== false);
+
   return (
-    <Box sx={{ padding: 1.5 }}>
+    <Box sx={{ padding: 2 }}>
       {currentView === "map" && (
         <Box mt={2}>
           <Typography variant="h6" sx={{ marginBottom: 2 }}>
             Layers
           </Typography>
-          {layerConfig.map((layer) => {
+          {visibleLayers.map((layer) => {
             const isSelected = layer.id === selectedLayerId;
 
             return (
@@ -26,12 +29,13 @@ function LayerPanel() {
                 className={isSelected ? "LayerCard active" : "LayerCard"}
                 elevation={isSelected ? 4 : 1}
                 onClick={() => handleSelectLayer(layer.id)}
+                sx={{ cursor: "pointer", mb: 1 }}
               >
                 <Stack
                   alignItems="center"
                   direction="row"
                   spacing={2}
-                  sx={{ width: "100%" }}
+                  sx={{ width: "100%", p: 1 }}
                 >
                   {/* visibility switch */}
                   <Switch

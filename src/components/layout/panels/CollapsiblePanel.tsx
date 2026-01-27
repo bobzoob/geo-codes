@@ -50,9 +50,7 @@ function CollapsiblePanel({
           elevation={4}
           sx={{
             width: "fit-content",
-            // 2. "minWidth": Ensures it never gets too narrow (e.g., keeps buttons usable)
             minWidth: "280px",
-            // 3. "maxWidth": The cap you passed in (e.g. 500px)
             maxWidth: isMobile ? "calc(100vw - 80px)" : `${maxWidth}px`,
 
             maxHeight: "calc(100vh - 190px)",
@@ -79,12 +77,7 @@ function CollapsiblePanel({
           isMobile ? (
             // button shrink in mobil
             <Tooltip title={label} placement="bottom" arrow>
-              <IconButton
-                onClick={onToggle}
-                sx={{
-                  boxShadow: 3,
-                }}
-              >
+              <IconButton onClick={onToggle}>
                 <MenuIcon />
               </IconButton>
             </Tooltip>
@@ -94,12 +87,6 @@ function CollapsiblePanel({
               variant="contained"
               onClick={onToggle}
               startIcon={<MenuIcon />}
-              sx={{
-                textTransform: "none",
-                fontWeight: "bold",
-                whiteSpace: "nowrap",
-                boxShadow: 3,
-              }}
             >
               {/* here is where the button texxt goes*/}
               {label}
@@ -107,15 +94,7 @@ function CollapsiblePanel({
           )
         ) : (
           // second status, when open: arrow
-          <IconButton
-            onClick={onToggle}
-            size="small"
-            sx={{
-              boxShadow: 3,
-              border: "1px solid",
-              borderColor: "divider",
-            }}
-          >
+          <IconButton onClick={onToggle} size="small">
             <KeyboardArrowLeftIcon />
           </IconButton>
         )}

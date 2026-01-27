@@ -88,7 +88,12 @@ function ArrowLayer({ id, data }: ArrowLayerProps) {
   };
 
   return (
-    <Source id={sourceId} type="geojson" data={data as FeatureCollection}>
+    <Source
+      id={sourceId}
+      type="geojson"
+      data={data as FeatureCollection}
+      promoteId="id"
+    >
       <Layer {...lineStyle} />
       <Layer {...arrowStyle} />
     </Source>

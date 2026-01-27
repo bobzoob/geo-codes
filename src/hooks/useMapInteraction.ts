@@ -1,71 +1,79 @@
 import { useState, useCallback, useEffect } from "react";
 import type { MapLayerMouseEvent } from "react-map-gl/maplibre";
 import { useAppState } from "../state/appContext";
-import {
-  extractGenericPopupData,
-  type GenericPopupData,
-} from "../utils/popupUtils";
 
 export interface SelectedFeature {
+  featureId: string;
+  layerId: string;
   latitude: number;
   longitude: number;
-  data: GenericPopupData;
 }
 
 export interface PopupInfo {
+  featureId: string;
+  layerId: string;
   latitude: number;
   longitude: number;
-  data: GenericPopupData;
 }
 
 export function useMapInteraction() {
   const { state } = useAppState();
   const [selectedFeature, setSelectedFeature] =
     useState<SelectedFeature | null>(null);
-
   const [hoverInfo, setHoverInfo] = useState<PopupInfo | null>(null);
 
-  // Helper to find the config for the clicked feature
-  const getLayerConfig = (feature: any) => {
-    const sourceId = feature.source;
-    // check if the source matches the layer ID or the ID + "-source" suffix
-    return state.layerConfig.find(
-      (l) => l.id === sourceId || `${l.id}-source` === sourceId
-    );
+  /**
+   * Helper to identify which layer this mapLibre feature belongs to
+   */
+  const getLayerIdFromFeature = (feature: any): string => {
+    // MapLibre sources are often named "layerId-source"
+    return feature.source.replace("-source", "");
   };
 
-  // Helper to listen to clicks on the list
+  /**
+   * Listen for "drill-down" clicks from the list inside a popup
+   */
   useEffect(() => {
     const handleDrillDown = (e: any) => {
       const { feature, layerId } = e.detail;
 
-      // find correct config for detail view ("Letters" layer config)
-      const config = state.layerConfig.find((l) => l.id === layerId);
-      if (!config) return;
+      if (!feature) return;
 
-      const popupData = extractGenericPopupData(
-        feature,
-        config.popupConfig,
-        state.entities
-      );
+      // DEBUG: Check if the feature actually has an ID and what the target layer is
+      console.log("Drill-down triggered:", {
+        id: feature.id,
+        targetLayer: layerId,
+        properties: feature.properties,
+      });
 
-      // update popup but, keeping the same map location
-      setSelectedFeature((prev) =>
-        prev
-          ? {
-              ...prev,
-              data: popupData,
-            }
-          : null
-      );
+      setSelectedFeature((prev) => {
+        // 1. Determine fallback coordinates if prev is null
+        let fallbackCoords = [0, 0];
+        if (feature.geometry?.type === "Point") {
+          fallbackCoords = feature.geometry.coordinates;
+        } else if (feature.geometry?.type === "LineString") {
+          // Use the start of the line (Origin)
+          fallbackCoords = feature.geometry.coordinates[0];
+        }
+
+        return {
+          // Ensure we use the ID that the selector sanitized
+          featureId: String(feature.id || feature.properties?.id),
+          layerId: layerId,
+          // Priority: 1. Current popup position, 2. Feature's own position
+          longitude: prev?.longitude ?? fallbackCoords[0],
+          latitude: prev?.latitude ?? fallbackCoords[1],
+        };
+      });
     };
 
     window.addEventListener("app:select-feature", handleDrillDown);
     return () =>
       window.removeEventListener("app:select-feature", handleDrillDown);
-  }, [state.layerConfig, state.entities]);
-
-  // CLICK HANDLER
+  }, []);
+  /**
+   * CLICK HANDLER
+   */
   const onMapClick = useCallback(
     (event: MapLayerMouseEvent) => {
       const feature = event.features?.[0];
@@ -75,30 +83,25 @@ export function useMapInteraction() {
         return;
       }
 
-      // find which layer this feature belongs to
-      const config = getLayerConfig(feature);
+      const layerId = getLayerIdFromFeature(feature);
+      const config = state.layerConfig.find((l) => l.id === layerId);
 
-      if (!config || !config.popupConfig) {
-        console.warn("No popup config found for layer:", feature.source);
-        return;
-      }
+      // Only select if the layer is configured to have a popup
+      if (!config || !config.popupConfig) return;
 
-      // here we extract the data using the configuration rules
-      const popupData = extractGenericPopupData(
-        feature, // we pass the FULL feature directly
-        config.popupConfig,
-        state.entities
-      );
       setSelectedFeature({
+        featureId: feature.id as string,
+        layerId: layerId,
         longitude: event.lngLat.lng,
         latitude: event.lngLat.lat,
-        data: popupData,
       });
     },
-    [state.layerConfig, state.entities]
+    [state.layerConfig]
   );
 
-  // HOVER HANDLER
+  /**
+   * HOVER HANDLER
+   */
   const onMapMouseMove = useCallback(
     (event: MapLayerMouseEvent) => {
       const feature = event.features?.[0];
@@ -108,29 +111,25 @@ export function useMapInteraction() {
         return;
       }
 
-      const config = getLayerConfig(feature);
+      const layerId = getLayerIdFromFeature(feature);
+      const config = state.layerConfig.find((l) => l.id === layerId);
 
+      // Only show tooltip if the layer has a popupConfig defined
       if (!config || !config.popupConfig) {
         setHoverInfo(null);
         return;
       }
 
-      const popupData = extractGenericPopupData(
-        feature,
-        config.popupConfig,
-        state.entities
-      );
-
       setHoverInfo({
+        featureId: feature.id as string,
+        layerId: layerId,
         longitude: event.lngLat.lng,
         latitude: event.lngLat.lat,
-        data: popupData,
       });
     },
-    [state.layerConfig, state.entities]
+    [state.layerConfig]
   );
 
-  // MOUSE LEAVE
   const onMapMouseLeave = useCallback(() => {
     setHoverInfo(null);
   }, []);

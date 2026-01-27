@@ -1,82 +1,35 @@
-import { useMemo } from "react";
-import type {
-  HistoricalFeatureCollection,
-  HistoricalFeature,
-} from "../types/geojson";
-import type { LayerConfig, TimeRange } from "../types/state";
-import { applyFilters } from "../filters/filterUtils";
+import type { LayerConfig } from "../types/state";
 import { layerRegistry } from "../layers/layerRegistry";
-import { processorRegistry } from "../processors/processorRegistry";
 import { useAppState } from "../state/appContext";
 
 /**
- * applications engine room,
- * takes raw data
- * wrapps them so the map can draw them
- *
+ * this is the connector
+ * retrieves pre-processed data from global stare
+ * passes it to the specific rendering plugin
  *  */
 interface LayerWrapperProps {
   layer: LayerConfig;
-  data: HistoricalFeatureCollection;
-  timeRange: TimeRange;
 }
 
-export function LayerWrapper({ layer, data, timeRange }: LayerWrapperProps) {
+export function LayerWrapper({ layer }: LayerWrapperProps) {
   const { state } = useAppState();
-  const { entities } = state;
+  const { processedData, entities } = state;
 
-  // processed data (for data sometimes needs pre-processing aka is_local)
-  // now, i used useMemo here, which is not the best choice
-
-  const processedData = useMemo(() => {
-    //FILTER
-    // const activeFilterValues = layer.filterValues || {};
-    const filteredFeatures = data.features.filter((f: HistoricalFeature) =>
-      applyFilters(f, timeRange, entities, {
-        ...layer,
-        filterValues: layer.filterValues || {},
-      })
-    );
-
-    //PROCESSING
-    // agregate data with generic processor
-    if (layer.processor) {
-      const processorModule = processorRegistry[layer.processor.type];
-      if (processorModule) {
-        return processorModule.execute(
-          filteredFeatures,
-          layer.processor.params,
-          entities
-        );
-      } else {
-        console.warn(`Processor not found: ${layer.processor.type}`);
-      }
-    }
-
-    // DEFAULT
-    return {
-      ...data,
-      features: filteredFeatures,
-    };
-  }, [data, timeRange, layer.filterValues, entities, layer.processor]);
-
-  // FIND RENDERING PLUG-IN
-
+  // we take the pre-processed data from global pipline
+  const data = processedData[layer.id];
+  if (!data || data.type !== "FeatureCollection") return null;
+  // we look up the rendering plugin (point, line..)
   const plugin = layerRegistry[layer.type];
-
   if (!plugin) {
     console.warn(`No plugin found for layer type: ${layer.type}`);
     return null;
   }
 
-  const LayerComponent = plugin.Component;
-
   return (
-    <LayerComponent
+    <plugin.Component
       id={layer.id}
-      data={processedData}
-      // fallback: optional config values
-      showAllTooltips={layer.showAllTooltips ?? false} //Nullish Coalescing Operator (??)
+      data={data}
+      showAllTooltips={layer.showAllTooltips ?? false}
       entities={entities}
       intensityField={layer.intensityField}
       styleConfig={layer.styleConfig}

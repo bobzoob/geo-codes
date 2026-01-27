@@ -22,7 +22,7 @@ function Footer() {
       >
         {/* Left Side: Copyright or Branding */}
         <Typography variant="body2" sx={{ opacity: 0.8 }}>
-          © {new Date().getFullYear()} Historical Map Project
+          © {new Date().getFullYear()} geocodes
         </Typography>
 
         {/* Right Side: Legal Menu */}

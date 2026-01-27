@@ -2,26 +2,26 @@
  * this file will contain all the logic for updating applications states
  * reducer is a pure function that takes the current state and an "action" and returns the next state.
  */
-import type { LayerConfig, FilterValue, TimeRange, View } from "../types/state";
+import type { AppState, FilterValue, TimeRange, View } from "../types/state";
 import type { HistoricalFeatureCollection, EntityMap } from "../types/geojson";
 import { APP_CONFIG } from "../config/appConfig";
 
-// shape of the applications state
-export interface AppState {
-  currentView: View;
-  geoJsonData: Record<string, HistoricalFeatureCollection> | null;
-  entities: EntityMap; // the dictionary
-  layerConfig: LayerConfig[];
-  committedTimeRange: TimeRange;
-  liveTimeRange: TimeRange;
-  selectedLayerId: string | null;
-  // collapse flags
-  isLayerPanelCollapsed: boolean;
-  isOptionsPanelCollapsed: boolean;
-  isActiveFiltersPanelCollapsed: boolean;
-  activeMobilePanel: "layers" | "options" | "filters" | "none";
-  loadingProgress: number; // 0 to 100, for progress tracking
-}
+// shape of the applications state:
+// export interface AppState {
+//   currentView: View;
+//   geoJsonData: Record<string, HistoricalFeatureCollection> | null;
+//   entities: EntityMap; // the dictionary
+//   layerConfig: LayerConfig[];
+//   committedTimeRange: TimeRange;
+//   liveTimeRange: TimeRange;
+//   selectedLayerId: string | null;
+//   // collapse flags
+//   isLayerPanelCollapsed: boolean;
+//   isOptionsPanelCollapsed: boolean;
+//   isActiveFiltersPanelCollapsed: boolean;
+//   activeMobilePanel: "layers" | "options" | "filters" | "none";
+//   loadingProgress: number; // 0 to 100, for progress tracking
+// }
 
 // all possible actions, that can change the state
 //this is a "discriminated union", ts function: represent multiple possible variants, distinguished by a common property called a discriminator

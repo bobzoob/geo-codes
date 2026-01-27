@@ -1,67 +1,55 @@
-import { Box, Button, Stack } from "@mui/material";
+import { Box, ButtonBase, Stack } from "@mui/material";
 import { useAppState } from "../../state/appContext";
 
 function Header() {
-  const { state, dispatch } = useAppState();
+  const { dispatch } = useAppState();
+
   return (
     <Box
       component="header"
       sx={{
         backgroundColor: "primary.dark",
         paddingY: 2,
-        display: "flex",
-        //justifyContent: "space-around",
-        alignItems: "center",
-        boxShadow: 2,
-        zIndex: 1100, // above everything
-        position: "relative",
-        height: "64px",
+        paddingX: 3,
+        zIndex: 1100,
+        boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
       }}
     >
-      {/* inner wrapper */}
       <Stack
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        maxWidth="xl" // limits width on large screens
-        //margin="0 auto"
-        sx={{ width: "100%", paddingX: 3, paddingY: 2 }}
-      ></Stack>
+        maxWidth="xl"
+        margin="0 auto"
+      >
+        {/* Left side: intentionally empty  */}
+        <Box />
 
-      <Box>
-        {/* show the Home button if we are NOT on the dashboard */}
-        {state.currentView === "map" && (
-          <Button
-            variant="outlined"
-            color="inherit" // inherits white color from parent
-            size="small"
-            onClick={() => dispatch({ type: "SET_VIEW", payload: "dashboard" })}
+        {/* Right side: Logo as Home button */}
+        <ButtonBase
+          onClick={() => dispatch({ type: "SET_VIEW", payload: "dashboard" })}
+          aria-label="Go to dashboard"
+          sx={{
+            borderRadius: 1,
+            p: 0.5,
+            transition: "all 0.2s ease-in-out",
+            "&:hover": {
+              backgroundColor: "rgba(255,255,255,0.08)",
+            },
+          }}
+        >
+          <Box
+            component="img"
+            src="assets/logo.png"
+            alt="Project Logo"
             sx={{
-              color: "white",
-              borderColor: "rgba(255,255,255,0.5)",
-              "&:hover": {
-                borderColor: "white",
-                backgroundColor: "rgba(255,255,255,0.1)",
-              },
+              height: "40px",
+              width: "auto",
+              objectFit: "contain",
             }}
-          >
-            Home
-          </Button>
-        )}
-      </Box>
-      <Box
-        component="img"
-        src="assets/logo.png"
-        alt="Project Logo"
-        sx={{
-          height: "40px", //  to fit header
-          width: "auto",
-          objectFit: "contain",
-          // Optional: Add a subtle hover effect
-          transition: "opacity 0.2s",
-          "&:hover": { opacity: 0.8 },
-        }}
-      />
+          />
+        </ButtonBase>
+      </Stack>
     </Box>
   );
 }

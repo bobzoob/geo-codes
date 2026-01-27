@@ -4,7 +4,7 @@ export type { FilterValue, FilterComponentProps } from "./filter";
 
 // basic types
 export type TimeRange = [number, number];
-export type View = "dashboard" | "map";
+export type View = "dashboard" | "map" | "documentation";
 export type FilterPlacement = "timeline-area" | "search-area";
 export type FilterState = Record<string, any>;
 
@@ -36,6 +36,10 @@ export interface PopupFieldConfig {
   //for feature-list only
   listLabelField?: string; // featurs shown in list
   detailLayerId?: string; // which laysers popup should be used
+
+  // for linkable entities
+  isLinkable?: boolean;
+  linkTemplate?: string; // if field is not an entitie but an ID string ("fud")
 }
 
 export interface PointStyleConfig {
@@ -54,6 +58,7 @@ export interface LayerConfig {
   name: string;
   description?: string;
   visible: boolean;
+  showInPanel?: boolean;
   type: string;
   source: string;
   showAllTooltips?: boolean;
@@ -83,4 +88,28 @@ export interface LayerConfig {
 
   // poit styling
   styleConfig?: PointStyleConfig;
+}
+
+// interface that structures the data pipline
+export interface AppState {
+  currentView: View;
+
+  // raw data
+  geoJsonData: Record<string, HistoricalFeatureCollection> | null;
+  entities: EntityMap;
+
+  //processed data
+  processedData: Record<string, HistoricalFeatureCollection>;
+
+  // control state
+  layerConfig: LayerConfig[];
+  committedTimeRange: TimeRange;
+  liveTimeRange: TimeRange;
+  selectedLayerId: string | null;
+  // UI state
+  isLayerPanelCollapsed: boolean;
+  isOptionsPanelCollapsed: boolean;
+  isActiveFiltersPanelCollapsed: boolean;
+  activeMobilePanel: "layers" | "options" | "filters" | "none";
+  loadingProgress: number;
 }

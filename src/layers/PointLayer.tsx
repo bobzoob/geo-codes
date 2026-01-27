@@ -133,7 +133,12 @@ function PointLayer({
   };
 
   return (
-    <Source id={sourceId} type="geojson" data={data as FeatureCollection}>
+    <Source
+      id={sourceId}
+      type="geojson"
+      data={data as FeatureCollection}
+      promoteId="id"
+    >
       <Layer {...circleStyle} />
       <Layer {...labelStyle} />
     </Source>

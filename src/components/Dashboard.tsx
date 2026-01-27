@@ -4,13 +4,14 @@ import {
   CardActions,
   CardContent,
   Grid,
+  Box,
+  Container,
   Typography,
   Fade,
 } from "@mui/material";
 import { useAppState } from "../state/appContext";
-import { mapTheme } from "../config/mapTheme";
-import { ThemeProvider } from "@mui/material/styles";
 import { LoadingBar } from "./LoadingBar";
+import ArticleIcon from "@mui/icons-material/Article";
 
 function Dashboard() {
   const { state, dispatch } = useAppState();
@@ -19,14 +20,22 @@ function Dashboard() {
   const isLoaded = loadingProgress === 100 && geoJsonData !== null;
 
   return (
-    <ThemeProvider theme={mapTheme}>
+    <Container sx={{ py: 4 }}>
       <Typography variant="h2" component="h1" gutterBottom textAlign="center">
-        WEBSITE TITLE
+        {/* Title goes here */}
       </Typography>
+
+      {/* GRID CONTAINER */}
       <Grid container spacing={4} justifyContent="center">
+        {/* Card 1: Explore Map */}
         <Grid>
           <Card sx={{ maxWidth: 345 }}>
             <CardContent>
+              <Typography variant="h6">Explore Exemplary Map</Typography>
+              <Typography variant="subtitle2">
+                Korrespondenzen der Frühromantik
+              </Typography>
+
               <img
                 src="assets/img-map.jpg"
                 alt="Image Description"
@@ -34,32 +43,50 @@ function Dashboard() {
                   width: "100%",
                   height: "auto",
                   borderRadius: "8px",
-                  marginBottom: "16px", // space between image and text
+                  marginBottom: "16px",
+                  marginTop: "8px",
                 }}
               />
-              <Typography gutterBottom variant="h5" component="div">
-                Lorem ipsum dolor sit amet
+
+              {/* Quotation block */}
+              <Typography
+                component="blockquote"
+                variant="caption"
+                sx={{
+                  m: 0,
+                  mb: 2,
+                  pl: 2,
+                  borderLeft: "3px solid",
+                  borderColor: "secondary.main",
+                  fontStyle: "italic",
+                  opacity: 0.9,
+                }}
+              >
+                „Der wahre Brief ist, seiner Natur nach, poëtisch.“ (Novalis)
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-                takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-                dolor sit amet.
+
+              {/* Text under quotation */}
+              <Typography variant="body2" sx={{ px: 1, textAlign: "justify" }}>
+                Doch gibt es den ‚wahren‘ Brief auch in Wirklichkeit? Und wo
+                gilt es zu suchen? In den frühromantischen Fragmenten, in
+                Romanen wie Friedrich Schlegels Roman-Brief Lucinde oder in den
+                alltäglich gewechselten, den ‚authentischen‘ und zu Tausenden
+                überlieferten Briefen?
               </Typography>
-              {/* CONDITIONAL RENDERING */}
+
               {!isLoaded ? (
                 <LoadingBar progress={loadingProgress} />
               ) : (
                 <Fade in={isLoaded}>
                   <Typography
-                    variant="body2"
+                    variant="caption"
                     color="success.main"
                     fontWeight="bold"
                     textAlign="center"
                     sx={{ mt: 2, mb: 1 }}
-                  ></Typography>
+                  >
+                    {/* Ready text could go here */}
+                  </Typography>
                 </Fade>
               )}
             </CardContent>
@@ -77,8 +104,61 @@ function Dashboard() {
             </CardActions>
           </Card>
         </Grid>
+
+        {/* Card 2: Documentation */}
+        <Grid>
+          <Card
+            sx={{
+              maxWidth: 345,
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
+            }}
+          >
+            <CardContent sx={{ flexGrow: 1 }}>
+              <Typography variant="h6">Project Documentation</Typography>
+              <Typography variant="subtitle2" gutterBottom>
+                Developer & User Guide
+              </Typography>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  my: 4,
+                  color: "text.secondary",
+                }}
+              >
+                <ArticleIcon sx={{ fontSize: 80, opacity: 0.5 }} />
+              </Box>
+
+              <Typography variant="body2" sx={{ textAlign: "justify" }}>
+                Discover the technical architecture of this application,
+                including the reactive data pipeline, component structure, and
+                guides for extending the functionality with new layers, filters,
+                or datasets.
+              </Typography>
+            </CardContent>
+
+            <Box sx={{ p: 2, pt: 0, mt: "auto" }}>
+              <CardActions sx={{ p: 0 }}>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() =>
+                    dispatch({ type: "SET_VIEW", payload: "documentation" })
+                  }
+                  sx={{ width: "100%" }}
+                >
+                  View Documentation
+                </Button>
+              </CardActions>
+            </Box>
+          </Card>
+        </Grid>
       </Grid>
-    </ThemeProvider>
+    </Container>
   );
 }
 

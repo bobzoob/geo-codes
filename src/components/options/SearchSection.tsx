@@ -23,7 +23,6 @@ interface SearchSectionProps {
 export function SearchSection({ layer }: SearchSectionProps) {
   const { dispatch } = useAppState();
 
-  // 1. Filter the config
   const searchFilters = layer.activeFilters.filter(
     (f) => f.placement === "search-area"
   );
@@ -35,13 +34,13 @@ export function SearchSection({ layer }: SearchSectionProps) {
 
   return (
     <Box>
-      <Typography variant="h6" gutterBottom>
+      {/* <Typography variant="h6" gutterBottom>
         Display Options
-      </Typography>
+      </Typography> */}
 
       <Stack spacing={2} alignItems="flex-start">
-        {/* Tooltip Toggle */}
-        {/* ONLY RENDER IF THE FLAG IS TRUE */}
+        {/* Tooltip Toggle Option */}
+        {/* IT WILL ONLY RENDER IF THE FLAG IS TRUE */}
         {layer.hasFlashlight && (
           <FormControlLabel
             control={
@@ -68,7 +67,7 @@ export function SearchSection({ layer }: SearchSectionProps) {
           values={layer.filterValues || {}}
         />
 
-        {/* Advanced Filters Accordion */}
+        {/* Advanced Filters (Accordion) */}
         {advancedFilters.length > 0 && (
           <Accordion
             disableGutters

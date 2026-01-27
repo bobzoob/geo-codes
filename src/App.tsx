@@ -6,6 +6,7 @@ import { useAppState } from "./state/appContext";
 import MapViewLayout from "./components/layout/MapViewLayout";
 import { ThemeProvider } from "@mui/material/styles";
 import { mapTheme } from "./config/mapTheme";
+import DocumentationView from "./components/DocumentationView";
 
 /**
  * root component of the application
@@ -16,6 +17,19 @@ function App() {
   const { state } = useAppState();
   const { currentView } = state;
 
+  // 2. Helper function to determine which view to render
+  const renderCurrentView = () => {
+    switch (currentView) {
+      case "map":
+        return <MapViewLayout />;
+      case "documentation":
+        return <DocumentationView />;
+      case "dashboard":
+      default:
+        return <Dashboard />;
+    }
+  };
+
   return (
     <ThemeProvider theme={mapTheme}>
       <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -24,7 +38,7 @@ function App() {
 
         {/* this is the main content area that fills the remeining space */}
         <Box sx={{ flexGrow: 1, position: "relative" }}>
-          {currentView === "dashboard" ? <Dashboard /> : <MapViewLayout />}
+          {renderCurrentView()}
         </Box>
         <Footer />
       </Box>{" "}

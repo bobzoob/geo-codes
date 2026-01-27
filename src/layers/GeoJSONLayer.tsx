@@ -1,35 +1,72 @@
 import { Source, Layer } from "react-map-gl/maplibre";
+import type { LayerProps } from "react-map-gl/maplibre";
 import type { FeatureCollection } from "geojson";
 import type { LayerComponentProps } from "../types/state";
 
-const GeoJSONLayer = ({ id, data }: LayerComponentProps) => {
-  // there are two layers, one for fill, one for outline, rendered simultaniusly
+const GeoJSONLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
+  const sourceId = `${id}-source`;
   const fillLayerId = `${id}-fill`;
   const outlineLayerId = `${id}-outline`;
+
+  // 1. NORMALIZE COLORS
+  // Since styleConfig.color can be string | string[], we ensure we have a single string.
+  const rawColor = styleConfig?.color || "#627BC1";
+  const fillColor = Array.isArray(rawColor) ? rawColor[0] : rawColor;
+
+  const rawStroke = styleConfig?.strokeColor || "#4B61D1";
+  const strokeColor = Array.isArray(rawStroke) ? rawStroke[0] : rawStroke;
+
+  const opacity = styleConfig?.opacity ?? 0.4;
+
+  // 2. Define the Fill Layer
+  const fillStyle: LayerProps = {
+    id: fillLayerId,
+    type: "fill",
+    filter: [
+      "match",
+      ["geometry-type"],
+      ["Polygon", "MultiPolygon"],
+      true,
+      false,
+    ],
+    paint: {
+      "fill-color": [
+        "case",
+        ["boolean", ["feature-state", "hover"], false],
+        strokeColor as string, // Cast to string to satisfy MapLibre types
+        fillColor as string,
+      ],
+      "fill-opacity": opacity,
+    },
+  };
+
+  // 3. Define the Outline Layer
+  const outlineStyle: LayerProps = {
+    id: outlineLayerId,
+    type: "line",
+    filter: [
+      "match",
+      ["geometry-type"],
+      ["Polygon", "MultiPolygon"],
+      true,
+      false,
+    ],
+    paint: {
+      "line-color": strokeColor as string,
+      "line-width": 1,
+      "line-opacity": 0.8,
+    },
+  };
+
   return (
-    <Source id={id} type="geojson" data={data as unknown as FeatureCollection}>
-      <Layer
-        id={fillLayerId}
-        type="fill"
-        paint={{
-          "fill-color": [
-            "case",
-            ["boolean", ["feature-state", "hover"], false],
-            "#4B61D1", // color when hovered (slightly darker)
-            "#627BC1", // default color
-          ],
-          "fill-opacity": 0.4,
-        }}
-      />
-      <Layer
-        id={outlineLayerId}
-        type="line"
-        paint={{
-          "line-color": "#4B61D1",
-          "line-width": 1,
-          "line-opacity": 0.8,
-        }}
-      />
+    <Source
+      id={sourceId}
+      type="geojson"
+      data={data as unknown as FeatureCollection}
+      promoteId="id"
+    >
+      <Layer {...fillStyle} />
+      <Layer {...outlineStyle} />
     </Source>
   );
 };

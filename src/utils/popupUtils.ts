@@ -1,10 +1,17 @@
 import type { EntityMap } from "../types/geojson";
 import type { PopupFieldConfig } from "../types/state";
 
+import { AUTHORITY_MAP } from "../config/authorities";
+
+export interface ResolvedEntity {
+  name: string;
+  url?: string;
+}
 export interface ProcessedField {
   label?: string;
   value: any;
   type: string;
+  url?: string;
   meta?: {
     listLabelField?: string;
     detailLayerId?: string;
@@ -18,15 +25,16 @@ export interface GenericPopupData {
 
 /**
  * Helper to resolve IDs to Names and optionally filter by Entity Type
+ * generate Authority URLs
  */
 const resolveAndFilter = (
   ids: any,
   entities: EntityMap,
-  typeFilter?: string
-): string[] => {
+  typeFilter?: string,
+  isLinkable?: boolean
+): ResolvedEntity[] => {
   if (!ids) return [];
 
-  // Handle strings that look like arrays "[id1, id2]" or single strings
   let list: string[] = [];
   if (Array.isArray(ids)) {
     list = ids;
@@ -44,11 +52,9 @@ const resolveAndFilter = (
 
   return list
     .map((id) => {
-      // additional white-space problems?
       const cleanId = typeof id === "string" ? id.trim() : id;
       let entity = entities[cleanId];
 
-      // we try to find the key in dictionary but trimm whitspace too
       if (!entity) {
         const fuzzyKey = Object.keys(entities).find(
           (k) => k.trim() === cleanId
@@ -57,11 +63,10 @@ const resolveAndFilter = (
       }
 
       if (!entity) {
-        console.warn(`Lookup failed for ID: "${cleanId}"`);
-        return cleanId;
+        // console.warn(`Lookup failed for ID: "${cleanId}"`);
+        return { name: cleanId }; // Return raw ID if not found
       }
 
-      // we filter for a type (like "Person")
       if (
         typeFilter &&
         entity.type &&
@@ -69,9 +74,22 @@ const resolveAndFilter = (
       ) {
         return null;
       }
-      return entity.name;
+
+      // URL GENERATION LOGIC
+      let url = undefined;
+      if (isLinkable && entity.authority) {
+        // we look for first authority key that matches our config ("gnd", "geonames")
+        const authKey = Object.keys(entity.authority).find(
+          (key) => AUTHORITY_MAP[key]
+        );
+        if (authKey) {
+          url = `${AUTHORITY_MAP[authKey]}${entity.authority[authKey]}`;
+        }
+      }
+
+      return { name: entity.name, url };
     })
-    .filter((item): item is string => item !== null && item !== undefined);
+    .filter((item): item is ResolvedEntity => item !== null);
 };
 
 /**
@@ -84,7 +102,7 @@ export const extractGenericPopupData = (
 ): GenericPopupData => {
   const props = feature.properties || {};
 
-  console.log("Available properties in popup:", Object.keys(props));
+  //console.log("Available properties in popup:", Object.keys(props));
 
   // Ensure we have the ID available (from properties or root)
   //const featureId = props.id || feature.id || "";
@@ -97,10 +115,15 @@ export const extractGenericPopupData = (
       const senders = resolveAndFilter(props.sender_ids, entities);
       const recipients = resolveAndFilter(props.recipient_ids, entities);
 
+      // we extract only names, not URLS
       const senderText =
-        senders.length > 0 ? senders.join(", ") : "Unknown Sender";
+        senders.length > 0
+          ? senders.map((s) => s.name).join(", ")
+          : "Unknown Sender";
       const recipientText =
-        recipients.length > 0 ? recipients.join(", ") : "Unknown Recipient";
+        recipients.length > 0
+          ? recipients.map((r) => r.name).join(", ")
+          : "Unknown Recipient";
 
       fields.push({
         type: "header",
@@ -141,6 +164,7 @@ export const extractGenericPopupData = (
     if (Array.isArray(rawValue) && rawValue.length === 0) return;
 
     let processedValue = rawValue;
+    let fieldUrl: string | undefined = undefined;
 
     if (conf.resolveEntities) {
       if (conf.type === "timed-list") {
@@ -159,12 +183,23 @@ export const extractGenericPopupData = (
         }
       } else {
         // Standard ID resolution
-        processedValue = resolveAndFilter(
+        const shouldLink = conf.isLinkable !== false; // isLinkable default is: true
+
+        const resolved = resolveAndFilter(
           rawValue,
           entities,
-          conf.entityTypeFilter
+          conf.entityTypeFilter,
+          shouldLink
         );
-        if (processedValue.length === 0) return;
+        if (resolved.length === 0) return;
+        if (conf.type === "text") {
+          // For text, we take the first resolved item's name and url
+          processedValue = resolved[0].name;
+          fieldUrl = resolved[0].url;
+        } else {
+          // fallback
+          processedValue = resolved;
+        }
       }
     }
 
@@ -172,6 +207,7 @@ export const extractGenericPopupData = (
       label: conf.label,
       type: conf.type,
       value: processedValue,
+      url: fieldUrl,
     });
   });
 

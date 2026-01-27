@@ -7,7 +7,7 @@ import { layerRegistry } from "../layers/layerRegistry";
 // LayerManager get its logic from LayerWrapper
 function LayerManager() {
   const { state } = useAppState();
-  const { layerConfig, geoJsonData, committedTimeRange } = state;
+  const { layerConfig, geoJsonData } = state;
 
   if (!geoJsonData) return null; // maybe no data at all
 
@@ -33,14 +33,7 @@ function LayerManager() {
         if (!layerData) return null;
 
         // we render the wrapper
-        return (
-          <LayerWrapper
-            key={layer.id}
-            layer={layer}
-            data={layerData}
-            timeRange={committedTimeRange}
-          />
-        );
+        return <LayerWrapper key={layer.id} layer={layer} />;
       })}
     </>
   );

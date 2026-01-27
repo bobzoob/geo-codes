@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import type { SelectedFeature } from "../../hooks/useMapInteraction";
 import { useAppState } from "../../state/appContext";
+import { extractGenericPopupData } from "../../utils/popupUtils";
+import { useEffect } from "react";
 
 interface MapPopupProps {
   feature: SelectedFeature;
@@ -19,10 +21,37 @@ interface MapPopupProps {
 
 export function MapPopup({ feature, onClose }: MapPopupProps) {
   const { state } = useAppState();
-  const { entities } = state;
+  const { processedData, layerConfig, entities } = state;
 
-  // feature.data is now GenericPopupData
-  const { fields, url } = feature.data;
+  // LIVE LOOKUP
+  const currentLayerData = processedData[feature.layerId];
+  const currentFeature = currentLayerData?.features.find(
+    (f: any) => String(f.id) === String(feature.featureId)
+  );
+
+  // AUTO CLOSE so the popup will close when filter change
+  useEffect(() => {
+    if (
+      currentLayerData &&
+      currentLayerData.features.length > 0 &&
+      !currentFeature
+    ) {
+      onClose();
+    }
+  }, [currentFeature, currentLayerData, onClose]);
+
+  if (!currentFeature) return null;
+
+  // EXTRACT DATA
+  const config = layerConfig.find((l) => l.id === feature.layerId);
+  if (!config) return null;
+
+  const popupData = extractGenericPopupData(
+    currentFeature,
+    config.popupConfig,
+    entities
+  );
+  const { fields, url } = popupData;
 
   return (
     <Popup
@@ -35,11 +64,9 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
     >
       <Box
         sx={{
-          bgcolor: "background.paper",
           p: 2,
-          borderRadius: 1,
+
           minWidth: "250px",
-          color: "text.primary",
         }}
       >
         {fields.map((field, index) => {
@@ -50,98 +77,59 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                 key={index}
                 variant="h6"
                 gutterBottom
-                sx={{ borderBottom: 1, borderColor: "divider" }}
+                sx={{ borderBottom: 1, borderColor: "divider", pb: 1, mb: 2 }}
               >
                 {field.value}
               </Typography>
             );
           }
 
-          // TYPE: TEXT (Simple)
+          // TYPE: TEXT
           if (field.type === "text") {
             return (
               <Typography key={index} variant="body2" gutterBottom>
-                <strong>{field.label}:</strong> {field.value}
+                <Box component="span" sx={{ color: "text.secondary", mr: 1 }}>
+                  {field.label}:
+                </Box>
+                {field.url ? (
+                  <Link
+                    href={field.url}
+                    target="_blank"
+                    rel="noopener"
+                    color="secondary"
+                    underline="hover"
+                  >
+                    {field.value}
+                  </Link>
+                ) : (
+                  field.value
+                )}
               </Typography>
             );
           }
 
-          // TYPE: TAGS (Mentions)
-          if (field.type === "tags" && Array.isArray(field.value)) {
-            return (
-              <Box key={index} sx={{ mb: 1 }}>
-                <Typography
-                  variant="caption"
-                  display="block"
-                  color="text.secondary"
-                >
-                  {field.label}:
-                </Typography>
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {field.value.map((tag: string, i: number) => (
-                    <Chip
-                      key={i}
-                      label={tag}
-                      size="small"
-                      sx={{ height: 20, fontSize: "0.7rem" }}
-                    />
-                  ))}
-                </Box>
-              </Box>
-            );
-          }
-
-          // TYPE: LONG TEXT (Auto-Scroll)
-          if (field.type === "long-text") {
-            const isLong = field.value.length > 300;
-            return (
-              <Box
-                key={index}
-                sx={{
-                  bgcolor: "rgba(0,0,0,0.2)",
-                  p: 1,
-                  borderRadius: 1,
-                  mb: 1,
-                  fontStyle: "italic",
-                  maxHeight: isLong ? "150px" : "auto",
-                  overflowY: isLong ? "auto" : "visible",
-                }}
-              >
-                <Typography variant="body2" fontSize="0.85rem">
-                  {field.value}
-                </Typography>
-              </Box>
-            );
-          }
-
-          // TYPE: FEATURE-LIST
+          // TYPE: FEATURE-LIST (The Reactive List)
           if (field.type === "feature-list" && Array.isArray(field.value)) {
-            // Use a fallback empty object to prevent destructuring errors
             const meta = field.meta || {};
             const listLabelField = meta.listLabelField || "title";
-            const detailLayerId = meta.detailLayerId;
 
             return (
               <Box key={index} sx={{ mt: 2 }}>
                 <Typography variant="subtitle2" color="primary" gutterBottom>
-                  {field.label || "Items"}:
+                  {field.label} ({field.value.length}):
                 </Typography>
                 <List
                   dense
                   sx={{
                     maxHeight: 200,
                     overflow: "auto",
-                    bgcolor: "action.hover",
+                    bgcolor: "rgba(0,0,0,0.2)",
                     borderRadius: 1,
                   }}
                 >
-                  {field.value.map((childFeature: any, i: number) => {
-                    // 1. Get the label from the child feature properties
-                    const label =
-                      childFeature.properties[listLabelField] || "Unknown Item";
-
-                    // 2. Get the sender name for the sub-label (specific to letters)
-                    const senderId = childFeature.properties.sender_ids?.[0];
+                  {field.value.map((child: any, i: number) => {
+                    const label = child.properties[listLabelField] || "Unknown";
+                    const senderId = child.properties.sender_ids?.[0];
                     const senderName = senderId
                       ? entities[senderId]?.name || senderId
                       : "";
@@ -150,11 +138,12 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                       <ListItem key={i} divider disablePadding>
                         <ListItemButton
                           onClick={() => {
+                            // Dispatch event to trigger drill-down in useMapInteraction
                             window.dispatchEvent(
                               new CustomEvent("app:select-feature", {
                                 detail: {
-                                  feature: childFeature,
-                                  layerId: detailLayerId,
+                                  feature: child,
+                                  layerId: meta.detailLayerId,
                                 },
                               })
                             );
@@ -164,8 +153,8 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                             primary={label}
                             secondary={senderName}
                             primaryTypographyProps={{
-                              variant: "caption",
-                              fontWeight: "bold",
+                              variant: "body2",
+                              fontWeight: 500,
                             }}
                             secondaryTypographyProps={{
                               variant: "caption",
@@ -181,50 +170,115 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
             );
           }
 
-          // TYPE: LIST & TIMED-LIST (Auto-Scroll)
-          if (field.type === "list" || field.type === "timed-list") {
-            const items = field.value;
-            const isLongList = items.length > 5; // > 5 items = scroll
+          // TYPE: TAGS
+          if (field.type === "tags" && Array.isArray(field.value)) {
+            return (
+              <Box key={index} sx={{ mb: 2 }}>
+                <Typography variant="caption" display="block" sx={{ mb: 0.5 }}>
+                  {field.label}:
+                </Typography>
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {field.value.map((tag: any, i: number) => {
+                    // Handle both String and {name, url} Object
+                    const label =
+                      typeof tag === "object" && tag.name ? tag.name : tag;
+                    const tagUrl =
+                      typeof tag === "object" && tag.url ? tag.url : null;
 
+                    return (
+                      <Chip
+                        key={i}
+                        label={label}
+                        size="small"
+                        component={tagUrl ? "a" : "div"}
+                        href={tagUrl}
+                        target="_blank"
+                        clickable={!!tagUrl}
+                      />
+                    );
+                  })}
+                </Box>
+              </Box>
+            );
+          }
+
+          // TYPE: LONG TEXT
+          if (field.type === "long-text") {
+            const isLong = field.value.length > 300;
+            return (
+              <Box
+                key={index}
+                sx={{
+                  bgcolor: "rgba(255,255,255,0.05)",
+                  p: 1.5,
+                  borderRadius: 1,
+                  mb: 2,
+                  fontStyle: "italic",
+                  maxHeight: isLong ? "150px" : "auto",
+                  overflowY: isLong ? "auto" : "visible",
+                  borderLeft: "3px solid #ff9800",
+                }}
+              >
+                <Typography variant="body2">{field.value}</Typography>
+              </Box>
+            );
+          }
+
+          //  TYPE: LIST & TIMED-LIST
+          if (field.type === "list" || field.type === "timed-list") {
             return (
               <Box key={index} sx={{ mt: 1, mb: 1 }}>
                 <Typography variant="subtitle2" color="secondary">
-                  {field.label} ({items.length})
+                  {field.label} ({field.value.length})
                 </Typography>
                 <List
                   dense
                   disablePadding
-                  sx={{
-                    maxHeight: isLongList ? "150px" : "auto",
-                    overflowY: isLongList ? "auto" : "visible",
-                    bgcolor: isLongList ? "rgba(0,0,0,0.1)" : "transparent",
-                    borderRadius: 1,
-                  }}
+                  sx={{ maxHeight: 150, overflow: "auto" }}
                 >
-                  {items.map((item: any, i: number) => (
-                    <ListItem
-                      key={i}
-                      divider={i < items.length - 1}
-                      sx={{ py: 0.5 }}
-                    >
-                      {field.type === "timed-list" ? (
+                  {field.value.map((item: any, i: number) => {
+                    // Determine Label and SubLabel based on type
+                    let primaryText = item;
+                    let secondaryText = "";
+                    let itemUrl = null;
+
+                    if (field.type === "timed-list") {
+                      // Timed list is always { label, subLabel }
+                      primaryText = item.label;
+                      secondaryText = item.subLabel;
+                    } else if (
+                      typeof item === "object" &&
+                      item !== null &&
+                      "name" in item
+                    ) {
+                      // Standard list with ResolvedEntity { name, url }
+                      primaryText = item.name;
+                      itemUrl = item.url;
+                    }
+
+                    return (
+                      <ListItem key={i} divider sx={{ py: 0.5 }}>
                         <ListItemText
-                          primary={item.label}
-                          secondary={item.subLabel ? `(${item.subLabel})` : ""}
-                          primaryTypographyProps={{
-                            variant: "body2",
-                            fontWeight: "bold",
-                          }}
-                          secondaryTypographyProps={{ variant: "caption" }}
+                          primary={
+                            itemUrl ? (
+                              <Link
+                                href={itemUrl}
+                                target="_blank"
+                                rel="noopener"
+                                color="inherit"
+                                underline="hover"
+                              >
+                                {primaryText}
+                              </Link>
+                            ) : (
+                              primaryText
+                            )
+                          }
+                          secondary={secondaryText}
                         />
-                      ) : (
-                        <ListItemText
-                          primary={item}
-                          primaryTypographyProps={{ variant: "body2" }}
-                        />
-                      )}
-                    </ListItem>
-                  ))}
+                      </ListItem>
+                    );
+                  })}
                 </List>
               </Box>
             );
@@ -234,7 +288,14 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
 
         {/* Footer Link */}
         {url && (
-          <Box sx={{ mt: 1, textAlign: "right" }}>
+          <Box
+            sx={{
+              mt: 2,
+              pt: 1,
+              borderTop: "1px solid rgba(255,255,255,0.1)",
+              textAlign: "right",
+            }}
+          >
             <Link
               href={url}
               target="_blank"

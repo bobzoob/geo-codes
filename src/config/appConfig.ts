@@ -1,3 +1,8 @@
+/**
+ * THIS IS WHERE WE SET UP BOUNDARIES FOR
+ * TIMELINE AND MAP
+ */
+
 export const APP_CONFIG = {
   // SET TIMELINE BOUNDARIES
   timeRange: {

@@ -6,6 +6,77 @@ import type { LayerConfig } from "../types/state";
 
 export const initialLayerConfig: LayerConfig[] = [
   {
+    id: "letters-master",
+    name: "Hidden Master",
+    visible: false,
+    showInPanel: false,
+    type: "line",
+    // isLinkable: false // uncomment if layer should not resolve entities to links
+    source: "/letters_lean.geojson",
+
+    // here we choose the filter options
+    // and decide where they should appear
+    // the logic is handled in filterUtils.ts
+    activeFilters: [
+      { moduleId: "dateRange", placement: "timeline-area" },
+      { moduleId: "plainText", placement: "search-area" },
+    ],
+
+    // here we set up the appearance of the Popup
+    // the locig is handled in popupUtils.ts
+    popupConfig: [
+      { field: "composite_letter_header", type: "header" },
+      { field: "date_start", label: "Date", type: "text" },
+      { field: "date_reliability", label: "Reliability", type: "tags" },
+      {
+        field: "sender_ids",
+        label: "Sender",
+        type: "list",
+        resolveEntities: true,
+      },
+      {
+        field: "recipient_ids",
+        label: "Recipient",
+        type: "list",
+        resolveEntities: true,
+      },
+      {
+        field: "origin_id",
+        label: "Sent from",
+        type: "text",
+        resolveEntities: true,
+      },
+      {
+        field: "target_id",
+        label: "Sent to",
+        type: "text",
+        resolveEntities: true,
+      },
+      {
+        field: "mention_ids",
+        label: "Mentions",
+        type: "tags",
+        resolveEntities: true,
+        entityTypeFilter: "Person",
+      },
+      {
+        field: "mention_ids",
+        label: "Mentioned Works",
+        type: "tags",
+        resolveEntities: true,
+        entityTypeFilter: "Work",
+      },
+      {
+        field: "mention_ids",
+        label: "Mentioned Places",
+        type: "tags",
+        resolveEntities: true,
+        entityTypeFilter: "Place",
+      },
+      { field: "text_preview", type: "long-text" },
+    ],
+  },
+  {
     id: "letters-1",
     name: "Letters",
     visible: true,
@@ -14,9 +85,6 @@ export const initialLayerConfig: LayerConfig[] = [
 
     filterValues: {},
 
-    // here we choose the filter options
-    // and decide where they should appear
-    // the logic is handled in filterUtils.ts
     activeFilters: [
       { moduleId: "dateRange", placement: "timeline-area" },
       { moduleId: "plainText", placement: "search-area" },
@@ -36,8 +104,6 @@ export const initialLayerConfig: LayerConfig[] = [
       },
     ],
 
-    // here we set up the appearance of the Popup
-    // the locig is handled in popupUtils.ts
     popupConfig: [
       { field: "composite_letter_header", type: "header" },
       { field: "date_start", label: "Date", type: "text" },
@@ -136,7 +202,7 @@ export const initialLayerConfig: LayerConfig[] = [
         label: "Letters in this city",
         type: "feature-list",
         listLabelField: "date_start", // date in the list
-        detailLayerId: "letters-1", // we use the Letter popup style
+        detailLayerId: "letters-master", // we use the Letter popup style
       },
     ],
   },
@@ -153,8 +219,8 @@ export const initialLayerConfig: LayerConfig[] = [
     intensityField: "weight",
 
     styleConfig: {
-      color: ["#FFEB3B", "#FB8C00", "#D32F2F"], // we deffine the point colors here
-      radius: [4, 35], // Min 4px, Max 30px
+      color: ["#FFEB3B", "#FB8C00", "#D32F2F"],
+      radius: [4, 35],
       opacity: 0.8,
     },
 
@@ -195,6 +261,7 @@ export const initialLayerConfig: LayerConfig[] = [
     name: "Historic Areas",
     visible: false,
     type: "polygon",
+    styleConfig: { color: "#2e7d32", strokeColor: "#1b5e20" },
     source: "/territories-data.geojson",
     showAllTooltips: false,
     hasFlashlight: true,
