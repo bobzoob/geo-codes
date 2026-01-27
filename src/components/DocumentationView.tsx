@@ -1,5 +1,4 @@
-// src/components/DocumentationView.tsx
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import { Button, Container, Paper } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import { useAppState } from "../state/appContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
