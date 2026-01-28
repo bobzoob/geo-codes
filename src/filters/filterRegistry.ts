@@ -22,16 +22,48 @@ export const filterRegistry: Record<string, FilterModule> = {
       const term = value.toLowerCase();
       const props = feature.properties;
 
-      // title and full text
-      if (props.title?.toLowerCase().includes(term)) return true;
-      if (props.full_text?.toLowerCase().includes(term)) return true;
+      // title and full text (properties)
+      // SET PROPS NAMES HERE
+      const textProperties = [props.title, props.full_text, props.text_preview];
+      for (const propValue of textProperties) {
+        if (propValue && String(propValue).toLowerCase().includes(term)) {
+          return true;
+        }
+      }
 
       // mentions
-      if (props.mention_ids) {
-        return props.mention_ids.some((id: string) =>
-          entities[id]?.name.toLowerCase().includes(term)
-        );
+      // we collect them into a set, to avoid duplicates
+      const allEntityIds = new Set<string>();
+
+      // SET FIELD NAMES HERE
+      const idFields = [
+        "sender_ids",
+        "recipient_ids",
+        "mention_ids",
+        "origin_id",
+        "target_id",
+        "born",
+        "died",
+      ];
+
+      idFields.forEach((field) => {
+        const ids = props[field];
+        if (Array.isArray(ids)) {
+          ids.forEach((id) => id && allEntityIds.add(String(id)));
+        } else if (ids) {
+          allEntityIds.add(String(ids));
+        }
+      });
+
+      // if search term matches any resolved entity name
+      for (const id of allEntityIds) {
+        const entity = entities[id];
+        if (entity && entity.name.toLowerCase().includes(term)) {
+          return true;
+        }
       }
+
+      // Fallback
       return false;
     },
   },
@@ -187,7 +219,7 @@ export const filterRegistry: Record<string, FilterModule> = {
     },
   },
 
-  // IS_LOCAL
+  // IS_LOCAL (Hidden)
   localOnly: {
     id: "localOnly",
     label: "Local Only",

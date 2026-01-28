@@ -4,6 +4,9 @@
  */
 
 export const APP_CONFIG = {
+  // SET DICTIONARY
+  dictionarySource: "/final_manifest.json",
+
   // SET TIMELINE BOUNDARIES
   timeRange: {
     min: 1790,

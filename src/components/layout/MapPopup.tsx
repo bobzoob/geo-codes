@@ -108,7 +108,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
             );
           }
 
-          // TYPE: FEATURE-LIST (The Reactive List)
+          // TYPE: FEATURE-LIST (reactive list)
           if (field.type === "feature-list" && Array.isArray(field.value)) {
             const meta = field.meta || {};
             const listLabelField = meta.listLabelField || "title";
@@ -172,32 +172,55 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
 
           // TYPE: TAGS
           if (field.type === "tags" && Array.isArray(field.value)) {
+            const isMentionField =
+              field.label && field.label.toLowerCase().includes("mention");
+
+            // the chip:
+            const tagContainer = (
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                {field.value.map((tag: any, i: number) => {
+                  const label =
+                    typeof tag === "object" && tag.name ? tag.name : tag;
+                  const tagUrl =
+                    typeof tag === "object" && tag.url ? tag.url : null;
+                  return (
+                    <Chip
+                      key={i}
+                      label={label}
+                      size="small"
+                      component={tagUrl ? "a" : "div"}
+                      href={tagUrl}
+                      target="_blank"
+                      clickable={!!tagUrl}
+                    />
+                  );
+                })}
+              </Box>
+            );
+
             return (
               <Box key={index} sx={{ mb: 2 }}>
                 <Typography variant="caption" display="block" sx={{ mb: 0.5 }}>
-                  {field.label}:
+                  {field.label} ({field.value.length})
                 </Typography>
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {field.value.map((tag: any, i: number) => {
-                    // Handle both String and {name, url} Object
-                    const label =
-                      typeof tag === "object" && tag.name ? tag.name : tag;
-                    const tagUrl =
-                      typeof tag === "object" && tag.url ? tag.url : null;
 
-                    return (
-                      <Chip
-                        key={i}
-                        label={label}
-                        size="small"
-                        component={tagUrl ? "a" : "div"}
-                        href={tagUrl}
-                        target="_blank"
-                        clickable={!!tagUrl}
-                      />
-                    );
-                  })}
-                </Box>
+                {isMentionField ? (
+                  // if mention field, we wrap it in a scrollable box
+                  <Box
+                    sx={{
+                      maxHeight: "110px",
+                      overflowY: "auto",
+                      p: 1,
+                      bgcolor: "rgba(0,0,0,0.2)",
+                      borderRadius: 1,
+                    }}
+                  >
+                    {tagContainer}
+                  </Box>
+                ) : (
+                  // otherwise we render the tags normally
+                  tagContainer
+                )}
               </Box>
             );
           }

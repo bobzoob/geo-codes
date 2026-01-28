@@ -3,7 +3,9 @@ import { filterRegistry } from "../filters/filterRegistry";
 import { APP_CONFIG } from "../config/appConfig";
 
 /**
- * tells the ActiveFiltersPanel how to handle the logic
+ * tells the ActiveFiltersPanel how to handle the logic and
+ * provides a formatted list of all currently active filters
+ * for display in the ActiveFiltersPanel.
  */
 
 export interface ActiveFilterItem {
@@ -18,7 +20,7 @@ export function useActiveFilters() {
 
   const items: ActiveFilterItem[] = [];
 
-  // 1. Global Time Logic
+  // GlobalTime logic
   const isTimeFiltered =
     committedTimeRange[0] !== APP_CONFIG.timeRange.min ||
     committedTimeRange[1] !== APP_CONFIG.timeRange.max;
@@ -31,7 +33,7 @@ export function useActiveFilters() {
     });
   }
 
-  // 2. Layer Filters Logic
+  // LayerFilters logic
   const selectedLayer = layerConfig.find((l) => l.id === selectedLayerId);
 
   if (selectedLayer) {
@@ -40,11 +42,11 @@ export function useActiveFilters() {
       if (!module) return;
 
       const rawValue = (selectedLayer.filterValues || {})[module.id];
-      if (!rawValue) return;
+      // we ignore if value is null || undefined
+      if (rawValue === null || rawValue === undefined) return;
 
-      // --- Formatting Logic ---
-
-      // A. Date Range Formatting
+      // DISPLAY FORMATTING logic
+      // DateRange
       if (module.id === "dateRange") {
         const { start, end } = rawValue;
         if (!start && !end) return;
@@ -60,12 +62,36 @@ export function useActiveFilters() {
           value: displayValue,
         });
       }
-      // B. Standard String Formatting
+      // Standard string (sender, recipiant)
       else if (typeof rawValue === "string" && rawValue.trim() !== "") {
         items.push({
           id: module.id,
           label: module.label,
           value: `"${rawValue}"`,
+        });
+      }
+
+      // Special { searchTerm, onlyResolved etc}
+      else if (module.id === "placeFilter" && typeof rawValue === "object") {
+        const { searchTerm, onlyResolved } = rawValue;
+
+        if (!searchTerm && !onlyResolved) return; // if they are not active
+
+        const displayParts = [];
+        if (searchTerm) {
+          displayParts.push(`"${searchTerm}"`);
+        }
+
+        // this is for **development purposes** only,
+        // will be dismissed in production
+        if (onlyResolved) {
+          displayParts.push("Resolved Only");
+        }
+
+        items.push({
+          id: module.id,
+          label: module.label,
+          value: displayParts.join(" + "),
         });
       }
     });
