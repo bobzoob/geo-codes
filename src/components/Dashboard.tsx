@@ -31,7 +31,7 @@ function Dashboard() {
         <Grid>
           <Card sx={{ maxWidth: 345 }}>
             <CardContent>
-              <Typography variant="h6">Explore Exemplary Map</Typography>
+              <Typography variant="h6">Explore Map in Live Demo</Typography>
               <Typography variant="subtitle2">
                 Korrespondenzen der Frühromantik
               </Typography>
@@ -130,14 +130,14 @@ function Dashboard() {
                   color: "text.secondary",
                 }}
               >
-                <ArticleIcon sx={{ fontSize: 80, opacity: 0.5 }} />
+                <ArticleIcon sx={{ fontSize: 280, opacity: 0.5 }} />
               </Box>
 
               <Typography variant="body2" sx={{ textAlign: "justify" }}>
-                Discover the technical architecture of this application,
-                including the reactive data pipeline, component structure, and
-                guides for extending the functionality with new layers, filters,
-                or datasets.
+                Complete documentation of the technical architecture of this
+                application, including the reactive data pipeline, component
+                structure, and guides for extending the functionality with new
+                layers, filters, or datasets.
               </Typography>
             </CardContent>
 

@@ -5,9 +5,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useMemo } from "react";
 
 const markdownContent = `
-# geocodes Documentation
+# geocodes | Documentation
 
-## 1. Project Overview
+## 1. Overview
 This application is a specialized **Digital Humanities (DH) framework** designed to visualize complex, multi-perspective historical datasets (such as movement, correspondence, events, entities etc.). The system focuses on revealing overlapping narratives through dynamic filtering and data aggregation. The application uses a **reactive data pipeline** where raw GeoJSON data is filtered, sanitized, and aggregated in real-time before reaching the map interface.
 
 **Tech Stack:** 
@@ -200,7 +200,7 @@ function DocumentationView() {
           }}
         >
           <Typography variant="subtitle2" sx={{ mb: 2 }}>
-            Index
+            geocodes | Documentation
           </Typography>
 
           {headings.map(({ level, text, slug }) => (

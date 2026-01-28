@@ -1,10 +1,10 @@
 # GEOCODES | Multilayer-Interactive-Map | Framework for DH Data
 
-## 1. Introduction
+## ⭐ Introduction
 
 This application is a specialized **Digital Humanities (DH) framework** designed to visualize complex, multi-perspective historical datasets in a multilayered and interactive map. The system focuses on revealing overlapping narratives through dynamic filtering and data aggregation. The application uses a **reactive data pipeline** where raw GeoJSON data is filtered, sanitized, and aggregated in real-time before reaching the map interface.
 
-## Live Demo
+## 🌐 Live Demo
 
 **[View the live application here](https://historic-interactive-map.vercel.app/)**
 
@@ -20,7 +20,7 @@ This application is a specialized **Digital Humanities (DH) framework** designed
 
 ---
 
-## Run the Project Locally
+## 📦 Run the Project Locally
 
 To set up and run this project on your own machine, follow these steps:
 
@@ -58,7 +58,7 @@ The application should now be running on `http://localhost:5173`.
 
 ---
 
-## 2. Architecture
+## 🧩 Architecture
 
 ### Reactive Pipeline
 
@@ -87,7 +87,7 @@ The application's logic is modular and extensible through a "Registry" pattern. 
 
 ---
 
-## 3. Developer Guide: Extending the Application
+## 💻 Developer Guide: Extending the Application
 
 ### How to Add a New Layer
 
@@ -152,7 +152,7 @@ Modify `src/config/mapTheme.ts`.
 
 ---
 
-## 4. GeoJSON Data Contract
+## 📝 GeoJSON Data Contract
 
 Every feature in your source files should adhere to this loose contract (`HistoricalFeatureProperties`):
 
