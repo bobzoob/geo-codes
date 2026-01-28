@@ -8,8 +8,8 @@ const GeoJSONLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
   const fillLayerId = `${id}-fill`;
   const outlineLayerId = `${id}-outline`;
 
-  // 1. NORMALIZE COLORS
-  // Since styleConfig.color can be string | string[], we ensure we have a single string.
+  // NORMALIZE COLORS
+  // styleConfig.color can be string | string[], we ensure we have a single string.
   const rawColor = styleConfig?.color || "#627BC1";
   const fillColor = Array.isArray(rawColor) ? rawColor[0] : rawColor;
 
@@ -18,7 +18,7 @@ const GeoJSONLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
 
   const opacity = styleConfig?.opacity ?? 0.4;
 
-  // 2. Define the Fill Layer
+  // Fill Layer
   const fillStyle: LayerProps = {
     id: fillLayerId,
     type: "fill",
@@ -33,14 +33,14 @@ const GeoJSONLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
       "fill-color": [
         "case",
         ["boolean", ["feature-state", "hover"], false],
-        strokeColor as string, // Cast to string to satisfy MapLibre types
+        strokeColor as string, // to satisfy MapLibre types
         fillColor as string,
       ],
       "fill-opacity": opacity,
     },
   };
 
-  // 3. Define the Outline Layer
+  //  Outline Layer
   const outlineStyle: LayerProps = {
     id: outlineLayerId,
     type: "line",

@@ -9,7 +9,7 @@ const getYear = (dateStr?: string | null): number => {
   return parseInt(yearPart, 10) || 0;
 };
 
-// Helper for global timeline (still hardcoded as it's a core feature)
+// Helper for global timeline
 const filterByGlobalTime = (
   feature: HistoricalFeature,
   range: TimeRange
@@ -30,9 +30,9 @@ const filterByGlobalTime = (
 
   if (startDateStr) {
     const startYear = getYear(startDateStr);
-    // If date_end exists, use it; otherwise, it's a point in time (end = start)
+    // ff date_end exists, we use it otherwise: end = start
     const endYear = props.date_end ? getYear(props.date_end) : startYear;
-    // Safety check for invalid dates
+    // check for invalid dates
     if (startYear === 0) return false;
 
     // if there is a overlap

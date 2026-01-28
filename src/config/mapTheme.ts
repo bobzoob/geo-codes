@@ -100,12 +100,12 @@ export const mapTheme = createTheme({
       },
     },
 
-    // PAPER (The Panels)
+    // PAPER (for panels)
     MuiPaper: {
       styleOverrides: {
         root: ({ theme }) => ({
           // transparent panel
-          // CRITICAL: we must disable the white elevation overlay
+          // disable the white elevation overlay
           backgroundImage: "none",
           backgroundColor: "rgba(20, 20, 20, 0.75)",
           backdropFilter: "blur(3px)",
@@ -113,7 +113,7 @@ export const mapTheme = createTheme({
           border: "1px solid rgba(255, 255, 255, 0.1)",
           color: "#ffffff",
 
-          // Specific style for Layer Cards inside the panel
+          // specific style for Layer Cards inside the panel
           "&.LayerCard": {
             padding: theme.spacing(1, 2),
             marginBottom: theme.spacing(1),
@@ -121,7 +121,7 @@ export const mapTheme = createTheme({
             transition: "all 0.2s ease-in-out",
             borderWidth: "1px",
             borderStyle: "solid",
-            // Darker card background
+            // darker card background
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             borderColor: "rgba(255, 255, 255, 0.15)",
 
@@ -232,7 +232,7 @@ export const mapTheme = createTheme({
       },
     },
 
-    // Switch/Slider
+    // SWTCH/SLIDER
     MuiSwitch: {
       styleOverrides: {
         switchBase: {

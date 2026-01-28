@@ -39,28 +39,21 @@ export function useMapInteraction() {
 
       if (!feature) return;
 
-      // DEBUG: Check if the feature actually has an ID and what the target layer is
-      console.log("Drill-down triggered:", {
-        id: feature.id,
-        targetLayer: layerId,
-        properties: feature.properties,
-      });
-
       setSelectedFeature((prev) => {
-        // 1. Determine fallback coordinates if prev is null
+        // fallback coordinates if prev is null
         let fallbackCoords = [0, 0];
         if (feature.geometry?.type === "Point") {
           fallbackCoords = feature.geometry.coordinates;
         } else if (feature.geometry?.type === "LineString") {
-          // Use the start of the line (Origin)
+          // use the start of the line (Origin)
           fallbackCoords = feature.geometry.coordinates[0];
         }
 
         return {
-          // Ensure we use the ID that the selector sanitized
+          // we use the ID that the selector sanitized
           featureId: String(feature.id || feature.properties?.id),
           layerId: layerId,
-          // Priority: 1. Current popup position, 2. Feature's own position
+          // priority: curret popup position, after: featurs own position
           longitude: prev?.longitude ?? fallbackCoords[0],
           latitude: prev?.latitude ?? fallbackCoords[1],
         };
@@ -86,7 +79,7 @@ export function useMapInteraction() {
       const layerId = getLayerIdFromFeature(feature);
       const config = state.layerConfig.find((l) => l.id === layerId);
 
-      // Only select if the layer is configured to have a popup
+      // select if the layer is configured to have a popup
       if (!config || !config.popupConfig) return;
 
       setSelectedFeature({
@@ -114,7 +107,7 @@ export function useMapInteraction() {
       const layerId = getLayerIdFromFeature(feature);
       const config = state.layerConfig.find((l) => l.id === layerId);
 
-      // Only show tooltip if the layer has a popupConfig defined
+      // show tooltip if the layer has a popupConfig defined
       if (!config || !config.popupConfig) {
         setHoverInfo(null);
         return;

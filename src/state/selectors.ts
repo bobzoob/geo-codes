@@ -5,6 +5,7 @@ import type {
 } from "../types/geojson";
 import { applyFilters } from "../filters/filterUtils";
 import { processorRegistry } from "../processors/processorRegistry";
+import { APP_CONFIG } from "../config/appConfig";
 
 /**
  * ENGINE ROOM
@@ -15,7 +16,7 @@ import { processorRegistry } from "../processors/processorRegistry";
 export const computeProcessedData = (
   state: AppState
 ): Record<string, HistoricalFeatureCollection> => {
-  const { geoJsonData, layerConfig, committedTimeRange, entities } = state;
+  const { geoJsonData, layerConfig, committedTimeRange, dictionaries } = state;
   const results: Record<string, HistoricalFeatureCollection> = {};
 
   // Initialize results for all configured layers
@@ -26,21 +27,42 @@ export const computeProcessedData = (
     };
   });
 
+  // guard: wait till data is loaded
   if (!geoJsonData) return results;
+
+  // default dicitionary: first in list
+  // used for layers that do not specify theire dict
+  const defaultDictionaryId = APP_CONFIG.dictionaries?.[0]?.id;
 
   layerConfig.forEach((layer) => {
     const rawData = geoJsonData[layer.id];
     if (!rawData) return;
 
-    // --- STEP 1: FILTERING ---
-    // We run the predicates defined in the FilterRegistry (e.g., dateRange, textSearch, localOnly)
+    // DICTIONARY SECTION
+    const dictionaryId = layer.dictionaryId || defaultDictionaryId;
+    const relevantDictionary = dictionaryId ? dictionaries[dictionaryId] : {};
+
+    // Safety check in case of misconfiguration
+    if (dictionaryId && !dictionaries[dictionaryId]) {
+      console.warn(
+        `Dictionary with ID "${dictionaryId}" not found for layer "${layer.id}". Using an empty dictionary.`
+      );
+    }
+
+    // FILTERING SECTION
+    // run predicates defined in the FilterRegistry (dateRange, textSearch, localOnly)
     const filteredFeatures = rawData.features.filter(
       (feature: HistoricalFeature) =>
-        applyFilters(feature, committedTimeRange, entities, layer)
+        applyFilters(
+          feature,
+          committedTimeRange,
+          relevantDictionary || {},
+          layer
+        )
     );
 
-    // --- STEP 2: SANITIZATION & ID PROMOTION ---
-    // This is the "Core" fix for MapLibre. We ensure every feature has a string ID
+    // SANITIZATION & ID PROMOTION SECTION
+    // we ensure every feature has a string ID
     // at the root AND inside properties so 'promoteId="id"' always works.
     const sanitizedFeatures: HistoricalFeature[] = filteredFeatures.map(
       (f: HistoricalFeature, index: number) => {
@@ -56,18 +78,18 @@ export const computeProcessedData = (
 
         return {
           ...f,
-          id: stringId, // Used by React and Selector lookups
+          id: stringId,
           properties: {
             ...f.properties,
-            id: stringId, // Used by MapLibre (promoteId="id")
+            id: stringId,
           },
         };
       }
     );
 
-    // --- STEP 3: PROCESSING (AGGREGATION) ---
-    // If the researcher defined a processor (like 'aggregateByProperty'), we run it now.
-    // Because we run this AFTER filtering, the aggregation is reactive to the timeline.
+    // PROCESSING (AGGREGATION) SECTION
+    // if the researcher defined a processor (like 'aggregateByProperty'), we run it now.
+    // because we run this AFTER filtering, the aggregation is reactive to the timeline.
     let processedCollection: HistoricalFeatureCollection = {
       type: "FeatureCollection",
       features: sanitizedFeatures,
@@ -79,10 +101,10 @@ export const computeProcessedData = (
         processedCollection = processorModule.execute(
           sanitizedFeatures,
           layer.processor.params,
-          entities
+          relevantDictionary || {}
         );
 
-        // Ensure the processor's output also follows the ID promotion rule
+        // processors output must follows the ID promotion rule
         processedCollection.features = processedCollection.features.map(
           (f: HistoricalFeature) => ({
             ...f,
@@ -96,7 +118,7 @@ export const computeProcessedData = (
       }
     }
 
-    // Save the final result for this layer
+    // save
     results[layer.id] = processedCollection;
   });
 

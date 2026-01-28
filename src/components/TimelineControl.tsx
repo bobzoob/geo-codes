@@ -43,7 +43,8 @@ function TimelineControl({
         step={1}
         // tooltip for selected value
         valueLabelDisplay="auto"
-        // aria labelled by attribute: all interactiv elements must have a accessible name, here the name can not be retrieved from its tags, like button etc.
+        // aria labelled by attribute: all interactiv elements must have a accessible name,
+        //  here the name can not be retrieved from its tags, like button etc.
         aria-labelledby="range-slider"
         // onChange updates the LIVE state on every movement
         onChange={(_event, newValue) => {

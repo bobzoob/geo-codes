@@ -13,6 +13,7 @@ import type { SelectedFeature } from "../../hooks/useMapInteraction";
 import { useAppState } from "../../state/appContext";
 import { extractGenericPopupData } from "../../utils/popupUtils";
 import { useEffect } from "react";
+import { APP_CONFIG } from "../../config/appConfig";
 
 interface MapPopupProps {
   feature: SelectedFeature;
@@ -21,7 +22,7 @@ interface MapPopupProps {
 
 export function MapPopup({ feature, onClose }: MapPopupProps) {
   const { state } = useAppState();
-  const { processedData, layerConfig, entities } = state;
+  const { processedData, layerConfig, dictionaries } = state;
 
   // LIVE LOOKUP
   const currentLayerData = processedData[feature.layerId];
@@ -43,13 +44,20 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
   if (!currentFeature) return null;
 
   // EXTRACT DATA
+  // DICTIONARY SELECTION
   const config = layerConfig.find((l) => l.id === feature.layerId);
   if (!config) return null;
 
+  // we determine which dictionary to use for this layer
+  const defaultDictionaryId = APP_CONFIG.dictionaries?.[0]?.id;
+  const dictionaryId = config.dictionaryId || defaultDictionaryId;
+  const relevantDictionary = dictionaryId ? dictionaries[dictionaryId] : {};
+
+  // and pass selected dictionary to data extraction utility
   const popupData = extractGenericPopupData(
     currentFeature,
     config.popupConfig,
-    entities
+    relevantDictionary || {} // pass the specific dictionary
   );
   const { fields, url } = popupData;
 
@@ -131,7 +139,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                     const label = child.properties[listLabelField] || "Unknown";
                     const senderId = child.properties.sender_ids?.[0];
                     const senderName = senderId
-                      ? entities[senderId]?.name || senderId
+                      ? relevantDictionary[senderId]?.name || senderId
                       : "";
 
                     return (

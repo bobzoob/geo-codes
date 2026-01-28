@@ -63,8 +63,7 @@ const resolveAndFilter = (
       }
 
       if (!entity) {
-        // console.warn(`Lookup failed for ID: "${cleanId}"`);
-        return { name: cleanId }; // Return raw ID if not found
+        return { name: cleanId }; // return raw ID if not found
       }
 
       if (
@@ -89,7 +88,7 @@ const resolveAndFilter = (
 
       return { name: entity.name, url };
     })
-    .filter((item): item is ResolvedEntity => item !== null);
+    .filter((item): item is ResolvedEntity => item !== null); // filter out null
 };
 
 /**
@@ -101,12 +100,6 @@ export const extractGenericPopupData = (
   entities: EntityMap
 ): GenericPopupData => {
   const props = feature.properties || {};
-
-  //console.log("Available properties in popup:", Object.keys(props));
-
-  // Ensure we have the ID available (from properties or root)
-  //const featureId = props.id || feature.id || "";
-
   const fields: ProcessedField[] = [];
 
   config.forEach((conf) => {
@@ -213,6 +206,6 @@ export const extractGenericPopupData = (
 
   return {
     fields,
-    url: props.url,
+    url: props.url, // source URL - i still need to implement this!
   };
 };

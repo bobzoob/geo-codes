@@ -3,8 +3,10 @@ import type { LayerConfig } from "../../types/state";
 import { filterRegistry } from "../../filters/filterRegistry";
 import { useAppState } from "../../state/appContext";
 
-// this function helps the options Panel to render
-
+/**
+ * this helps the optionsPanel to render
+ * updates and sets the list of active filters
+ *  */
 interface FilterListProps {
   layerId: string;
   filters: LayerConfig["activeFilters"];

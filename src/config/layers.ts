@@ -14,6 +14,8 @@ export const initialLayerConfig: LayerConfig[] = [
     // isLinkable: false // uncomment if layer should not resolve entities to links
     source: "/letters_lean.geojson",
 
+    dictionaryId: "main_entities", // this is only nessesary if more than one dictionary exists
+
     // here we choose the filter options
     // and decide where they should appear
     // the logic is handled in filterUtils.ts
@@ -32,7 +34,7 @@ export const initialLayerConfig: LayerConfig[] = [
         field: "sender_ids",
         label: "Sender",
         type: "list",
-        resolveEntities: true,
+        resolveEntities: true, // this looks in "main_entities" dictionary
       },
       {
         field: "recipient_ids",

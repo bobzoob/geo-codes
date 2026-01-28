@@ -88,6 +88,9 @@ export interface LayerConfig {
 
   // poit styling
   styleConfig?: PointStyleConfig;
+
+  // dictionaries
+  dictionaryId?: string;
 }
 
 // interface that structures the data pipline
@@ -96,7 +99,6 @@ export interface AppState {
 
   // raw data
   geoJsonData: Record<string, HistoricalFeatureCollection> | null;
-  entities: EntityMap;
 
   //processed data
   processedData: Record<string, HistoricalFeatureCollection>;
@@ -112,4 +114,7 @@ export interface AppState {
   isActiveFiltersPanelCollapsed: boolean;
   activeMobilePanel: "layers" | "options" | "filters" | "none";
   loadingProgress: number;
+
+  // dictionaries
+  dictionaries: Record<string, EntityMap>;
 }

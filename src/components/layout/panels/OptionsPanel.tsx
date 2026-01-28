@@ -29,7 +29,7 @@ function OptionsPanel() {
         </Typography>
       ) : (
         <Stack spacing={3}>
-          {/* SECTION 1: Timeline Area */}
+          {/* Timeline Area */}
           <Box>
             <TimelineControl
               range={liveTimeRange}
@@ -43,7 +43,7 @@ function OptionsPanel() {
                 })
               }
             />
-            {/* Render any filters attached to the timeline area */}
+            {/* render any filters attached to the timeline area */}
             <FilterList
               layerId={selectedLayer.id}
               filters={selectedLayer.activeFilters.filter(
@@ -55,7 +55,7 @@ function OptionsPanel() {
 
           <Divider />
 
-          {/* SECTION 2: Search Area */}
+          {/*Search Area */}
           <SearchSection layer={selectedLayer} />
         </Stack>
       )}

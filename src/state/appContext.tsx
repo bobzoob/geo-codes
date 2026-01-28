@@ -1,5 +1,3 @@
-// provider wraps up tje application, making state available to every other class
-
 import {
   createContext,
   useContext,
@@ -10,16 +8,19 @@ import {
 } from "react";
 import type { AppState } from "../types/state";
 import { appReducer, type AppAction } from "./appReducer";
-import type { HistoricalFeatureCollection } from "../types/geojson";
+import type { EntityMap, HistoricalFeatureCollection } from "../types/geojson";
 import { initialLayerConfig } from "../config/layers";
 import { APP_CONFIG } from "../config/appConfig";
 import { computeProcessedData } from "./selectors";
+
+/**
+ * provider class: wraps up tje application, making state available to every other class
+ */
 
 // initial state of application
 const initialState: AppState = {
   currentView: "dashboard",
   geoJsonData: null,
-  entities: {},
   processedData: {},
   layerConfig: initialLayerConfig,
   committedTimeRange: [APP_CONFIG.timeRange.min, APP_CONFIG.timeRange.max],
@@ -30,6 +31,7 @@ const initialState: AppState = {
   activeMobilePanel: "layers",
   isActiveFiltersPanelCollapsed: true,
   loadingProgress: 0,
+  dictionaries: {},
 };
 
 // context
@@ -53,7 +55,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     state.geoJsonData,
     state.layerConfig,
     state.committedTimeRange,
-    state.entities,
+    state.dictionaries,
   ]);
 
   // then we merge the processed data into a state object for the rest of the app
@@ -70,22 +72,43 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const fetchData = async () => {
       try {
         // progress calculation
-        const totalTasks = 1 + state.layerConfig.length;
+        const totalTasks =
+          (APP_CONFIG.dictionaries?.length || 0) + state.layerConfig.length;
         let completedTasks = 0;
 
         // Helper to update progress
         const updateProgress = () => {
           completedTasks++;
-          const percentage = Math.round((completedTasks / totalTasks) * 100);
+          const percentage =
+            totalTasks > 0
+              ? Math.round((completedTasks / totalTasks) * 100)
+              : 100;
           dispatch({ type: "SET_LOADING_PROGRESS", payload: percentage });
         };
 
-        //fetch dictionary entites
-        const entitiesRes = await fetch(APP_CONFIG.dictionarySource);
-        const entitiesData = await entitiesRes.json();
+        // Fetch all Dictionaries
+        if (APP_CONFIG.dictionaries && APP_CONFIG.dictionaries.length > 0) {
+          // create an array of fetch promises for all dictionaries
+          const dictionaryPromises = APP_CONFIG.dictionaries.map(
+            async (dictConfig) => {
+              const res = await fetch(dictConfig.source);
+              const data = await res.json();
+              updateProgress(); // update progress for each completed dictionary fetch
+              return { id: dictConfig.id, data };
+            }
+          );
 
-        dispatch({ type: "SET_ENTITIES", payload: entitiesData });
-        updateProgress();
+          // await for them to load
+          const loadedDictionaries = await Promise.all(dictionaryPromises);
+
+          // convert array of loaded dictionaries into single map object
+          const dictionariesMap: Record<string, EntityMap> = {};
+          loadedDictionaries.forEach((dict) => {
+            dictionariesMap[dict.id] = dict.data;
+          });
+
+          dispatch({ type: "SET_DICTIONARIES", payload: dictionariesMap });
+        }
 
         // fetch layers
         const layerPromises = state.layerConfig.map(async (layer) => {

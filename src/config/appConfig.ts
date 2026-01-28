@@ -1,12 +1,15 @@
 /**
- * THIS IS WHERE WE SET UP BOUNDARIES FOR
+ * THIS IS HERE WE DEFINE DICTIONARY SOURCES
+ * AND SET UP BOUNDARIES FOR
  * TIMELINE AND MAP
  */
 
 export const APP_CONFIG = {
   // SET DICTIONARY
-  dictionarySource: "/final_manifest.json",
-
+  dictionaries: [
+    { id: "main_entities", source: "/final_manifest.json" },
+    //{ id: "your_entities", source: "/your_dictionary.json" } // add more if needed
+  ],
   // SET TIMELINE BOUNDARIES
   timeRange: {
     min: 1790,

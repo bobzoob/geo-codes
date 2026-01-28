@@ -19,7 +19,7 @@ interface MapWrapperProps {
 
 function MapWrapper({ children }: MapWrapperProps) {
   const { state } = useAppState();
-  const { processedData, layerConfig, entities } = state;
+  const { processedData, layerConfig, dictionaries } = state;
   const {
     selectedFeature,
     hoverInfo,
@@ -48,20 +48,23 @@ function MapWrapper({ children }: MapWrapperProps) {
       (f: any) => String(f.id) === String(hoverInfo.featureId)
     );
 
-    // DEBUG LOG
-    console.log("Hovered Layer:", hoverInfo.layerId, "Found Feature:", feature);
-
     if (!feature)
       return { title: `Not found: ${hoverInfo.featureId}`, subtitle: null };
     // getconfig for this layer
     const config = layerConfig.find((l) => l.id === hoverInfo.layerId);
     if (!config) return { title: "Unknown", subtitle: null };
 
+    // select correct dictionary for hovered layer
+    const defaultDictionaryId = APP_CONFIG.dictionaries?.[0]?.id;
+    const dictionaryId = config.dictionaryId || defaultDictionaryId;
+    const relevantDictionary =
+      (dictionaryId && dictionaries[dictionaryId]) || {};
+
     // ectract display data
     const popupData = extractGenericPopupData(
       feature,
       config.popupConfig,
-      entities
+      relevantDictionary
     );
 
     const titleField = popupData.fields.find((f) => f.type === "header");

@@ -39,6 +39,7 @@ function PlaceFilter({ value, onChange }: FilterComponentProps) {
           onChange={(e) => update({ searchTerm: e.target.value })}
         />
 
+        {/*this is development purposes only:*/}
         <FormControlLabel
           control={
             <Checkbox

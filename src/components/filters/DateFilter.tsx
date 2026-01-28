@@ -1,7 +1,6 @@
 import { Stack, TextField, Button, Paper, Typography } from "@mui/material";
 import type { FilterComponentProps } from "../../types/filter";
 
-// Define the shape of the value for this filter
 interface DateRangeValue {
   start: string;
   end: string;

@@ -8,8 +8,8 @@ import type { LayerComponentProps } from "../types/state";
  * Define the style configuration shape for Point Layers
  */
 export interface PointStyleConfig {
-  color?: string | string[]; // Single color or array for a gradient ramp
-  radius?: number | [number, number]; // Single size or [min, max] for scaling
+  color?: string | string[]; // single color or array
+  radius?: number | [number, number]; // single size or scaling
   opacity?: number;
   strokeColor?: string;
   strokeWidth?: number;
@@ -19,7 +19,7 @@ interface PointLayerProps extends LayerComponentProps {
   id: string;
   data: HistoricalFeatureCollection;
   showAllTooltips: boolean;
-  intensityField?: string; // The property key to drive scaling (e.g., "count")
+  intensityField?: string; // thats where the scaling comes from
   styleConfig?: PointStyleConfig;
 }
 
@@ -35,12 +35,12 @@ function PointLayer({
   const circleLayerId = `${id}-circle`;
   const labelLayerId = `${id}-label`;
 
-  // 1. EXTRACT STYLE CONFIG WITH DEFAULTS
+  // STYLE CONFIG
   const config = styleConfig || {};
   const baseColor = config.color || "#3388ff";
   const baseRadius = config.radius || 6;
 
-  // 2. CONSTRUCT RADIUS EXPRESSION
+  // RADIUS EXPRESSION
   let circleRadius: any;
   if (intensityField && Array.isArray(baseRadius)) {
     const min = baseRadius[0];
@@ -51,20 +51,20 @@ function PointLayer({
       ["linear"],
       ["get", intensityField],
       1,
-      min, // 1 entry: Smallest
+      min,
       10,
-      min + (max - min) * 0.2, // 10 entries: Small-Medium
+      min + (max - min) * 0.2,
       50,
-      min + (max - min) * 0.5, // 50 entries: Medium
+      min + (max - min) * 0.5,
       150,
-      min + (max - min) * 0.8, // 150 entries: Large
+      min + (max - min) * 0.8,
       300,
-      max, // 300+ entries: Maximum
+      max, // 300+ entries: maximum -> ADJUST VALUES IF NESSESARY
     ];
   } else if (Array.isArray(baseRadius)) {
-    circleRadius = baseRadius[0]; // Fallback if no intensity field
+    circleRadius = baseRadius[0]; // fallback if no intensity field
   } else {
-    // Static size that grows slightly with zoom
+    // static size. grows slightly with zoom
     circleRadius = [
       "interpolate",
       ["linear"],
@@ -76,7 +76,7 @@ function PointLayer({
     ];
   }
 
-  // 3. CONSTRUCT COLOR EXPRESSION
+  // COLOR EXPRESSION
   let circleColor: any;
   if (intensityField && Array.isArray(baseColor)) {
     // color ramp: [interpolate, linear, get(field), val1, color1, val2, color2...]
@@ -96,7 +96,7 @@ function PointLayer({
     circleColor = baseColor;
   }
 
-  // 4. CIRCLE LAYER DEFINITION
+  // CIRCLE LAYER DEFINITION
   const circleStyle: LayerProps = {
     id: circleLayerId,
     type: "circle",
@@ -110,7 +110,7 @@ function PointLayer({
     },
   };
 
-  // 5. LABEL LAYER DEFINITION
+  // LABEL LAYER DEFINITION
   const labelStyle: LayerProps = {
     id: labelLayerId,
     type: "symbol",
@@ -122,7 +122,7 @@ function PointLayer({
       "text-offset": [0, 1.5],
       "text-anchor": "top",
       "text-optional": true,
-      // Visibility controlled by the "Flashlight" toggle in UI
+      // visibility is controlled by "Flashlight" toggle in UI
       visibility: showAllTooltips ? "visible" : "none",
     },
     paint: {

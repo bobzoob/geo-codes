@@ -1,5 +1,8 @@
 import { Box, LinearProgress, Typography } from "@mui/material";
 
+/**
+ * loadng progress bar for map initialization
+ */
 interface LoadingBarProps {
   progress: number;
 }

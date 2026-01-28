@@ -1,30 +1,17 @@
-/**
- * this file will contain all the logic for updating applications states
- * reducer is a pure function that takes the current state and an "action" and returns the next state.
- */
 import type { AppState, FilterValue, TimeRange, View } from "../types/state";
 import type { HistoricalFeatureCollection, EntityMap } from "../types/geojson";
 import { APP_CONFIG } from "../config/appConfig";
 
-// shape of the applications state:
-// export interface AppState {
-//   currentView: View;
-//   geoJsonData: Record<string, HistoricalFeatureCollection> | null;
-//   entities: EntityMap; // the dictionary
-//   layerConfig: LayerConfig[];
-//   committedTimeRange: TimeRange;
-//   liveTimeRange: TimeRange;
-//   selectedLayerId: string | null;
-//   // collapse flags
-//   isLayerPanelCollapsed: boolean;
-//   isOptionsPanelCollapsed: boolean;
-//   isActiveFiltersPanelCollapsed: boolean;
-//   activeMobilePanel: "layers" | "options" | "filters" | "none";
-//   loadingProgress: number; // 0 to 100, for progress tracking
-// }
+/**
+ * this file will contain all the logic for updating applications states
+ * reducer is a pure function that takes the current state and an "action"
+ * and returns the next state.
+ */
 
-// all possible actions, that can change the state
-//this is a "discriminated union", ts function: represent multiple possible variants, distinguished by a common property called a discriminator
+// all possible actions, that can change the state.
+//this is a "discriminated union", ts function:
+// represent multiple possible variants,
+// distinguished by a common property called a discriminator
 export type AppAction =
   | { type: "TOGGLE_LAYER_PANEL" }
   | { type: "TOGGLE_OPTIONS_PANEL" }
@@ -42,7 +29,6 @@ export type AppAction =
       type: "SET_GEOJSON_DATA";
       payload: Record<string, HistoricalFeatureCollection>;
     }
-  | { type: "SET_ENTITIES"; payload: EntityMap }
   | { type: "SET_LOADING_PROGRESS"; payload: number }
 
   // Layer config
@@ -62,14 +48,14 @@ export type AppAction =
 
   // time control
   | { type: "SET_COMMITTED_TIME_RANGE"; payload: TimeRange }
-  | { type: "SET_LIVE_TIME_RANGE"; payload: TimeRange };
+  | { type: "SET_LIVE_TIME_RANGE"; payload: TimeRange }
+
+  // dictionaries
+  | { type: "SET_DICTIONARIES"; payload: Record<string, EntityMap> };
 
 //  handle all state updates
 export const appReducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
-    case "SET_ENTITIES":
-      return { ...state, entities: action.payload };
-
     case "TOGGLE_LAYER_PANEL":
       return { ...state, isLayerPanelCollapsed: !state.isLayerPanelCollapsed };
 
@@ -170,6 +156,10 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
     case "SET_LIVE_TIME_RANGE":
       // here: during sliding, only the live range is updated -> important!
       return { ...state, liveTimeRange: action.payload };
+
+    // dictionaries
+    case "SET_DICTIONARIES":
+      return { ...state, dictionaries: action.payload };
 
     default:
       return state;

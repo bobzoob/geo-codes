@@ -1,7 +1,7 @@
 import { type ComponentType } from "react";
 import type { LayerComponentProps } from "../types/state";
 
-// ** ADD NWE layer rendering components HERE **
+// ** ADD A NEW layer rendering components HERE **
 import GeoJSONLayer from "./GeoJSONLayer";
 import PointLayer from "./PointLayer";
 import ArrowLayer from "./ArrowLayer";
@@ -14,7 +14,7 @@ export interface LayerPlugin {
 }
 
 // registry instance
-// ** TO ADD A NEW LAYER TYPE, ADD AN ENTRY HERE **
+// ** ADD A NEW LAYER TYPE HERE **
 export const layerRegistry: Record<string, LayerPlugin> = {
   point: {
     Component: PointLayer,

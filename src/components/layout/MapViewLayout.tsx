@@ -10,7 +10,8 @@ import { mapTheme } from "../../config/mapTheme";
 
 /**
  * layout manager for the entire interactive map view
- * renders MapContainer as a base layer and orchestrates the display of all floating UI panels on top of it
+ * renders MapContainer as a base layer and
+ * orchestrates the display of all floating UI panels on top of it
  */
 function MapViewLayout() {
   const { state, dispatch } = useAppState();
@@ -111,8 +112,8 @@ function MapViewLayout() {
             <OptionsPanel />
           </CollapsiblePanel>
 
-          {/* 3. Active Filters (New) */}
-          {/* Only render if a layer is selected, or always? Usually tied to layer/global time */}
+          {/* Active Filters */}
+          {/* only render if a layer is selected, or always? Usually tied to layer/global time */}
           <CollapsiblePanel
             label="Filters"
             isCollapsed={!isFiltersPanelVisible}

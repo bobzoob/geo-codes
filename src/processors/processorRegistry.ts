@@ -13,18 +13,17 @@ import type {
 export const processorRegistry: Record<string, ProcessorModule> = {
   /**
    * aggregateByProperty
-   * Groups features by a specific property (e.g., "origin_id") and
-   * converts them into a single Point (Hub) with a "count" and "children" list.
+   * Groups features by a specific property ("origin_id") and
+   * converts them into a single point with a "count" and "children" list.
    */
   aggregateByProperty: {
     id: "aggregateByProperty",
     execute: (features, params, entities): HistoricalFeatureCollection => {
       const { groupBy } = params;
 
-      // If no grouping property is provided, return data as is
       if (!groupBy) return { type: "FeatureCollection", features };
 
-      // 1. Grouping Logic
+      // Grouping
       const groups: Record<string, HistoricalFeature[]> = {};
 
       features.forEach((f: HistoricalFeature) => {
@@ -35,45 +34,41 @@ export const processorRegistry: Record<string, ProcessorModule> = {
         groups[val].push(f);
       });
 
-      // 2. Transformation Logic
-      // We map the groups into new "Hub" features
+      // Transformation
+      // map groups into new "Hub" features
       const processedFeatures: HistoricalFeature[] = Object.entries(groups).map(
         ([key, groupFeatures]: [string, HistoricalFeature[]]) => {
-          // Determine coordinates from the first feature in the group
+          // but we determine coordinates from the first feature in the group
           const firstFeat = groupFeatures[0];
           let coords: number[] = [0, 0];
 
           if (firstFeat.geometry?.type === "Point") {
             coords = firstFeat.geometry.coordinates;
           } else if (firstFeat.geometry?.type === "LineString") {
-            // For lines (correspondence), we aggregate by the start point (Origin)
+            // for lines we aggregate by the start point ("origin")
             coords = firstFeat.geometry.coordinates[0];
           }
 
-          // Create the Hub ID (usually a GND ID like 'gnd:4028557-1')
+          // Hub ID (usually a ID like 'gnd:4028557-1')
           const hubId = String(key);
 
           return {
             type: "Feature",
-            id: hubId, // Root ID for React/Selectors
+            id: hubId, // root ID for React/Selectors
             geometry: {
               type: "Point",
               coordinates: coords,
             },
             properties: {
-              // ID Promotion: MapLibre looks for 'id' inside properties
+              // MapLibre looks for 'id' inside properties
               id: hubId,
-
-              // Resolve the city name using the entities dictionary
               title: entities[key]?.name || key,
-
-              // Metadata for the Map (radius scaling) and UI (labels)
               count: groupFeatures.length,
 
-              // Nest the original filtered features for the Popup list
+              // we nest the original filtered features for the Popup list
               children: groupFeatures,
 
-              // Keep track of what kind of data was aggregated
+              // but keep track of what kind of data was aggregated
               originalType: firstFeat.geometry?.type,
             },
           };
