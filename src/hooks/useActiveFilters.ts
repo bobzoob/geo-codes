@@ -1,97 +1,54 @@
 import { useAppState } from "../state/appContext";
 import { filterRegistry } from "../filters/filterRegistry";
-import { APP_CONFIG } from "../config/appConfig";
 
 /**
  * tells the ActiveFiltersPanel how to handle the logic and
  * provides a formatted list of all currently active filters
  * for display in the ActiveFiltersPanel.
+ * relies on FilterRegistry to handle formatting logic
  */
 
 export interface ActiveFilterItem {
   id: string;
   label: string;
   value: string;
+  moduleId: string;
+  layerId?: string;
 }
 
 export function useActiveFilters() {
   const { state } = useAppState();
-  const { layerConfig, selectedLayerId, committedTimeRange } = state;
+  const { layerConfig, selectedLayerId, committedTimeRange, settings } = state;
 
   const items: ActiveFilterItem[] = [];
 
   // GlobalTime logic
-  const isTimeFiltered =
-    committedTimeRange[0] !== APP_CONFIG.timeRange.min ||
-    committedTimeRange[1] !== APP_CONFIG.timeRange.max;
-
-  if (isTimeFiltered) {
+  const [min, max] = [settings.timeRange.min, settings.timeRange.max];
+  if (committedTimeRange[0] !== min || committedTimeRange[1] !== max) {
     items.push({
-      id: "global-time",
+      id: "global-time-item",
       label: "Global Time",
       value: `${committedTimeRange[0]} - ${committedTimeRange[1]}`,
+      moduleId: "global-time", // zhis is the special ID for the reducer
     });
   }
-
-  // LayerFilters logic
+  // layer specific filters
   const selectedLayer = layerConfig.find((l) => l.id === selectedLayerId);
+  if (selectedLayer?.filterValues) {
+    selectedLayer.activeFilters.forEach((config) => {
+      const module = filterRegistry[config.moduleId];
+      const val = selectedLayer.filterValues![config.moduleId];
 
-  if (selectedLayer) {
-    selectedLayer.activeFilters.forEach((filterConfig) => {
-      const module = filterRegistry[filterConfig.moduleId];
-      if (!module) return;
+      const isDefault =
+        JSON.stringify(val) === JSON.stringify(module.defaultValue);
 
-      const rawValue = (selectedLayer.filterValues || {})[module.id];
-      // we ignore if value is null || undefined
-      if (rawValue === null || rawValue === undefined) return;
-
-      // DISPLAY FORMATTING logic
-      // DateRange
-      if (module.id === "dateRange") {
-        const { start, end } = rawValue;
-        if (!start && !end) return;
-
-        let displayValue = "";
-        if (start && end) displayValue = `${start} to ${end}`;
-        else if (start) displayValue = `After ${start}`;
-        else if (end) displayValue = `Before ${end}`;
-
+      if (module && val !== undefined && !isDefault) {
         items.push({
-          id: module.id,
-          label: module.label,
-          value: displayValue,
-        });
-      }
-      // Standard string (sender, recipiant)
-      else if (typeof rawValue === "string" && rawValue.trim() !== "") {
-        items.push({
-          id: module.id,
-          label: module.label,
-          value: `"${rawValue}"`,
-        });
-      }
-
-      // Special { searchTerm, onlyResolved etc}
-      else if (module.id === "placeFilter" && typeof rawValue === "object") {
-        const { searchTerm, onlyResolved } = rawValue;
-
-        if (!searchTerm && !onlyResolved) return; // if they are not active
-
-        const displayParts = [];
-        if (searchTerm) {
-          displayParts.push(`"${searchTerm}"`);
-        }
-
-        // this is for **development purposes** only,
-        // will be dismissed in production
-        if (onlyResolved) {
-          displayParts.push("Resolved Only");
-        }
-
-        items.push({
-          id: module.id,
-          label: module.label,
-          value: displayParts.join(" + "),
+          id: `${selectedLayer.id}-${config.moduleId}`,
+          label: config.params?.activeLabel || module.label,
+          value: module.formatValue(val, config.params),
+          moduleId: config.moduleId,
+          layerId: selectedLayer.id,
         });
       }
     });

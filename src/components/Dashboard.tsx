@@ -15,9 +15,10 @@ import ArticleIcon from "@mui/icons-material/Article";
 
 function Dashboard() {
   const { state, dispatch } = useAppState();
-  const { loadingProgress, geoJsonData } = state;
+  const { loadingProgress, rawSources } = state;
 
-  const isLoaded = loadingProgress === 100 && geoJsonData !== null;
+  const isLoaded =
+    loadingProgress === 100 && Object.keys(rawSources).length > 0;
 
   return (
     <Container sx={{ py: 4 }}>

@@ -1,7 +1,7 @@
 import { Stack, TextField, Button, Paper, Typography } from "@mui/material";
 import type { FilterComponentProps } from "../../types/filter";
 
-function TextFilter({ value, onChange }: FilterComponentProps) {
+function TextFilter({ value, onChange, label }: FilterComponentProps) {
   // value is expected to be string here
   const currentValue = (value as string) || "";
 
@@ -14,7 +14,7 @@ function TextFilter({ value, onChange }: FilterComponentProps) {
       <Stack spacing={2}>
         <Typography variant="subtitle2">Text Search</Typography>
         <TextField
-          label="Search..."
+          label={label}
           variant="outlined"
           fullWidth
           size="small"

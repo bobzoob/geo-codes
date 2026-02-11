@@ -104,8 +104,18 @@ function PointLayer({
     paint: {
       "circle-radius": circleRadius,
       "circle-color": circleColor,
-      "circle-stroke-width": config.strokeWidth ?? 1,
-      "circle-stroke-color": config.strokeColor || "#ffffff",
+      "circle-stroke-width": [
+        "case",
+        ["boolean", ["feature-state", "selected"], false],
+        3, // width when selected has border
+        config.strokeWidth ?? 1, // default width
+      ],
+      "circle-stroke-color": [
+        "case",
+        ["boolean", ["feature-state", "selected"], false],
+        "#ffffff", // color when selected
+        config.strokeColor || "#ffffff", // default color
+      ],
       "circle-opacity": config.opacity ?? 0.8,
     },
   };

@@ -17,6 +17,7 @@ function ArrowLayer({ id, data }: ArrowLayerProps) {
   const sourceId = `${id}-source`;
   const lineLayerId = `${id}-lines`;
   const symbolLayerId = `${id}-symbol`;
+  const highlightLayerId = `${id}-highlight`;
 
   // Arrow Icon
   useEffect(() => {
@@ -54,11 +55,35 @@ function ArrowLayer({ id, data }: ArrowLayerProps) {
       false,
     ],
     paint: {
-      "line-color": "#3388ff",
+      "line-color": "#3388ff", // default
+
+      "line-width": ["interpolate", ["linear"], ["zoom"], 5, 1, 12, 3], // default
+
       "line-opacity": 0.6,
-      "line-width": ["interpolate", ["linear"], ["zoom"], 5, 1, 12, 3],
     },
     // Layout ordering: Lines should generally be below points..?
+  };
+
+  const highlightStyle: LayerProps = {
+    id: highlightLayerId,
+    type: "line",
+    filter: [
+      "match",
+      ["geometry-type"],
+      ["LineString", "MultiLineString"],
+      true,
+      false,
+    ],
+    paint: {
+      "line-color": "#ff9800", // highlight
+      "line-width": 4,
+      "line-opacity": [
+        "case",
+        ["boolean", ["feature-state", "selected"], false],
+        1, // visible if selected
+        0, // invisible if not
+      ],
+    },
   };
 
   // Layer B: Arrow Heads
@@ -93,6 +118,7 @@ function ArrowLayer({ id, data }: ArrowLayerProps) {
       promoteId="id"
     >
       <Layer {...lineStyle} />
+      <Layer {...highlightStyle} />
       <Layer {...arrowStyle} />
     </Source>
   );

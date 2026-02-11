@@ -2,7 +2,7 @@ import { type ComponentType } from "react";
 import type { LayerComponentProps } from "../types/state";
 
 // ** ADD A NEW layer rendering components HERE **
-import GeoJSONLayer from "./GeoJSONLayer";
+import PolygonLayer from "./PolygonLayer";
 import PointLayer from "./PointLayer";
 import ArrowLayer from "./ArrowLayer";
 
@@ -27,7 +27,7 @@ export const layerRegistry: Record<string, LayerPlugin> = {
     zIndex: 10,
   },
   polygon: {
-    Component: GeoJSONLayer,
+    Component: PolygonLayer,
     getInteractiveIds: (id) => [`${id}-fill`],
     zIndex: 0,
   },

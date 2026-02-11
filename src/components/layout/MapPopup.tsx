@@ -13,7 +13,8 @@ import type { SelectedFeature } from "../../hooks/useMapInteraction";
 import { useAppState } from "../../state/appContext";
 import { extractGenericPopupData } from "../../utils/popupUtils";
 import { useEffect } from "react";
-import { APP_CONFIG } from "../../config/appConfig";
+import { popupTemplates } from "../../config/templates";
+import { customPopupComponents } from "../../registries/componentRegistry";
 
 interface MapPopupProps {
   feature: SelectedFeature;
@@ -22,15 +23,44 @@ interface MapPopupProps {
 
 export function MapPopup({ feature, onClose }: MapPopupProps) {
   const { state } = useAppState();
-  const { processedData, layerConfig, dictionaries } = state;
+  const { processedData, layerConfig, dictionaries, sources } = state;
 
-  // LIVE LOOKUP
+  // CONFIG RESOLUTION
+  const layer = layerConfig.find((l) => l.id === feature.layerId);
+  if (!layer) return null;
+
+  // use templateId from drill-down state if it exists, otherwise use layer default
+  const activeTemplateId = feature.templateId || layer.templateId;
+  const template = popupTemplates[activeTemplateId];
+
+  if (!template) {
+    console.warn(`Template ${activeTemplateId} not found`);
+    return null;
+  }
+
+  // FEATURE LOOKUP
   const currentLayerData = processedData[feature.layerId];
-  const currentFeature = currentLayerData?.features.find(
+  let currentFeature = currentLayerData?.features.find(
     (f: any) => String(f.id) === String(feature.featureId)
   );
 
-  // AUTO CLOSE so the popup will close when filter change
+  // if not found at top level, we search inside aggregated "children"
+  if (!currentFeature && currentLayerData) {
+    for (const f of currentLayerData.features) {
+      if (f.properties?.children) {
+        const child = f.properties.children.find(
+          (c: any) =>
+            String(c.id || c.properties?.id) === String(feature.featureId)
+        );
+        if (child) {
+          currentFeature = child;
+          break;
+        }
+      }
+    }
+  }
+
+  // Auto-close
   useEffect(() => {
     if (
       currentLayerData &&
@@ -43,21 +73,19 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
 
   if (!currentFeature) return null;
 
-  // EXTRACT DATA
-  // DICTIONARY SELECTION
-  const config = layerConfig.find((l) => l.id === feature.layerId);
-  if (!config) return null;
+  // DICTIONARY RESOLUTION
+  const sourceConfig = sources[layer.sourceId];
+  const dictionaryId = layer.dictionaryId || sourceConfig?.dictionaryId;
+  const relevantDictionary =
+    dictionaryId && dictionaries[dictionaryId]
+      ? dictionaries[dictionaryId]
+      : {};
 
-  // we determine which dictionary to use for this layer
-  const defaultDictionaryId = APP_CONFIG.dictionaries?.[0]?.id;
-  const dictionaryId = config.dictionaryId || defaultDictionaryId;
-  const relevantDictionary = dictionaryId ? dictionaries[dictionaryId] : {};
-
-  // and pass selected dictionary to data extraction utility
+  // DATA EXTRACTION
   const popupData = extractGenericPopupData(
     currentFeature,
-    config.popupConfig,
-    relevantDictionary || {} // pass the specific dictionary
+    template,
+    relevantDictionary
   );
   const { fields, url } = popupData;
 
@@ -70,14 +98,21 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
       maxWidth="320px"
       style={{ zIndex: 1000 }}
     >
-      <Box
-        sx={{
-          p: 2,
-
-          minWidth: "250px",
-        }}
-      >
+      <Box sx={{ p: 2, minWidth: "250px" }}>
         {fields.map((field, index) => {
+          //  TYPE: CUSTOM
+          if (field.type === "custom" && field.componentId) {
+            const CustomComp = customPopupComponents[field.componentId];
+            return CustomComp ? (
+              <CustomComp
+                key={index}
+                feature={currentFeature}
+                entities={relevantDictionary}
+                params={field.params}
+              />
+            ) : null;
+          }
+
           // TYPE: HEADER
           if (field.type === "header") {
             return (
@@ -116,10 +151,11 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
             );
           }
 
-          // TYPE: FEATURE-LIST (reactive list)
+          // TYPE: FEATURE-LIST
           if (field.type === "feature-list" && Array.isArray(field.value)) {
             const meta = field.meta || {};
-            const listLabelField = meta.listLabelField || "title";
+            const labelKey = meta.listLabelField || "title";
+            const secondaryKey = meta.listSecondaryField;
 
             return (
               <Box key={index} sx={{ mt: 2 }}>
@@ -136,37 +172,49 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                   }}
                 >
                   {field.value.map((child: any, i: number) => {
-                    const label = child.properties[listLabelField] || "Unknown";
-                    const senderId = child.properties.sender_ids?.[0];
-                    const senderName = senderId
-                      ? relevantDictionary[senderId]?.name || senderId
-                      : "";
+                    // resolve primary label
+                    const primaryLabel =
+                      child.properties[labelKey] || "Unknown Item";
+
+                    // resolve secondary label
+                    let secondaryLabel = "";
+                    if (secondaryKey) {
+                      const rawVal = child.properties[secondaryKey];
+                      if (Array.isArray(rawVal)) {
+                        secondaryLabel = rawVal
+                          .map((id) => relevantDictionary[id]?.name || id)
+                          .join(", ");
+                      } else if (rawVal) {
+                        secondaryLabel =
+                          relevantDictionary[rawVal]?.name || String(rawVal);
+                      }
+                    }
 
                     return (
                       <ListItem key={i} divider disablePadding>
                         <ListItemButton
                           onClick={() => {
-                            // Dispatch event to trigger drill-down in useMapInteraction
                             window.dispatchEvent(
                               new CustomEvent("app:select-feature", {
                                 detail: {
                                   feature: child,
-                                  layerId: meta.detailLayerId,
+                                  templateId: meta.detailTemplateId,
+                                  layerId: feature.layerId,
                                 },
                               })
                             );
                           }}
                         >
                           <ListItemText
-                            primary={label}
-                            secondary={senderName}
+                            primary={primaryLabel}
+                            secondary={secondaryLabel}
                             primaryTypographyProps={{
                               variant: "body2",
                               fontWeight: 500,
                             }}
                             secondaryTypographyProps={{
                               variant: "caption",
-                              sx: { opacity: 0.7 },
+                              sx: { opacity: 0.7, fontStyle: "italic" },
                             }}
                           />
                         </ListItemButton>
@@ -178,64 +226,47 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
             );
           }
 
-          // TYPE: TAGS
+          //TYPE: TAGS
           if (field.type === "tags" && Array.isArray(field.value)) {
-            const isMentionField =
-              field.label && field.label.toLowerCase().includes("mention");
-
-            // the chip:
-            const tagContainer = (
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {field.value.map((tag: any, i: number) => {
-                  const label =
-                    typeof tag === "object" && tag.name ? tag.name : tag;
-                  const tagUrl =
-                    typeof tag === "object" && tag.url ? tag.url : null;
-                  return (
-                    <Chip
-                      key={i}
-                      label={label}
-                      size="small"
-                      component={tagUrl ? "a" : "div"}
-                      href={tagUrl}
-                      target="_blank"
-                      clickable={!!tagUrl}
-                    />
-                  );
-                })}
-              </Box>
-            );
-
             return (
               <Box key={index} sx={{ mb: 2 }}>
                 <Typography variant="caption" display="block" sx={{ mb: 0.5 }}>
                   {field.label} ({field.value.length})
                 </Typography>
-
-                {isMentionField ? (
-                  // if mention field, we wrap it in a scrollable box
-                  <Box
-                    sx={{
-                      maxHeight: "110px",
-                      overflowY: "auto",
-                      p: 1,
-                      bgcolor: "rgba(0,0,0,0.2)",
-                      borderRadius: 1,
-                    }}
-                  >
-                    {tagContainer}
-                  </Box>
-                ) : (
-                  // otherwise we render the tags normally
-                  tagContainer
-                )}
+                <Box
+                  sx={{
+                    maxHeight: field.value.length > 5 ? "110px" : "auto",
+                    overflowY: "auto",
+                    p: 1,
+                    bgcolor: "rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 0.5,
+                  }}
+                >
+                  {field.value.map((tag: any, i: number) => {
+                    const label = typeof tag === "object" ? tag.name : tag;
+                    const tagUrl = typeof tag === "object" ? tag.url : null;
+                    return (
+                      <Chip
+                        key={i}
+                        label={label}
+                        size="small"
+                        component={tagUrl ? "a" : "div"}
+                        href={tagUrl}
+                        target="_blank"
+                        clickable={!!tagUrl}
+                      />
+                    );
+                  })}
+                </Box>
               </Box>
             );
           }
 
           // TYPE: LONG TEXT
           if (field.type === "long-text") {
-            const isLong = field.value.length > 300;
             return (
               <Box
                 key={index}
@@ -245,9 +276,10 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                   borderRadius: 1,
                   mb: 2,
                   fontStyle: "italic",
-                  maxHeight: isLong ? "150px" : "auto",
-                  overflowY: isLong ? "auto" : "visible",
-                  borderLeft: "3px solid #ff9800",
+                  maxHeight: "150px",
+                  overflowY: "auto",
+                  borderLeft: "3px solid",
+                  borderColor: "secondary.main",
                 }}
               >
                 <Typography variant="body2">{field.value}</Typography>
@@ -255,12 +287,12 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
             );
           }
 
-          //  TYPE: LIST & TIMED-LIST
+          // TYPE: LIST & TIMED-LIST
           if (field.type === "list" || field.type === "timed-list") {
             return (
               <Box key={index} sx={{ mt: 1, mb: 1 }}>
                 <Typography variant="subtitle2" color="secondary">
-                  {field.label} ({field.value.length})
+                  {field.label}
                 </Typography>
                 <List
                   dense
@@ -268,25 +300,13 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                   sx={{ maxHeight: 150, overflow: "auto" }}
                 >
                   {field.value.map((item: any, i: number) => {
-                    // Determine Label and SubLabel based on type
-                    let primaryText = item;
-                    let secondaryText = "";
-                    let itemUrl = null;
-
-                    if (field.type === "timed-list") {
-                      // Timed list is always { label, subLabel }
-                      primaryText = item.label;
-                      secondaryText = item.subLabel;
-                    } else if (
-                      typeof item === "object" &&
-                      item !== null &&
-                      "name" in item
-                    ) {
-                      // Standard list with ResolvedEntity { name, url }
-                      primaryText = item.name;
-                      itemUrl = item.url;
-                    }
-
+                    const primaryText =
+                      field.type === "timed-list"
+                        ? item.label
+                        : item.name || item;
+                    const secondaryText =
+                      field.type === "timed-list" ? item.subLabel : "";
+                    const itemUrl = item.url || null;
                     return (
                       <ListItem key={i} divider sx={{ py: 0.5 }}>
                         <ListItemText
@@ -295,7 +315,6 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                               <Link
                                 href={itemUrl}
                                 target="_blank"
-                                rel="noopener"
                                 color="inherit"
                                 underline="hover"
                               >
@@ -314,6 +333,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
               </Box>
             );
           }
+
           return null;
         })}
 

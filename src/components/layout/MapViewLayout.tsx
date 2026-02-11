@@ -1,4 +1,4 @@
-import { Box, useMediaQuery, type Theme } from "@mui/material";
+import { Box, Paper, useMediaQuery, type Theme } from "@mui/material";
 import { useAppState } from "../../state/appContext";
 import CollapsiblePanel from "./panels/CollapsiblePanel";
 import LayerPanel from "./panels/LayerPanel";
@@ -7,6 +7,8 @@ import ActiveFiltersPanel from "./panels/ActiveFiltersPanel";
 import MapContainer from "../MapContainer";
 import { ThemeProvider } from "@mui/material/styles";
 import { mapTheme } from "../../config/mapTheme";
+import TimelineControl from "../TimelineControl";
+import type { TimeRange } from "../../types/state";
 
 /**
  * layout manager for the entire interactive map view
@@ -21,6 +23,7 @@ function MapViewLayout() {
     activeMobilePanel,
     // selectedLayerId,
     isActiveFiltersPanelCollapsed,
+    liveTimeRange,
   } = state;
 
   const isMobile = useMediaQuery((theme: Theme) =>
@@ -41,6 +44,9 @@ function MapViewLayout() {
   const isFiltersPanelVisible = isMobile
     ? activeMobilePanel === "filters"
     : !isActiveFiltersPanelCollapsed;
+
+  // hide timeline on mobile
+  const showTimeline = isMobile ? activeMobilePanel === "none" : true;
 
   return (
     <Box sx={{ height: "100%", width: "100%", position: "relative" }}>
@@ -134,6 +140,48 @@ function MapViewLayout() {
             <ActiveFiltersPanel />
           </CollapsiblePanel>
         </Box>
+        {/* Layer 3: Timeline */}
+        {showTimeline && (
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: isMobile ? 10 : 30,
+              left: 0,
+              right: 0,
+              display: "flex",
+              justifyContent: "center",
+              pointerEvents: "none", // so container doesnt block map
+              zIndex: 1100,
+            }}
+          >
+            <Paper
+              elevation={6}
+              sx={{
+                width: isMobile ? "90%" : "70%",
+                maxWidth: "1200px",
+                padding: isMobile ? "10px 20px" : "10px 40px",
+                borderRadius: "16px",
+                pointerEvents: "auto", // interaction
+                backgroundColor: "background.paper",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                backdropFilter: "blur(8px)", // glass effect
+              }}
+            >
+              <TimelineControl
+                range={liveTimeRange}
+                onTimeChange={(newRange: TimeRange) =>
+                  dispatch({ type: "SET_LIVE_TIME_RANGE", payload: newRange })
+                }
+                onTimeChangeCommitted={(newRange: TimeRange) =>
+                  dispatch({
+                    type: "SET_COMMITTED_TIME_RANGE",
+                    payload: newRange,
+                  })
+                }
+              />
+            </Paper>
+          </Box>
+        )}
       </ThemeProvider>
     </Box>
   );

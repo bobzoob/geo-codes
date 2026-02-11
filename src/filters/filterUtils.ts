@@ -1,37 +1,44 @@
 import type { HistoricalFeature, EntityMap } from "../types/geojson";
 import type { TimeRange, LayerConfig } from "../types/state";
 import { filterRegistry } from "./filterRegistry";
+import type { FieldMapping } from "../types/config";
 
 // Helper to extract year from "YYYY-MM-DD" or "YYYY"
-const getYear = (dateStr?: string | null): number => {
-  if (!dateStr) return 0;
-  const yearPart = dateStr.split("-")[0];
+const getYear = (dateVal?: string | number | null): number => {
+  if (dateVal === undefined || dateVal === null) return 0;
+  // if allready a number
+  if (typeof dateVal === "number") return dateVal;
+  // but if string
+  const yearPart = String(dateVal).split("-")[0];
   return parseInt(yearPart, 10) || 0;
 };
 
 // Helper for global timeline
 const filterByGlobalTime = (
   feature: HistoricalFeature,
-  range: TimeRange
+  range: TimeRange,
+  mapping: FieldMapping
 ): boolean => {
   const props = feature.properties;
   const [minYear, maxYear] = range;
 
   // we check if any year is within the slider range
-  if (props.active_years && Array.isArray(props.active_years)) {
-    return props.active_years.some(
+  // we chack for active_years -> is this generic?
+  const activeYears = props.active_years;
+  if (activeYears && Array.isArray(activeYears)) {
+    return activeYears.some(
       (year: number) => year >= minYear && year <= maxYear
     );
   }
 
   // we check for a point in time
-  // date_start -> date_end -> date_sort
-  const startDateStr = props.date_start || props.date_sort;
+  const startKey = mapping.dateStart;
+  const endKey = mapping.dateEnd || startKey;
 
+  const startDateStr = props[startKey];
   if (startDateStr) {
     const startYear = getYear(startDateStr);
-    // ff date_end exists, we use it otherwise: end = start
-    const endYear = props.date_end ? getYear(props.date_end) : startYear;
+    const endYear = props[endKey] ? getYear(props[endKey]) : startYear;
     // check for invalid dates
     if (startYear === 0) return false;
 
@@ -41,26 +48,33 @@ const filterByGlobalTime = (
   return false;
 };
 
-export const applyFilters = (
+// MAIN BRIDGE
+export const applyGenericFilters = (
   feature: HistoricalFeature,
   globalTimeRange: TimeRange,
   entities: EntityMap,
-  layerConfig: LayerConfig
+  layer: LayerConfig,
+  mapping: FieldMapping
 ): boolean => {
-  // Global Time Check
-  if (!layerConfig.ignoreTimeFilter) {
-    if (!filterByGlobalTime(feature, globalTimeRange)) return false;
+  // Global Time Filter
+  // applied to any filter unless ignoreTimeFiler = true
+  if (!layer.ignoreTimeFilter) {
+    if (!filterByGlobalTime(feature, globalTimeRange, mapping)) {
+      return false;
+    }
   }
-  // Dynamic Filter Check
-  const filters = layerConfig.activeFilters || [];
-  const values = layerConfig.filterValues || {};
-  for (const filterConfig of filters) {
+
+  // PLUGIN FILTER, registry-based
+  const activeFilters = layer.activeFilters || [];
+  const values = layer.filterValues || {};
+
+  for (const filterConfig of activeFilters) {
     const module = filterRegistry[filterConfig.moduleId];
     if (!module) continue;
 
     const value = values[module.id] ?? module.defaultValue;
-
-    if (!module.predicate(feature, value, entities)) {
+    // we executre predicate with the mapping
+    if (!module.predicate(feature, value, entities, mapping, layer)) {
       return false;
     }
   }

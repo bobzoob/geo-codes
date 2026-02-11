@@ -7,9 +7,10 @@ import { layerRegistry } from "../layers/layerRegistry";
 // LayerManager get its logic from LayerWrapper
 function LayerManager() {
   const { state } = useAppState();
-  const { layerConfig, geoJsonData } = state;
+  const { layerConfig, processedData } = state;
 
-  if (!geoJsonData) return null; // maybe no data at all
+  if (!processedData) return null; // maybe no data at all
+  console.log("No processedData available.");
 
   // sort layers (points over lines over polygon etc)
   const sortedLayers = useMemo(() => {
@@ -29,8 +30,13 @@ function LayerManager() {
         if (!layer.visible) return null;
 
         // if data is available
-        const layerData = geoJsonData[layer.id];
-        if (!layerData) return null;
+        const layerData = processedData[layer.id];
+        if (
+          !layerData ||
+          !layerData.features ||
+          layerData.features.length === 0
+        )
+          return null;
 
         // we render the wrapper
         return <LayerWrapper key={layer.id} layer={layer} />;

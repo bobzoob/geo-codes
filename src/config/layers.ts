@@ -1,277 +1,144 @@
 import type { LayerConfig } from "../types/state";
 
 /**
- * REGISTER NEW LAYERS HERE
+ * INTITIAL LAYER REGISTRY
+ * here you can define how to view your sources
  */
 
 export const initialLayerConfig: LayerConfig[] = [
   {
-    id: "letters-master",
-    name: "Hidden Master",
-    visible: false,
-    showInPanel: false,
-    type: "line",
-    // isLinkable: false // uncomment if layer should not resolve entities to links
-    source: "/letters_lean.geojson",
+    id: "letters-lines",
+    sourceId: "correspondence-data", // pointer to GeoJSON + Mapping in sources.ts
+    templateId: "letter-detail", // pointer to popup structure in templates.ts
+    name: "Letters", // displayed name
+    visible: true, // layer toggled "on" from start
+    type: "line", // layer type
 
-    dictionaryId: "main_entities", // this is only nessesary if more than one dictionary exists
-
-    // here we choose the filter options
-    // and decide where they should appear
-    // the logic is handled in filterUtils.ts
-    activeFilters: [
-      { moduleId: "dateRange", placement: "timeline-area" },
-      { moduleId: "plainText", placement: "search-area" },
-    ],
-
-    // here we set up the appearance of the Popup
-    // the locig is handled in popupUtils.ts
-    popupConfig: [
-      { field: "composite_letter_header", type: "header" },
-      { field: "date_start", label: "Date", type: "text" },
-      { field: "date_reliability", label: "Reliability", type: "tags" },
-      {
-        field: "sender_ids",
-        label: "Sender",
-        type: "list",
-        resolveEntities: true, // this looks in "main_entities" dictionary
-      },
-      {
-        field: "recipient_ids",
-        label: "Recipient",
-        type: "list",
-        resolveEntities: true,
-      },
-      {
-        field: "origin_id",
-        label: "Sent from",
-        type: "text",
-        resolveEntities: true,
-      },
-      {
-        field: "target_id",
-        label: "Sent to",
-        type: "text",
-        resolveEntities: true,
-      },
-      {
-        field: "mention_ids",
-        label: "Mentions",
-        type: "tags",
-        resolveEntities: true,
-        entityTypeFilter: "Person",
-      },
-      {
-        field: "mention_ids",
-        label: "Mentioned Works",
-        type: "tags",
-        resolveEntities: true,
-        entityTypeFilter: "Work",
-      },
-      {
-        field: "mention_ids",
-        label: "Mentioned Places",
-        type: "tags",
-        resolveEntities: true,
-        entityTypeFilter: "Place",
-      },
-      { field: "text_preview", type: "long-text" },
-    ],
-  },
-  {
-    id: "letters-1",
-    name: "Letters",
-    visible: true,
-    type: "line",
-    source: "/letters_lean.geojson",
-
-    filterValues: {},
+    // DATA SPLITTER
+    // here we define: only render features where "is_local" is NOT true aka flase
+    baseFilter: { field: "is_local", operator: "neq", value: true },
 
     activeFilters: [
-      { moduleId: "dateRange", placement: "timeline-area" },
+      { moduleId: "dateRange", placement: "search-area" },
       { moduleId: "plainText", placement: "search-area" },
-
-      { moduleId: "excludeLocal", placement: "search-area" }, // nessesary!
       {
         moduleId: "entitySearch",
         placement: "search-area",
         section: "advanced",
       },
-      { moduleId: "sender", placement: "search-area", section: "advanced" },
-      { moduleId: "recipient", placement: "search-area", section: "advanced" },
+      {
+        moduleId: "sender",
+        placement: "search-area",
+        section: "advanced",
+        params: {
+          useSuggestions: true, // enable fold-out
+          suggestionType: "Person", // suggestions
+          activeLabel: "Sender",
+        },
+      },
+      {
+        moduleId: "recipient",
+        placement: "search-area",
+        section: "advanced",
+        params: {
+          useSuggestions: true,
+          suggestionType: "Person",
+          activeLabel: "Recipient",
+        },
+      },
       {
         moduleId: "placeFilter",
         placement: "search-area",
         section: "advanced",
+        params: {
+          useSuggestions: true,
+          suggestionType: "Place",
+          activeLabel: "Location",
+        },
       },
     ],
 
-    popupConfig: [
-      { field: "composite_letter_header", type: "header" },
-      { field: "date_start", label: "Date", type: "text" },
-      { field: "date_reliability", label: "Reliability", type: "tags" },
-      {
-        field: "sender_ids",
-        label: "Sender",
-        type: "list",
-        resolveEntities: true,
-      },
-      {
-        field: "recipient_ids",
-        label: "Recipient",
-        type: "list",
-        resolveEntities: true,
-      },
-      {
-        field: "origin_id",
-        label: "Sent from",
-        type: "text",
-        resolveEntities: true,
-      },
-      {
-        field: "target_id",
-        label: "Sent to",
-        type: "text",
-        resolveEntities: true,
-      },
-      {
-        field: "mention_ids",
-        label: "Mentions",
-        type: "tags",
-        resolveEntities: true,
-        entityTypeFilter: "Person",
-      },
-      {
-        field: "mention_ids",
-        label: "Mentioned Works",
-        type: "tags",
-        resolveEntities: true,
-        entityTypeFilter: "Work",
-      },
-      {
-        field: "mention_ids",
-        label: "Mentioned Places",
-        type: "tags",
-        resolveEntities: true,
-        entityTypeFilter: "Place",
-      },
-      { field: "text_preview", type: "long-text" },
-    ],
+    styleConfig: {
+      // color of lines
+      color: "#3388ff",
+      opacity: 0.6,
+    },
   },
 
   {
-    id: "local-letters",
-    name: "Local Letters",
+    id: "local-letter-hubs",
+    sourceId: "correspondence-data", // same source as lines
+    templateId: "city-detail", // different popup template
+    name: "Letters (Local)",
     visible: true,
     type: "point",
-    source: "/letters_lean.geojson",
-    intensityField: "count", // for the radius of the circle
-    showAllTooltips: false,
-    hasFlashlight: true,
 
-    styleConfig: {
-      color: ["#BBDEFB", "#5C6BC0", "#6A1B9A"], // we deffine the point colors here
-      radius: [4, 35], // Min 4px, Max 30px
-      opacity: 0.8,
-    },
+    // DATA SPLITTER
+    // here we only render features where "is_local" IS true.
+    baseFilter: { field: "is_local", operator: "eq", value: true },
+
+    // DATA PROCESSING
+    // we group local letters by their origin city
     processor: {
-      // we need the processor here
       type: "aggregateByProperty",
       params: { groupBy: "origin_id" },
     },
+
+    intensityField: "count", // scale circles
+
     activeFilters: [
-      { moduleId: "localOnly", placement: "search-area" },
-      { moduleId: "dateRange", placement: "timeline-area" },
+      { moduleId: "dateRange", placement: "search-area" },
       { moduleId: "plainText", placement: "search-area" },
-      {
-        moduleId: "entitySearch",
-        placement: "search-area",
-        section: "advanced",
-      },
-      { moduleId: "sender", placement: "search-area", section: "advanced" },
-      { moduleId: "recipient", placement: "search-area", section: "advanced" },
-      {
-        moduleId: "placeFilter",
-        placement: "search-area",
-        section: "advanced",
-      },
+      { moduleId: "entitySearch", placement: "search-area" },
+      { moduleId: "sender", placement: "search-area" },
+      { moduleId: "recipient", placement: "search-area" },
+      { moduleId: "placeFilter", placement: "search-area" },
     ],
-    popupConfig: [
-      { field: "title", type: "header" },
-      { field: "count", label: "Letters in this city", type: "text" },
-      {
-        field: "children",
-        label: "Letters in this city",
-        type: "feature-list",
-        listLabelField: "date_start", // date in the list
-        detailLayerId: "letters-master", // we use the Letter popup style
-      },
-    ],
+
+    styleConfig: {
+      color: ["#BBDEFB", "#5C6BC0", "#6A1B9A"], // gradient based on count
+      radius: [4, 35],
+      opacity: 0.8,
+    },
   },
 
   {
     id: "places-people",
+    sourceId: "places-people-data",
+    templateId: "place-biography",
     name: "Places & People",
     visible: true,
     type: "point",
-    source: "/places-people.geojson",
-    showAllTooltips: false,
-    hasFlashlight: true,
-    ignoreTimeFilter: true,
+    ignoreTimeFilter: true, // layer is static
     intensityField: "weight",
+
+    activeFilters: [{ moduleId: "plainText", placement: "search-area" }],
 
     styleConfig: {
       color: ["#FFEB3B", "#FB8C00", "#D32F2F"],
       radius: [4, 35],
       opacity: 0.8,
     },
-
-    filterValues: {},
-    activeFilters: [{ moduleId: "plainText", placement: "search-area" }],
-    popupConfig: [
-      { field: "title", type: "header" },
-      { field: "born", label: "Born", type: "list", resolveEntities: true },
-      { field: "died", label: "Died", type: "list", resolveEntities: true },
-
-      {
-        field: "activity_log",
-        label: "Active People",
-        type: "timed-list",
-        resolveEntities: true,
-      },
-    ],
   },
+
   {
-    id: "events",
-    name: "Historic Events",
-    visible: false,
-    type: "point",
-    source: "/wikidata_central_europe_events.json",
-    showAllTooltips: false,
-    hasFlashlight: true,
-    filterValues: {
-      // topic: "Literaturbetrieb", // this would set a default value
-    },
-    activeFilters: [
-      { moduleId: "dateRange", placement: "timeline-area" },
-      { moduleId: "topic", placement: "search-area" },
-    ],
-    popupConfig: [{ field: "title", type: "header" }],
-  },
-  {
-    id: "polygons",
+    id: "historic-polygons",
+    sourceId: "territories-data",
+    templateId: "generic-info",
     name: "Historic Areas",
-    visible: false,
+    visible: false, // layer toggled "off" from start
+    ignoreTimeFilter: true,
     type: "polygon",
-    styleConfig: { color: "#2e7d32", strokeColor: "#1b5e20" },
-    source: "/territories-data.geojson",
-    showAllTooltips: false,
-    hasFlashlight: true,
-    filterValues: {},
+
     activeFilters: [
-      { moduleId: "dateRange", placement: "timeline-area" },
+      { moduleId: "dateRange", placement: "search-area" },
       { moduleId: "plainText", placement: "search-area" },
     ],
-    popupConfig: [{ field: "title", type: "header" }],
+
+    styleConfig: {
+      color: "#2e7d32",
+      strokeColor: "#1b5e20",
+      opacity: 0.4,
+    },
   },
 ];

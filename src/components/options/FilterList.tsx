@@ -36,7 +36,8 @@ export function FilterList({ layerId, filters, values }: FilterListProps) {
             <Component
               layerId={layerId}
               value={currentValue}
-              onChange={(newValue) =>
+              params={filterConfig.params} // for the fold-out suggestions
+              onChange={(newValue: any) =>
                 dispatch({
                   type: "UPDATE_FILTER_VALUE",
                   payload: {

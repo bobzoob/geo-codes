@@ -35,7 +35,7 @@ export const processorRegistry: Record<string, ProcessorModule> = {
       });
 
       // Transformation
-      // map groups into new "Hub" features
+      // map groups into "hub" features
       const processedFeatures: HistoricalFeature[] = Object.entries(groups).map(
         ([key, groupFeatures]: [string, HistoricalFeature[]]) => {
           // but we determine coordinates from the first feature in the group
@@ -49,7 +49,7 @@ export const processorRegistry: Record<string, ProcessorModule> = {
             coords = firstFeat.geometry.coordinates[0];
           }
 
-          // Hub ID (usually a ID like 'gnd:4028557-1')
+          // Hub ID ("gnd:1234567")
           const hubId = String(key);
 
           return {
@@ -60,7 +60,7 @@ export const processorRegistry: Record<string, ProcessorModule> = {
               coordinates: coords,
             },
             properties: {
-              // MapLibre looks for 'id' inside properties
+              // MapLibre looks for "id" inside properties - MapLibre thing
               id: hubId,
               title: entities[key]?.name || key,
               count: groupFeatures.length,

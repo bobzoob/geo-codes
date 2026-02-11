@@ -1,7 +1,6 @@
 import type { LayerConfig } from "../types/state";
 import { layerRegistry } from "../layers/layerRegistry";
 import { useAppState } from "../state/appContext";
-import { APP_CONFIG } from "../config/appConfig";
 
 /**
  * this is the connector
@@ -14,8 +13,9 @@ interface LayerWrapperProps {
 
 export function LayerWrapper({ layer }: LayerWrapperProps) {
   const { state } = useAppState();
-  const { processedData, dictionaries } = state;
+  const { processedData, dictionaries, sources } = state;
 
+  // DATA RETRIEVAL
   // we take the pre-processed data from global pipline
   const data = processedData[layer.id];
   if (!data || data.type !== "FeatureCollection") return null;
@@ -26,10 +26,15 @@ export function LayerWrapper({ layer }: LayerWrapperProps) {
     return null;
   }
 
+  // DICTIONARY RESOLUTION
   // select correct dictionaries for the layer
-  const defaultDictionaryId = APP_CONFIG.dictionaries?.[0]?.id;
-  const dictionaryId = layer.dictionaryId || defaultDictionaryId;
-  const relevantDictionary = (dictionaryId && dictionaries[dictionaryId]) || {};
+  const sourceConfig = sources[layer.sourceId];
+  const dictionaryId = layer.dictionaryId || sourceConfig?.dictionaryId;
+
+  const relevantDictionary =
+    dictionaryId && dictionaries[dictionaryId]
+      ? dictionaries[dictionaryId]
+      : Object.values(dictionaries)[0] || {};
 
   return (
     <plugin.Component

@@ -10,8 +10,12 @@ import type { AppState } from "../types/state";
 import { appReducer, type AppAction } from "./appReducer";
 import type { EntityMap, HistoricalFeatureCollection } from "../types/geojson";
 import { initialLayerConfig } from "../config/layers";
-import { APP_CONFIG } from "../config/appConfig";
+import { PROJECT_SETTINGS } from "../config/settings";
 import { computeProcessedData } from "./selectors";
+import {
+  sources as sourcesRegistry,
+  dictionaries as dictionariesConfig,
+} from "../config/sources";
 
 /**
  * provider class: wraps up tje application, making state available to every other class
@@ -20,24 +24,45 @@ import { computeProcessedData } from "./selectors";
 // initial state of application
 const initialState: AppState = {
   currentView: "dashboard",
-  geoJsonData: null,
+
+  //data
+  rawSources: {},
   processedData: {},
+  dictionaries: {},
+
+  //config
+  sources: sourcesRegistry,
   layerConfig: initialLayerConfig,
-  committedTimeRange: [APP_CONFIG.timeRange.min, APP_CONFIG.timeRange.max],
-  liveTimeRange: [APP_CONFIG.timeRange.min, APP_CONFIG.timeRange.max],
+
+  // settings
+  settings: {
+    ...PROJECT_SETTINGS,
+    map: {
+      ...PROJECT_SETTINGS.map,
+      // strange that we have to cast the tuple to number..?
+      defaultCenter: PROJECT_SETTINGS.map.defaultCenter as [number, number],
+    },
+  },
+
+  // global state
+  committedTimeRange: [
+    PROJECT_SETTINGS.timeRange.min,
+    PROJECT_SETTINGS.timeRange.max,
+  ],
+  liveTimeRange: [
+    PROJECT_SETTINGS.timeRange.min,
+    PROJECT_SETTINGS.timeRange.max,
+  ],
+
+  // UI state
   selectedLayerId: null,
   isLayerPanelCollapsed: false,
   isOptionsPanelCollapsed: true,
   activeMobilePanel: "layers",
   isActiveFiltersPanelCollapsed: true,
   loadingProgress: 0,
-  dictionaries: {},
 };
 
-// context
-// we are creating a box, with eighter the state and dispatch or NULL.
-// we initialize it with null
-// <> generics: aListOfType<someType>
 const AppStateContext = createContext<{
   state: AppState;
   dispatch: React.Dispatch<AppAction>;
@@ -48,11 +73,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   // DATA PIPELINE
-  // memo value only recalculates when filter change
+  // this is a blind engine, transforming
+  // rawSource -> processedData
+  // if: filters, time.range or layer config chenges
+
   const processedData = useMemo(() => {
     return computeProcessedData(state);
   }, [
-    state.geoJsonData,
+    state.rawSources,
     state.layerConfig,
     state.committedTimeRange,
     state.dictionaries,
@@ -67,74 +95,74 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     [state, processedData]
   );
 
-  // data fetching logic
+  // DATA FETCHING logic
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // progress calculation
-        const totalTasks =
-          (APP_CONFIG.dictionaries?.length || 0) + state.layerConfig.length;
+        const dictList = dictionariesConfig.map((dict) => ({
+          id: dict.id,
+          url: typeof dict.url === "string" ? dict.url : (dict as any).url,
+        }));
+
+        const sourceList = Object.values(sourcesRegistry);
+
+        const totalTasks = sourceList.length + dictList.length;
         let completedTasks = 0;
 
-        // Helper to update progress
         const updateProgress = () => {
           completedTasks++;
-          const percentage =
-            totalTasks > 0
-              ? Math.round((completedTasks / totalTasks) * 100)
-              : 100;
-          dispatch({ type: "SET_LOADING_PROGRESS", payload: percentage });
+          dispatch({
+            type: "SET_LOADING_PROGRESS",
+            payload: Math.round((completedTasks / totalTasks) * 100), // percentage
+          });
         };
 
-        // Fetch all Dictionaries
-        if (APP_CONFIG.dictionaries && APP_CONFIG.dictionaries.length > 0) {
-          // create an array of fetch promises for all dictionaries
-          const dictionaryPromises = APP_CONFIG.dictionaries.map(
-            async (dictConfig) => {
-              const res = await fetch(dictConfig.source);
-              const data = await res.json();
-              updateProgress(); // update progress for each completed dictionary fetch
-              return { id: dictConfig.id, data };
-            }
-          );
-
-          // await for them to load
-          const loadedDictionaries = await Promise.all(dictionaryPromises);
-
-          // convert array of loaded dictionaries into single map object
-          const dictionariesMap: Record<string, EntityMap> = {};
-          loadedDictionaries.forEach((dict) => {
-            dictionariesMap[dict.id] = dict.data;
-          });
-
-          dispatch({ type: "SET_DICTIONARIES", payload: dictionariesMap });
-        }
-
-        // fetch layers
-        const layerPromises = state.layerConfig.map(async (layer) => {
-          const res = await fetch(layer.source);
-          const json = await res.json();
-          updateProgress(); // progress: ++/total
-          return json;
+        // fetch all dictionaries
+        const dictionaryPromises = dictList.map(async (dict) => {
+          const res = await fetch(dict.url);
+          if (!res.ok)
+            throw new Error(`Failed to fetch dictionary: ${dict.id}`);
+          const data = await res.json();
+          updateProgress();
+          return { id: dict.id, data };
         });
 
-        const responses = await Promise.all(layerPromises);
+        const loadedDictionaries = await Promise.all(dictionaryPromises);
 
-        // map data to id#s
-        const dataMap: Record<string, HistoricalFeatureCollection> = {};
-        state.layerConfig.forEach((layer, index) => {
-          dataMap[layer.id] = responses[index] as HistoricalFeatureCollection;
+        const dictionariesMap: Record<string, EntityMap> = {};
+        loadedDictionaries.forEach((dict) => {
+          dictionariesMap[dict.id] = dict.data;
+        });
+        console.log(
+          "DEBUG: Dictionaries loaded into Map:",
+          Object.keys(dictionariesMap)
+        );
+        dispatch({ type: "SET_DICTIONARIES", payload: dictionariesMap });
+
+        // fentch raw data sources
+        const sourcePromises = sourceList.map(async (sourceConf) => {
+          const res = await fetch(sourceConf.url);
+          if (!res.ok)
+            throw new Error(`Failed to fetch source: ${sourceConf.id}`);
+          const data = await res.json();
+          updateProgress();
+          return { id: sourceConf.id, data };
         });
 
-        // send action to update state with fetched data
-        dispatch({ type: "SET_GEOJSON_DATA", payload: dataMap });
+        const loadedSources = await Promise.all(sourcePromises);
+
+        const sourceDataMap: Record<string, HistoricalFeatureCollection> = {};
+        loadedSources.forEach((source) => {
+          sourceDataMap[source.id] = source.data;
+        });
+
+        dispatch({ type: "SET_RAW_SOURCES", payload: sourceDataMap });
       } catch (error) {
-        console.error("Error fetching GeoJSON data:", error);
+        console.error("Framework Initialization Error:", error);
       }
     };
+
     fetchData();
-    // this effect should run only once when the app loads.
-    // if the layerConfig could change dynamically in the future, this need adjustment
   }, []);
 
   return (

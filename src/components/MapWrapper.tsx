@@ -4,7 +4,7 @@ import Map, {
   Popup,
 } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { APP_CONFIG } from "../config/appConfig";
+import { popupTemplates } from "../config/templates";
 import type { ReactNode } from "react";
 import { useMapInteraction } from "../hooks/useMapInteraction"; // logic for this component
 import { MapPopup } from "./layout/MapPopup";
@@ -12,6 +12,7 @@ import { useAppState } from "../state/appContext";
 import { layerRegistry } from "../layers/layerRegistry";
 import { extractGenericPopupData } from "../utils/popupUtils";
 import { Paper, Typography } from "@mui/material";
+import { MapHighlighter } from "../components/MapHighlighter"; // highlight selected
 
 interface MapWrapperProps {
   children: ReactNode;
@@ -19,7 +20,7 @@ interface MapWrapperProps {
 
 function MapWrapper({ children }: MapWrapperProps) {
   const { state } = useAppState();
-  const { processedData, layerConfig, dictionaries } = state;
+  const { processedData, layerConfig, dictionaries, sources, settings } = state;
   const {
     selectedFeature,
     hoverInfo,
@@ -34,8 +35,7 @@ function MapWrapper({ children }: MapWrapperProps) {
     .filter((layer) => layer.visible)
     .flatMap((layer) => {
       const plugin = layerRegistry[layer.type];
-      if (!plugin) return [];
-      return plugin.getInteractiveIds(layer.id);
+      return plugin ? plugin.getInteractiveIds(layer.id) : [];
     });
 
   // LIVE TOOLTIP
@@ -50,28 +50,69 @@ function MapWrapper({ children }: MapWrapperProps) {
 
     if (!feature)
       return { title: `Not found: ${hoverInfo.featureId}`, subtitle: null };
-    // getconfig for this layer
-    const config = layerConfig.find((l) => l.id === hoverInfo.layerId);
-    if (!config) return { title: "Unknown", subtitle: null };
 
-    // select correct dictionary for hovered layer
-    const defaultDictionaryId = APP_CONFIG.dictionaries?.[0]?.id;
-    const dictionaryId = config.dictionaryId || defaultDictionaryId;
-    const relevantDictionary =
-      (dictionaryId && dictionaries[dictionaryId]) || {};
+    // layer and source config
+    const layer = layerConfig.find((l) => l.id === hoverInfo.layerId);
+    if (!layer) return { title: "Unknown Layer", subtitle: null };
+
+    const sourceConfig = sources[layer.sourceId];
+    const template = popupTemplates[layer.templateId];
+
+    if (!template) return { title: layer.name, subtitle: null };
+
+    // resolve correct dictionary for hovered layer
+    const dictionaryId = layer.dictionaryId || sourceConfig?.dictionaryId;
+
+    // console.log("DEBUG: Tooltip Lookup", {
+    //   lookingFor: dictionaryId,
+    //   availableDictionaries: Object.keys(dictionaries),
+    //   foundData: dictionaries[dictionaryId || ""],
+    // });
+
+    const relevantDictionary = dictionaryId ? dictionaries[dictionaryId] : {};
 
     // ectract display data
     const popupData = extractGenericPopupData(
       feature,
-      config.popupConfig,
+      template,
       relevantDictionary
     );
 
-    const titleField = popupData.fields.find((f) => f.type === "header");
+    // we try to find standart header
+    let titleField = popupData.fields.find((f) => f.type === "header");
+    let displayTitle = titleField?.value;
+
+    // but if we dont find it we check is the first field is correspondance header (custom)
+    if (!displayTitle) {
+      const firstField = popupData.fields[0];
+      if (
+        firstField?.type === "custom" &&
+        firstField.componentId === "CorrespondenceHeader"
+      ) {
+        // we manually resolve names for tooltip string
+        const resolve = (ids: any) => {
+          const idList = Array.isArray(ids) ? ids : [ids];
+          return idList
+            .map((id) => relevantDictionary[id]?.name || id)
+            .join(", ");
+        };
+
+        const senders = resolve(feature.properties.sender_ids);
+        const recipients = resolve(feature.properties.recipient_ids);
+        displayTitle = `${senders} → ${recipients}`;
+      }
+    }
+
+    // Fallbacks
+    if (!displayTitle) {
+      displayTitle =
+        feature.properties.title || feature.properties.name || layer.name;
+    }
+
     const subtitleField = popupData.fields.find((f) => f.type === "text");
 
     return {
-      title: titleField ? titleField.value : "Unknown",
+      title: displayTitle,
       subtitle: subtitleField ? subtitleField.value : null,
     };
   };
@@ -79,12 +120,12 @@ function MapWrapper({ children }: MapWrapperProps) {
   return (
     <Map
       initialViewState={{
-        longitude: APP_CONFIG.map.defaultCenter[1],
-        latitude: APP_CONFIG.map.defaultCenter[0],
-        zoom: APP_CONFIG.map.defaultZoom,
+        longitude: settings.map.defaultCenter[1],
+        latitude: settings.map.defaultCenter[0],
+        zoom: settings.map.defaultZoom,
       }}
       style={{ width: "100%", height: "100%" }}
-      mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+      mapStyle={settings.map.style}
       reuseMaps={true}
       onClick={onMapClick}
       onMouseMove={onMapMouseMove}
@@ -94,6 +135,8 @@ function MapWrapper({ children }: MapWrapperProps) {
     >
       <ScaleControl position="bottom-left" />
       <NavigationControl position="top-right" showCompass={true} />
+
+      <MapHighlighter />
 
       {children}
 

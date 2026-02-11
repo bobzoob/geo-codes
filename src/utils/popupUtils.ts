@@ -12,9 +12,12 @@ export interface ProcessedField {
   value: any;
   type: string;
   url?: string;
+  componentId?: string;
+  params?: Record<string, any>;
   meta?: {
     listLabelField?: string;
-    detailLayerId?: string;
+    listSecondaryField?: string;
+    detailTemplateId?: string;
   };
 }
 
@@ -35,49 +38,28 @@ const resolveAndFilter = (
 ): ResolvedEntity[] => {
   if (!ids) return [];
 
-  let list: string[] = [];
-  if (Array.isArray(ids)) {
-    list = ids;
-  } else if (typeof ids === "string") {
-    if (ids.startsWith("[")) {
-      try {
-        list = JSON.parse(ids);
-      } catch (e) {
-        list = [ids];
-      }
-    } else {
-      list = [ids];
-    }
-  }
+  const list: string[] = Array.isArray(ids)
+    ? ids
+    : typeof ids === "string" && ids.startsWith("[")
+    ? JSON.parse(ids)
+    : [ids];
 
   return list
     .map((id) => {
-      const cleanId = typeof id === "string" ? id.trim() : id;
-      let entity = entities[cleanId];
+      const entity = entities[String(id).trim()];
+      if (!entity) return { name: String(id) }; // Fallback to raw ID
 
-      if (!entity) {
-        const fuzzyKey = Object.keys(entities).find(
-          (k) => k.trim() === cleanId
-        );
-        if (fuzzyKey) entity = entities[fuzzyKey];
-      }
-
-      if (!entity) {
-        return { name: cleanId }; // return raw ID if not found
-      }
-
+      // Apply type filter (e.g., only show "Place" entities)
       if (
         typeFilter &&
-        entity.type &&
-        entity.type.toLowerCase() !== typeFilter.toLowerCase()
+        entity.type?.toLowerCase() !== typeFilter.toLowerCase()
       ) {
         return null;
       }
 
-      // URL GENERATION LOGIC
+      // Generate URL based on authority configuration
       let url = undefined;
-      if (isLinkable && entity.authority) {
-        // we look for first authority key that matches our config ("gnd", "geonames")
+      if (isLinkable !== false && entity.authority) {
         const authKey = Object.keys(entity.authority).find(
           (key) => AUTHORITY_MAP[key]
         );
@@ -88,58 +70,71 @@ const resolveAndFilter = (
 
       return { name: entity.name, url };
     })
-    .filter((item): item is ResolvedEntity => item !== null); // filter out null
+    .filter((item): item is ResolvedEntity => item !== null);
 };
 
 /**
- * Main function to transform raw GeoJSON properties into UI-ready Popup Data
+ * Main Extraction Engine
+ * Transforms raw feature properties into UI-ready fields
  */
 export const extractGenericPopupData = (
   feature: any,
   config: PopupFieldConfig[],
-  entities: EntityMap
+  entities: EntityMap = {}
 ): GenericPopupData => {
   const props = feature.properties || {};
   const fields: ProcessedField[] = [];
 
   config.forEach((conf) => {
-    // SPECIAL CASE: Composite Header (Sender to Recipient)
-    if (conf.type === "header" && conf.field === "composite_letter_header") {
-      const senders = resolveAndFilter(props.sender_ids, entities);
-      const recipients = resolveAndFilter(props.recipient_ids, entities);
-
-      // we extract only names, not URLS
-      const senderText =
-        senders.length > 0
-          ? senders.map((s) => s.name).join(", ")
-          : "Unknown Sender";
-      const recipientText =
-        recipients.length > 0
-          ? recipients.map((r) => r.name).join(", ")
-          : "Unknown Recipient";
-
+    // Handle custom components (complex data concatination)
+    if (conf.type === "custom") {
       fields.push({
-        type: "header",
-        value: `${senderText} to ${recipientText}`,
+        type: "custom",
+        componentId: conf.componentId,
+        params: conf.params,
+        value: props[conf.field],
       });
       return;
     }
 
-    // STANDARD LOGIC:
-    let rawValue = props[conf.field];
-    // for generic feature-list
-    if (conf.type === "feature-list") {
-      let listValue = rawValue;
-      if (typeof listValue === "string") {
-        try {
-          listValue = JSON.parse(listValue);
-        } catch (e) {
-          console.error("Failed to parse feature-list JSON", e);
-          return;
-        }
-      }
+    // Handle composite logic (like header)
+    if (conf.type === "composite" && conf.fields) {
+      const resolvedParts = conf.fields.map((fieldName) => {
+        const rawValue = props[fieldName];
+        if (!rawValue) return "Unknown";
 
-      if (!listValue || !Array.isArray(listValue)) return;
+        if (conf.resolveEntities) {
+          const resolved = resolveAndFilter(
+            rawValue,
+            entities,
+            conf.entityTypeFilter,
+            false
+          );
+          return resolved.length > 0
+            ? resolved.map((r) => r.name).join(", ")
+            : String(rawValue);
+        }
+        return String(rawValue);
+      });
+
+      // We push this as a standard 'header' or 'text' so the UI
+      // components (MapPopup/MapWrapper) don't need to change... bad!?
+      fields.push({
+        type: conf.isHeader ? "header" : "text",
+        label: conf.label,
+        value: resolvedParts.join(conf.separator || " "),
+      });
+      return;
+    }
+
+    // how to handle FeatureLists (aggregated values)
+    if (conf.type === "feature-list") {
+      const listValue =
+        typeof props[conf.field] === "string"
+          ? JSON.parse(props[conf.field])
+          : props[conf.field];
+
+      if (!Array.isArray(listValue)) return;
 
       fields.push({
         label: conf.label,
@@ -147,50 +142,43 @@ export const extractGenericPopupData = (
         value: listValue,
         meta: {
           listLabelField: conf.listLabelField,
-          detailLayerId: conf.detailLayerId,
+          listSecondaryField: conf.listSecondaryField,
+          detailTemplateId: conf.detailTemplateId,
         },
       });
       return;
     }
 
-    if (!rawValue) return;
-    if (Array.isArray(rawValue) && rawValue.length === 0) return;
+    // Standard data extraction
+    let rawValue = props[conf.field];
+    if (rawValue === undefined || rawValue === null) return;
 
     let processedValue = rawValue;
     let fieldUrl: string | undefined = undefined;
 
+    // Resolve Entities if requested
     if (conf.resolveEntities) {
       if (conf.type === "timed-list") {
-        // Handle the specific [ID, Date] array structure
-        let listData = rawValue;
-        if (typeof rawValue === "string") {
-          try {
-            listData = JSON.parse(rawValue);
-          } catch (e) {}
-        }
-        if (Array.isArray(listData)) {
-          processedValue = listData.map((entry: any) => ({
-            label: entities[entry[0]]?.name || entry[0],
-            subLabel: entry[1],
-          }));
-        }
+        const listData =
+          typeof rawValue === "string" ? JSON.parse(rawValue) : rawValue;
+        processedValue = listData.map((entry: any) => ({
+          label: entities[entry[0]]?.name || entry[0],
+          subLabel: entry[1],
+        }));
       } else {
-        // Standard ID resolution
-        const shouldLink = conf.isLinkable !== false; // isLinkable default is: true
-
         const resolved = resolveAndFilter(
           rawValue,
           entities,
           conf.entityTypeFilter,
-          shouldLink
+          conf.isLinkable
         );
         if (resolved.length === 0) return;
+
+        // If it's a simple text field but we resolved it, take the first one
         if (conf.type === "text") {
-          // For text, we take the first resolved item's name and url
           processedValue = resolved[0].name;
           fieldUrl = resolved[0].url;
         } else {
-          // fallback
           processedValue = resolved;
         }
       }
@@ -206,6 +194,6 @@ export const extractGenericPopupData = (
 
   return {
     fields,
-    url: props.url, // source URL - i still need to implement this!
+    url: props.url || props.source_url, // fallback for external links
   };
 };

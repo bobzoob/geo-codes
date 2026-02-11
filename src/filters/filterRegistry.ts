@@ -5,66 +5,44 @@ import EntityFilter from "../components/filters/EntityFilter";
 import PlaceFilterUI from "../components/filters/PlaceFilter";
 
 /**
- * WHEN IMPLEMENTING A NEW FILTER/SEARCH LOGIC HERE
- * YOU HAVE TO UPDATE layers.ts TO LET IT SHOW ON THE
- * OPTIONSPANEL
+ * GENERIC FILTER REGISTRY
+ * registry provides the logic (predicate) and the UI type (component)
+ * which field to search, whether to show suggestions
+ * is passed via mapping from "source" or "layer"
  */
 
 export const filterRegistry: Record<string, FilterModule> = {
-  // TEXT SEARCH
+  // TEXT SEARCH (all text fields, all entities)
   plainText: {
     id: "plainText",
     label: "Text Search",
     defaultValue: "",
     component: TextFilterUI,
-    predicate: (feature, value, entities) => {
+    formatValue: (val) => `"${val}"`,
+    predicate: (feature, value, entities, mapping) => {
       if (!value) return true;
       const term = value.toLowerCase();
       const props = feature.properties;
 
-      // title and full text (properties)
-      // SET PROPS NAMES HERE
-      const textProperties = [props.title, props.full_text, props.text_preview];
-      for (const propValue of textProperties) {
-        if (propValue && String(propValue).toLowerCase().includes(term)) {
-          return true;
-        }
-      }
+      // text props
+      const textFields = mapping.textSearch || [];
+      if (
+        textFields.some((f) =>
+          String(props[f] || "")
+            .toLowerCase()
+            .includes(term)
+        )
+      )
+        return true;
 
-      // mentions
-      // we collect them into a set, to avoid duplicates
-      const allEntityIds = new Set<string>();
-
-      // SET FIELD NAMES HERE
-      const idFields = [
-        "sender_ids",
-        "recipient_ids",
-        "mention_ids",
-        "origin_id",
-        "target_id",
-        "born",
-        "died",
-      ];
-
-      idFields.forEach((field) => {
-        const ids = props[field];
-        if (Array.isArray(ids)) {
-          ids.forEach((id) => id && allEntityIds.add(String(id)));
-        } else if (ids) {
-          allEntityIds.add(String(ids));
-        }
+      // mapped entities
+      const entityFields = mapping.entityRefs || [];
+      return entityFields.some((field) => {
+        const ids = Array.isArray(props[field]) ? props[field] : [props[field]];
+        return ids.some((id) =>
+          entities[id]?.name.toLowerCase().includes(term)
+        );
       });
-
-      // if search term matches any resolved entity name
-      for (const id of allEntityIds) {
-        const entity = entities[id];
-        if (entity && entity.name.toLowerCase().includes(term)) {
-          return true;
-        }
-      }
-
-      // Fallback
-      return false;
     },
   },
 
@@ -74,11 +52,20 @@ export const filterRegistry: Record<string, FilterModule> = {
     label: "Date Range",
     defaultValue: { start: "", end: "" },
     component: DateFilterUI,
-    predicate: (feature, value) => {
+    formatValue: (val) => {
+      if (val.start && val.end) return `${val.start} - ${val.end}`;
+      return val.start ? `After ${val.start}` : `Before ${val.end}`;
+    },
+    // _enteties: marked here as intentionally unused
+    predicate: (feature, value, _entities, mapping) => {
       const { start, end } = value;
-      const props = feature.properties;
-      const featStart = props.date_start;
-      const featEnd = props.date_end || featStart;
+
+      // find date fields
+      const startKey = mapping.dateStart;
+      const endKey = mapping.dateEnd || startKey;
+
+      const featStart = feature.properties[startKey];
+      const featEnd = feature.properties[endKey] || featStart;
 
       if (start && featEnd && featEnd < start) return false;
       if (end && featStart && featStart > end) return false;
@@ -86,153 +73,121 @@ export const filterRegistry: Record<string, FilterModule> = {
     },
   },
 
-  // ENTITY FILTER (searches ONLY Entities)
+  // ENTITIE FILTER (only entities)
   entitySearch: {
     id: "entitySearch",
     label: "Entity Filter",
     defaultValue: "",
     component: EntityFilter,
-    predicate: (feature, value, entities) => {
+    formatValue: (val) => `"${val}"`,
+    predicate: (feature, value, entities, mapping, _layer, params) => {
       if (!value) return true;
       const term = value.toLowerCase();
-      const props = feature.properties;
 
-      if (
-        props.mention_ids &&
-        props.mention_ids.some((id: string) =>
-          entities[id]?.name.toLowerCase().includes(term)
-        )
-      )
-        return true;
+      // if param.property is provided we search only that field
+      // otherwise we search all fields
+      const fieldsToSearch = params?.property
+        ? [params.property]
+        : mapping.entityRefs || [];
 
-      if (
-        props.sender_ids &&
-        props.sender_ids.some((id: string) =>
+      return fieldsToSearch.some((field) => {
+        const ids = Array.isArray(feature.properties[field])
+          ? feature.properties[field]
+          : [feature.properties[field]];
+        return ids.some((id) =>
           entities[id]?.name.toLowerCase().includes(term)
-        )
-      )
-        return true;
-      if (
-        props.recipient_ids &&
-        props.recipient_ids.some((id: string) =>
-          entities[id]?.name.toLowerCase().includes(term)
-        )
-      )
-        return true;
-
-      return false;
+        );
+      });
     },
   },
 
-  // SENDER FILTER (specific usagefor entities)
+  // ROLE-SPECIFIC FILTER (sender, recipiant, ..)
+  // if you want to use them,
+  // your data must contain the keys
   sender: {
     id: "sender",
     label: "Sender",
-    component: EntityFilter, // reusing the generic input
     defaultValue: "",
-    predicate: (feature, value, entities) => {
-      if (!value) return true;
-      const term = value.toLowerCase();
-
-      // as my ids are an array
-      const ids = feature.properties.sender_ids;
-      if (!ids || !Array.isArray(ids)) return false;
-
-      return ids.some((id) => {
-        const entity = entities[id];
-        return entity && entity.name.toLowerCase().includes(term);
-      });
-    },
+    component: EntityFilter,
+    formatValue: (val) => `Sender: ${val}`,
+    predicate: (f, v, e, m, l, p) =>
+      filterRegistry.entitySearch.predicate(f, v, e, m, l, {
+        ...p,
+        property: "sender_ids",
+      }),
   },
 
-  // RECIPIENT
   recipient: {
     id: "recipient",
     label: "Recipient",
+    defaultValue: "",
     component: EntityFilter,
-    defaultValue: "",
-    predicate: (feature, value, entities) => {
-      if (!value) return true;
-      const term = value.toLowerCase();
-
-      const ids = feature.properties.recipient_ids;
-      if (!ids || !Array.isArray(ids)) return false;
-
-      return ids.some((id) => {
-        const entity = entities[id];
-        return entity && entity.name.toLowerCase().includes(term);
-      });
-    },
+    formatValue: (val) => `Recipient: ${val}`,
+    predicate: (f, v, e, m, l, p) =>
+      filterRegistry.entitySearch.predicate(f, v, e, m, l, {
+        ...p,
+        property: "recipient_ids",
+      }),
   },
 
-  // TOPIC
-  topic: {
-    id: "topic",
-    label: "Topic",
-    component: TextFilterUI, // reuse
-    defaultValue: "",
-    predicate: (feature, value) => {
-      if (!value) return true;
-      const term = value.toLowerCase();
+  // PLACE FILTER
 
-      // if topics array contains search term
-      const topics = feature.properties.topics;
-      if (!topics || !Array.isArray(topics)) return false;
-
-      return topics.some((t) => t.toLowerCase().includes(term));
-    },
-  },
-
-  // PLACE
   placeFilter: {
     id: "placeFilter",
     label: "Places",
     defaultValue: { searchTerm: "", onlyResolved: false },
     component: PlaceFilterUI,
-    predicate: (feature, value, entities) => {
+    formatValue: (val) => {
+      const parts = [];
+      if (val.searchTerm) parts.push(`"${val.searchTerm}"`);
+      if (val.onlyResolved) parts.push("Resolved Only");
+      return parts.join(" + ");
+    },
+    predicate: (feature, value, entities, mapping) => {
       const { searchTerm, onlyResolved } = value;
       if (!searchTerm && !onlyResolved) return true;
 
-      const props = feature.properties;
       const term = searchTerm.toLowerCase();
+      const entityFields = mapping.entityRefs || [];
 
-      // getting enteties for origin /target
-      const origin = entities[props.origin_id];
-      const target = entities[props.target_id];
-
-      const relevantEntities = [origin, target].filter(Boolean);
-
-      // filter logic
-      return relevantEntities.some((entity) => {
-        // must be a place
-        if (entity.type !== "Place") return false;
-        // here i like to check the geonames_resolved flag for research
-        if (onlyResolved && !entity.authority?.geonames_resolved) {
-          return false;
-        }
-        if (searchTerm && !entity.name.toLowerCase().includes(term)) {
-          return false;
-        }
-
-        return true;
+      return entityFields.some((field) => {
+        const ids = Array.isArray(feature.properties[field])
+          ? feature.properties[field]
+          : [feature.properties[field]];
+        return ids.some((id) => {
+          const entity = entities[id];
+          if (!entity || entity.type !== "Place") return false;
+          if (onlyResolved && !entity.authority?.geonames_resolved)
+            return false;
+          if (searchTerm && !entity.name.toLowerCase().includes(term))
+            return false;
+          return true;
+        });
       });
     },
   },
 
-  // IS_LOCAL (Hidden)
-  localOnly: {
-    id: "localOnly",
-    label: "Local Only",
-    defaultValue: true,
-    component: () => null, // Hidden logic filter
-    predicate: (f) => f.properties.is_local === true,
-  },
+  // BOOLEAN TOGGLE
+  // the is_flagged problem
+  booleanToggle: {
+    id: "booleanToggle",
+    label: "Toggle Filter",
+    defaultValue: false,
+    component: () => null,
+    formatValue: (value, params) => {
+      return value
+        ? params?.activeLabel || "Enabled"
+        : params?.inactiveLabel || "Disabled";
+    },
+    predicate: (feature, value, _entities, _mapping, _layer, params) => {
+      if (!value) return true; // if toggle is off we show everything
 
-  excludeLocal: {
-    id: "excludeLocal",
-    label: "Exclude Local",
-    defaultValue: true,
-    component: () => null, // Hidden logic filter
-    predicate: (f) => f.properties.is_local !== true,
+      const property = params?.property;
+      if (!property) return true;
+
+      //if property matches target value (default is true)
+      const targetValue = params?.targetValue ?? true;
+      return feature.properties[property] === targetValue;
+    },
   },
 };

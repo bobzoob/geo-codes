@@ -22,10 +22,10 @@ function Header() {
         maxWidth="xl"
         margin="0 auto"
       >
-        {/* Left side: intentionally empty  */}
+        {/* Left side: empty  */}
         <Box />
 
-        {/* Right side: Logo as Home button */}
+        {/* Right side: Logo as servs as Home-button */}
         <ButtonBase
           onClick={() => dispatch({ type: "SET_VIEW", payload: "dashboard" })}
           aria-label="Go to dashboard"

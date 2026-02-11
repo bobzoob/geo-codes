@@ -7,6 +7,7 @@ export interface SelectedFeature {
   layerId: string;
   latitude: number;
   longitude: number;
+  templateId?: string;
 }
 
 export interface PopupInfo {
@@ -35,7 +36,7 @@ export function useMapInteraction() {
    */
   useEffect(() => {
     const handleDrillDown = (e: any) => {
-      const { feature, layerId } = e.detail;
+      const { feature, templateId, layerId } = e.detail;
 
       if (!feature) return;
 
@@ -53,6 +54,7 @@ export function useMapInteraction() {
           // we use the ID that the selector sanitized
           featureId: String(feature.id || feature.properties?.id),
           layerId: layerId,
+          templateId: templateId,
           // priority: curret popup position, after: featurs own position
           longitude: prev?.longitude ?? fallbackCoords[0],
           latitude: prev?.latitude ?? fallbackCoords[1],
@@ -80,11 +82,12 @@ export function useMapInteraction() {
       const config = state.layerConfig.find((l) => l.id === layerId);
 
       // select if the layer is configured to have a popup
-      if (!config || !config.popupConfig) return;
+      if (!config || !config.templateId) return;
 
       setSelectedFeature({
         featureId: feature.id as string,
         layerId: layerId,
+        templateId: undefined, // reset to default
         longitude: event.lngLat.lng,
         latitude: event.lngLat.lat,
       });
@@ -108,7 +111,7 @@ export function useMapInteraction() {
       const config = state.layerConfig.find((l) => l.id === layerId);
 
       // show tooltip if the layer has a popupConfig defined
-      if (!config || !config.popupConfig) {
+      if (!config || !config.templateId) {
         setHoverInfo(null);
         return;
       }

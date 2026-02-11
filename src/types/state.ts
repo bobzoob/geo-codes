@@ -1,3 +1,4 @@
+import type { BaseFilter, SourceConfig } from "./config";
 import type { HistoricalFeatureCollection, EntityMap } from "./geojson";
 import type { ProcessorConfig } from "./processor";
 export type { FilterValue, FilterComponentProps } from "./filter";
@@ -24,7 +25,9 @@ export type PopupFieldType =
   | "tags" // comma separated values ( Mentions: A, B, C)
   | "list" // vertical list (Born: A, B)
   | "timed-list" // complex list (list with differnt values: Person (Date))
-  | "feature-list"; // clickable list (generic)
+  | "feature-list" // clickable list (generic)
+  | "custom" // complex header
+  | "composite"; // concatinated string
 
 export interface PopupFieldConfig {
   field: string; // key in the GeoJSON properties ("born", "activity_log")
@@ -33,9 +36,18 @@ export interface PopupFieldConfig {
   resolveEntities?: boolean; // if: look up GND IDs in dictionary
   entityTypeFilter?: string;
 
+  // for composit/ concatinated headers or fields
+  fields?: string[];
+  separator?: string;
+  isHeader?: boolean;
+
   //for feature-list only
-  listLabelField?: string; // featurs shown in list
-  detailLayerId?: string; // which laysers popup should be used
+  listLabelField?: string; // title shown in list
+  listSecondaryField?: string; // subtitle or else
+  detailTemplateId?: string; // which laysers template popup should be used
+
+  componentId?: string; // ID to look up in ComponentRegistry
+  params?: Record<string, any>; // extra data for custom component
 
   // for linkable entities
   isLinkable?: boolean;
@@ -52,7 +64,12 @@ export interface PointStyleConfig {
 
   strokeColor?: string;
 }
-
+export interface ActiveFilterConfig {
+  moduleId: string; // references ID in registry
+  placement: FilterPlacement;
+  section?: "advanced";
+  params?: Record<string, any>;
+}
 export interface LayerConfig {
   id: string;
   name: string;
@@ -60,31 +77,28 @@ export interface LayerConfig {
   visible: boolean;
   showInPanel?: boolean;
   type: string;
-  source: string;
-  showAllTooltips?: boolean;
 
+  //references
+  sourceId: string;
+  templateId: string;
+  //filter
+  baseFilter?: BaseFilter;
+
+  showAllTooltips?: boolean;
   hasFlashlight?: boolean; // removes the showAllTooltips Option
+  // cicrle radius
+  intensityField?: string;
+  // some layers may not be bound to the timline, they ignore it
+  ignoreTimeFilter?: boolean;
 
   // processor
   processor?: ProcessorConfig;
-
-  // cicrle radius
-  intensityField?: string;
-
-  // some layers may not be bound to the timline, they ignore it
-  ignoreTimeFilter?: boolean;
 
   // the current values of the filters ("text": "Goethe", "date": "1800" )
   filterValues?: FilterState;
 
   // which filters are active for this layer?
-  activeFilters: {
-    moduleId: string; // references the ID in the registry
-    placement: FilterPlacement;
-    section?: "advanced"; // optional fold out section
-  }[];
-
-  popupConfig: PopupFieldConfig[];
+  activeFilters: ActiveFilterConfig[];
 
   // poit styling
   styleConfig?: PointStyleConfig;
@@ -97,14 +111,39 @@ export interface LayerConfig {
 export interface AppState {
   currentView: View;
 
-  // raw data
-  geoJsonData: Record<string, HistoricalFeatureCollection> | null;
+  // // raw data
+  // geoJsonData: Record<string, HistoricalFeatureCollection> | null;
 
-  //processed data
+  // raw data
+  rawSources: Record<string, HistoricalFeatureCollection>;
+  //processed data (result of pipline)
   processedData: Record<string, HistoricalFeatureCollection>;
+
+  // configuration
+  sources: Record<string, SourceConfig>;
 
   // control state
   layerConfig: LayerConfig[];
+
+  // dictionaries
+  dictionaries: Record<string, EntityMap>;
+
+  // settings
+  settings: {
+    timeRange: { min: number; max: number };
+    map: {
+      style: string;
+      defaultCenter: [number, number];
+      defaultZoom: number;
+    };
+    [key: string]: any;
+    animation: {
+      speed: number;
+      step: number;
+      defaultWindow: number;
+    };
+  };
+
   committedTimeRange: TimeRange;
   liveTimeRange: TimeRange;
   selectedLayerId: string | null;
@@ -114,7 +153,4 @@ export interface AppState {
   isActiveFiltersPanelCollapsed: boolean;
   activeMobilePanel: "layers" | "options" | "filters" | "none";
   loadingProgress: number;
-
-  // dictionaries
-  dictionaries: Record<string, EntityMap>;
 }

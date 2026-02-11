@@ -1,6 +1,5 @@
 import type { AppState, FilterValue, TimeRange, View } from "../types/state";
 import type { HistoricalFeatureCollection, EntityMap } from "../types/geojson";
-import { APP_CONFIG } from "../config/appConfig";
 
 /**
  * this file will contain all the logic for updating applications states
@@ -15,20 +14,13 @@ import { APP_CONFIG } from "../config/appConfig";
 export type AppAction =
   | { type: "TOGGLE_LAYER_PANEL" }
   | { type: "TOGGLE_OPTIONS_PANEL" }
+  | { type: "TOGGLE_ACTIVE_FILTERS_PANEL" }
   | {
       type: "SET_ACTIVE_MOBILE_PANEL";
       payload: "layers" | "options" | "filters" | "none";
     }
   | { type: "SET_VIEW"; payload: View }
   | { type: "SELECT_LAYER"; payload: string | null }
-  | { type: "CLEAR_ALL_FILTERS" }
-  | { type: "TOGGLE_ACTIVE_FILTERS_PANEL" }
-
-  // Data loading
-  | {
-      type: "SET_GEOJSON_DATA";
-      payload: Record<string, HistoricalFeatureCollection>;
-    }
   | { type: "SET_LOADING_PROGRESS"; payload: number }
 
   // Layer config
@@ -45,13 +37,22 @@ export type AppAction =
       type: "UPDATE_FILTER_VALUE";
       payload: { layerId: string; filterId: string; value: FilterValue };
     }
+  | { type: "CLEAR_ALL_FILTERS" }
+  | { type: "CLEAR_LAYER_FILTERS"; payload: string }
+  | { type: "REMOVE_FILTER"; payload: { layerId?: string; moduleId: string } }
 
   // time control
   | { type: "SET_COMMITTED_TIME_RANGE"; payload: TimeRange }
   | { type: "SET_LIVE_TIME_RANGE"; payload: TimeRange }
 
   // dictionaries
-  | { type: "SET_DICTIONARIES"; payload: Record<string, EntityMap> };
+  | { type: "SET_DICTIONARIES"; payload: Record<string, EntityMap> }
+
+  // sources
+  | {
+      type: "SET_RAW_SOURCES";
+      payload: Record<string, HistoricalFeatureCollection>;
+    };
 
 //  handle all state updates
 export const appReducer = (state: AppState, action: AppAction): AppState => {
@@ -64,14 +65,16 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         isOptionsPanelCollapsed: !state.isOptionsPanelCollapsed,
       };
+    case "TOGGLE_ACTIVE_FILTERS_PANEL":
+      return {
+        ...state,
+        isActiveFiltersPanelCollapsed: !state.isActiveFiltersPanelCollapsed,
+      };
 
     case "SET_ACTIVE_MOBILE_PANEL":
       return { ...state, activeMobilePanel: action.payload };
     case "SET_VIEW":
       return { ...state, currentView: action.payload };
-
-    case "SET_GEOJSON_DATA":
-      return { ...state, geoJsonData: action.payload };
 
     // loading progress
     case "SET_LOADING_PROGRESS":
@@ -127,10 +130,13 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         // reset time to default
         committedTimeRange: [
-          APP_CONFIG.timeRange.min,
-          APP_CONFIG.timeRange.max,
+          state.settings.timeRange.min,
+          state.settings.timeRange.max,
         ],
-        liveTimeRange: [APP_CONFIG.timeRange.min, APP_CONFIG.timeRange.max],
+        liveTimeRange: [
+          state.settings.timeRange.min,
+          state.settings.timeRange.max,
+        ],
         // reset filter
         layerConfig: state.layerConfig.map((layer) => ({
           ...layer,
@@ -138,12 +144,46 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
           filterValues: {},
         })),
       };
-
-    case "TOGGLE_ACTIVE_FILTERS_PANEL":
+    case "CLEAR_LAYER_FILTERS":
       return {
         ...state,
-        isActiveFiltersPanelCollapsed: !state.isActiveFiltersPanelCollapsed,
+        // only reset the one matching the payload ID
+        layerConfig: state.layerConfig.map((layer) =>
+          layer.id === action.payload ? { ...layer, filterValues: {} } : layer
+        ),
       };
+    case "REMOVE_FILTER": {
+      const { layerId, moduleId } = action.payload;
+
+      // CASE Global Time Reset
+      if (moduleId === "global-time") {
+        return {
+          ...state,
+          committedTimeRange: [
+            state.settings.timeRange.min,
+            state.settings.timeRange.max,
+          ],
+          liveTimeRange: [
+            state.settings.timeRange.min,
+            state.settings.timeRange.max,
+          ],
+        };
+      }
+
+      // CASE Specific Layer Filter Reset
+      return {
+        ...state,
+        layerConfig: state.layerConfig.map((layer) => {
+          if (layer.id !== layerId) return layer;
+
+          // remove the key from filterValues so it reverts to defaultValue
+          const newFilterValues = { ...layer.filterValues };
+          delete newFilterValues[moduleId];
+
+          return { ...layer, filterValues: newFilterValues };
+        }),
+      };
+    }
 
     case "SET_COMMITTED_TIME_RANGE":
       // here: when user finishes sliding: both time ranges are synced
@@ -163,5 +203,9 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
 
     default:
       return state;
+
+    // sources
+    case "SET_RAW_SOURCES":
+      return { ...state, rawSources: action.payload };
   }
 };

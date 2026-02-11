@@ -81,11 +81,57 @@ Data flows in a unidirectional stream. The map never reads raw data, it only rea
 
 ### Registry Pattern
 
-The application's logic is modular and extensible through a "Registry" pattern. Instead of hardcoding functionality, the core engine looks up logic in centralized objects.
+The **Registry Pattern** is the architectural "backbone" that enables the framework’s **Data Blindness**. Instead of the core engine containing hardcoded `if/else` statements for different data types, it uses registries as a **lookup service** to find the logic or components it needs at runtime.
 
-- **`layerRegistry.ts`**: Maps a layer `type` (e.g., `"point"`, `"line"`) to a React component (`PointLayer`, `ArrowLayer`) responsible for rendering it.
-- **`filterRegistry.ts`**: Contains the logic for all filters. Each entry defines a UI component (`TextFilter`, `EntityFilter`), a `predicate` function that returns `true` or `false` for each feature, and a default value.
-- **`processorRegistry.ts`**: Holds data transformation functions. For example, `aggregateByProperty` converts an array of features into a new, aggregated FeatureCollection.
+#### 1. The Filter Registry (`filterRegistry.ts`)
+
+This is the most critical registry for the "Blind Engine." It maps a `moduleId` (e.g., `"dateRange"`) to a **Filter Module**.
+
+- **What it stores:** The logic (`predicate`), the UI component (`component`), the default value, and the display formatter (`formatValue`).
+- **The Benefit:** The engine doesn't need to know how to filter a date; it just asks the registry: _"Give me the logic for 'dateRange' and run it against this feature."_
+
+#### 2. The Layer Registry (`layerRegistry.ts`)
+
+This registry maps a layer `type` (e.g., `"point"`, `"line"`, `"polygon"`) to a **Rendering Plugin**.
+
+- **What it stores:** The React component that draws the data, the MapLibre `interactiveIds` (for clicking), and a `zIndex` for visual stacking.
+- **The Benefit:** If you want to add a "Heatmap" or "3D Building" layer, you don't touch the `MapWrapper`. You simply add a new entry to this registry.
+
+#### 3. The Processor Registry (`processorRegistry.ts`)
+
+This registry handles **Data Transformation**. It maps a `type` (e.g., `"aggregateByProperty"`) to a mathematical function.
+
+- **What it stores:** An `execute` function that takes an array of features and returns a new, transformed array.
+- **The Benefit:** This allows the "Hubs" logic to exist outside the main pipeline. The engine just sees a instruction: _"Run 'aggregateByProperty' on this data before sending it to the map."_
+
+#### 4. The Component Registry (`componentRegistry.tsx`)
+
+This is the "UI Extension" registry. It maps a `componentId` to a **React Component**.
+
+- **What it stores:** Custom UI elements like the `CorrespondenceHeader`.
+- **The Benefit:** It prevents the `MapPopup` from becoming a monolithic file filled with project-specific code. The popup just says: _"The template asks for 'CorrespondenceHeader'. I'll grab it from the registry."_
+
+---
+
+### Selector Flow
+
+1.  **The Engine** looks at a Layer Config: `{ type: "point", processor: { type: "aggregateByProperty" } }`.
+2.  **The Engine** doesn't know how to aggregate. It goes to the **Processor Registry**:
+    `const module = processorRegistry["aggregateByProperty"];`
+3.  **The Engine** executes the logic found there:
+    `processedData = module.execute(rawData, params);`
+4.  **The Engine** then looks at the **Layer Registry**:
+    `const plugin = layerRegistry["point"];`
+5.  **The Engine** hands the data to the plugin:
+    `<plugin.Component data={processedData} />`
+
+---
+
+### Work with the Engine
+
+With this Registry Pattern a researcher can use this framework without programming and only focus on configuration. Nevertheless a developer will still have the option to implement new filter and functionalities without touching the core engine.
+
+- **Researcher Tip:** You can use the "Boolean Toggle" for `is_local`, `is_verified`, or `has_image` just by changing the `params` in your `layers.ts`. You are "plugging in" the existing logic to new data fields.
 
 ---
 

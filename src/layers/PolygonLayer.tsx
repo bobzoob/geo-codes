@@ -3,7 +3,7 @@ import type { LayerProps } from "react-map-gl/maplibre";
 import type { FeatureCollection } from "geojson";
 import type { LayerComponentProps } from "../types/state";
 
-const GeoJSONLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
+const PolygonLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
   const sourceId = `${id}-source`;
   const fillLayerId = `${id}-fill`;
   const outlineLayerId = `${id}-outline`;
@@ -18,7 +18,7 @@ const GeoJSONLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
 
   const opacity = styleConfig?.opacity ?? 0.4;
 
-  // Fill Layer
+  // Fill layer
   const fillStyle: LayerProps = {
     id: fillLayerId,
     type: "fill",
@@ -40,7 +40,7 @@ const GeoJSONLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
     },
   };
 
-  //  Outline Layer
+  //  Outline layer
   const outlineStyle: LayerProps = {
     id: outlineLayerId,
     type: "line",
@@ -71,4 +71,4 @@ const GeoJSONLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
   );
 };
 
-export default GeoJSONLayer;
+export default PolygonLayer;
