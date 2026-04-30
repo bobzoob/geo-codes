@@ -31,6 +31,16 @@ export function SearchSection({ layer }: SearchSectionProps) {
 
   const standardFilters = searchFilters.filter((f) => !f.section);
   const advancedFilters = searchFilters.filter((f) => f.section === "advanced");
+  const toggleFilters = searchFilters.filter((f) => f.section === "toggles");
+
+  const accordionStyle = {
+    width: "100%",
+    backgroundColor: "transparent",
+    "&:before": { display: "none" },
+    border: "1px solid rgba(255, 255, 255, 0.12)",
+    borderRadius: 1,
+    mt: 1,
+  };
 
   return (
     <Box>
@@ -67,27 +77,32 @@ export function SearchSection({ layer }: SearchSectionProps) {
           values={layer.filterValues || {}}
         />
 
-        {/* Advanced Filters (Accordion) */}
+        {/* 3. ADVANCED OPTIONS ACCORDION */}
         {advancedFilters.length > 0 && (
-          <Accordion
-            disableGutters
-            elevation={0}
-            sx={{
-              width: "100%",
-              backgroundColor: "transparent",
-              "&:before": { display: "none" },
-              border: "1px solid rgba(0, 0, 0, 0.12)",
-              borderRadius: 1,
-              marginTop: 2,
-            }}
-          >
+          <Accordion disableGutters elevation={0} sx={accordionStyle}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="subtitle2">Advanced Options</Typography>
             </AccordionSummary>
-            <AccordionDetails sx={{ padding: 2, paddingTop: 0 }}>
+            <AccordionDetails sx={{ p: 2, pt: 0 }}>
               <FilterList
                 layerId={layer.id}
                 filters={advancedFilters}
+                values={layer.filterValues}
+              />
+            </AccordionDetails>
+          </Accordion>
+        )}
+
+        {/* D. TOGGLE OPTIONS SECTION (Data Quality/Status) */}
+        {toggleFilters.length > 0 && (
+          <Accordion disableGutters elevation={0} sx={accordionStyle}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle2">Data Quality Options</Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ p: 2, pt: 0 }}>
+              <FilterList
+                layerId={layer.id}
+                filters={toggleFilters}
                 values={layer.filterValues}
               />
             </AccordionDetails>

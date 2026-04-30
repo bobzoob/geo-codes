@@ -95,7 +95,7 @@ function ActiveFiltersPanel() {
                 })
               }
             >
-              Clear Layer
+              Clear This Layer
             </Button>
           )}
           <Divider />
@@ -106,7 +106,7 @@ function ActiveFiltersPanel() {
             fullWidth
             onClick={() => dispatch({ type: "CLEAR_ALL_FILTERS" })}
           >
-            Reset All
+            Reset All Layers
           </Button>
         </Stack>
       </Box>

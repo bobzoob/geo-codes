@@ -1,13 +1,4 @@
-import {
-  Stack,
-  TextField,
-  Button,
-  Paper,
-  Typography,
-  FormControlLabel,
-  Checkbox,
-  Autocomplete,
-} from "@mui/material";
+import { Stack, TextField, Button, Paper, Autocomplete } from "@mui/material";
 import { useAppState } from "../../state/appContext";
 import type { FilterComponentProps } from "../../types/filter";
 
@@ -23,7 +14,7 @@ function PlaceFilter({
   params,
 }: FilterComponentProps) {
   const { state } = useAppState();
-  const { dictionaries, layerConfig, sources } = state;
+  const { dictionaries, layerConfig, sources, processedData } = state;
 
   // 1. Handle State Defaults
   const current = (value as PlaceFilterValue) || {
@@ -45,13 +36,24 @@ function PlaceFilter({
     const dictionaryId = layer?.dictionaryId || source?.dictionaryId;
     const dictionary = dictionaryId ? dictionaries[dictionaryId] : {};
 
-    const options = Object.values(dictionary)
-      .filter((entity) => {
-        // Filter by type (default to "Place" if not specified in params)
-        const targetType = params?.suggestionType || "Place";
-        return entity.type?.toLowerCase() === targetType.toLowerCase();
-      })
-      .map((entity) => entity.name)
+    // Get the actual features for this layer from the reactive pipeline
+    const layerData = processedData[layerId];
+    const features = layerData?.features || [];
+
+    // 1. Collect unique IDs from the specific fields
+    const activePlaceIds = new Set<string>();
+
+    features.forEach((f: any) => {
+      const origin = f.properties?.origin_id;
+      const target = f.properties?.target_id;
+      if (origin) activePlaceIds.add(String(origin));
+      if (target) activePlaceIds.add(String(target));
+    });
+
+    // 2. Map those IDs to Names using the dictionary
+    const options = Array.from(activePlaceIds)
+      .map((id) => dictionary[id]?.name)
+      .filter(Boolean) // Remove undefined if an ID isn't in the dictionary
       .sort();
 
     uniqueOptions = Array.from(new Set(options));
@@ -94,20 +96,6 @@ function PlaceFilter({
             onChange={(e) => update({ searchTerm: e.target.value })}
           />
         )}
-
-        {/* RESOLVED CHECKBOX (Development/Specific Logic) */}
-        <FormControlLabel
-          control={
-            <Checkbox
-              size="small"
-              checked={current.onlyResolved}
-              onChange={(e) => update({ onlyResolved: e.target.checked })}
-            />
-          }
-          label={
-            <Typography variant="caption">Only Geonames Resolved</Typography>
-          }
-        />
 
         {/* CLEAR BUTTON */}
         {(current.searchTerm || current.onlyResolved) && (

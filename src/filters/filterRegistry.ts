@@ -3,6 +3,7 @@ import TextFilterUI from "../components/filters/TextFilter";
 import DateFilterUI from "../components/filters/DateFilter";
 import EntityFilter from "../components/filters/EntityFilter";
 import PlaceFilterUI from "../components/filters/PlaceFilter";
+import ToggleFilter from "../components/filters/ToggleFilter";
 
 /**
  * GENERIC FILTER REGISTRY
@@ -143,26 +144,39 @@ export const filterRegistry: Record<string, FilterModule> = {
       if (val.onlyResolved) parts.push("Resolved Only");
       return parts.join(" + ");
     },
-    predicate: (feature, value, entities, mapping) => {
+    predicate: (feature, value, entities) => {
       const { searchTerm, onlyResolved } = value;
+
+      // 1. If no filter is active, show everything
       if (!searchTerm && !onlyResolved) return true;
 
       const term = searchTerm.toLowerCase();
-      const entityFields = mapping.entityRefs || [];
+      const props = feature.properties;
 
-      return entityFields.some((field) => {
-        const ids = Array.isArray(feature.properties[field])
-          ? feature.properties[field]
-          : [feature.properties[field]];
-        return ids.some((id) => {
-          const entity = entities[id];
-          if (!entity || entity.type !== "Place") return false;
-          if (onlyResolved && !entity.authority?.geonames_resolved)
-            return false;
-          if (searchTerm && !entity.name.toLowerCase().includes(term))
-            return false;
-          return true;
-        });
+      // 2. SPECIFIC RESTRICTION: Only check these two fields
+      const fieldsToSearch = ["origin_id", "target_id"];
+
+      return fieldsToSearch.some((field) => {
+        const id = props[field];
+        if (!id) return false;
+
+        const entity = entities[id];
+
+        // Ensure the entity exists and is a Place
+        if (!entity || entity.type !== "Place") return false;
+
+        // 3. Apply "Resolved Only" logic
+        // Checks if the entity has a geonames_resolved ID in the dictionary
+        if (onlyResolved && !entity.authority?.geonames_resolved) {
+          return false;
+        }
+
+        // 4. Apply "Search Term" logic
+        if (searchTerm && !entity.name.toLowerCase().includes(term)) {
+          return false;
+        }
+
+        return true;
       });
     },
   },
@@ -188,6 +202,63 @@ export const filterRegistry: Record<string, FilterModule> = {
       //if property matches target value (default is true)
       const targetValue = params?.targetValue ?? true;
       return feature.properties[property] === targetValue;
+    },
+  },
+
+  // TOGGLE OPTION
+  // data status or special field
+  dataStatus: {
+    id: "dataStatus",
+    label: "Quality Filter",
+    defaultValue: {},
+    component: ToggleFilter,
+    formatValue: (val) => {
+      const activeCount = Object.values(val).filter(Boolean).length;
+      if (activeCount === 0) return "None";
+      return activeCount === 1
+        ? "1 filter active"
+        : `${activeCount} filters active`;
+    },
+    predicate: (feature, toggles, entities) => {
+      const activeToggles = Object.entries(toggles).filter(
+        ([_, active]) => active
+      );
+      if (activeToggles.length === 0) return true;
+
+      const props = feature.properties;
+      // focus on the geographic reliability
+      const geoFields = ["origin_id", "target_id"];
+
+      return activeToggles.every(([toggleId]) => {
+        // verified_gnd_machine OR verified_gnd_manual
+        if (toggleId === "gndOnly") {
+          return geoFields.every((field) => {
+            const status = entities[props[field]]?.status;
+            return (
+              status === "verified_gnd_machine" ||
+              status === "verified_gnd_manual"
+            );
+          });
+        }
+
+        // hide the least secure value
+        if (toggleId === "excludeInternal") {
+          return !geoFields.some((field) => {
+            return (
+              entities[props[field]]?.status === "verified_internal_manual"
+            );
+          });
+        }
+
+        // human researcher has personally confirmed
+        if (toggleId === "manualOnly") {
+          return geoFields.every((field) => {
+            return entities[props[field]]?.status === "verified_gnd_manual";
+          });
+        }
+
+        return true;
+      });
     },
   },
 };

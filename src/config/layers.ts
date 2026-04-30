@@ -10,7 +10,10 @@ export const initialLayerConfig: LayerConfig[] = [
     id: "letters-lines",
     sourceId: "correspondence-data", // pointer to GeoJSON + Mapping in sources.ts
     templateId: "letter-detail", // pointer to popup structure in templates.ts
-    name: "Letters", // displayed name
+    name: "Briefe der Frühromantik I", // displayed title
+    subtitle: "nicht lokal versendet", // displayed subtitle
+    tag: "GeoJSON", // displayed information tag
+    description: "Frühromantische Briefe im Umkreis von Friedrich Schlegel", // displayed description
     visible: true, // layer toggled "on" from start
     type: "line", // layer type
 
@@ -56,6 +59,18 @@ export const initialLayerConfig: LayerConfig[] = [
           activeLabel: "Location",
         },
       },
+      {
+        moduleId: "dataStatus",
+        placement: "search-area",
+        section: "toggles",
+        params: {
+          availableToggles: [
+            { id: "gndOnly", label: "GND Verified Only" },
+            { id: "manualOnly", label: "Manual Verified Only" },
+            { id: "excludeInternal", label: "Hide Uncertain" },
+          ],
+        },
+      },
     ],
 
     styleConfig: {
@@ -76,7 +91,10 @@ export const initialLayerConfig: LayerConfig[] = [
     id: "local-letter-hubs",
     sourceId: "correspondence-data", // same source as lines
     templateId: "city-detail", // different popup template
-    name: "Letters (Local)",
+    name: "Briefe der Frühromantik II", // displayed title
+    subtitle: "lokal versendet", // displayed subtitle
+    tag: "GeoJSON", // displayed information tag
+    description: "Frühromantische Briefe im Umkreis von Friedrich Schlegel", // displayed description
     visible: true,
     type: "point",
 
@@ -131,6 +149,18 @@ export const initialLayerConfig: LayerConfig[] = [
           activeLabel: "Location",
         },
       },
+      {
+        moduleId: "dataStatus",
+        placement: "search-area",
+        section: "toggles",
+        params: {
+          availableToggles: [
+            { id: "gndOnly", label: "GND Verified Only" },
+            { id: "manualOnly", label: "Manual Verified Only" },
+            { id: "excludeInternal", label: "Hide Uncertain" },
+          ],
+        },
+      },
     ],
 
     styleConfig: {
@@ -158,7 +188,7 @@ export const initialLayerConfig: LayerConfig[] = [
     sourceId: "places-people-data",
     templateId: "place-biography",
     name: "Places & People",
-    visible: true,
+    visible: false,
     type: "point",
     ignoreTimeFilter: true, // layer is static
     intensityField: "weight",

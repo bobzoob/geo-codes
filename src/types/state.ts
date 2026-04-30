@@ -70,7 +70,7 @@ export interface PointStyleConfig {
 export interface ActiveFilterConfig {
   moduleId: string; // references ID in registry
   placement: FilterPlacement;
-  section?: "advanced";
+  section?: "advanced" | "toggles";
   params?: Record<string, any>;
 }
 
@@ -85,7 +85,9 @@ export interface TableConfig {
 export interface LayerConfig {
   id: string;
   name: string;
+  subtitle?: string;
   description?: string;
+  tag?: string;
   visible: boolean;
   showInPanel?: boolean;
   type: string;
