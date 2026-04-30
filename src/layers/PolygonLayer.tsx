@@ -3,7 +3,13 @@ import type { LayerProps } from "react-map-gl/maplibre";
 import type { FeatureCollection } from "geojson";
 import type { LayerComponentProps } from "../types/state";
 
-const PolygonLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
+const PolygonLayer = ({
+  id,
+  data,
+  styleConfig,
+  selectedId,
+  hoveredId,
+}: LayerComponentProps) => {
   const sourceId = `${id}-source`;
   const fillLayerId = `${id}-fill`;
   const outlineLayerId = `${id}-outline`;
@@ -16,7 +22,35 @@ const PolygonLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
   const rawStroke = styleConfig?.strokeColor || "#4B61D1";
   const strokeColor = Array.isArray(rawStroke) ? rawStroke[0] : rawStroke;
 
-  const opacity = styleConfig?.opacity ?? 0.4;
+  const baseOpacity = styleConfig?.opacity ?? 0.4;
+
+  // dynamic COLOR
+  const dynamicFillColor = [
+    "case",
+    ["==", ["id"], selectedId || ""],
+    "#ff9800",
+    ["==", ["id"], hoveredId || ""],
+    strokeColor,
+    fillColor,
+  ];
+
+  // pop when active
+  const dynamicFillOpacity = [
+    "case",
+    ["any", ["==", ["id"], selectedId || ""], ["==", ["id"], hoveredId || ""]],
+    baseOpacity + 0.2, // opaque
+    baseOpacity,
+  ];
+
+  // border for selection
+  const dynamicOutlineWidth = [
+    "case",
+    ["==", ["id"], selectedId || ""],
+    3,
+    ["==", ["id"], hoveredId || ""],
+    2,
+    1,
+  ];
 
   // Fill layer
   const fillStyle: LayerProps = {
@@ -30,13 +64,8 @@ const PolygonLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
       false,
     ],
     paint: {
-      "fill-color": [
-        "case",
-        ["boolean", ["feature-state", "hover"], false],
-        strokeColor as string, // to satisfy MapLibre types
-        fillColor as string,
-      ],
-      "fill-opacity": opacity,
+      "fill-color": dynamicFillColor as any,
+      "fill-opacity": dynamicFillOpacity as any,
     },
   };
 
@@ -52,8 +81,13 @@ const PolygonLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
       false,
     ],
     paint: {
-      "line-color": strokeColor as string,
-      "line-width": 1,
+      "line-color": [
+        "case",
+        ["==", ["id"], selectedId || ""],
+        "#ffffff",
+        strokeColor,
+      ] as any,
+      "line-width": dynamicOutlineWidth as any,
       "line-opacity": 0.8,
     },
   };
@@ -63,7 +97,7 @@ const PolygonLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
       id={sourceId}
       type="geojson"
       data={data as unknown as FeatureCollection}
-      promoteId="id"
+      promoteId="id" // this is essential for matching string IDs
     >
       <Layer {...fillStyle} />
       <Layer {...outlineStyle} />

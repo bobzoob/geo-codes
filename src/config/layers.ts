@@ -63,6 +63,13 @@ export const initialLayerConfig: LayerConfig[] = [
       color: "#3388ff",
       opacity: 0.6,
     },
+
+    // style the table
+    tableConfig: {
+      primaryField: "date_start",
+      secondaryField: "sender_ids",
+      resolveSecondary: true, // turn GND IDs into names
+    },
   },
 
   {
@@ -89,16 +96,60 @@ export const initialLayerConfig: LayerConfig[] = [
     activeFilters: [
       { moduleId: "dateRange", placement: "search-area" },
       { moduleId: "plainText", placement: "search-area" },
-      { moduleId: "entitySearch", placement: "search-area" },
-      { moduleId: "sender", placement: "search-area" },
-      { moduleId: "recipient", placement: "search-area" },
-      { moduleId: "placeFilter", placement: "search-area" },
+      {
+        moduleId: "entitySearch",
+        placement: "search-area",
+        section: "advanced",
+      },
+      {
+        moduleId: "sender",
+        placement: "search-area",
+        section: "advanced",
+        params: {
+          useSuggestions: true, // enable fold-out
+          suggestionType: "Person", // suggestions
+          activeLabel: "Sender",
+        },
+      },
+      {
+        moduleId: "recipient",
+        placement: "search-area",
+        section: "advanced",
+        params: {
+          useSuggestions: true,
+          suggestionType: "Person",
+          activeLabel: "Recipient",
+        },
+      },
+      {
+        moduleId: "placeFilter",
+        placement: "search-area",
+        section: "advanced",
+        params: {
+          useSuggestions: true,
+          suggestionType: "Place",
+          activeLabel: "Location",
+        },
+      },
     ],
 
     styleConfig: {
       color: ["#BBDEFB", "#5C6BC0", "#6A1B9A"], // gradient based on count
       radius: [4, 35],
       opacity: 0.8,
+    },
+    // TABLE CONFIG
+    tableConfig: {
+      primaryField: "title",
+      secondaryField: "count",
+      templateId: "city-detail", // Use City template for Hub row
+    },
+    // this is to style the drill down list
+    childTableConfig: {
+      primaryField: "date_start",
+      secondaryField: "sender_ids",
+      resolveSecondary: true, // Because sender_ids are GND strings
+      templateId: "letter-detail", // use letter-detail like the popup
     },
   },
 
@@ -118,6 +169,10 @@ export const initialLayerConfig: LayerConfig[] = [
       color: ["#FFEB3B", "#FB8C00", "#D32F2F"],
       radius: [4, 35],
       opacity: 0.8,
+    },
+    tableConfig: {
+      primaryField: "title",
+      secondaryField: "activity_log", // This might need a custom formatter!!!
     },
   },
 
@@ -139,6 +194,9 @@ export const initialLayerConfig: LayerConfig[] = [
       color: "#2e7d32",
       strokeColor: "#1b5e20",
       opacity: 0.4,
+    },
+    tableConfig: {
+      primaryField: "title",
     },
   },
 ];

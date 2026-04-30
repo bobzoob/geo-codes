@@ -6,6 +6,8 @@ import {
   IconButton,
   Stack,
   Tooltip,
+  useMediaQuery,
+  type Theme,
 } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
@@ -30,6 +32,11 @@ function TimelineControl({
   const { state } = useAppState();
   const { min, max } = state.settings.timeRange;
   const { speed, step, defaultWindow } = state.settings.animation;
+
+  //mobile?
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("md")
+  );
 
   // animation
   const [isPlaying, setIsPlaying] = useState(false);
@@ -84,6 +91,8 @@ function TimelineControl({
 
   // TICK generator
   const marks = useMemo(() => {
+    if (isMobile) return false;
+
     const span = max - min;
     let interval = 1;
 
@@ -109,7 +118,7 @@ function TimelineControl({
   return (
     <Stack
       direction="row"
-      spacing={3}
+      spacing={isMobile ? 1 : 3}
       alignItems="center"
       sx={{ width: "100%" }}
     >

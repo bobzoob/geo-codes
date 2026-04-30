@@ -4,7 +4,6 @@ import {
   IconButton,
   Paper,
   Button,
-  Tooltip,
   useMediaQuery,
   type Theme,
 } from "@mui/material";
@@ -12,14 +11,11 @@ import type { ReactNode } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import MenuIcon from "@mui/icons-material/Menu";
 
-/**
- * reusable component for a "floating" panel that can be collapsed or expanded
- */
 interface CollapsiblePanelProps {
   children: ReactNode;
   isCollapsed: boolean;
   onToggle: () => void;
-  maxWidth: number; // width panel when opend
+  maxWidth: number;
   label: string;
 }
 
@@ -38,63 +34,74 @@ function CollapsiblePanel({
     <Box
       sx={{
         display: "flex",
+        flexDirection: isMobile ? "column" : "row",
         alignItems: "flex-start",
-        // height: "auto",
-        maxHeight: "100%",
+        height: "100%", // Take full height of the "Panel Zone"
         pointerEvents: "none",
+        flexShrink: 0, // Prevent panels from squishing each other
       }}
     >
-      {/* Content Area */}
-      <Collapse in={!isCollapsed} orientation="horizontal">
+      <Collapse
+        in={!isCollapsed}
+        orientation="horizontal"
+        sx={{ height: "100%" }} // Force collapse wrapper to fill height
+      >
         <Paper
           elevation={4}
           sx={{
-            width: "fit-content",
-            minWidth: "280px",
-            maxWidth: isMobile ? "calc(100vw - 80px)" : `${maxWidth}px`,
-
-            maxHeight: "calc(100vh - 190px)",
-            overflowY: "auto",
+            width: isMobile ? `calc(100vw - 110px)` : `${maxWidth}px`,
+            minWidth: isMobile ? "200px" : "280px",
+            height: "100%", // Fill the Panel Zone
+            display: "flex", // Turn into a flex container
+            flexDirection: "column",
+            overflow: "hidden", // Prevent the Paper itself from scrolling
             pointerEvents: "auto",
             borderRadius: 1,
+            bgcolor: "background.paper",
           }}
         >
-          {children}
+          {/* 
+             This is the magic part: 
+             The children (LayerPanel, FeatureTable, etc.) 
+             will live inside this flex-grow box.
+          */}
+          <Box
+            sx={{
+              flexGrow: 1,
+              minHeight: 0, // Crucial for flex-scroll to work in Chrome/Safari
+              display: "flex",
+              flexDirection: "column",
+              overflowY: "auto",
+            }}
+          >
+            {children}
+          </Box>
         </Paper>
       </Collapse>
 
-      {/* toggle button*/}
+      {/* Toggle Button - Stays outside the scroll area */}
       <Box
         sx={{
           zIndex: 1,
           marginTop: "8px",
-          marginLeft: isCollapsed ? "0px" : "-12px", // slightly to the right
+          marginLeft: isCollapsed ? "0px" : isMobile ? "4px" : "-12px",
           pointerEvents: "auto",
-          transition: "margin 0.3s",
         }}
       >
         {isCollapsed ? (
-          isMobile ? (
-            // button shrink in mobil
-            <Tooltip title={label} placement="bottom" arrow>
-              <IconButton onClick={onToggle}>
-                <MenuIcon />
-              </IconButton>
-            </Tooltip>
-          ) : (
-            // desktop: full text
-            <Button
-              variant="contained"
-              onClick={onToggle}
-              startIcon={<MenuIcon />}
-            >
-              {/* here is where the button texxt goes*/}
-              {label}
-            </Button>
-          )
+          <Button
+            variant="contained"
+            onClick={onToggle}
+            startIcon={<MenuIcon />}
+          >
+            {isMobile ? "" : label}
+          </Button>
         ) : (
-          // second status, when open: arrow
-          <IconButton onClick={onToggle} size="small">
+          <IconButton
+            onClick={onToggle}
+            size="small"
+            sx={{ bgcolor: "background.paper", boxShadow: 2 }}
+          >
             <KeyboardArrowLeftIcon />
           </IconButton>
         )}

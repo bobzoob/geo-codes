@@ -1,4 +1,10 @@
-import type { AppState, FilterValue, TimeRange, View } from "../types/state";
+import type {
+  AppState,
+  FilterValue,
+  TimeRange,
+  View,
+  SelectionState,
+} from "../types/state";
 import type { HistoricalFeatureCollection, EntityMap } from "../types/geojson";
 
 /**
@@ -15,9 +21,12 @@ export type AppAction =
   | { type: "TOGGLE_LAYER_PANEL" }
   | { type: "TOGGLE_OPTIONS_PANEL" }
   | { type: "TOGGLE_ACTIVE_FILTERS_PANEL" }
+  | { type: "TOGGLE_TABLE_PANEL" }
+  | { type: "SET_TABLE_PAGE"; payload: number }
+  | { type: "SET_TABLE_LOADED"; payload: boolean }
   | {
       type: "SET_ACTIVE_MOBILE_PANEL";
-      payload: "layers" | "options" | "filters" | "none";
+      payload: "layers" | "options" | "filters" | "table" | "none";
     }
   | { type: "SET_VIEW"; payload: View }
   | { type: "SELECT_LAYER"; payload: string | null }
@@ -52,7 +61,12 @@ export type AppAction =
   | {
       type: "SET_RAW_SOURCES";
       payload: Record<string, HistoricalFeatureCollection>;
-    };
+    }
+  // color highlighting
+  | { type: "SELECT_FEATURE"; payload: SelectionState | null }
+
+  // drill down list
+  | { type: "SET_DRILL_DOWN"; payload: any | null };
 
 //  handle all state updates
 export const appReducer = (state: AppState, action: AppAction): AppState => {
@@ -70,6 +84,12 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         isActiveFiltersPanelCollapsed: !state.isActiveFiltersPanelCollapsed,
       };
+    case "TOGGLE_TABLE_PANEL":
+      return { ...state, isTablePanelCollapsed: !state.isTablePanelCollapsed };
+    case "SET_TABLE_LOADED":
+      return { ...state, isTableLoaded: action.payload, tablePage: 0 };
+    case "SET_TABLE_PAGE":
+      return { ...state, tablePage: action.payload };
 
     case "SET_ACTIVE_MOBILE_PANEL":
       return { ...state, activeMobilePanel: action.payload };
@@ -86,6 +106,8 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         selectedLayerId: action.payload,
         isOptionsPanelCollapsed: false,
+        isTableLoaded: false,
+        tablePage: 0,
       };
 
     case "SET_LAYER_VISIBILITY":
@@ -207,5 +229,26 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
     // sources
     case "SET_RAW_SOURCES":
       return { ...state, rawSources: action.payload };
+
+    // color highlighting
+    case "SELECT_FEATURE":
+      return { ...state, selectedFeature: action.payload };
+
+    // drill down lost
+    case "SET_DRILL_DOWN":
+      return {
+        ...state,
+        drilledDownFeature: action.payload,
+        tablePage: 0, // Reset pagination when entering/leaving
+      };
+
+    // Ensure we exit drill-down if the layer changes
+    case "SELECT_LAYER":
+      return {
+        ...state,
+        selectedLayerId: action.payload,
+        isTableLoaded: false,
+        drilledDownFeature: null,
+      };
   }
 };

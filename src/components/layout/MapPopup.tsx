@@ -8,8 +8,9 @@ import {
   ListItemText,
   ListItemButton,
   Chip,
+  Button,
 } from "@mui/material";
-import type { SelectedFeature } from "../../hooks/useMapInteraction";
+import type { SelectionState } from "../../hooks/useMapInteraction";
 import { useAppState } from "../../state/appContext";
 import { extractGenericPopupData } from "../../utils/popupUtils";
 import { useEffect } from "react";
@@ -17,7 +18,7 @@ import { popupTemplates } from "../../config/templates";
 import { customPopupComponents } from "../../registries/componentRegistry";
 
 interface MapPopupProps {
-  feature: SelectedFeature;
+  feature: SelectionState;
   onClose: () => void;
 }
 
@@ -41,7 +42,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
   // FEATURE LOOKUP
   const currentLayerData = processedData[feature.layerId];
   let currentFeature = currentLayerData?.features.find(
-    (f: any) => String(f.id) === String(feature.featureId)
+    (f: any) => String(f.id) === String(feature.id)
   );
 
   // if not found at top level, we search inside aggregated "children"
@@ -49,8 +50,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
     for (const f of currentLayerData.features) {
       if (f.properties?.children) {
         const child = f.properties.children.find(
-          (c: any) =>
-            String(c.id || c.properties?.id) === String(feature.featureId)
+          (c: any) => String(c.id || c.properties?.id) === String(feature.id)
         );
         if (child) {
           currentFeature = child;
@@ -151,6 +151,25 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
             );
           }
 
+          // TYPE: LINK-BUTTON
+          if (field.type === "link-button") {
+            return (
+              <Button
+                key={index}
+                component="a"
+                variant="contained"
+                color="secondary"
+                fullWidth
+                href={field.url || "#"}
+                target="_blank"
+                rel="noopener"
+                sx={{ mt: 1, mb: 2, fontWeight: "bold" }}
+              >
+                {field.label}
+              </Button>
+            );
+          }
+
           // TYPE: FEATURE-LIST
           if (field.type === "feature-list" && Array.isArray(field.value)) {
             const meta = field.meta || {};
@@ -198,6 +217,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                               new CustomEvent("app:select-feature", {
                                 detail: {
                                   feature: child,
+                                  parentFeature: currentFeature, // the city hub
                                   templateId: meta.detailTemplateId,
                                   layerId: feature.layerId,
                                 },
@@ -265,8 +285,17 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
             );
           }
 
-          // TYPE: LONG TEXT
+          // TYPE: LONG TEXT (with 20-word preview logic)
           if (field.type === "long-text") {
+            const rawText = String(field.value);
+
+            // 20-word preview
+            // split by whitespace, take 20, and join back
+            const words = rawText.split(/\s+/);
+            const isTruncated = words.length > 20;
+            const previewText =
+              words.slice(0, 20).join(" ") + (isTruncated ? "..." : "");
+
             return (
               <Box
                 key={index}
@@ -282,7 +311,19 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                   borderColor: "secondary.main",
                 }}
               >
-                <Typography variant="body2">{field.value}</Typography>
+                <Typography
+                  variant="body2"
+                  component="div"
+                  sx={{ lineHeight: 1.5 }}
+                >
+                  {/* transform <lb/> tags into line breaks within the preview */}
+                  {previewText.split(/<lb\s*\/?>/i).map((line, i, arr) => (
+                    <span key={i}>
+                      {line}
+                      {i < arr.length - 1 && <br />}
+                    </span>
+                  ))}
+                </Typography>
               </Box>
             );
           }

@@ -64,7 +64,16 @@ export const popupTemplates: Record<string, PopupFieldConfig[]> = {
       entityTypeFilter: "Place",
     },
 
-    { field: "text_preview", type: "long-text" },
+    { field: "full_text", type: "long-text" },
+
+    // include button
+    {
+      field: "id",
+      label: "Read Full Text",
+      type: "link-button",
+      isLinkable: true,
+      linkTemplate: "fud", // you must references keys in AUTHORITY_MAP
+    },
   ],
 
   // template for Aggregated views

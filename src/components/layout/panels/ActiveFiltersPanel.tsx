@@ -20,29 +20,27 @@ function ActiveFiltersPanel() {
   const { layerConfig, selectedLayerId } = state;
 
   const activeFilters = useActiveFilters();
-  const hasFilters = activeFilters.length > 0;
-
-  const selectedLayer = layerConfig.find(
-    (layer) => layer.id === selectedLayerId
-  );
+  const selectedLayer = layerConfig.find((l) => l.id === selectedLayerId);
 
   return (
-    <Box sx={{ padding: 2 }}>
-      <Typography variant="h6" gutterBottom>
-        {selectedLayer ? `Filter for ${selectedLayer.name}` : "Filter"}
-      </Typography>
-
-      {!hasFilters ? (
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ fontStyle: "italic" }}
-        >
-          No filters active.
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <Box sx={{ p: 2, flexShrink: 0 }}>
+        <Typography variant="h6">
+          {" "}
+          {selectedLayer ? `Filters: ${selectedLayer.name}` : "Filters"}
         </Typography>
-      ) : (
-        <Stack spacing={2}>
-          {/* list of filters */}
+      </Box>
+
+      <Box sx={{ flexGrow: 1, overflowY: "auto", px: 2 }}>
+        {activeFilters.length === 0 ? (
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ fontStyle: "italic" }}
+          >
+            No filters active.
+          </Typography>
+        ) : (
           <Stack spacing={1}>
             {activeFilters.map((filter) => (
               <Box
@@ -51,29 +49,19 @@ function ActiveFiltersPanel() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  padding: "4px 8px",
-                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  p: 1,
+                  bgcolor: "rgba(255,255,255,0.05)",
                   borderRadius: 1,
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
                 }}
               >
-                <Box sx={{ flexGrow: 1 }}>
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      color: "text.secondary",
-                      display: "block",
-                      lineHeight: 1,
-                    }}
-                  >
+                <Box>
+                  <Typography variant="caption" color="text.secondary">
                     {filter.label}
                   </Typography>
                   <Typography variant="body2" fontWeight="bold">
                     {filter.value}
                   </Typography>
                 </Box>
-
-                {/* x button */}
                 <IconButton
                   size="small"
                   onClick={() =>
@@ -85,50 +73,43 @@ function ActiveFiltersPanel() {
                       },
                     })
                   }
-                  sx={{
-                    ml: 1,
-                    opacity: 0.7,
-                    "&:hover": { opacity: 1, color: "error.main" },
-                  }}
                 >
                   <CloseIcon fontSize="small" />
                 </IconButton>
               </Box>
             ))}
           </Stack>
+        )}
+      </Box>
 
-          {/* Clear buttons */}
-          <Stack spacing={1}>
-            {selectedLayerId && (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() =>
-                  dispatch({
-                    type: "CLEAR_LAYER_FILTERS",
-                    payload: selectedLayerId,
-                  })
-                }
-                fullWidth
-              >
-                Clear {selectedLayer?.name || "Layer"} Filters
-              </Button>
-            )}
-            <Divider />
-
+      <Box sx={{ p: 2, flexShrink: 0 }}>
+        <Stack spacing={1}>
+          {selectedLayerId && (
             <Button
-              variant="outlined"
-              color="secondary"
-              startIcon={<DeleteIcon />}
-              size="small"
-              onClick={() => dispatch({ type: "CLEAR_ALL_FILTERS" })}
+              variant="contained"
               fullWidth
+              onClick={() =>
+                dispatch({
+                  type: "CLEAR_LAYER_FILTERS",
+                  payload: selectedLayerId,
+                })
+              }
             >
-              Reset (All Layers)
+              Clear Layer
             </Button>
-          </Stack>
+          )}
+          <Divider />
+          <Button
+            variant="outlined"
+            color="secondary"
+            startIcon={<DeleteIcon />}
+            fullWidth
+            onClick={() => dispatch({ type: "CLEAR_ALL_FILTERS" })}
+          >
+            Reset All
+          </Button>
         </Stack>
-      )}
+      </Box>
     </Box>
   );
 }

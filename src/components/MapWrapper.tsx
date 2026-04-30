@@ -12,7 +12,6 @@ import { useAppState } from "../state/appContext";
 import { layerRegistry } from "../layers/layerRegistry";
 import { extractGenericPopupData } from "../utils/popupUtils";
 import { Paper, Typography } from "@mui/material";
-import { MapHighlighter } from "../components/MapHighlighter"; // highlight selected
 
 interface MapWrapperProps {
   children: ReactNode;
@@ -45,11 +44,11 @@ function MapWrapper({ children }: MapWrapperProps) {
     // find feature
     const layerData = processedData[hoverInfo.layerId];
     const feature = layerData?.features.find(
-      (f: any) => String(f.id) === String(hoverInfo.featureId)
+      (f: any) => String(f.id) === String(hoverInfo.id)
     );
 
     if (!feature)
-      return { title: `Not found: ${hoverInfo.featureId}`, subtitle: null };
+      return { title: `Not found: ${hoverInfo.id}`, subtitle: null };
 
     // layer and source config
     const layer = layerConfig.find((l) => l.id === hoverInfo.layerId);
@@ -135,8 +134,6 @@ function MapWrapper({ children }: MapWrapperProps) {
     >
       <ScaleControl position="bottom-left" />
       <NavigationControl position="top-right" showCompass={true} />
-
-      <MapHighlighter />
 
       {children}
 

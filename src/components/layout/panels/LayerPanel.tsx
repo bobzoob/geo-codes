@@ -3,7 +3,7 @@ import { useAppState } from "../../../state/appContext";
 
 function LayerPanel() {
   const { state, dispatch } = useAppState();
-  const { currentView, layerConfig, selectedLayerId } = state;
+  const { layerConfig, selectedLayerId } = state;
 
   const handleSelectLayer = (layerId: string) => {
     const newSelectedId = selectedLayerId === layerId ? null : layerId;
@@ -14,65 +14,51 @@ function LayerPanel() {
   const visibleLayers = layerConfig.filter((l) => l.showInPanel !== false);
 
   return (
-    <Box sx={{ padding: 2 }}>
-      {currentView === "map" && (
-        <Box mt={2}>
-          <Typography variant="h6" sx={{ marginBottom: 2 }}>
-            Layers
-          </Typography>
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      {/* FIXED HEADER */}
+      <Box sx={{ p: 2, flexShrink: 0 }}>
+        <Typography variant="h6">Layers</Typography>
+      </Box>
+
+      {/* SCROLLABLE CONTENT */}
+      <Box sx={{ flexGrow: 1, overflowY: "auto", px: 2, pb: 2 }}>
+        <Stack spacing={1}>
           {visibleLayers.map((layer) => {
             const isSelected = layer.id === selectedLayerId;
-
             return (
               <Paper
                 key={layer.id}
                 className={isSelected ? "LayerCard active" : "LayerCard"}
-                elevation={isSelected ? 4 : 1}
                 onClick={() => handleSelectLayer(layer.id)}
-                sx={{ cursor: "pointer", mb: 1 }}
               >
                 <Stack
                   alignItems="center"
                   direction="row"
                   spacing={2}
-                  sx={{ width: "100%", p: 1 }}
+                  sx={{ p: 1 }}
                 >
-                  {/* visibility switch */}
                   <Switch
                     checked={layer.visible}
                     size="small"
-                    // this is crucial: it stops the click from triggering onClick
                     onClick={(e) => e.stopPropagation()}
-                    onChange={(event) =>
+                    onChange={(e) =>
                       dispatch({
                         type: "SET_LAYER_VISIBILITY",
                         payload: {
                           layerId: layer.id,
-                          isVisible: event.target.checked,
+                          isVisible: e.target.checked,
                         },
                       })
                     }
                   />
-                  {/* title & description */}
                   <Box sx={{ flexGrow: 1 }}>
-                    <Typography
-                      variant="body1"
-                      fontWeight="medium"
-                      sx={{ lineHeight: 1.2 }}
-                    >
+                    <Typography variant="body1" fontWeight="medium">
                       {layer.name}
                     </Typography>
-
-                    {/* description gets rendered only if it exists */}
                     {layer.description && (
                       <Typography
                         variant="caption"
-                        sx={{
-                          display: "block",
-                          marginTop: 0.5,
-                          opacity: 0.8, // slightly transparent
-                          lineHeight: 1.2,
-                        }}
+                        sx={{ display: "block", opacity: 0.8 }}
                       >
                         {layer.description}
                       </Typography>
@@ -82,8 +68,8 @@ function LayerPanel() {
               </Paper>
             );
           })}
-        </Box>
-      )}
+        </Stack>
+      </Box>
     </Box>
   );
 }

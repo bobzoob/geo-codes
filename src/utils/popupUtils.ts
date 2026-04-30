@@ -127,6 +127,24 @@ export const extractGenericPopupData = (
       return;
     }
 
+    // handle Link-Buttons
+    if (conf.type === "link-button") {
+      const rawId = props[conf.field];
+      let url = "";
+
+      if (conf.linkTemplate && AUTHORITY_MAP[conf.linkTemplate]) {
+        url = `${AUTHORITY_MAP[conf.linkTemplate]}${rawId}`;
+      }
+
+      fields.push({
+        label: conf.label,
+        type: "link-button",
+        value: rawId,
+        url: url,
+      });
+      return;
+    }
+
     // how to handle FeatureLists (aggregated values)
     if (conf.type === "feature-list") {
       const listValue =

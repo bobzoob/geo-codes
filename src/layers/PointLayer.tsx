@@ -21,6 +21,9 @@ interface PointLayerProps extends LayerComponentProps {
   showAllTooltips: boolean;
   intensityField?: string; // thats where the scaling comes from
   styleConfig?: PointStyleConfig;
+  // color hightlighting
+  selectedId?: string | null;
+  hoveredId?: string | null;
 }
 
 function PointLayer({
@@ -30,6 +33,8 @@ function PointLayer({
   //entities,
   intensityField,
   styleConfig,
+  selectedId,
+  hoveredId,
 }: PointLayerProps) {
   const sourceId = `${id}-source`;
   const circleLayerId = `${id}-circle`;
@@ -76,6 +81,16 @@ function PointLayer({
     ];
   }
 
+  // highlighting
+  const finalRadius = [
+    "case",
+    ["==", ["id"], selectedId || ""],
+    ["+", circleRadius, 5], //grow by 5px if selected / 3px if hovered
+    ["==", ["id"], hoveredId || ""],
+    ["+", circleRadius, 3],
+    circleRadius,
+  ];
+
   // COLOR EXPRESSION
   let circleColor: any;
   if (intensityField && Array.isArray(baseColor)) {
@@ -96,30 +111,48 @@ function PointLayer({
     circleColor = baseColor;
   }
 
-  // CIRCLE LAYER DEFINITION
+  // CIRCLE LAYER DEFINITION and HIGHTLIGHT LOGIC
+  const strokeWidth = [
+    "case",
+    ["==", ["id"], selectedId || ""],
+    4, // border for selection
+    ["==", ["id"], hoveredId || ""],
+    2.5, // finter border for hover
+    config.strokeWidth ?? 1, // default is 1
+  ];
+
+  const strokeColor = [
+    "case",
+    ["==", ["id"], selectedId || ""],
+    "#ff9800",
+    ["==", ["id"], hoveredId || ""],
+    "#ffffff",
+    config.strokeColor || "#ffffff",
+  ];
+
   const circleStyle: LayerProps = {
     id: circleLayerId,
     type: "circle",
     filter: ["match", ["geometry-type"], ["Point", "MultiPoint"], true, false],
     paint: {
-      "circle-radius": circleRadius,
+      "circle-radius": finalRadius as any,
       "circle-color": circleColor,
-      "circle-stroke-width": [
-        "case",
-        ["boolean", ["feature-state", "selected"], false],
-        3, // width when selected has border
-        config.strokeWidth ?? 1, // default width
-      ],
-      "circle-stroke-color": [
-        "case",
-        ["boolean", ["feature-state", "selected"], false],
-        "#ffffff", // color when selected
-        config.strokeColor || "#ffffff", // default color
-      ],
+      "circle-stroke-width": strokeWidth as any,
+      "circle-stroke-color": strokeColor as any,
       "circle-opacity": config.opacity ?? 0.8,
+      // Optional: make selected points fully opaque
+      "circle-stroke-opacity": [
+        "case",
+        [
+          "any",
+          ["==", ["id"], selectedId || ""],
+          ["==", ["id"], hoveredId || ""],
+        ],
+        1,
+        0.8,
+      ],
     },
   };
-
   // LABEL LAYER DEFINITION
   const labelStyle: LayerProps = {
     id: labelLayerId,

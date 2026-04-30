@@ -60,7 +60,13 @@ const initialState: AppState = {
   isOptionsPanelCollapsed: true,
   activeMobilePanel: "layers",
   isActiveFiltersPanelCollapsed: true,
+  isTablePanelCollapsed: true,
   loadingProgress: 0,
+
+  isTableLoaded: false, // "placeholder" mode
+  tablePage: 0,
+  selectedFeature: null,
+  drilledDownFeature: null,
 };
 
 const AppStateContext = createContext<{

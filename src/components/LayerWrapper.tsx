@@ -1,6 +1,7 @@
 import type { LayerConfig } from "../types/state";
 import { layerRegistry } from "../layers/layerRegistry";
 import { useAppState } from "../state/appContext";
+import { useMapInteraction } from "../hooks/useMapInteraction";
 
 /**
  * this is the connector
@@ -15,6 +16,9 @@ export function LayerWrapper({ layer }: LayerWrapperProps) {
   const { state } = useAppState();
   const { processedData, dictionaries, sources } = state;
 
+  // hover state
+  const { selectedFeature, hoverInfo } = useMapInteraction();
+
   // DATA RETRIEVAL
   // we take the pre-processed data from global pipline
   const data = processedData[layer.id];
@@ -25,6 +29,11 @@ export function LayerWrapper({ layer }: LayerWrapperProps) {
     console.warn(`No plugin found for layer type: ${layer.type}`);
     return null;
   }
+
+  // does layer contain selected/hovered
+  const selectedId =
+    selectedFeature?.layerId === layer.id ? selectedFeature.id : null;
+  const hoveredId = hoverInfo?.layerId === layer.id ? hoverInfo.id : null;
 
   // DICTIONARY RESOLUTION
   // select correct dictionaries for the layer
@@ -44,6 +53,8 @@ export function LayerWrapper({ layer }: LayerWrapperProps) {
       entities={relevantDictionary}
       intensityField={layer.intensityField}
       styleConfig={layer.styleConfig}
+      selectedId={selectedId}
+      hoveredId={hoveredId}
     />
   );
 }

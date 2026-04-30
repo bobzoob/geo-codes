@@ -3,21 +3,21 @@ import { Source, Layer, useMap } from "react-map-gl/maplibre";
 import type { LayerProps } from "react-map-gl/maplibre";
 import type { FeatureCollection } from "geojson";
 import type { HistoricalFeatureCollection, EntityMap } from "../types/geojson";
+import type { LayerComponentProps } from "../types/state";
 
-interface ArrowLayerProps {
+interface ArrowLayerProps extends LayerComponentProps {
   id: string;
   data: HistoricalFeatureCollection;
   showAllTooltips: boolean;
   entities: EntityMap;
 }
 
-function ArrowLayer({ id, data }: ArrowLayerProps) {
+function ArrowLayer({ id, data, selectedId, hoveredId }: ArrowLayerProps) {
   const { current: map } = useMap();
 
   const sourceId = `${id}-source`;
   const lineLayerId = `${id}-lines`;
   const symbolLayerId = `${id}-symbol`;
-  const highlightLayerId = `${id}-highlight`;
 
   // Arrow Icon
   useEffect(() => {
@@ -40,13 +40,54 @@ function ArrowLayer({ id, data }: ArrowLayerProps) {
     img.src = `data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' viewBox='0 0 24 24'%3E%3Cpath fill='%233388ff' d='M12 2L22 22L12 18L2 22L12 2Z' /%3E%3C/svg%3E`;
   }, [map]);
 
-  // Styles with STRICT FILTERS
+  // DYNAMIC LINE STYLE
 
   // Layer A: Lines
+  const lineColor = [
+    "case",
+    ["==", ["id"], selectedId || ""],
+    "#ff9800",
+    ["==", ["id"], hoveredId || ""],
+    "#ffffff",
+    "#3388ff",
+  ] as any;
+
+  const lineWidth = [
+    "interpolate",
+    ["linear"],
+    ["zoom"],
+    // At Zoom 5:
+    5,
+    [
+      "case",
+      ["==", ["id"], selectedId || ""],
+      5, // Fixed width if selected
+      ["==", ["id"], hoveredId || ""],
+      4, // Fixed width if hovered
+      1, // Default width at zoom 5
+    ],
+    // At Zoom 12:
+    12,
+    [
+      "case",
+      ["==", ["id"], selectedId || ""],
+      8, // Grow slightly at high zoom even if selected
+      ["==", ["id"], hoveredId || ""],
+      6,
+      3, // Default width at zoom 12
+    ],
+  ] as any;
+
+  const lineOpacity = [
+    "case",
+    ["any", ["==", ["id"], selectedId || ""], ["==", ["id"], hoveredId || ""]],
+    1,
+    0.6,
+  ] as any;
+
   const lineStyle: LayerProps = {
     id: lineLayerId,
     type: "line",
-    // STRICT FILTER: we only allow LineString or MultiLineString
     filter: [
       "match",
       ["geometry-type"],
@@ -55,42 +96,20 @@ function ArrowLayer({ id, data }: ArrowLayerProps) {
       false,
     ],
     paint: {
-      "line-color": "#3388ff", // default
-
-      "line-width": ["interpolate", ["linear"], ["zoom"], 5, 1, 12, 3], // default
-
-      "line-opacity": 0.6,
+      "line-color": lineColor as any,
+      "line-width": lineWidth as any,
+      "line-opacity": lineOpacity as any,
     },
-    // Layout ordering: Lines should generally be below points..?
-  };
-
-  const highlightStyle: LayerProps = {
-    id: highlightLayerId,
-    type: "line",
-    filter: [
-      "match",
-      ["geometry-type"],
-      ["LineString", "MultiLineString"],
-      true,
-      false,
-    ],
-    paint: {
-      "line-color": "#ff9800", // highlight
-      "line-width": 4,
-      "line-opacity": [
-        "case",
-        ["boolean", ["feature-state", "selected"], false],
-        1, // visible if selected
-        0, // invisible if not
-      ],
+    layout: {
+      "line-cap": "round",
+      "line-join": "round",
     },
   };
 
-  // Layer B: Arrow Heads
+  // 3. ARROW HEADS (Symbols)
   const arrowStyle: LayerProps = {
     id: symbolLayerId,
     type: "symbol",
-    // STRICT FILTER: we only allow LineString or MultiLineString
     filter: [
       "match",
       ["geometry-type"],
@@ -102,12 +121,22 @@ function ArrowLayer({ id, data }: ArrowLayerProps) {
       "symbol-placement": "line",
       "symbol-spacing": 100,
       "icon-image": "arrow-head",
-      "icon-size": 0.8,
+      "icon-size": [
+        "case",
+        [
+          "any",
+          ["==", ["id"], selectedId || ""],
+          ["==", ["id"], hoveredId || ""],
+        ],
+        1.0, // Slightly larger icon when active
+        0.8,
+      ] as any,
       "icon-allow-overlap": true,
-      "icon-rotate": 0,
+      "icon-rotate": 90, // Adjust based on your SVG orientation
       visibility: "visible",
     },
-    minzoom: 9,
+    // Only show arrow heads when zoomed in enough to see direction clearly
+    minzoom: 6,
   };
 
   return (
@@ -118,7 +147,6 @@ function ArrowLayer({ id, data }: ArrowLayerProps) {
       promoteId="id"
     >
       <Layer {...lineStyle} />
-      <Layer {...highlightStyle} />
       <Layer {...arrowStyle} />
     </Source>
   );

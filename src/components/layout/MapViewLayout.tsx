@@ -1,28 +1,28 @@
-import { Box, Paper, useMediaQuery, type Theme } from "@mui/material";
+import {
+  Box,
+  Paper,
+  useMediaQuery,
+  type Theme,
+  ThemeProvider,
+} from "@mui/material";
 import { useAppState } from "../../state/appContext";
 import CollapsiblePanel from "./panels/CollapsiblePanel";
 import LayerPanel from "./panels/LayerPanel";
 import OptionsPanel from "./panels/OptionsPanel";
 import ActiveFiltersPanel from "./panels/ActiveFiltersPanel";
+import FeatureTablePanel from "./panels/FeatureTablePanel";
 import MapContainer from "../MapContainer";
-import { ThemeProvider } from "@mui/material/styles";
 import { mapTheme } from "../../config/mapTheme";
 import TimelineControl from "../TimelineControl";
-import type { TimeRange } from "../../types/state";
 
-/**
- * layout manager for the entire interactive map view
- * renders MapContainer as a base layer and
- * orchestrates the display of all floating UI panels on top of it
- */
 function MapViewLayout() {
   const { state, dispatch } = useAppState();
   const {
     isLayerPanelCollapsed,
     isOptionsPanelCollapsed,
-    activeMobilePanel,
-    // selectedLayerId,
     isActiveFiltersPanelCollapsed,
+    isTablePanelCollapsed,
+    activeMobilePanel,
     liveTimeRange,
   } = state;
 
@@ -30,158 +30,149 @@ function MapViewLayout() {
     theme.breakpoints.down("md")
   );
 
-  // Panels width
-  const layerPanelMax = 400;
-  const optionsPanelMax = 500;
-  const filtersPanelMax = 300;
+  // Define the height of the timeline area to prevent overlap
+  const timelineOffset = isMobile ? 70 : 100;
+  const timelineHeight = isMobile ? 180 : 250; // "wall" for all panels
 
-  const isLayerPanelVisible = isMobile
+  // Panel Visibility Logic
+  const isLayerVisible = isMobile
     ? activeMobilePanel === "layers"
     : !isLayerPanelCollapsed;
-  const isOptionsPanelVisible = isMobile
+  const isOptionsVisible = isMobile
     ? activeMobilePanel === "options"
     : !isOptionsPanelCollapsed;
-  const isFiltersPanelVisible = isMobile
+  const isFiltersVisible = isMobile
     ? activeMobilePanel === "filters"
     : !isActiveFiltersPanelCollapsed;
+  const isTableVisible = isMobile
+    ? activeMobilePanel === "table"
+    : !isTablePanelCollapsed;
 
-  // hide timeline on mobile
-  const showTimeline = isMobile ? activeMobilePanel === "none" : true;
+  // Helper for mobile: Opening one closes others
+  const toggleMobile = (panel: "layers" | "options" | "filters" | "table") => {
+    const nextState = activeMobilePanel === panel ? "none" : panel;
+    dispatch({ type: "SET_ACTIVE_MOBILE_PANEL", payload: nextState as any });
+  };
 
   return (
-    <Box sx={{ height: "100%", width: "100%", position: "relative" }}>
-      {/* Layer 1: map*/}
+    <Box
+      sx={{
+        height: isMobile ? "100dvh" : "100vh",
+        width: "100vw",
+        position: "relative",
+        overflow: "hidden", // to lock viewport
+      }}
+    >
       <MapContainer />
 
       <ThemeProvider theme={mapTheme}>
-        {/* Layer 2: UI panels */}
+        {/* PANEL ZONE: Restricted by bottom offset */}
         <Box
           sx={{
             position: "absolute",
             top: 0,
             left: 0,
-            bottom: 0,
             right: 0,
-            padding: "20px",
-            paddingLeft: "60px",
+
+            bottom: `${timelineHeight}px`,
+            padding: isMobile ? "8px" : "20px",
+            paddingLeft: isMobile ? "8px" : "60px",
             display: "flex",
-            gap: "20px",
-            pointerEvents: "none", // licks pass through to the map
+            gap: "15px",
+            pointerEvents: "none",
             zIndex: 1000,
-            overflow: "hidden",
-            // on mobile
-            flexDirection: "row",
+            overflowX: isMobile ? "auto" : "hidden",
             alignItems: "flex-start",
           }}
         >
-          {/* Panel 1: layerPanel */}
           <CollapsiblePanel
             label="Layers"
-            isCollapsed={!isLayerPanelVisible}
-            onToggle={() => {
-              if (isMobile) {
-                const nextState =
-                  activeMobilePanel === "layers" ? "none" : "layers";
-                dispatch({
-                  type: "SET_ACTIVE_MOBILE_PANEL",
-                  payload: nextState,
-                });
-              } else {
-                dispatch({ type: "TOGGLE_LAYER_PANEL" });
-              }
-            }}
-            maxWidth={layerPanelMax}
+            isCollapsed={!isLayerVisible}
+            onToggle={() =>
+              isMobile
+                ? toggleMobile("layers")
+                : dispatch({ type: "TOGGLE_LAYER_PANEL" })
+            }
+            maxWidth={350}
           >
             <LayerPanel />
           </CollapsiblePanel>
 
-          {/* Panel 2: OptionsPanel */}
-
           <CollapsiblePanel
             label="Options"
-            isCollapsed={!isOptionsPanelVisible}
-            onToggle={() => {
-              if (isMobile) {
-                const nextState =
-                  activeMobilePanel === "options" ? "none" : "options";
-                dispatch({
-                  type: "SET_ACTIVE_MOBILE_PANEL",
-                  payload: nextState,
-                });
-              } else {
-                dispatch({ type: "TOGGLE_OPTIONS_PANEL" });
-              }
-            }}
-            // pass dynamic width
-            maxWidth={optionsPanelMax}
+            isCollapsed={!isOptionsVisible}
+            onToggle={() =>
+              isMobile
+                ? toggleMobile("options")
+                : dispatch({ type: "TOGGLE_OPTIONS_PANEL" })
+            }
+            maxWidth={450}
           >
             <OptionsPanel />
           </CollapsiblePanel>
 
-          {/* Active Filters */}
-          {/* only render if a layer is selected, or always? Usually tied to layer/global time */}
           <CollapsiblePanel
             label="Filters"
-            isCollapsed={!isFiltersPanelVisible}
-            onToggle={() => {
-              if (isMobile) {
-                const nextState =
-                  activeMobilePanel === "filters" ? "none" : "filters";
-                dispatch({
-                  type: "SET_ACTIVE_MOBILE_PANEL",
-                  payload: nextState,
-                });
-              } else {
-                dispatch({ type: "TOGGLE_ACTIVE_FILTERS_PANEL" });
-              }
-            }}
-            maxWidth={filtersPanelMax}
+            isCollapsed={!isFiltersVisible}
+            onToggle={() =>
+              isMobile
+                ? toggleMobile("filters")
+                : dispatch({ type: "TOGGLE_ACTIVE_FILTERS_PANEL" })
+            }
+            maxWidth={300}
           >
             <ActiveFiltersPanel />
           </CollapsiblePanel>
+
+          <CollapsiblePanel
+            label="Data"
+            isCollapsed={!isTableVisible}
+            onToggle={() =>
+              isMobile
+                ? toggleMobile("table")
+                : dispatch({ type: "TOGGLE_TABLE_PANEL" })
+            }
+            maxWidth={600}
+          >
+            <FeatureTablePanel />
+          </CollapsiblePanel>
         </Box>
-        {/* Layer 3: Timeline */}
-        {showTimeline && (
-          <Box
+
+        {/* TIMELINE ZONE */}
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: `${timelineOffset}px`,
+            left: 0,
+            right: 0,
+            display: "flex",
+            justifyContent: "center",
+            zIndex: 1100,
+            pointerEvents: "none",
+          }}
+        >
+          <Paper
+            elevation={6}
             sx={{
-              position: "absolute",
-              bottom: isMobile ? 10 : 30,
-              left: 0,
-              right: 0,
-              display: "flex",
-              justifyContent: "center",
-              pointerEvents: "none", // so container doesnt block map
-              zIndex: 1100,
+              width: isMobile ? "92%" : "75%",
+              p: isMobile ? "10px" : "10px 40px",
+              borderRadius: "12px",
+              pointerEvents: "auto",
+              bgcolor: "background.paper",
+              backdropFilter: "blur(8px)",
             }}
           >
-            <Paper
-              elevation={6}
-              sx={{
-                width: isMobile ? "90%" : "70%",
-                maxWidth: "1200px",
-                padding: isMobile ? "10px 20px" : "10px 40px",
-                borderRadius: "16px",
-                pointerEvents: "auto", // interaction
-                backgroundColor: "background.paper",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-                backdropFilter: "blur(8px)", // glass effect
-              }}
-            >
-              <TimelineControl
-                range={liveTimeRange}
-                onTimeChange={(newRange: TimeRange) =>
-                  dispatch({ type: "SET_LIVE_TIME_RANGE", payload: newRange })
-                }
-                onTimeChangeCommitted={(newRange: TimeRange) =>
-                  dispatch({
-                    type: "SET_COMMITTED_TIME_RANGE",
-                    payload: newRange,
-                  })
-                }
-              />
-            </Paper>
-          </Box>
-        )}
+            <TimelineControl
+              range={liveTimeRange}
+              onTimeChange={(val) =>
+                dispatch({ type: "SET_LIVE_TIME_RANGE", payload: val })
+              }
+              onTimeChangeCommitted={(val) =>
+                dispatch({ type: "SET_COMMITTED_TIME_RANGE", payload: val })
+              }
+            />
+          </Paper>
+        </Box>
       </ThemeProvider>
     </Box>
   );

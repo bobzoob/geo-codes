@@ -16,6 +16,8 @@ export interface LayerComponentProps {
   entities: EntityMap;
   intensityField?: string; // conrol point size
   styleConfig?: PointStyleConfig;
+  selectedId?: string | null;
+  hoveredId?: string | null;
 }
 
 export type PopupFieldType =
@@ -25,6 +27,7 @@ export type PopupFieldType =
   | "tags" // comma separated values ( Mentions: A, B, C)
   | "list" // vertical list (Born: A, B)
   | "timed-list" // complex list (list with differnt values: Person (Date))
+  | "link-button"
   | "feature-list" // clickable list (generic)
   | "custom" // complex header
   | "composite"; // concatinated string
@@ -70,6 +73,15 @@ export interface ActiveFilterConfig {
   section?: "advanced";
   params?: Record<string, any>;
 }
+
+export interface TableConfig {
+  primaryField: string;
+  secondaryField?: string;
+  resolvePrimary?: boolean;
+  resolveSecondary?: boolean;
+  componentId?: string; // optional: you can use a custom component
+  templateId?: string;
+}
 export interface LayerConfig {
   id: string;
   name: string;
@@ -105,8 +117,20 @@ export interface LayerConfig {
 
   // dictionaries
   dictionaryId?: string;
+
+  // table
+  tableConfig?: TableConfig; // config for top level view
+  childTableConfig?: TableConfig; // Config for the "Drilled Down" view
 }
 
+// color highlighting
+export interface SelectionState {
+  id: string;
+  layerId: string;
+  latitude: number;
+  longitude: number;
+  templateId?: string;
+}
 // interface that structures the data pipline
 export interface AppState {
   currentView: View;
@@ -151,6 +175,15 @@ export interface AppState {
   isLayerPanelCollapsed: boolean;
   isOptionsPanelCollapsed: boolean;
   isActiveFiltersPanelCollapsed: boolean;
-  activeMobilePanel: "layers" | "options" | "filters" | "none";
+  isTablePanelCollapsed: boolean;
+  isTableLoaded: boolean;
+  tablePage: number;
+  activeMobilePanel: "layers" | "options" | "filters" | "table" | "none";
   loadingProgress: number;
+
+  // color highlighting
+  selectedFeature: SelectionState | null;
+
+  // drill down list
+  drilledDownFeature: any | null;
 }

@@ -8,7 +8,7 @@ import type { SourceConfig } from "../types/config";
 
 // DICTIONARY REGISTRY
 export const dictionaries = [
-  { id: "main_entities", url: "/final_manifest.json" },
+  { id: "main_entities", url: "/final_manifest_refined.json" },
   // "secondary_entities": "/other_dict.json" // uncomment if second exists
 ];
 
@@ -20,11 +20,11 @@ export const sources: Record<string, SourceConfig> = {
     dictionaryId: "main_entities",
     mapping: {
       id: "id", // unique feature ID
-      title: "text_preview", // default title for tooltips
+      title: "full_text", // default title for tooltips
       dateStart: "date_start",
       dateEnd: "date_end",
       // fields the generic text search should look into
-      textSearch: ["text_preview", "topic_list"],
+      textSearch: ["full_text", "topic_list"],
       // fields containing IDs that need dictionary lookup
       entityRefs: [
         "sender_ids",
