@@ -13,7 +13,7 @@ export const initialLayerConfig: LayerConfig[] = [
     name: "Briefe der Frühromantik I", // displayed title
     subtitle: "nicht lokal versendet", // displayed subtitle
     tag: "GeoJSON", // displayed information tag
-    description: "Frühromantische Briefe im Umkreis von Friedrich Schlegel", // displayed description
+    description: "Frühromantische Briefe im Umfeld Friedrich Schlegels", // displayed description
     visible: true, // layer toggled "on" from start
     type: "line", // layer type
 
@@ -94,7 +94,7 @@ export const initialLayerConfig: LayerConfig[] = [
     name: "Briefe der Frühromantik II", // displayed title
     subtitle: "lokal versendet", // displayed subtitle
     tag: "GeoJSON", // displayed information tag
-    description: "Frühromantische Briefe im Umkreis von Friedrich Schlegel", // displayed description
+    description: "Frühromantische Briefe im Umfeld Friedrich Schlegels", // displayed description
     visible: true,
     type: "point",
 
