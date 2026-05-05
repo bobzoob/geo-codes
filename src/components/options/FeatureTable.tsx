@@ -29,7 +29,7 @@ const getDisplayValue = (
   entities: any
 ) => {
   if (!field) return "";
-  const rawValue = feature.properties[field];
+  const rawValue = feature.properties[field] ?? feature[field];
   if (rawValue === undefined || rawValue === null) return "";
 
   if (resolve) {

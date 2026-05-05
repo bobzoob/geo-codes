@@ -68,7 +68,7 @@ export const popupTemplates: Record<string, PopupFieldConfig[]> = {
 
     // include button
     {
-      field: "id",
+      field: "linked_id",
       label: "Read Full Text",
       type: "link-button",
       isLinkable: true,
@@ -96,6 +96,12 @@ export const popupTemplates: Record<string, PopupFieldConfig[]> = {
     { field: "title", type: "header" },
     { field: "born", label: "Born", type: "list", resolveEntities: true },
     { field: "died", label: "Died", type: "list", resolveEntities: true },
+    {
+      field: "gnd_activity",
+      label: "Activ",
+      type: "list",
+      resolveEntities: true,
+    },
     {
       field: "activity_log",
       label: "Timeline of Activity",

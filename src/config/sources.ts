@@ -15,7 +15,7 @@ export const dictionaries = [
 export const sources: Record<string, SourceConfig> = {
   "correspondence-data": {
     id: "correspondence-data",
-    url: "/letters_lean.geojson",
+    url: "/linkable_letters.geojson",
     type: "geojson",
     dictionaryId: "main_entities",
     mapping: {
@@ -38,7 +38,7 @@ export const sources: Record<string, SourceConfig> = {
 
   "places-people-data": {
     id: "places-people-data",
-    url: "/places-people.geojson",
+    url: "/places_biography.geojson",
     type: "geojson",
     dictionaryId: "main_entities",
     mapping: {
@@ -47,7 +47,7 @@ export const sources: Record<string, SourceConfig> = {
       dateStart: "active_from", // this needs refactoring!
       dateEnd: "active_to",
       textSearch: ["title", "biography"],
-      entityRefs: ["born", "died", "activity_log"],
+      entityRefs: ["born", "died", "activity_log", "gnd_activity"],
     },
   },
 

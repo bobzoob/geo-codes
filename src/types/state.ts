@@ -5,7 +5,12 @@ export type { FilterValue, FilterComponentProps } from "./filter";
 
 // basic types
 export type TimeRange = [number, number];
-export type View = "dashboard" | "map" | "documentation";
+export type View =
+  | "dashboard"
+  | "map"
+  | "documentation"
+  | "license"
+  | "privacy";
 export type FilterPlacement = "timeline-area" | "search-area";
 export type FilterState = Record<string, any>;
 

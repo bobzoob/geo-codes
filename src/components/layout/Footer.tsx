@@ -1,38 +1,53 @@
-import { Box, Link, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import { useAppState } from "../../state/appContext";
 
-function Footer() {
+export default function Footer() {
+  const { dispatch } = useAppState();
+
+  const linkStyle = {
+    fontSize: "0.8rem",
+    color: "text.secondary",
+    textTransform: "none",
+    "&:hover": {
+      color: "secondary.main",
+      bgcolor: "transparent",
+    },
+    minWidth: 0,
+  };
+
   return (
     <Box
-      component="footer"
       sx={{
-        backgroundColor: "primary.dark",
-        color: "white", // text color to contrast with dark background
-        paddingY: 2,
-        paddingX: 3,
-        zIndex: 1100, // Matches Header z-index
-        boxShadow: "0px -2px 4px -1px rgba(0,0,0,0.2)", // Subtle shadow pointing up
+        p: 1,
+        px: 25,
+        bgcolor: "background.paper",
+        borderTop: "1px solid rgba(255,255,255,0.1)",
       }}
     >
       <Stack
         direction="row"
-        justifyContent="space-between"
+        spacing={2}
+        justifyContent="flex-end"
         alignItems="center"
-        maxWidth="xl"
-        margin="0 auto" // Center content on very wide screens
       >
-        {/* Left Side: Copyright or Branding */}
-        <Typography variant="body2" sx={{ opacity: 0.8 }}>
-          © {new Date().getFullYear()} geocodes
+        <Button
+          sx={linkStyle}
+          onClick={() => dispatch({ type: "SET_VIEW", payload: "license" })}
+        >
+          License
+        </Button>
+
+        <Typography variant="caption" sx={{ opacity: 0.3 }}>
+          |
         </Typography>
 
-        {/* Right Side: Legal Menu */}
-        <Stack direction="row" spacing={3}>
-          <Link href="#">Privacy Protection</Link>
-          <Link href="#">License</Link>
-        </Stack>
+        <Button
+          sx={linkStyle}
+          onClick={() => dispatch({ type: "SET_VIEW", payload: "privacy" })}
+        >
+          Privacy Protection
+        </Button>
       </Stack>
     </Box>
   );
 }
-
-export default Footer;

@@ -129,10 +129,10 @@ export const extractGenericPopupData = (
 
     // handle Link-Buttons
     if (conf.type === "link-button") {
-      const rawId = props[conf.field];
+      const rawId = props[conf.field] ?? feature[conf.field];
       let url = "";
 
-      if (conf.linkTemplate && AUTHORITY_MAP[conf.linkTemplate]) {
+      if (rawId && conf.linkTemplate && AUTHORITY_MAP[conf.linkTemplate]) {
         url = `${AUTHORITY_MAP[conf.linkTemplate]}${rawId}`;
       }
 
@@ -168,7 +168,7 @@ export const extractGenericPopupData = (
     }
 
     // Standard data extraction
-    let rawValue = props[conf.field];
+    let rawValue = props[conf.field] ?? feature[conf.field];
     if (rawValue === undefined || rawValue === null) return;
 
     let processedValue = rawValue;

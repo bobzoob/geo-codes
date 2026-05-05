@@ -187,8 +187,10 @@ export const initialLayerConfig: LayerConfig[] = [
     id: "places-people",
     sourceId: "places-people-data",
     templateId: "place-biography",
-    name: "Places & People",
-    visible: false,
+    name: "Biographie der Orte",
+    tag: "GeoJSON", // displayed information tag
+    description: "Die Orte in den Biefen der Frühromantik", // displayed description
+    visible: true,
     type: "point",
     ignoreTimeFilter: true, // layer is static
     intensityField: "weight",
