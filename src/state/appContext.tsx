@@ -61,6 +61,7 @@ const initialState: AppState = {
   activeMobilePanel: "layers",
   isActiveFiltersPanelCollapsed: true,
   isTablePanelCollapsed: true,
+  isDetailPanelCollapsed: true,
   loadingProgress: 0,
 
   isTableLoaded: false, // "placeholder" mode

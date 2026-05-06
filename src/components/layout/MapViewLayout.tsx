@@ -14,6 +14,7 @@ import FeatureTablePanel from "./panels/FeatureTablePanel";
 import MapContainer from "../MapContainer";
 import { mapTheme } from "../../config/mapTheme";
 import TimelineControl from "../TimelineControl";
+import FeatureDetailPanel from "./panels/FeatureDetailPanel";
 
 function MapViewLayout() {
   const { state, dispatch } = useAppState();
@@ -22,6 +23,7 @@ function MapViewLayout() {
     isOptionsPanelCollapsed,
     isActiveFiltersPanelCollapsed,
     isTablePanelCollapsed,
+    isDetailPanelCollapsed,
     activeMobilePanel,
     liveTimeRange,
   } = state;
@@ -47,9 +49,14 @@ function MapViewLayout() {
   const isTableVisible = isMobile
     ? activeMobilePanel === "table"
     : !isTablePanelCollapsed;
+  const isDetailVisible = isMobile
+    ? activeMobilePanel === "detail"
+    : !isDetailPanelCollapsed;
 
   // Helper for mobile: Opening one closes others
-  const toggleMobile = (panel: "layers" | "options" | "filters" | "table") => {
+  const toggleMobile = (
+    panel: "layers" | "options" | "filters" | "table" | "detail"
+  ) => {
     const nextState = activeMobilePanel === panel ? "none" : panel;
     dispatch({ type: "SET_ACTIVE_MOBILE_PANEL", payload: nextState as any });
   };
@@ -132,9 +139,21 @@ function MapViewLayout() {
                 ? toggleMobile("table")
                 : dispatch({ type: "TOGGLE_TABLE_PANEL" })
             }
-            maxWidth={600}
+            maxWidth={300}
           >
             <FeatureTablePanel />
+          </CollapsiblePanel>
+          <CollapsiblePanel
+            label="Detail"
+            isCollapsed={!isDetailVisible}
+            onToggle={() =>
+              isMobile
+                ? toggleMobile("detail")
+                : dispatch({ type: "TOGGLE_DETAIL_PANEL" })
+            }
+            maxWidth={350}
+          >
+            <FeatureDetailPanel />
           </CollapsiblePanel>
         </Box>
 

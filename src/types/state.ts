@@ -183,9 +183,18 @@ export interface AppState {
   isOptionsPanelCollapsed: boolean;
   isActiveFiltersPanelCollapsed: boolean;
   isTablePanelCollapsed: boolean;
+  isDetailPanelCollapsed: boolean;
+
   isTableLoaded: boolean;
   tablePage: number;
-  activeMobilePanel: "layers" | "options" | "filters" | "table" | "none";
+
+  activeMobilePanel:
+    | "layers"
+    | "options"
+    | "filters"
+    | "table"
+    | "detail"
+    | "none";
   loadingProgress: number;
 
   // color highlighting

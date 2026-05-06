@@ -7,7 +7,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { popupTemplates } from "../config/templates";
 import type { ReactNode } from "react";
 import { useMapInteraction } from "../hooks/useMapInteraction"; // logic for this component
-import { MapPopup } from "./layout/MapPopup";
+
 import { useAppState } from "../state/appContext";
 import { layerRegistry } from "../layers/layerRegistry";
 import { extractGenericPopupData } from "../utils/popupUtils";
@@ -20,14 +20,8 @@ interface MapWrapperProps {
 function MapWrapper({ children }: MapWrapperProps) {
   const { state } = useAppState();
   const { processedData, layerConfig, dictionaries, sources, settings } = state;
-  const {
-    selectedFeature,
-    hoverInfo,
-    onMapClick,
-    closePopup,
-    onMapMouseMove,
-    onMapMouseLeave,
-  } = useMapInteraction();
+  const { hoverInfo, onMapClick, onMapMouseMove, onMapMouseLeave } =
+    useMapInteraction();
 
   // dynamic calculation of layer Ids
   const interactiveLayerIds = state.layerConfig
@@ -136,11 +130,6 @@ function MapWrapper({ children }: MapWrapperProps) {
       <NavigationControl position="top-right" showCompass={true} />
 
       {children}
-
-      {/* POPUP (Click) */}
-      {selectedFeature && (
-        <MapPopup feature={selectedFeature} onClose={closePopup} />
-      )}
 
       {/* TOOLTIP (Hover) */}
       {hoverInfo && (

@@ -13,6 +13,33 @@ import type { HistoricalFeatureCollection, EntityMap } from "../types/geojson";
  * and returns the next state.
  */
 
+// HELPER to group max 3 panel into
+// configuration-group and data-group
+const enforceGroupMode = (
+  state: AppState,
+  newlyOpenedPanel: "layer" | "options" | "table" | "detail"
+): AppState => {
+  if (newlyOpenedPanel === "layer" || newlyOpenedPanel === "options") {
+    // Switching to CONFIG MODE: Close Data Mode panels
+    return {
+      ...state,
+      isTablePanelCollapsed: true,
+      isDetailPanelCollapsed: true,
+    };
+  }
+
+  if (newlyOpenedPanel === "table" || newlyOpenedPanel === "detail") {
+    // Switching to DATA MODE: Close Config Mode panels
+    return {
+      ...state,
+      isLayerPanelCollapsed: true,
+      isOptionsPanelCollapsed: true,
+    };
+  }
+
+  return state;
+};
+
 // all possible actions, that can change the state.
 //this is a "discriminated union", ts function:
 // represent multiple possible variants,
@@ -22,6 +49,7 @@ export type AppAction =
   | { type: "TOGGLE_OPTIONS_PANEL" }
   | { type: "TOGGLE_ACTIVE_FILTERS_PANEL" }
   | { type: "TOGGLE_TABLE_PANEL" }
+  | { type: "TOGGLE_DETAIL_PANEL" }
   | { type: "SET_TABLE_PAGE"; payload: number }
   | { type: "SET_TABLE_LOADED"; payload: boolean }
   | {
@@ -71,21 +99,51 @@ export type AppAction =
 //  handle all state updates
 export const appReducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
-    case "TOGGLE_LAYER_PANEL":
-      return { ...state, isLayerPanelCollapsed: !state.isLayerPanelCollapsed };
+    case "TOGGLE_LAYER_PANEL": {
+      const willOpen = state.isLayerPanelCollapsed;
+      let newState = {
+        ...state,
+        isLayerPanelCollapsed: !state.isLayerPanelCollapsed,
+      };
+      return willOpen ? enforceGroupMode(newState, "layer") : newState;
+    }
 
-    case "TOGGLE_OPTIONS_PANEL":
-      return {
+    case "TOGGLE_OPTIONS_PANEL": {
+      const willOpen = state.isOptionsPanelCollapsed;
+      let newState = {
         ...state,
         isOptionsPanelCollapsed: !state.isOptionsPanelCollapsed,
       };
-    case "TOGGLE_ACTIVE_FILTERS_PANEL":
+      return willOpen ? enforceGroupMode(newState, "options") : newState;
+    }
+
+    case "TOGGLE_TABLE_PANEL": {
+      const willOpen = state.isTablePanelCollapsed;
+      let newState = {
+        ...state,
+        isTablePanelCollapsed: !state.isTablePanelCollapsed,
+      };
+      return willOpen ? enforceGroupMode(newState, "table") : newState;
+    }
+
+    case "TOGGLE_DETAIL_PANEL": {
+      const willOpen = state.isDetailPanelCollapsed;
+      let newState = {
+        ...state,
+        isDetailPanelCollapsed: !state.isDetailPanelCollapsed,
+      };
+      return willOpen ? enforceGroupMode(newState, "detail") : newState;
+    }
+
+    case "TOGGLE_ACTIVE_FILTERS_PANEL": {
+      // The Filter panel is the "Bridge". It belongs to both groups,
+      // so opening it does NOT trigger a mode switch or close anything else.
       return {
         ...state,
         isActiveFiltersPanelCollapsed: !state.isActiveFiltersPanelCollapsed,
       };
-    case "TOGGLE_TABLE_PANEL":
-      return { ...state, isTablePanelCollapsed: !state.isTablePanelCollapsed };
+    }
+
     case "SET_TABLE_LOADED":
       return { ...state, isTableLoaded: action.payload, tablePage: 0 };
     case "SET_TABLE_PAGE":
@@ -101,14 +159,14 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
       return { ...state, loadingProgress: action.payload };
 
     // Layer
-    case "SELECT_LAYER":
-      return {
-        ...state,
-        selectedLayerId: action.payload,
-        isOptionsPanelCollapsed: false,
-        isTableLoaded: false,
-        tablePage: 0,
-      };
+    // case "SELECT_LAYER":
+    //   return {
+    //     ...state,
+    //     selectedLayerId: action.payload,
+    //     isOptionsPanelCollapsed: false,
+    //     isTableLoaded: false,
+    //     tablePage: 0,
+    //   };
 
     case "SET_LAYER_VISIBILITY":
       return {
@@ -223,16 +281,25 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
     case "SET_DICTIONARIES":
       return { ...state, dictionaries: action.payload };
 
-    default:
-      return state;
-
     // sources
     case "SET_RAW_SOURCES":
       return { ...state, rawSources: action.payload };
 
     // color highlighting
-    case "SELECT_FEATURE":
-      return { ...state, selectedFeature: action.payload };
+    case "SELECT_FEATURE": {
+      const willOpenDetail = action.payload !== null;
+      let newState = {
+        ...state,
+        selectedFeature: action.payload,
+        isDetailPanelCollapsed: !willOpenDetail, // Open if feature selected
+        activeMobilePanel: action.payload
+          ? "detail"
+          : ((state.activeMobilePanel === "detail"
+              ? "none"
+              : state.activeMobilePanel) as AppState["activeMobilePanel"]),
+      };
+      return willOpenDetail ? enforceGroupMode(newState, "detail") : newState;
+    }
 
     // drill down lost
     case "SET_DRILL_DOWN":
@@ -243,12 +310,18 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
       };
 
     // Ensure we exit drill-down if the layer changes
-    case "SELECT_LAYER":
-      return {
+    case "SELECT_LAYER": {
+      const willOpenOptions = action.payload !== null;
+      let newState = {
         ...state,
         selectedLayerId: action.payload,
+        isOptionsPanelCollapsed: !willOpenOptions, // Open options when layer selected
         isTableLoaded: false,
         drilledDownFeature: null,
       };
+      return willOpenOptions ? enforceGroupMode(newState, "options") : newState;
+    }
+    default:
+      return state;
   }
 };

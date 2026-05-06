@@ -1,4 +1,4 @@
-import { Popup } from "react-map-gl/maplibre";
+import { useEffect } from "react";
 import {
   Box,
   Typography,
@@ -9,48 +9,54 @@ import {
   ListItemButton,
   Chip,
   Button,
+  IconButton,
 } from "@mui/material";
-import type { SelectionState } from "../../hooks/useMapInteraction";
-import { useAppState } from "../../state/appContext";
-import { extractGenericPopupData } from "../../utils/popupUtils";
-import { useEffect } from "react";
-import { popupTemplates } from "../../config/templates";
-import { customPopupComponents } from "../../registries/componentRegistry";
+import CloseIcon from "@mui/icons-material/Close";
+import { useAppState } from "../../../state/appContext";
+import { extractGenericPopupData } from "../../../utils/popupUtils";
+import { popupTemplates } from "../../../config/templates";
+import { customPopupComponents } from "../../../registries/componentRegistry";
 
-interface MapPopupProps {
-  feature: SelectionState;
-  onClose: () => void;
-}
+export default function FeatureDetailPanel() {
+  const { state, dispatch } = useAppState();
+  const { processedData, layerConfig, dictionaries, sources, selectedFeature } =
+    state;
 
-export function MapPopup({ feature, onClose }: MapPopupProps) {
-  const { state } = useAppState();
-  const { processedData, layerConfig, dictionaries, sources } = state;
+  // 1. Empty State
+  if (!selectedFeature) {
+    return (
+      <Box sx={{ p: 3, textAlign: "center", opacity: 0.6 }}>
+        <Typography variant="body2" fontStyle="italic">
+          Select a feature on the map or in the data table to view details here.
+        </Typography>
+      </Box>
+    );
+  }
 
-  // CONFIG RESOLUTION
-  const layer = layerConfig.find((l) => l.id === feature.layerId);
+  // 2. Config Resolution
+  const layer = layerConfig.find((l) => l.id === selectedFeature.layerId);
   if (!layer) return null;
 
-  // use templateId from drill-down state if it exists, otherwise use layer default
-  const activeTemplateId = feature.templateId || layer.templateId;
+  const activeTemplateId = selectedFeature.templateId || layer.templateId;
   const template = popupTemplates[activeTemplateId];
 
   if (!template) {
-    console.warn(`Template ${activeTemplateId} not found`);
-    return null;
+    return <Box sx={{ p: 2 }}>Template {activeTemplateId} not found</Box>;
   }
 
-  // FEATURE LOOKUP
-  const currentLayerData = processedData[feature.layerId];
+  // 3. Feature Lookup
+  const currentLayerData = processedData[selectedFeature.layerId];
   let currentFeature = currentLayerData?.features.find(
-    (f: any) => String(f.id) === String(feature.id)
+    (f: any) => String(f.id) === String(selectedFeature.id)
   );
 
-  // if not found at top level, we search inside aggregated "children"
+  // Search inside aggregated "children" if not found at top level
   if (!currentFeature && currentLayerData) {
     for (const f of currentLayerData.features) {
       if (f.properties?.children) {
         const child = f.properties.children.find(
-          (c: any) => String(c.id || c.properties?.id) === String(feature.id)
+          (c: any) =>
+            String(c.id || c.properties?.id) === String(selectedFeature.id)
         );
         if (child) {
           currentFeature = child;
@@ -60,20 +66,20 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
     }
   }
 
-  // Auto-close
+  // Auto-close logic if feature disappears (e.g., filtered out)
   useEffect(() => {
     if (
       currentLayerData &&
       currentLayerData.features.length > 0 &&
       !currentFeature
     ) {
-      onClose();
+      dispatch({ type: "SELECT_FEATURE", payload: null });
     }
-  }, [currentFeature, currentLayerData, onClose]);
+  }, [currentFeature, currentLayerData, dispatch]);
 
   if (!currentFeature) return null;
 
-  // DICTIONARY RESOLUTION
+  // 4. Dictionary Resolution
   const sourceConfig = sources[layer.sourceId];
   const dictionaryId = layer.dictionaryId || sourceConfig?.dictionaryId;
   const relevantDictionary =
@@ -81,7 +87,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
       ? dictionaries[dictionaryId]
       : {};
 
-  // DATA EXTRACTION
+  // 5. Data Extraction
   const popupData = extractGenericPopupData(
     currentFeature,
     template,
@@ -90,17 +96,34 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
   const { fields, url } = popupData;
 
   return (
-    <Popup
-      longitude={feature.longitude}
-      latitude={feature.latitude}
-      anchor="bottom"
-      onClose={onClose}
-      maxWidth="320px"
-      style={{ zIndex: 1000 }}
-    >
-      <Box sx={{ p: 2, minWidth: "250px" }}>
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      {/* HEADER: Title & Close Button */}
+      <Box
+        sx={{
+          p: 2,
+          flexShrink: 0,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          borderBottom: 1,
+          borderColor: "divider",
+        }}
+      >
+        <Typography variant="h6" color="secondary" noWrap>
+          Detail
+        </Typography>
+        <IconButton
+          size="small"
+          onClick={() => dispatch({ type: "SELECT_FEATURE", payload: null })}
+        >
+          <CloseIcon />
+        </IconButton>
+      </Box>
+
+      {/* SCROLLABLE CONTENT */}
+      <Box sx={{ flexGrow: 1, overflowY: "auto", p: 2 }}>
         {fields.map((field, index) => {
-          //  TYPE: CUSTOM
+          // TYPE: CUSTOM
           if (field.type === "custom" && field.componentId) {
             const CustomComp = customPopupComponents[field.componentId];
             return CustomComp ? (
@@ -183,19 +206,11 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                 </Typography>
                 <List
                   dense
-                  sx={{
-                    maxHeight: 200,
-                    overflow: "auto",
-                    bgcolor: "rgba(0,0,0,0.2)",
-                    borderRadius: 1,
-                  }}
+                  sx={{ bgcolor: "rgba(0,0,0,0.2)", borderRadius: 1 }}
                 >
                   {field.value.map((child: any, i: number) => {
-                    // resolve primary label
                     const primaryLabel =
                       child.properties[labelKey] || "Unknown Item";
-
-                    // resolve secondary label
                     let secondaryLabel = "";
                     if (secondaryKey) {
                       const rawVal = child.properties[secondaryKey];
@@ -217,9 +232,9 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                               new CustomEvent("app:select-feature", {
                                 detail: {
                                   feature: child,
-                                  parentFeature: currentFeature, // the city hub
+                                  parentFeature: currentFeature,
                                   templateId: meta.detailTemplateId,
-                                  layerId: feature.layerId,
+                                  layerId: selectedFeature.layerId,
                                 },
                               })
                             );
@@ -246,7 +261,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
             );
           }
 
-          //TYPE: TAGS
+          // TYPE: TAGS
           if (field.type === "tags" && Array.isArray(field.value)) {
             return (
               <Box key={index} sx={{ mb: 2 }}>
@@ -255,8 +270,6 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                 </Typography>
                 <Box
                   sx={{
-                    maxHeight: field.value.length > 5 ? "110px" : "auto",
-                    overflowY: "auto",
                     p: 1,
                     bgcolor: "rgba(0,0,0,0.1)",
                     borderRadius: 1,
@@ -285,17 +298,9 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
             );
           }
 
-          // TYPE: LONG TEXT (with 20-word preview logic)
+          // TYPE: LONG TEXT
           if (field.type === "long-text") {
             const rawText = String(field.value);
-
-            // 20-word preview
-            // split by whitespace, take 20, and join back
-            const words = rawText.split(/\s+/);
-            const isTruncated = words.length > 20;
-            const previewText =
-              words.slice(0, 20).join(" ") + (isTruncated ? "..." : "");
-
             return (
               <Box
                 key={index}
@@ -305,8 +310,6 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                   borderRadius: 1,
                   mb: 2,
                   fontStyle: "italic",
-                  maxHeight: "150px",
-                  overflowY: "auto",
                   borderLeft: "3px solid",
                   borderColor: "secondary.main",
                 }}
@@ -316,8 +319,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                   component="div"
                   sx={{ lineHeight: 1.5 }}
                 >
-                  {/* transform <lb/> tags into line breaks within the preview */}
-                  {previewText.split(/<lb\s*\/?>/i).map((line, i, arr) => (
+                  {rawText.split(/<lb\s*\/?>/i).map((line, i, arr) => (
                     <span key={i}>
                       {line}
                       {i < arr.length - 1 && <br />}
@@ -335,11 +337,7 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
                 <Typography variant="subtitle2" color="secondary">
                   {field.label}
                 </Typography>
-                <List
-                  dense
-                  disablePadding
-                  sx={{ maxHeight: 150, overflow: "auto" }}
-                >
+                <List dense disablePadding>
                   {field.value.map((item: any, i: number) => {
                     const primaryText =
                       field.type === "timed-list"
@@ -399,6 +397,6 @@ export function MapPopup({ feature, onClose }: MapPopupProps) {
           </Box>
         )}
       </Box>
-    </Popup>
+    </Box>
   );
 }
