@@ -1,15 +1,5 @@
-import {
-  Box,
-  Collapse,
-  IconButton,
-  Paper,
-  Button,
-  useMediaQuery,
-  type Theme,
-} from "@mui/material";
+import { Box, Collapse, Paper, useMediaQuery, type Theme } from "@mui/material";
 import type { ReactNode } from "react";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import MenuIcon from "@mui/icons-material/Menu";
 
 interface CollapsiblePanelProps {
   children: ReactNode;
@@ -22,9 +12,7 @@ interface CollapsiblePanelProps {
 function CollapsiblePanel({
   children,
   isCollapsed,
-  onToggle,
   maxWidth,
-  label,
 }: CollapsiblePanelProps) {
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("md")
@@ -34,41 +22,36 @@ function CollapsiblePanel({
     <Box
       sx={{
         display: "flex",
-        flexDirection: isMobile ? "column" : "row",
+        flexDirection: "row",
         alignItems: "flex-start",
-        height: "100%", // Take full height of the "Panel Zone"
+        height: "100%",
         pointerEvents: "none",
-        flexShrink: 0, // Prevent panels from squishing each other
+        flexShrink: 0,
       }}
     >
       <Collapse
         in={!isCollapsed}
         orientation="horizontal"
-        sx={{ height: "100%" }} // Force collapse wrapper to fill height
+        sx={{ height: "100%" }}
       >
         <Paper
           elevation={4}
           sx={{
-            width: isMobile ? `calc(100vw - 110px)` : `${maxWidth}px`,
+            width: isMobile ? `calc(100vw - 32px)` : `${maxWidth}px`,
             minWidth: isMobile ? "200px" : "280px",
-            height: "100%", // Fill the Panel Zone
-            display: "flex", // Turn into a flex container
+            height: "100%",
+            display: "flex",
             flexDirection: "column",
-            overflow: "hidden", // Prevent the Paper itself from scrolling
+            overflow: "hidden",
             pointerEvents: "auto",
             borderRadius: 1,
             bgcolor: "background.paper",
           }}
         >
-          {/* 
-             This is the magic part: 
-             The children (LayerPanel, FeatureTable, etc.) 
-             will live inside this flex-grow box.
-          */}
           <Box
             sx={{
               flexGrow: 1,
-              minHeight: 0, // Crucial for flex-scroll to work in Chrome/Safari
+              minHeight: 0,
               display: "flex",
               flexDirection: "column",
               overflowY: "auto",
@@ -78,34 +61,6 @@ function CollapsiblePanel({
           </Box>
         </Paper>
       </Collapse>
-
-      {/* Toggle Button - Stays outside the scroll area */}
-      <Box
-        sx={{
-          zIndex: 1,
-          marginTop: "8px",
-          marginLeft: isCollapsed ? "0px" : isMobile ? "4px" : "-12px",
-          pointerEvents: "auto",
-        }}
-      >
-        {isCollapsed ? (
-          <Button
-            variant="contained"
-            onClick={onToggle}
-            startIcon={<MenuIcon />}
-          >
-            {isMobile ? "" : label}
-          </Button>
-        ) : (
-          <IconButton
-            onClick={onToggle}
-            size="small"
-            sx={{ bgcolor: "background.paper", boxShadow: 2 }}
-          >
-            <KeyboardArrowLeftIcon />
-          </IconButton>
-        )}
-      </Box>
     </Box>
   );
 }

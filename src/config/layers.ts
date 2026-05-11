@@ -111,6 +111,13 @@ export const initialLayerConfig: LayerConfig[] = [
 
     intensityField: "count", // scale circles
 
+    // which panel should interact with the click
+    // on the detail
+    interactionConfig: {
+      clickTrigger: "table", // tells the hook: on click, open DataTable
+    },
+
+    // filter
     activeFilters: [
       { moduleId: "dateRange", placement: "search-area" },
       { moduleId: "plainText", placement: "search-area" },
@@ -204,7 +211,9 @@ export const initialLayerConfig: LayerConfig[] = [
     },
     tableConfig: {
       primaryField: "title",
-      secondaryField: "activity_log", // This might need a custom formatter!!!
+      secondaryField: "activity_log",
+      secondaryFormat: "count", // we can tell the engine to count the array
+      secondarySuffix: "recorded activities", // appendix to count
     },
   },
 

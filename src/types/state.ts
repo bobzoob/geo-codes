@@ -86,6 +86,10 @@ export interface TableConfig {
   resolveSecondary?: boolean;
   componentId?: string; // optional: you can use a custom component
   templateId?: string;
+  primaryFormat?: string;
+  primarySuffix?: string;
+  secondaryFormat?: string;
+  secondarySuffix?: string;
 }
 export interface LayerConfig {
   id: string;
@@ -128,6 +132,18 @@ export interface LayerConfig {
   // table
   tableConfig?: TableConfig; // config for top level view
   childTableConfig?: TableConfig; // Config for the "Drilled Down" view
+
+  // config which panel is triggert
+  interactionConfig?: {
+    clickTrigger?: "detail" | "table"; // Default is "detail"
+  };
+
+  interaction?: {
+    onClick?: {
+      action: "select" | "drill-down";
+      targetPanel?: "detail" | "table";
+    };
+  };
 }
 
 // color highlighting
@@ -138,8 +154,17 @@ export interface SelectionState {
   longitude: number;
   templateId?: string;
 }
+
+// interfaces for nested features (letters in a city)
+export interface LayerSubState {
+  parentId: string | null;
+  data: any[] | null;
+}
+
 // interface that structures the data pipline
 export interface AppState {
+  layerSubState: Record<string, LayerSubState | null>;
+
   currentView: View;
 
   // // raw data
@@ -186,7 +211,7 @@ export interface AppState {
   isDetailPanelCollapsed: boolean;
 
   isTableLoaded: boolean;
-  tablePage: number;
+  tablePage: Record<string, number>; // maps layerId -> current page index
 
   activeMobilePanel:
     | "layers"

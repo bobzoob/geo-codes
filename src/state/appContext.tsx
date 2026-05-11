@@ -65,9 +65,10 @@ const initialState: AppState = {
   loadingProgress: 0,
 
   isTableLoaded: false, // "placeholder" mode
-  tablePage: 0,
+  tablePage: {},
   selectedFeature: null,
   drilledDownFeature: null,
+  layerSubState: {},
 };
 
 const AppStateContext = createContext<{

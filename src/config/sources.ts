@@ -23,6 +23,7 @@ export const sources: Record<string, SourceConfig> = {
       title: "full_text", // default title for tooltips
       dateStart: "date_start",
       dateEnd: "date_end",
+      children: "children",
       // fields the generic text search should look into
       textSearch: ["full_text", "topic_list"],
       // fields containing IDs that need dictionary lookup

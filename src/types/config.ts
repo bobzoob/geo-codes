@@ -17,6 +17,7 @@ export interface FieldMapping {
   // Generic categories for filtering
   textSearch: string[]; // Keys to look into for text search
   entityRefs: string[]; // Keys containing IDs for dictionary lookup
+  children?: string; // key for nested data
 }
 
 /**

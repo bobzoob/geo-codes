@@ -1,20 +1,33 @@
+import { useState } from "react";
 import {
   Box,
   Paper,
   useMediaQuery,
   type Theme,
   ThemeProvider,
+  Fab,
+  Menu,
+  MenuItem,
+  Divider,
+  Typography,
 } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import LayersIcon from "@mui/icons-material/Layers";
+import SettingsIcon from "@mui/icons-material/Settings";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import TableChartIcon from "@mui/icons-material/TableChart";
+import InfoIcon from "@mui/icons-material/Info";
+
 import { useAppState } from "../../state/appContext";
 import CollapsiblePanel from "./panels/CollapsiblePanel";
 import LayerPanel from "./panels/LayerPanel";
 import OptionsPanel from "./panels/OptionsPanel";
 import ActiveFiltersPanel from "./panels/ActiveFiltersPanel";
 import FeatureTablePanel from "./panels/FeatureTablePanel";
+import FeatureDetailPanel from "./panels/FeatureDetailPanel";
 import MapContainer from "../MapContainer";
 import { mapTheme } from "../../config/mapTheme";
 import TimelineControl from "../TimelineControl";
-import FeatureDetailPanel from "./panels/FeatureDetailPanel";
 
 function MapViewLayout() {
   const { state, dispatch } = useAppState();
@@ -26,17 +39,20 @@ function MapViewLayout() {
     isDetailPanelCollapsed,
     activeMobilePanel,
     liveTimeRange,
+    selectedLayerId,
+    layerConfig,
   } = state;
 
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("md")
   );
 
-  // Define the height of the timeline area to prevent overlap
   const timelineOffset = isMobile ? 70 : 100;
-  const timelineHeight = isMobile ? 180 : 250; // "wall" for all panels
+  const timelineHeight = isMobile ? 180 : 250;
 
-  // Panel Visibility Logic
+  // Universal Menu State
+  const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
+
   const isLayerVisible = isMobile
     ? activeMobilePanel === "layers"
     : !isLayerPanelCollapsed;
@@ -53,13 +69,44 @@ function MapViewLayout() {
     ? activeMobilePanel === "detail"
     : !isDetailPanelCollapsed;
 
-  // Helper for mobile: Opening one closes others
-  const toggleMobile = (
+  const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setMenuAnchor(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchor(null);
+  };
+
+  const togglePanel = (
     panel: "layers" | "options" | "filters" | "table" | "detail"
   ) => {
-    const nextState = activeMobilePanel === panel ? "none" : panel;
-    dispatch({ type: "SET_ACTIVE_MOBILE_PANEL", payload: nextState as any });
+    if (isMobile) {
+      const nextState = activeMobilePanel === panel ? "none" : panel;
+      dispatch({ type: "SET_ACTIVE_MOBILE_PANEL", payload: nextState as any });
+    } else {
+      switch (panel) {
+        case "layers":
+          dispatch({ type: "TOGGLE_LAYER_PANEL" });
+          break;
+        case "options":
+          dispatch({ type: "TOGGLE_OPTIONS_PANEL" });
+          break;
+        case "filters":
+          dispatch({ type: "TOGGLE_ACTIVE_FILTERS_PANEL" });
+          break;
+        case "table":
+          dispatch({ type: "TOGGLE_TABLE_PANEL" });
+          break;
+        case "detail":
+          dispatch({ type: "TOGGLE_DETAIL_PANEL" });
+          break;
+      }
+    }
+    handleMenuClose();
   };
+
+  // get layer name
+  const selectedLayer = layerConfig.find((l) => l.id === selectedLayerId);
 
   return (
     <Box
@@ -67,39 +114,145 @@ function MapViewLayout() {
         height: isMobile ? "100dvh" : "100vh",
         width: "100vw",
         position: "relative",
-        overflow: "hidden", // to lock viewport
+        overflow: "hidden",
       }}
     >
       <MapContainer />
 
       <ThemeProvider theme={mapTheme}>
-        {/* PANEL ZONE: Restricted by bottom offset */}
+        {/* UNIVERSAL HAMBURGER MENU */}
         <Box
           sx={{
             position: "absolute",
-            top: 0,
+            top: 16,
+            left: 16,
+            zIndex: 1200,
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          <Fab color="primary" onClick={handleMenuClick} size="small">
+            <MenuIcon />
+          </Fab>
+          {/* MASSEGE OPERATING LAYER */}
+          <Paper
+            elevation={4}
+            sx={{
+              px: 2,
+              py: 0.5,
+              borderRadius: "16px",
+              backgroundColor: "rgba(20, 20, 20, 0.75)",
+              backdropFilter: "blur(4px)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              pointerEvents: "none", // So it doesn't block map clicks underneath
+            }}
+          >
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{
+                textTransform: "uppercase",
+                fontWeight: "bold",
+                letterSpacing: "0.05em",
+              }}
+            >
+              Selected Layer:
+            </Typography>
+            <Typography
+              variant="body2"
+              color={selectedLayer ? "secondary.main" : "text.primary"}
+              fontWeight="bold"
+            >
+              {selectedLayer ? selectedLayer.name : "None"}
+            </Typography>
+          </Paper>
+
+          <Menu
+            anchorEl={menuAnchor}
+            open={Boolean(menuAnchor)}
+            onClose={handleMenuClose}
+          >
+            <MenuItem
+              onClick={() => togglePanel("layers")}
+              selected={isLayerVisible}
+            >
+              <LayersIcon
+                sx={{ mr: 1, color: "text.secondary" }}
+                fontSize="small"
+              />{" "}
+              Layers
+            </MenuItem>
+            <MenuItem
+              onClick={() => togglePanel("options")}
+              selected={isOptionsVisible}
+            >
+              <SettingsIcon
+                sx={{ mr: 1, color: "text.secondary" }}
+                fontSize="small"
+              />{" "}
+              Options
+            </MenuItem>
+            <Divider />
+            <MenuItem
+              onClick={() => togglePanel("filters")}
+              selected={isFiltersVisible}
+            >
+              <FilterAltIcon
+                sx={{ mr: 1, color: "text.secondary" }}
+                fontSize="small"
+              />{" "}
+              Filters
+            </MenuItem>
+            <Divider />
+            <MenuItem
+              onClick={() => togglePanel("table")}
+              selected={isTableVisible}
+            >
+              <TableChartIcon
+                sx={{ mr: 1, color: "text.secondary" }}
+                fontSize="small"
+              />{" "}
+              Data Table
+            </MenuItem>
+            <MenuItem
+              onClick={() => togglePanel("detail")}
+              selected={isDetailVisible}
+            >
+              <InfoIcon
+                sx={{ mr: 1, color: "text.secondary" }}
+                fontSize="small"
+              />{" "}
+              Details
+            </MenuItem>
+          </Menu>
+        </Box>
+
+        {/* PANEL ZONE */}
+        <Box
+          sx={{
+            position: "absolute",
+            top: 70, // Push down to clear the FAB on all screens
             left: 0,
             right: 0,
-
             bottom: `${timelineHeight}px`,
             padding: isMobile ? "8px" : "20px",
-            paddingLeft: isMobile ? "8px" : "60px",
+            paddingLeft: isMobile ? "16px" : "20px",
             display: "flex",
             gap: "15px",
             pointerEvents: "none",
             zIndex: 1000,
-            overflowX: isMobile ? "auto" : "hidden",
+            overflowX: isMobile ? "hidden" : "auto",
             alignItems: "flex-start",
           }}
         >
           <CollapsiblePanel
             label="Layers"
             isCollapsed={!isLayerVisible}
-            onToggle={() =>
-              isMobile
-                ? toggleMobile("layers")
-                : dispatch({ type: "TOGGLE_LAYER_PANEL" })
-            }
+            onToggle={() => togglePanel("layers")}
             maxWidth={350}
           >
             <LayerPanel />
@@ -108,11 +261,7 @@ function MapViewLayout() {
           <CollapsiblePanel
             label="Options"
             isCollapsed={!isOptionsVisible}
-            onToggle={() =>
-              isMobile
-                ? toggleMobile("options")
-                : dispatch({ type: "TOGGLE_OPTIONS_PANEL" })
-            }
+            onToggle={() => togglePanel("options")}
             maxWidth={450}
           >
             <OptionsPanel />
@@ -121,11 +270,7 @@ function MapViewLayout() {
           <CollapsiblePanel
             label="Filters"
             isCollapsed={!isFiltersVisible}
-            onToggle={() =>
-              isMobile
-                ? toggleMobile("filters")
-                : dispatch({ type: "TOGGLE_ACTIVE_FILTERS_PANEL" })
-            }
+            onToggle={() => togglePanel("filters")}
             maxWidth={300}
           >
             <ActiveFiltersPanel />
@@ -134,23 +279,15 @@ function MapViewLayout() {
           <CollapsiblePanel
             label="Data"
             isCollapsed={!isTableVisible}
-            onToggle={() =>
-              isMobile
-                ? toggleMobile("table")
-                : dispatch({ type: "TOGGLE_TABLE_PANEL" })
-            }
-            maxWidth={300}
+            onToggle={() => togglePanel("table")}
+            maxWidth={350}
           >
             <FeatureTablePanel />
           </CollapsiblePanel>
           <CollapsiblePanel
-            label="Detail"
+            label="Details"
             isCollapsed={!isDetailVisible}
-            onToggle={() =>
-              isMobile
-                ? toggleMobile("detail")
-                : dispatch({ type: "TOGGLE_DETAIL_PANEL" })
-            }
+            onToggle={() => togglePanel("detail")}
             maxWidth={350}
           >
             <FeatureDetailPanel />

@@ -1,7 +1,7 @@
 import { Box, CssBaseline } from "@mui/material";
 import Header from "./components/layout/Header";
 import Dashboard from "./components/Dashboard";
-import Footer from "./components/layout/Footer";
+
 import { useAppState } from "./state/appContext";
 import MapViewLayout from "./components/layout/MapViewLayout";
 import { ThemeProvider } from "@mui/material/styles";
@@ -54,7 +54,6 @@ function App() {
         <Box sx={{ flexGrow: 1, position: "relative", minHeight: 0 }}>
           {renderCurrentView()}
         </Box>
-        <Footer />
       </Box>{" "}
     </ThemeProvider>
   );

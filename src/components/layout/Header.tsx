@@ -1,8 +1,20 @@
-import { Box, ButtonBase, Stack } from "@mui/material";
+import { Box, ButtonBase, Stack, Button, Typography } from "@mui/material";
 import { useAppState } from "../../state/appContext";
 
 function Header() {
   const { dispatch } = useAppState();
+
+  // Brought over from the old Footer
+  const linkStyle = {
+    fontSize: "0.8rem",
+    color: "text.secondary",
+    textTransform: "none",
+    "&:hover": {
+      color: "secondary.main",
+      bgcolor: "transparent",
+    },
+    minWidth: 0,
+  };
 
   return (
     <Box
@@ -22,10 +34,31 @@ function Header() {
         maxWidth="xl"
         margin="0 auto"
       >
-        {/* Left side: empty  */}
-        <Box />
+        {/* Left side: Legal Links (formerly in Footer) */}
+        <Stack direction="row" spacing={2} alignItems="center">
+          <Button
+            sx={linkStyle}
+            onClick={() => dispatch({ type: "SET_VIEW", payload: "license" })}
+          >
+            License
+          </Button>
 
-        {/* Right side: Logo as servs as Home-button */}
+          <Typography
+            variant="caption"
+            sx={{ opacity: 0.3, color: "text.secondary" }}
+          >
+            |
+          </Typography>
+
+          <Button
+            sx={linkStyle}
+            onClick={() => dispatch({ type: "SET_VIEW", payload: "privacy" })}
+          >
+            Privacy Protection
+          </Button>
+        </Stack>
+
+        {/* Right side: Logo as serves as Home-button */}
         <ButtonBase
           onClick={() => dispatch({ type: "SET_VIEW", payload: "dashboard" })}
           aria-label="Go to dashboard"

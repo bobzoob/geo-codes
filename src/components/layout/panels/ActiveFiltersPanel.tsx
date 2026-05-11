@@ -1,104 +1,136 @@
 import {
   Box,
   Typography,
-  Stack,
   Button,
-  Divider,
   IconButton,
+  useMediaQuery,
+  type Theme,
 } from "@mui/material";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useAppState } from "../../../state/appContext";
-import { useActiveFilters } from "../../../hooks/useActiveFilters";
+import {
+  useActiveFilters,
+  type ActiveFilterItem,
+} from "../../../hooks/useActiveFilters";
 
-/**
- * This Panel just renderes the outcome, the logic happens in the
- * useActiveFilters hook
- */
-function ActiveFiltersPanel() {
-  const { state, dispatch } = useAppState();
-  const { layerConfig, selectedLayerId } = state;
+export default function ActiveFiltersPanel() {
+  const { dispatch } = useAppState();
+  const { globalFilters, layerGroups } = useActiveFilters();
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("md")
+  );
 
-  const activeFilters = useActiveFilters();
-  const selectedLayer = layerConfig.find((l) => l.id === selectedLayerId);
+  const handleClose = () => {
+    isMobile
+      ? dispatch({ type: "SET_ACTIVE_MOBILE_PANEL", payload: "none" })
+      : dispatch({ type: "TOGGLE_ACTIVE_FILTERS_PANEL" });
+  };
+
+  const renderFilterItem = (filter: ActiveFilterItem) => (
+    <Box
+      key={filter.id}
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        p: 1,
+        mb: 0.5,
+        bgcolor: "rgba(255,255,255,0.05)",
+        borderRadius: 1,
+        borderLeft: "3px solid",
+        borderColor: "secondary.main",
+      }}
+    >
+      <Box sx={{ minWidth: 0 }}>
+        <Typography variant="caption" color="text.secondary" display="block">
+          {filter.label}
+        </Typography>
+        <Typography variant="body2" fontWeight="bold" noWrap>
+          {filter.value}
+        </Typography>
+      </Box>
+      <IconButton
+        size="small"
+        onClick={() =>
+          dispatch({
+            type: "REMOVE_FILTER",
+            payload: { layerId: filter.layerId, moduleId: filter.moduleId },
+          })
+        }
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </Box>
+  );
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <Box sx={{ p: 2, flexShrink: 0 }}>
-        <Typography variant="h6">
-          {" "}
-          {selectedLayer ? `Filters: ${selectedLayer.name}` : "Filters"}
-        </Typography>
+      {/* HEADER */}
+      <Box
+        sx={{
+          p: 2,
+          flexShrink: 0,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          borderBottom: 1,
+          borderColor: "divider",
+        }}
+      >
+        <Typography variant="h6">Active Filters</Typography>
+        <IconButton size="small" onClick={handleClose}>
+          <KeyboardArrowLeftIcon />
+        </IconButton>
       </Box>
 
-      <Box sx={{ flexGrow: 1, overflowY: "auto", px: 2 }}>
-        {activeFilters.length === 0 ? (
+      {/* CONTENT */}
+      <Box sx={{ flexGrow: 1, overflowY: "auto", p: 2 }}>
+        {globalFilters.length === 0 && layerGroups.length === 0 && (
           <Typography
             variant="body2"
             color="text.secondary"
-            sx={{ fontStyle: "italic" }}
+            sx={{ fontStyle: "italic", textAlign: "center", mt: 4 }}
           >
-            No filters active.
+            No active filters.
           </Typography>
-        ) : (
-          <Stack spacing={1}>
-            {activeFilters.map((filter) => (
-              <Box
-                key={filter.id}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  p: 1,
-                  bgcolor: "rgba(255,255,255,0.05)",
-                  borderRadius: 1,
-                }}
-              >
-                <Box>
-                  <Typography variant="caption" color="text.secondary">
-                    {filter.label}
-                  </Typography>
-                  <Typography variant="body2" fontWeight="bold">
-                    {filter.value}
-                  </Typography>
-                </Box>
-                <IconButton
-                  size="small"
-                  onClick={() =>
-                    dispatch({
-                      type: "REMOVE_FILTER",
-                      payload: {
-                        layerId: filter.layerId,
-                        moduleId: filter.moduleId,
-                      },
-                    })
-                  }
-                >
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </Box>
-            ))}
-          </Stack>
         )}
+
+        {/* GLOBAL FILTERS */}
+        {globalFilters.length > 0 && (
+          <Box sx={{ mb: 3 }}>
+            <Typography
+              variant="caption"
+              fontWeight="bold"
+              color="primary"
+              sx={{ mb: 1, display: "block", textTransform: "uppercase" }}
+            >
+              Global
+            </Typography>
+            {globalFilters.map(renderFilterItem)}
+          </Box>
+        )}
+
+        {/* LAYER SPECIFIC FILTERS */}
+        {layerGroups.map((group) => (
+          <Box key={group.layerId} sx={{ mb: 3 }}>
+            <Typography
+              variant="caption"
+              fontWeight="bold"
+              color="secondary"
+              sx={{ mb: 1, display: "block", textTransform: "uppercase" }}
+            >
+              {group.layerName}
+            </Typography>
+            {group.filters.map(renderFilterItem)}
+          </Box>
+        ))}
       </Box>
 
-      <Box sx={{ p: 2, flexShrink: 0 }}>
-        <Stack spacing={1}>
-          {selectedLayerId && (
-            <Button
-              variant="contained"
-              fullWidth
-              onClick={() =>
-                dispatch({
-                  type: "CLEAR_LAYER_FILTERS",
-                  payload: selectedLayerId,
-                })
-              }
-            >
-              Clear This Layer
-            </Button>
-          )}
-          <Divider />
+      {/* FOOTER */}
+      {(globalFilters.length > 0 || layerGroups.length > 0) && (
+        <Box sx={{ p: 2, flexShrink: 0, borderTop: 1, borderColor: "divider" }}>
           <Button
             variant="outlined"
             color="secondary"
@@ -106,12 +138,10 @@ function ActiveFiltersPanel() {
             fullWidth
             onClick={() => dispatch({ type: "CLEAR_ALL_FILTERS" })}
           >
-            Reset All Layers
+            Reset All
           </Button>
-        </Stack>
-      </Box>
+        </Box>
+      )}
     </Box>
   );
 }
-
-export default ActiveFiltersPanel;

@@ -18,6 +18,7 @@ function ArrowLayer({ id, data, selectedId, hoveredId }: ArrowLayerProps) {
   const sourceId = `${id}-source`;
   const lineLayerId = `${id}-lines`;
   const symbolLayerId = `${id}-symbol`;
+  const highlightLayerId = `${id}-highlight`;
 
   // Arrow Icon
   useEffect(() => {
@@ -106,6 +107,29 @@ function ArrowLayer({ id, data, selectedId, hoveredId }: ArrowLayerProps) {
     },
   };
 
+  //
+  const highlightStyle: LayerProps = {
+    id: highlightLayerId,
+    type: "line",
+    filter: [
+      "match",
+      ["geometry-type"],
+      ["LineString", "MultiLineString"],
+      true,
+      false,
+    ],
+    paint: {
+      "line-color": "#ff9800",
+      "line-width": 4,
+      "line-opacity": [
+        "case",
+        ["==", ["get", "id"], selectedId || ""], // Check if this feature is selected
+        1,
+        0,
+      ],
+    },
+  };
+
   // 3. ARROW HEADS (Symbols)
   const arrowStyle: LayerProps = {
     id: symbolLayerId,
@@ -147,6 +171,7 @@ function ArrowLayer({ id, data, selectedId, hoveredId }: ArrowLayerProps) {
       promoteId="id"
     >
       <Layer {...lineStyle} />
+      <Layer {...highlightStyle} />
       <Layer {...arrowStyle} />
     </Source>
   );

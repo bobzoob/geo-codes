@@ -2,6 +2,7 @@ import type { EntityMap } from "../types/geojson";
 import type { PopupFieldConfig } from "../types/state";
 
 import { AUTHORITY_MAP } from "../config/authorities";
+import type { SourceConfig } from "../types/config";
 
 export interface ResolvedEntity {
   name: string;
@@ -74,6 +75,53 @@ const resolveAndFilter = (
 };
 
 /**
+ *  we use SourceConfig to find fetures
+ * when lists have nested children we like to process
+ */
+export const findFeatureGenerically = (
+  layerId: string,
+  featureId: string,
+  processedData: any,
+  sourceConfig: SourceConfig
+) => {
+  const features = processedData[layerId]?.features || [];
+  const childKey = sourceConfig.mapping.children;
+
+  // 1. Check top level
+  let found = features.find(
+    (f: { id: any }) => String(f.id) === String(featureId)
+  );
+  if (found) return found;
+
+  // 2. If the source has a children mapping, check nested levels
+  if (childKey) {
+    for (const parent of features) {
+      const children = parent.properties[childKey];
+      if (Array.isArray(children)) {
+        found = children.find((c) => String(c.id) === String(featureId));
+        if (found) return found;
+      }
+    }
+  }
+  return null;
+};
+
+/**
+ * Helper: MapLibre stringifies arrays/objects in properties.
+ * This safely parses them back into JS objects if needed.
+ */
+const parseIfStringifiedJSON = (val: any) => {
+  if (typeof val === "string" && (val.startsWith("[") || val.startsWith("{"))) {
+    try {
+      return JSON.parse(val);
+    } catch (e) {
+      return val; // Fallback to original string if parsing fails
+    }
+  }
+  return val;
+};
+
+/**
  * Main Extraction Engine
  * Transforms raw feature properties into UI-ready fields
  */
@@ -86,7 +134,7 @@ export const extractGenericPopupData = (
   const fields: ProcessedField[] = [];
 
   config.forEach((conf) => {
-    // Handle custom components (complex data concatination)
+    // 1. CUSTOM COMPONENTS
     if (conf.type === "custom") {
       fields.push({
         type: "custom",
@@ -97,7 +145,7 @@ export const extractGenericPopupData = (
       return;
     }
 
-    // Handle composite logic (like header)
+    // 2. COMPOSITE FIELDS (e.g., combined headers)
     if (conf.type === "composite" && conf.fields) {
       const resolvedParts = conf.fields.map((fieldName) => {
         const rawValue = props[fieldName];
@@ -117,8 +165,6 @@ export const extractGenericPopupData = (
         return String(rawValue);
       });
 
-      // We push this as a standard 'header' or 'text' so the UI
-      // components (MapPopup/MapWrapper) don't need to change... bad!?
       fields.push({
         type: conf.isHeader ? "header" : "text",
         label: conf.label,
@@ -127,7 +173,7 @@ export const extractGenericPopupData = (
       return;
     }
 
-    // handle Link-Buttons
+    // 3. LINK BUTTONS
     if (conf.type === "link-button") {
       const rawId = props[conf.field] ?? feature[conf.field];
       let url = "";
@@ -140,18 +186,14 @@ export const extractGenericPopupData = (
         label: conf.label,
         type: "link-button",
         value: rawId,
-        url: url,
+        url,
       });
       return;
     }
 
-    // how to handle FeatureLists (aggregated values)
+    // 4. FEATURE LISTS (Aggregated children)
     if (conf.type === "feature-list") {
-      const listValue =
-        typeof props[conf.field] === "string"
-          ? JSON.parse(props[conf.field])
-          : props[conf.field];
-
+      const listValue = parseIfStringifiedJSON(props[conf.field]);
       if (!Array.isArray(listValue)) return;
 
       fields.push({
@@ -167,9 +209,12 @@ export const extractGenericPopupData = (
       return;
     }
 
-    // Standard data extraction
+    // 5. STANDARD DATA EXTRACTION (Text, Tags, Lists, etc.)
     let rawValue = props[conf.field] ?? feature[conf.field];
     if (rawValue === undefined || rawValue === null) return;
+
+    // Apply the MapLibre stringification fix globally
+    rawValue = parseIfStringifiedJSON(rawValue);
 
     let processedValue = rawValue;
     let fieldUrl: string | undefined = undefined;
@@ -177,12 +222,20 @@ export const extractGenericPopupData = (
     // Resolve Entities if requested
     if (conf.resolveEntities) {
       if (conf.type === "timed-list") {
-        const listData =
-          typeof rawValue === "string" ? JSON.parse(rawValue) : rawValue;
-        processedValue = listData.map((entry: any) => ({
-          label: entities[entry[0]]?.name || entry[0],
-          subLabel: entry[1],
-        }));
+        // Ensure it's an array before mapping
+        const listData = Array.isArray(rawValue) ? rawValue : [rawValue];
+
+        processedValue = listData.map((entry: any) => {
+          // Handle nested arrays like["gnd:123", "1801"]
+          if (Array.isArray(entry)) {
+            return {
+              label: entities[entry[0]]?.name || entry[0],
+              subLabel: entry[1],
+            };
+          }
+          // Fallback if data is flat
+          return { label: entities[entry]?.name || entry, subLabel: "" };
+        });
       } else {
         const resolved = resolveAndFilter(
           rawValue,

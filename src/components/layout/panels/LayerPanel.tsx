@@ -1,9 +1,23 @@
-import { Box, Typography, Paper, Switch, Stack } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Paper,
+  Switch,
+  Stack,
+  IconButton,
+  useMediaQuery,
+  type Theme,
+} from "@mui/material";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useAppState } from "../../../state/appContext";
 
 function LayerPanel() {
   const { state, dispatch } = useAppState();
   const { layerConfig, selectedLayerId } = state;
+
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("md")
+  );
 
   const handleSelectLayer = (layerId: string) => {
     const newSelectedId = selectedLayerId === layerId ? null : layerId;
@@ -16,10 +30,28 @@ function LayerPanel() {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
       {/* FIXED HEADER */}
-      <Box sx={{ p: 2, flexShrink: 0 }}>
+      <Box
+        sx={{
+          p: 2,
+          flexShrink: 0,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <Typography variant="h6" color="secondary">
           Layers
         </Typography>
+        <IconButton
+          size="small"
+          onClick={() =>
+            isMobile
+              ? dispatch({ type: "SET_ACTIVE_MOBILE_PANEL", payload: "none" })
+              : dispatch({ type: "TOGGLE_LAYER_PANEL" })
+          }
+        >
+          <KeyboardArrowLeftIcon />
+        </IconButton>
       </Box>
 
       {/* SCROLLABLE CONTENT */}
