@@ -3,10 +3,31 @@ import type { TimeRange, LayerConfig } from "../types/state";
 import { filterRegistry } from "./filterRegistry";
 import type { FieldMapping } from "../types/config";
 
+/**
+ * HELPER: Resolves fallback chains for ANY mapped field
+ * e.g., mappingKey = ["date_start", "date_sort"]
+ */
+export const resolveMappedField = (
+  feature: HistoricalFeature,
+  mappingKey: string | string[] | undefined
+): any => {
+  if (!mappingKey) return null;
+
+  const keys = Array.isArray(mappingKey) ? mappingKey : [mappingKey];
+
+  for (const key of keys) {
+    const val = feature.properties[key] ?? (feature as any)[key];
+    if (val !== null && val !== undefined && val !== "") {
+      return val;
+    }
+  }
+  return null;
+};
+
 // Helper to extract year from "YYYY-MM-DD" or "YYYY"
 const getYear = (dateVal?: string | number | null): number => {
   if (dateVal === undefined || dateVal === null) return 0;
-  // if allready a number
+  // if already a number
   if (typeof dateVal === "number") return dateVal;
   // but if string
   const yearPart = String(dateVal).split("-")[0];
@@ -19,32 +40,25 @@ const filterByGlobalTime = (
   range: TimeRange,
   mapping: FieldMapping
 ): boolean => {
-  const props = feature.properties;
   const [minYear, maxYear] = range;
 
-  // we check if any year is within the slider range
-  // we chack for active_years -> is this generic?
-  const activeYears = props.active_years;
-  if (activeYears && Array.isArray(activeYears)) {
-    return activeYears.some(
-      (year: number) => year >= minYear && year <= maxYear
-    );
-  }
+  // 1. Resolve dates using the fallback chain helper!
+  const startDateStr = resolveMappedField(feature, mapping.dateStart);
+  const endDateStr =
+    resolveMappedField(feature, mapping.dateEnd) || startDateStr;
 
-  // we check for a point in time
-  const startKey = mapping.dateStart;
-  const endKey = mapping.dateEnd || startKey;
-
-  const startDateStr = props[startKey];
   if (startDateStr) {
     const startYear = getYear(startDateStr);
-    const endYear = props[endKey] ? getYear(props[endKey]) : startYear;
+    const endYear = endDateStr ? getYear(endDateStr) : startYear;
+
     // check for invalid dates
     if (startYear === 0) return false;
 
-    // if there is a overlap
+    // if there is an overlap with the slider range
     return startYear <= maxYear && endYear >= minYear;
   }
+
+  // If no date is found at all, it falls outside the timeline
   return false;
 };
 
@@ -57,7 +71,7 @@ export const applyGenericFilters = (
   mapping: FieldMapping
 ): boolean => {
   // Global Time Filter
-  // applied to any filter unless ignoreTimeFiler = true
+  // applied to any filter unless ignoreTimeFilter = true
   if (!layer.ignoreTimeFilter) {
     if (!filterByGlobalTime(feature, globalTimeRange, mapping)) {
       return false;
@@ -73,7 +87,7 @@ export const applyGenericFilters = (
     if (!module) continue;
 
     const value = values[module.id] ?? module.defaultValue;
-    // we executre predicate with the mapping
+    // we execute predicate with the mapping
     if (!module.predicate(feature, value, entities, mapping, layer)) {
       return false;
     }

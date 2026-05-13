@@ -92,7 +92,7 @@ export const initialLayerConfig: LayerConfig[] = [
     sourceId: "correspondence-data", // same source as lines
     templateId: "city-detail", // different popup template
     name: "Briefe der Frühromantik II", // displayed title
-    subtitle: "lokal versendet", // displayed subtitle
+    subtitle: "lokal versendet oder Ort unbekannt", // displayed subtitle
     tag: "GeoJSON", // displayed information tag
     description: "Frühromantische Briefe im Umfeld Friedrich Schlegels", // displayed description
     visible: true,
@@ -100,7 +100,20 @@ export const initialLayerConfig: LayerConfig[] = [
 
     // DATA SPLITTER
     // here we only render features where "is_local" IS true.
-    baseFilter: { field: "is_local", operator: "eq", value: true },
+    baseFilter: {
+      logic: "AND",
+      conditions: [
+        { field: "has_coordinates", operator: "eq", value: true }, // Excludes features where BOTH are null
+        {
+          logic: "OR",
+          conditions: [
+            { field: "is_local", operator: "eq", value: true },
+            { field: "origin_id", operator: "isNull" },
+            { field: "target_id", operator: "isNull" },
+          ],
+        },
+      ],
+    },
 
     // DATA PROCESSING
     // we group local letters by their origin city

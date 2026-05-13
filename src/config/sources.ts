@@ -21,8 +21,8 @@ export const sources: Record<string, SourceConfig> = {
     mapping: {
       id: "id", // unique feature ID
       title: "full_text", // default title for tooltips
-      dateStart: "date_start",
-      dateEnd: "date_end",
+      dateStart: ["date_start", "date_sort"], // if not value is set for field 1, we look in field 2 and so on
+      dateEnd: ["date_end", "date_sort"], // but we could also use one single sting
       children: "children",
       // fields the generic text search should look into
       textSearch: ["full_text", "topic_list"],

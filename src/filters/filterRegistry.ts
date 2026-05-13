@@ -1,4 +1,5 @@
 import type { FilterModule } from "../types/filter";
+import { resolveMappedField } from "../filters/filterUtils";
 import TextFilterUI from "../components/filters/TextFilter";
 import DateFilterUI from "../components/filters/DateFilter";
 import EntityFilter from "../components/filters/EntityFilter";
@@ -57,19 +58,17 @@ export const filterRegistry: Record<string, FilterModule> = {
       if (val.start && val.end) return `${val.start} - ${val.end}`;
       return val.start ? `After ${val.start}` : `Before ${val.end}`;
     },
-    // _enteties: marked here as intentionally unused
     predicate: (feature, value, _entities, mapping) => {
       const { start, end } = value;
 
-      // find date fields
-      const startKey = mapping.dateStart;
-      const endKey = mapping.dateEnd || startKey;
+      // Use the helper to resolve the fallback chains!
+      const featStart = resolveMappedField(feature, mapping.dateStart);
+      const featEnd = resolveMappedField(feature, mapping.dateEnd) || featStart;
 
-      const featStart = feature.properties[startKey];
-      const featEnd = feature.properties[endKey] || featStart;
-
+      // 3. Standard date comparison
       if (start && featEnd && featEnd < start) return false;
       if (end && featStart && featStart > end) return false;
+
       return true;
     },
   },

@@ -20,23 +20,48 @@ const evaluateBaseFilter = (
   filter?: any
 ): boolean => {
   if (!filter) return true;
-  const { field, operator, value } = filter;
-  const featVal = feature.properties[field];
 
-  switch (operator) {
-    case "eq":
-      return featVal === value;
-    case "neq":
-      return featVal !== value;
-    case "gt":
-      return featVal > value;
-    case "lt":
-      return featVal < value;
-    case "contains":
-      return String(featVal).includes(value);
-    default:
-      return true;
+  // TYPE GUARD: Is this a LogicalFilter?
+  if ("logic" in filter && filter.logic) {
+    if (filter.logic === "OR" && Array.isArray(filter.conditions)) {
+      return filter.conditions.some((cond: any) =>
+        evaluateBaseFilter(feature, cond)
+      );
+    }
+    if (filter.logic === "AND" && Array.isArray(filter.conditions)) {
+      return filter.conditions.every((cond: any) =>
+        evaluateBaseFilter(feature, cond)
+      );
+    }
+    return true;
   }
+
+  // TYPE GUARD: If it's not a LogicalFilter, it MUST be a SingleFilter
+  if ("field" in filter && filter.operator) {
+    const { field, operator, value } = filter;
+    const featVal = feature.properties[field];
+
+    switch (operator) {
+      case "eq":
+        return featVal === value;
+      case "neq":
+        return featVal !== value;
+      case "gt":
+        return featVal > value;
+      case "lt":
+        return featVal < value;
+      case "contains":
+        return String(featVal).includes(value);
+      case "isNull":
+        return featVal === null || featVal === undefined || featVal === "";
+      case "isNotNull":
+        return featVal !== null && featVal !== undefined && featVal !== "";
+      default:
+        return true;
+    }
+  }
+
+  return true;
 };
 
 export const computeProcessedData = (

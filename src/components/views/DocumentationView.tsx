@@ -169,82 +169,86 @@ function DocumentationView() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Button
-        variant="outlined"
-        startIcon={<ArrowBackIcon />}
-        onClick={() => dispatch({ type: "SET_VIEW", payload: "dashboard" })}
-        sx={{ mb: 3 }}
-      >
-        Back to Dashboard
-      </Button>
+    <Box
+      sx={{ height: "100%", overflowY: "auto", bgcolor: "background.default" }}
+    >
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Button
+          variant="outlined"
+          startIcon={<ArrowBackIcon />}
+          onClick={() => dispatch({ type: "SET_VIEW", payload: "dashboard" })}
+          sx={{ mb: 3 }}
+        >
+          Back to Dashboard
+        </Button>
 
-      {/* FLEX LAYOUT */}
-      <Box
-        sx={{
-          display: "flex",
-          gap: 5,
-          alignItems: "flex-start",
-          flexDirection: { xs: "column", md: "row" },
-        }}
-      >
-        {/* SIDEBAR MENU */}
+        {/* FLEX LAYOUT */}
         <Box
           sx={{
-            width: { xs: "100%", md: 260 },
-            flexShrink: 0,
-            position: { md: "sticky" },
-            top: 40,
-            maxHeight: { md: "calc(100vh - 120px)" },
-            overflowY: { md: "auto" },
+            display: "flex",
+            gap: 5,
+            alignItems: "flex-start",
+            flexDirection: { xs: "column", md: "row" },
           }}
         >
-          <Typography variant="subtitle2" sx={{ mb: 2 }}>
-            geocodes | Documentation
-          </Typography>
-
-          {headings.map(({ level, text, slug }) => (
-            <Link
-              key={slug}
-              href={`#${slug}`}
-              underline="hover"
-              variant="body2"
-              sx={{
-                display: "block",
-                py: 0.5,
-                pl: (level - 2) * 2,
-                color: "text.secondary",
-                "&:hover": { color: "text.primary" },
-              }}
-            >
-              {text}
-            </Link>
-          ))}
-        </Box>
-
-        {/* MAIN DOCUMENTATION CONTENT */}
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Paper
+          {/* SIDEBAR MENU */}
+          <Box
             sx={{
-              p: { xs: 2, sm: 4 },
-              "& h1, & h2, & h3, & h4": {
-                scrollMarginTop: "40px",
-              },
-              "& h2, & h3": {
-                borderBottom: 1,
-                borderColor: "divider",
-                pb: 1,
-                mb: 2,
-              },
+              width: { xs: "100%", md: 260 },
+              flexShrink: 0,
+              position: { md: "sticky" },
+              top: 40,
+              maxHeight: { md: "calc(100vh - 120px)" },
+              overflowY: { md: "auto" },
             }}
           >
-            <ReactMarkdown components={components}>
-              {markdownContent}
-            </ReactMarkdown>
-          </Paper>
+            <Typography variant="subtitle2" sx={{ mb: 2 }}>
+              geocodes | Documentation
+            </Typography>
+
+            {headings.map(({ level, text, slug }) => (
+              <Link
+                key={slug}
+                href={`#${slug}`}
+                underline="hover"
+                variant="body2"
+                sx={{
+                  display: "block",
+                  py: 0.5,
+                  pl: (level - 2) * 2,
+                  color: "text.secondary",
+                  "&:hover": { color: "text.primary" },
+                }}
+              >
+                {text}
+              </Link>
+            ))}
+          </Box>
+
+          {/* MAIN DOCUMENTATION CONTENT */}
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Paper
+              sx={{
+                p: { xs: 2, sm: 4 },
+                "& h1, & h2, & h3, & h4": {
+                  scrollMarginTop: "40px",
+                },
+                "& h2, & h3": {
+                  borderBottom: 1,
+                  borderColor: "divider",
+                  pb: 1,
+                  mb: 2,
+                },
+              }}
+            >
+              <ReactMarkdown components={components}>
+                {markdownContent}
+              </ReactMarkdown>
+            </Paper>
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 }
 

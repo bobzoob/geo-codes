@@ -1,10 +1,36 @@
-export type Operator = "eq" | "neq" | "gt" | "lt" | "contains" | "in";
+export type Operator =
+  | "eq"
+  | "neq"
+  | "gt"
+  | "lt"
+  | "contains"
+  | "in"
+  | "isNull"
+  | "isNotNull";
 
-export interface BaseFilter {
+// 1. A single condition MUST have a field and an operator
+export interface SingleFilter {
   field: string;
   operator: Operator;
-  value: any;
+  value?: any;
+
+  // Explicitly forbid logical properties here
+  logic?: never;
+  conditions?: never;
 }
+
+// 2. A logical group MUST have logic and conditions
+export interface LogicalFilter {
+  logic: "AND" | "OR";
+  conditions: BaseFilter[];
+
+  // Explicitly forbid single condition properties here
+  field?: never;
+  operator?: never;
+  value?: never;
+}
+// 3. The BaseFilter is strictly ONE of the above
+export type BaseFilter = SingleFilter | LogicalFilter;
 
 /**
  * Translator: Maps data keys to framework concepts
@@ -12,8 +38,8 @@ export interface BaseFilter {
 export interface FieldMapping {
   id: string; // Unique identifier key
   title: string; // Key for the main display name
-  dateStart: string; // Key for temporal start
-  dateEnd?: string; // Key for temporal end
+  dateStart: string | string[]; // Key for temporal start
+  dateEnd?: string | string[]; // Key for temporal end
   // Generic categories for filtering
   textSearch: string[]; // Keys to look into for text search
   entityRefs: string[]; // Keys containing IDs for dictionary lookup
