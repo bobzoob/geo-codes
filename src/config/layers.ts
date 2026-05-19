@@ -210,7 +210,7 @@ export const initialLayerConfig: LayerConfig[] = [
     name: "Biographie der Orte",
     tag: "GeoJSON", // displayed information tag
     description: "Die Orte in den Biefen der Frühromantik", // displayed description
-    visible: true,
+    visible: false, // toggled of by start
     type: "point",
     ignoreTimeFilter: true, // layer is static
     intensityField: "weight",
@@ -233,16 +233,15 @@ export const initialLayerConfig: LayerConfig[] = [
   {
     id: "historic-polygons",
     sourceId: "territories-data",
-    templateId: "generic-info",
-    name: "Historic Areas",
-    visible: false, // layer toggled "off" from start
+    templateId: "polygon-detail",
+    name: "Preußen",
+    tag: " MultiPolygon GeoJSON", // displayed information tag
+    description: "In den Grenzen von 1834 bis 1850", // displayed description
+    visible: true,
     ignoreTimeFilter: true,
     type: "polygon",
 
-    activeFilters: [
-      { moduleId: "dateRange", placement: "search-area" },
-      { moduleId: "plainText", placement: "search-area" },
-    ],
+    activeFilters: [{ moduleId: "plainText", placement: "search-area" }],
 
     styleConfig: {
       color: "#2e7d32",

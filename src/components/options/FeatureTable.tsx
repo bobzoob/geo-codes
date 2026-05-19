@@ -264,6 +264,36 @@ export function FeatureTable() {
           const subState = layerSubState[layer.id];
           const isDrilledIn = !!subState?.data;
 
+          // get List Name
+          let parentName = "";
+          if (isDrilledIn && subState.parentId) {
+            // 1. Find the parent feature in the top-level data
+            const parentFeature = processedData[layer.id]?.features?.find(
+              (f: any) => String(f.id || f.properties?.id) === subState.parentId
+            );
+
+            // 2. Format its name using the Data Blind helper
+            if (parentFeature) {
+              const tConf = layer.tableConfig || {
+                primaryField: source?.mapping?.title,
+              };
+              parentName = getDisplayValue(
+                parentFeature,
+                tConf.primaryField,
+                {
+                  resolve: tConf.resolvePrimary,
+                  format: tConf.primaryFormat,
+                  suffix: tConf.primarySuffix,
+                },
+                dictionary
+              );
+            } else {
+              // Fallback if feature isn't found (e.g., just show the ID or Dictionary name)
+              parentName =
+                dictionary[subState.parentId]?.name || subState.parentId;
+            }
+          }
+
           // Determine what to show in this accordion
           const displayFeatures = isDrilledIn
             ? subState.data
@@ -278,9 +308,20 @@ export function FeatureTable() {
             <Accordion
               key={layer.id}
               expanded={isExpanded}
-              onChange={() => {
-                const nextId = isExpanded ? null : layer.id;
-                dispatch({ type: "SELECT_LAYER", payload: nextId });
+              onChange={(_, isNowExpanded) => {
+                if (!isNowExpanded) {
+                  // 1. Clear the selected layer
+                  dispatch({ type: "SELECT_LAYER", payload: null });
+
+                  // 2. Clear the selected feature if it belongs to this layer.
+                  // (Because of your appReducer, setting this to null automatically closes the Detail Panel!)
+                  if (selectedFeature?.layerId === layer.id) {
+                    dispatch({ type: "SELECT_FEATURE", payload: null });
+                  }
+                } else {
+                  // If they are opening it, select the layer
+                  dispatch({ type: "SELECT_LAYER", payload: layer.id });
+                }
               }}
               disableGutters
               elevation={0}
@@ -337,7 +378,7 @@ export function FeatureTable() {
                       <ArrowBackIcon fontSize="inherit" />
                     </IconButton>
                     <Typography variant="caption" fontWeight="bold">
-                      Viewing Sub-items
+                      Sub-items {parentName ? `for ${parentName}` : ""}
                     </Typography>
                   </Box>
                 )}

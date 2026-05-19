@@ -110,6 +110,12 @@ export const popupTemplates: Record<string, PopupFieldConfig[]> = {
     },
   ],
 
+  "polygon-detail": [
+    { field: "title", type: "header" },
+    { field: "source", label: "Source", type: "text" },
+    { field: "full_text", label: "Description", type: "text" },
+  ],
+
   "generic-info": [
     { field: "title", type: "header" },
     { field: "description", type: "long-text" },
