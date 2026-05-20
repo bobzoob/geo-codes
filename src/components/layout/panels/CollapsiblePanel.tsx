@@ -19,21 +19,13 @@ function CollapsiblePanel({
   );
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "flex-start",
-        height: "100%",
-        pointerEvents: "none",
-        flexShrink: 0,
-      }}
+    <Collapse
+      in={!isCollapsed}
+      orientation="horizontal"
+      unmountOnExit // removes panel from DOM when fully closed
+      sx={{ height: "100%", flexShrink: 0 }}
     >
-      <Collapse
-        in={!isCollapsed}
-        orientation="horizontal"
-        sx={{ height: "100%" }}
-      >
+      <Box sx={{ height: "100%", pr: "15px", pointerEvents: "none" }}>
         <Paper
           elevation={4}
           sx={{
@@ -60,8 +52,8 @@ function CollapsiblePanel({
             {children}
           </Box>
         </Paper>
-      </Collapse>
-    </Box>
+      </Box>
+    </Collapse>
   );
 }
 

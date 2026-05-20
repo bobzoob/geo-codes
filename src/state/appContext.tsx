@@ -74,6 +74,7 @@ const initialState: AppState = {
   layerSubState: {},
 
   // story mode state
+  isStoryPanelCollapsed: true,
   isStoryModeActive: false,
   currentStoryIndex: 0,
   storyManifest: null,

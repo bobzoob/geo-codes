@@ -228,12 +228,15 @@ export interface AppState {
   committedTimeRange: TimeRange;
   liveTimeRange: TimeRange;
   selectedLayerId: string | null;
+
   // UI state
   isLayerPanelCollapsed: boolean;
   isOptionsPanelCollapsed: boolean;
   isActiveFiltersPanelCollapsed: boolean;
   isTablePanelCollapsed: boolean;
   isDetailPanelCollapsed: boolean;
+  //for storyPanel
+  isStoryPanelCollapsed: boolean;
 
   isTableLoaded: boolean;
   tablePage: Record<string, number>; // maps layerId -> current page index

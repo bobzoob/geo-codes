@@ -1,4 +1,11 @@
-import { Box, Typography, Button, Container, Paper } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Container,
+  Paper,
+  Stack,
+} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useAppState } from "../../state/appContext";
 
@@ -24,29 +31,36 @@ export function StaticContentView({ title, children }: StaticContentViewProps) {
       {/* HEADER */}
       <Box
         sx={{
-          p: 2,
+          paddingY: 2,
+          paddingX: 3,
           bgcolor: "background.paper",
           borderBottom: "1px solid rgba(255,255,255,0.1)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
           position: "sticky",
           top: 0,
           zIndex: 10,
         }}
       >
-        <Typography variant="h6" color="secondary">
-          {title}
-        </Typography>
-        <Button
-          startIcon={<ArrowBackIcon />}
-          onClick={() => dispatch({ type: "SET_VIEW", payload: "dashboard" })}
-          variant="outlined"
-          color="primary"
-          size="small"
+        {/* inner Stack matches the main Header alignment and max-width */}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          maxWidth="xl"
+          margin="0 auto"
         >
-          Back to Dashboard
-        </Button>
+          <Typography variant="h6" color="secondary">
+            {title}
+          </Typography>
+          <Button
+            startIcon={<ArrowBackIcon />}
+            onClick={() => dispatch({ type: "SET_VIEW", payload: "dashboard" })}
+            variant="outlined"
+            color="primary"
+            size="small"
+          >
+            Back to Dashboard
+          </Button>
+        </Stack>
       </Box>
 
       {/* CONTENT */}

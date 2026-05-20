@@ -1,7 +1,5 @@
-import { Box, Container, Typography, Button, Paper, Link } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useAppState } from "../../state/appContext";
-import ReactMarkdown from "react-markdown";
+import MarkdownRenderer from "./MarkdownRenderer";
+import { StaticContentView } from "./StaticContentView";
 
 const privacyMarkdown = `
 ## Responsible Party
@@ -51,76 +49,9 @@ This website does not use cookies.
 `;
 
 export default function PrivacyView() {
-  const { dispatch } = useAppState();
-
   return (
-    <Box
-      sx={{ height: "100%", overflowY: "auto", bgcolor: "background.default" }}
-    >
-      <Container maxWidth="md" sx={{ py: 4 }}>
-        <Button
-          startIcon={<ArrowBackIcon />}
-          onClick={() => dispatch({ type: "SET_VIEW", payload: "dashboard" })}
-          sx={{ mb: 3 }}
-        >
-          Back to Dashboard
-        </Button>
-
-        <Paper sx={{ p: 4, bgcolor: "background.paper" }}>
-          {/* Douplicated logic here from lisence view, better merge later! */}
-          <ReactMarkdown
-            components={{
-              // Map # to Typography h4
-              h1: ({ node, ...props }) => (
-                <Typography
-                  variant="h4"
-                  color="secondary"
-                  gutterBottom
-                  {...props}
-                />
-              ),
-              // Map ## to Typography h5
-              h2: ({ node, ...props }) => (
-                <Typography
-                  variant="h5"
-                  color="secondary"
-                  sx={{ mt: 4, mb: 2 }}
-                  {...props}
-                />
-              ),
-              // Map paragraphs to Typography body1
-              p: ({ node, ...props }) => (
-                <Typography
-                  variant="body2"
-                  paragraph
-                  sx={{ color: "text.secondary" }}
-                  {...props}
-                />
-              ),
-              // Map links to MUI Link
-              a: ({ node, ...props }) => (
-                <Link
-                  color="secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  {...props}
-                />
-              ),
-              // Map list items
-              li: ({ node, ...props }) => (
-                <Typography
-                  component="li"
-                  variant="body2"
-                  sx={{ color: "text.secondary", ml: 2, mb: 1 }}
-                  {...props}
-                />
-              ),
-            }}
-          >
-            {privacyMarkdown}
-          </ReactMarkdown>
-        </Paper>
-      </Container>
-    </Box>
+    <StaticContentView title="Privacy Protection">
+      <MarkdownRenderer content={privacyMarkdown} />
+    </StaticContentView>
   );
 }

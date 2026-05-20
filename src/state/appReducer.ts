@@ -55,6 +55,7 @@ export type AppAction =
       payload: { layerId: string; parentFeature: any | null };
     }
   // story mode actions
+  | { type: "TOGGLE_STORY_PANEL" }
   | { type: "START_STORY"; payload: StoryConfig }
   | { type: "SET_STORY_FRAME"; payload: number }
   | { type: "EXIT_STORY" };
@@ -292,6 +293,8 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
 
       return {
         ...state,
+        isStoryPanelCollapsed: false,
+        activeMobilePanel: "none",
         isStoryModeActive: true,
         storyManifest: manifest,
         currentStoryIndex: 0,
@@ -323,6 +326,8 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         layerSubState: {},
       };
     }
+    case "TOGGLE_STORY_PANEL":
+      return { ...state, isStoryPanelCollapsed: !state.isStoryPanelCollapsed };
 
     case "SET_STORY_FRAME": {
       if (!state.storyManifest) return state;
@@ -354,6 +359,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         storyManifest: null,
         currentStoryIndex: 0,
         highlightedFeatures: [],
+        isStoryPanelCollapsed: true,
         // Reset time
         committedTimeRange: [
           state.settings.timeRange.min,

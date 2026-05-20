@@ -1,7 +1,7 @@
-import { Box, Typography, Button, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box, Typography, Button, IconButton, Tooltip } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useAppState } from "../../../state/appContext";
 import ReactMarkdown from "react-markdown";
 
@@ -33,13 +33,18 @@ export default function StoryPanel() {
         <Typography variant="h6" color="info.main">
           Story Mode
         </Typography>
-        <IconButton
-          size="small"
-          onClick={() => dispatch({ type: "EXIT_STORY" })}
-          sx={{ color: "info.main" }}
-        >
-          <CloseIcon />
-        </IconButton>
+        <Box sx={{ display: "flex", gap: 0.5 }}>
+          {/* MINIMIZE BUTTON */}
+          <Tooltip title="Minimize Panel">
+            <IconButton
+              size="small"
+              onClick={() => dispatch({ type: "TOGGLE_STORY_PANEL" })}
+              sx={{ color: "info.main" }}
+            >
+              <KeyboardArrowLeftIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Box>
 
       {/* CONTENT */}

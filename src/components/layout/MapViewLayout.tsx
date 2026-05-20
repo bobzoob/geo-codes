@@ -28,7 +28,10 @@ import FeatureDetailPanel from "./panels/FeatureDetailPanel";
 import MapContainer from "../MapContainer";
 import { mapTheme } from "../../config/mapTheme";
 import TimelineControl from "../TimelineControl";
+
 import StoryPanel from "./panels/StoryPanel"; // story mode
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import Tooltip from "@mui/material/Tooltip";
 
 function MapViewLayout() {
   const { state, dispatch } = useAppState();
@@ -43,6 +46,7 @@ function MapViewLayout() {
     selectedLayerId,
     layerConfig,
     isStoryModeActive,
+    isStoryPanelCollapsed,
   } = state;
 
   const isMobile = useMediaQuery((theme: Theme) =>
@@ -233,6 +237,21 @@ function MapViewLayout() {
           </Menu>
         </Box>
 
+        {/* BUTTON FOR STORY PANEL */}
+        {isStoryModeActive && isStoryPanelCollapsed && (
+          <Box sx={{ position: "absolute", top: 70, left: 16, zIndex: 1200 }}>
+            <Tooltip title="Open Story Panel" placement="right">
+              <Fab
+                color="info"
+                size="small"
+                onClick={() => dispatch({ type: "TOGGLE_STORY_PANEL" })}
+              >
+                <KeyboardArrowRightIcon />
+              </Fab>
+            </Tooltip>
+          </Box>
+        )}
+
         {/* PANEL ZONE */}
         <Box
           sx={{
@@ -251,15 +270,16 @@ function MapViewLayout() {
             alignItems: "flex-start",
           }}
         >
-          <CollapsiblePanel
-            label="Story"
-            isCollapsed={!isStoryModeActive}
-            onToggle={() => {}} // StoryPanel cant be toggled manually, only via exit button
-            maxWidth={400}
-          >
-            <StoryPanel />
-          </CollapsiblePanel>
-
+          {isStoryModeActive && (
+            <CollapsiblePanel
+              label="Story"
+              isCollapsed={isStoryPanelCollapsed}
+              onToggle={() => dispatch({ type: "TOGGLE_STORY_PANEL" })}
+              maxWidth={400}
+            >
+              <StoryPanel />
+            </CollapsiblePanel>
+          )}
           <CollapsiblePanel
             label="Layers"
             isCollapsed={!isLayerVisible}
