@@ -40,7 +40,7 @@ function DateFilter({ value, onChange, label }: FilterComponentProps) {
             type="date"
             size="small"
             fullWidth
-            // we tell the browser which century to show
+            // tell the browser which century to show
             inputProps={{
               min: minDateStr,
               max: maxDateStr,

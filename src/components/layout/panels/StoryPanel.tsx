@@ -27,7 +27,7 @@ export default function StoryPanel() {
           alignItems: "center",
           borderBottom: 1,
           borderColor: "divider",
-          bgcolor: "rgba(2, 136, 209, 0.15)", // Light blue tint
+          bgcolor: "rgba(2, 136, 209, 0.15)", // color change for story mode
         }}
       >
         <Typography variant="h6" color="info.main">

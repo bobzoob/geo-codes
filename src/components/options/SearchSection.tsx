@@ -13,8 +13,10 @@ import type { LayerConfig } from "../../types/state";
 import { useAppState } from "../../state/appContext";
 import { FilterList } from "./FilterList";
 
-// this function handels the display of options on the options panel
-// based on the areas implemented in layerConfig in state.ts
+/**
+ * this function handels the display of options on the options panel
+ * based on the areas implemented in layerConfig in state.ts
+ */
 
 interface SearchSectionProps {
   layer: LayerConfig;
@@ -77,7 +79,7 @@ export function SearchSection({ layer }: SearchSectionProps) {
           values={layer.filterValues || {}}
         />
 
-        {/* 3. ADVANCED OPTIONS ACCORDION */}
+        {/* ADVANCED OPTIONS ACCORDION */}
         {advancedFilters.length > 0 && (
           <Accordion disableGutters elevation={0} sx={accordionStyle}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -93,7 +95,7 @@ export function SearchSection({ layer }: SearchSectionProps) {
           </Accordion>
         )}
 
-        {/* D. TOGGLE OPTIONS SECTION (Data Quality/Status) */}
+        {/* tOGGLE OPTIONS SECTION */}
         {toggleFilters.length > 0 && (
           <Accordion disableGutters elevation={0} sx={accordionStyle}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>

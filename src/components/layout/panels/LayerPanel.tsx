@@ -81,7 +81,7 @@ function LayerPanel() {
                   sx={{ p: 1.5 }}
                   alignItems="flex-start"
                 >
-                  {/* Visibility Switch */}
+                  {/* visibility switch */}
                   <Switch
                     checked={layer.visible}
                     size="small"
@@ -97,9 +97,9 @@ function LayerPanel() {
                     }
                   />
 
-                  {/* Text Content Area */}
+                  {/* TEXT CONTENT AREA */}
                   <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                    {/* Line 1: Title + Tag */}
+                    {/* Title + Tag */}
                     <Stack
                       direction="row"
                       justifyContent="space-between"
@@ -120,7 +120,7 @@ function LayerPanel() {
                       </Typography>
                     </Stack>
 
-                    {/* Line 2: Subtitle */}
+                    {/* Subtitle */}
                     {layer.subtitle && (
                       <Typography
                         variant="body2"
@@ -136,7 +136,7 @@ function LayerPanel() {
                       </Typography>
                     )}
 
-                    {/* Line 3: Description */}
+                    {/* Description */}
                     {layer.description && (
                       <Typography
                         variant="caption"

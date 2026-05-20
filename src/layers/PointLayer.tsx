@@ -21,7 +21,7 @@ interface PointLayerProps extends LayerComponentProps {
   showAllTooltips: boolean;
   intensityField?: string; // thats where the scaling comes from
   styleConfig?: PointStyleConfig;
-  // NEW: Array of highlighted IDs for multi-selection/grouping
+
   highlightedIds?: string[];
   hoveredId?: string | null;
 }
@@ -32,7 +32,7 @@ function PointLayer({
   showAllTooltips,
   intensityField,
   styleConfig,
-  highlightedIds = [], // Default to empty array
+  highlightedIds = [],
   hoveredId,
 }: PointLayerProps) {
   const sourceId = `${id}-source`;
@@ -80,14 +80,14 @@ function PointLayer({
     ];
   }
 
-  // --- NEW: HIGHLIGHT LOGIC EXPRESSIONS ---
-  // We use a dummy "__none__" if the array is empty to prevent MapLibre parsing errors
+  //HIGHLIGHT LOGIC
+  // this is dupplicated logic from ArrowLayer "__none__" dummy etc.
   const safeHighlightedIds =
     highlightedIds.length > 0 ? highlightedIds : ["__none__"];
 
   const isHighlighted = [
     "in",
-    ["to-string", ["get", "id"]], // Ensure we are comparing strings
+    ["to-string", ["get", "id"]],
     ["literal", safeHighlightedIds],
   ];
 
@@ -153,7 +153,6 @@ function PointLayer({
       "circle-stroke-width": strokeWidth as any,
       "circle-stroke-color": strokeColor as any,
       "circle-opacity": config.opacity ?? 0.8,
-      // Make selected/hovered points fully opaque
       "circle-stroke-opacity": [
         "case",
         ["any", isHighlighted, isHovered],

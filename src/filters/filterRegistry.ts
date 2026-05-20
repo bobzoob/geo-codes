@@ -146,13 +146,13 @@ export const filterRegistry: Record<string, FilterModule> = {
     predicate: (feature, value, entities) => {
       const { searchTerm, onlyResolved } = value;
 
-      // 1. If no filter is active, show everything
+      // if no filter is active, show everything
       if (!searchTerm && !onlyResolved) return true;
 
       const term = searchTerm.toLowerCase();
       const props = feature.properties;
 
-      // 2. SPECIFIC RESTRICTION: Only check these two fields
+      // SPECIFIC RESTRICTION: Only check these two fields
       const fieldsToSearch = ["origin_id", "target_id"];
 
       return fieldsToSearch.some((field) => {
@@ -161,16 +161,16 @@ export const filterRegistry: Record<string, FilterModule> = {
 
         const entity = entities[id];
 
-        // Ensure the entity exists and is a Place
+        // ensure the entity exists and is a Place
         if (!entity || entity.type !== "Place") return false;
 
-        // 3. Apply "Resolved Only" logic
-        // Checks if the entity has a geonames_resolved ID in the dictionary
+        // apply "Resolved Only" logic
+        // checks if the entity has a geonames_resolved ID in the dictionary
         if (onlyResolved && !entity.authority?.geonames_resolved) {
           return false;
         }
 
-        // 4. Apply "Search Term" logic
+        // Apply "Search Term" logic
         if (searchTerm && !entity.name.toLowerCase().includes(term)) {
           return false;
         }

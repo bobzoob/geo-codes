@@ -22,7 +22,7 @@ export function useActiveFilters() {
   const globalFilters: ActiveFilterItem[] = [];
   const layerGroups: LayerFilterGroup[] = [];
 
-  // 1. Global Time Logic
+  // Global Time Logic
   const [min, max] = [settings.timeRange.min, settings.timeRange.max];
   if (committedTimeRange[0] !== min || committedTimeRange[1] !== max) {
     globalFilters.push({
@@ -33,7 +33,7 @@ export function useActiveFilters() {
     });
   }
 
-  // 2. Iterate through ALL layers
+  // Iterate through ALL layers
   layerConfig.forEach((layer) => {
     const activeForThisLayer: ActiveFilterItem[] = [];
 
@@ -44,7 +44,7 @@ export function useActiveFilters() {
 
         if (!module || val === undefined) return;
 
-        // Check if value is different from default
+        // Cwe checkif value is different from default
         const isDefault =
           JSON.stringify(val) === JSON.stringify(module.defaultValue);
 

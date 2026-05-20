@@ -48,7 +48,7 @@ export const mapTheme = createTheme({
       contrastText: "#ffffff",
     },
     secondary: {
-      main: "#ff9800", // Standard Orange
+      main: "#ff9800", // Orange
       contrastText: "#000000",
     },
     info: {
@@ -143,7 +143,7 @@ export const mapTheme = createTheme({
       },
     },
 
-    // BUTTONS (Dynamic Color Support)
+    // BUTTONS
     MuiButton: {
       styleOverrides: {
         root: {
@@ -153,7 +153,7 @@ export const mapTheme = createTheme({
           boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
         },
         contained: ({ ownerState, theme }) => {
-          // Determine color based on the prop passed (defaults to secondary/orange)
+          // color based on passed prop
           const isInfo = ownerState.color === "info";
           const mainColor = isInfo
             ? theme.palette.info.main
@@ -174,12 +174,11 @@ export const mapTheme = createTheme({
       },
     },
 
-    // ICON BUTTONS (Dynamic Color Support)
+    // ICON BUTTONS
     MuiIconButton: {
       styleOverrides: {
         root: ({ ownerState, theme }) => {
-          // Determine color based on the prop passed
-          let mainColor = theme.palette.secondary.main; // Default Orange
+          let mainColor = theme.palette.secondary.main; //  Orange
           if (ownerState.color === "info") mainColor = theme.palette.info.main; // Story Blue
           if (ownerState.color === "primary")
             mainColor = theme.palette.primary.main; // Grey
@@ -266,7 +265,7 @@ export const mapTheme = createTheme({
     MuiSlider: {
       styleOverrides: {
         root: ({ ownerState, theme }) => ({
-          // If color="info" is passed, use blue. Otherwise, use orange.
+          // if color="info" is passed, we use blue. Otherwise, we use orange.
           color:
             ownerState.color === "info"
               ? theme.palette.info.main

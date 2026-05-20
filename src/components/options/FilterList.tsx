@@ -4,7 +4,7 @@ import { filterRegistry } from "../../filters/filterRegistry";
 import { useAppState } from "../../state/appContext";
 
 /**
- * this helps the optionsPanel to render
+ * this class helps the optionsPanel to render
  * updates and sets the list of active filters
  *  */
 interface FilterListProps {

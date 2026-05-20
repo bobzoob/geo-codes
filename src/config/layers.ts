@@ -86,7 +86,7 @@ export const initialLayerConfig: LayerConfig[] = [
       resolveSecondary: true, // turn GND IDs into names
     },
 
-    // // group features based on values
+    // // here you can group features based on values
     // interactionConfig: {
     //   groupingField: "sender_ids", // based on the value of this field
     // },

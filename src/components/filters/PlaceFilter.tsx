@@ -16,7 +16,7 @@ function PlaceFilter({
   const { state } = useAppState();
   const { dictionaries, layerConfig, sources, processedData } = state;
 
-  // 1. Handle State Defaults
+  // defaults
   const current = (value as PlaceFilterValue) || {
     searchTerm: "",
     onlyResolved: false,
@@ -26,7 +26,7 @@ function PlaceFilter({
     onChange({ ...current, ...updates });
   };
 
-  // 2. Suggestion Logic (Generic & Dictionary-Aware)
+  // suggestions
   const useSuggestions = params?.useSuggestions === true;
   let uniqueOptions: string[] = [];
 
@@ -40,7 +40,7 @@ function PlaceFilter({
     const layerData = processedData[layerId];
     const features = layerData?.features || [];
 
-    // 1. Collect unique IDs from the specific fields
+    // collect unique IDs from the specific fields
     const activePlaceIds = new Set<string>();
 
     features.forEach((f: any) => {
@@ -50,10 +50,10 @@ function PlaceFilter({
       if (target) activePlaceIds.add(String(target));
     });
 
-    // 2. Map those IDs to Names using the dictionary
+    // map those IDs to names using the dictionary
     const options = Array.from(activePlaceIds)
       .map((id) => dictionary[id]?.name)
-      .filter(Boolean) // Remove undefined if an ID isn't in the dictionary
+      .filter(Boolean) //if an ID isnt in the dictionary we remove it
       .sort();
 
     uniqueOptions = Array.from(new Set(options));
@@ -66,7 +66,7 @@ function PlaceFilter({
           {label || "Place Filter"}
         </Typography> */}
 
-        {/* SEARCH FIELD: Autocomplete or Standard TextField */}
+        {/* SEARCH FIELD: autocomplete or standard TextField */}
         {useSuggestions ? (
           <Autocomplete
             freeSolo

@@ -19,7 +19,7 @@ function App() {
   const { state } = useAppState();
   const { currentView } = state;
 
-  // 2. Helper function to determine which view to render
+  // Helper function to determine which view to render
   const renderCurrentView = () => {
     switch (currentView) {
       case "map":

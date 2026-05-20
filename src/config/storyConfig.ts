@@ -1,5 +1,9 @@
 import type { StoryConfig } from "../types/state";
 
+/**
+ * THIS IS WHERE YOU SET UP YOUR STORIES
+ */
+
 export const availableStories: StoryConfig[] = [
   {
     id: "story-1",
@@ -49,7 +53,7 @@ export const availableStories: StoryConfig[] = [
         timeRange: [1790, 1799],
         visibleLayers: ["letters-lines"],
         highlights: [
-          // Highlight the specific letter line using its GeoJSON ID
+          // highlight the specific letter line using its GeoJSON ID
           { layerId: "letters-lines", featureId: "AWS-aw-0002" },
           { layerId: "letters-lines", featureId: "AWS-aw-07k6" },
         ],

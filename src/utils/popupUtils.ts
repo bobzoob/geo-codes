@@ -48,9 +48,9 @@ const resolveAndFilter = (
   return list
     .map((id) => {
       const entity = entities[String(id).trim()];
-      if (!entity) return { name: String(id) }; // Fallback to raw ID
+      if (!entity) return { name: String(id) }; // fallback to raw ID
 
-      // Apply type filter (e.g., only show "Place" entities)
+      // apply type filter (here: only show "Place" entities)
       if (
         typeFilter &&
         entity.type?.toLowerCase() !== typeFilter.toLowerCase()
@@ -58,7 +58,7 @@ const resolveAndFilter = (
         return null;
       }
 
-      // Generate URL based on authority configuration
+      // Gwe generate URL based on authority configuration
       let url = undefined;
       if (isLinkable !== false && entity.authority) {
         const authKey = Object.keys(entity.authority).find(
@@ -87,13 +87,13 @@ export const findFeatureGenerically = (
   const features = processedData[layerId]?.features || [];
   const childKey = sourceConfig.mapping.children;
 
-  // 1. Check top level
+  // Check top level
   let found = features.find(
     (f: { id: any }) => String(f.id) === String(featureId)
   );
   if (found) return found;
 
-  // 2. If the source has a children mapping, check nested levels
+  //if the source has a children mapping, check nested levels
   if (childKey) {
     for (const parent of features) {
       const children = parent.properties[childKey];
@@ -115,7 +115,7 @@ const parseIfStringifiedJSON = (val: any) => {
     try {
       return JSON.parse(val);
     } catch (e) {
-      return val; // Fallback to original string if parsing fails
+      return val; // fallback to original string if parsing fails
     }
   }
   return val;
@@ -134,7 +134,7 @@ export const extractGenericPopupData = (
   const fields: ProcessedField[] = [];
 
   config.forEach((conf) => {
-    // 1. CUSTOM COMPONENTS
+    // CUSTOM COMPONENTS
     if (conf.type === "custom") {
       fields.push({
         type: "custom",
@@ -145,7 +145,7 @@ export const extractGenericPopupData = (
       return;
     }
 
-    // 2. COMPOSITE FIELDS (e.g., combined headers)
+    // COMPOSITE FIELDS (here: combined headers)
     if (conf.type === "composite" && conf.fields) {
       const resolvedParts = conf.fields.map((fieldName) => {
         const rawValue = props[fieldName];
@@ -173,7 +173,7 @@ export const extractGenericPopupData = (
       return;
     }
 
-    // 3. LINK BUTTONS
+    // LINK BUTTONS
     if (conf.type === "link-button") {
       const rawId = props[conf.field] ?? feature[conf.field];
       let url = "";
@@ -191,7 +191,7 @@ export const extractGenericPopupData = (
       return;
     }
 
-    // 4. FEATURE LISTS (Aggregated children)
+    // FEATURE LISTS (Aggregated children)
     if (conf.type === "feature-list") {
       const listValue = parseIfStringifiedJSON(props[conf.field]);
       if (!Array.isArray(listValue)) return;
@@ -209,20 +209,19 @@ export const extractGenericPopupData = (
       return;
     }
 
-    // 5. STANDARD DATA EXTRACTION (Text, Tags, Lists, etc.)
+    // STANDARD DATA EXTRACTION (Text, Tags, Lists, etc.)
     let rawValue = props[conf.field] ?? feature[conf.field];
     if (rawValue === undefined || rawValue === null) return;
 
-    // Apply the MapLibre stringification fix globally
+    // apply the MapLibre stringification fix globally
     rawValue = parseIfStringifiedJSON(rawValue);
 
     let processedValue = rawValue;
     let fieldUrl: string | undefined = undefined;
 
-    // Resolve Entities if requested
+    // resolve entities if requested
     if (conf.resolveEntities) {
       if (conf.type === "timed-list") {
-        // Ensure it's an array before mapping
         const listData = Array.isArray(rawValue) ? rawValue : [rawValue];
 
         processedValue = listData.map((entry: any) => {
@@ -233,7 +232,7 @@ export const extractGenericPopupData = (
               subLabel: entry[1],
             };
           }
-          // Fallback if data is flat
+          // fallback if data is flat
           return { label: entities[entry]?.name || entry, subLabel: "" };
         });
       } else {
@@ -245,7 +244,7 @@ export const extractGenericPopupData = (
         );
         if (resolved.length === 0) return;
 
-        // If it's a simple text field but we resolved it, take the first one
+        // if its a simple text field but we resolved it, take the first one
         if (conf.type === "text") {
           processedValue = resolved[0].name;
           fieldUrl = resolved[0].url;

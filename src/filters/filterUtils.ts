@@ -5,7 +5,7 @@ import type { FieldMapping } from "../types/config";
 
 /**
  * HELPER: Resolves fallback chains for ANY mapped field
- * e.g., mappingKey = ["date_start", "date_sort"]
+ * like the mappingKey = ["date_start", "date_sort"]
  */
 export const resolveMappedField = (
   feature: HistoricalFeature,
@@ -42,7 +42,7 @@ const filterByGlobalTime = (
 ): boolean => {
   const [minYear, maxYear] = range;
 
-  // 1. Resolve dates using the fallback chain helper!
+  // resolve dates using the fallback chain helper!
   const startDateStr = resolveMappedField(feature, mapping.dateStart);
   const endDateStr =
     resolveMappedField(feature, mapping.dateEnd) || startDateStr;

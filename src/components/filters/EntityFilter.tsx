@@ -12,10 +12,10 @@ function EntityFilter({
   const { state } = useAppState();
   const { dictionaries, layerConfig, sources } = state;
 
-  // 1. Logic: Should we even show suggestions?
+  // to show suggestions
   const useSuggestions = params?.useSuggestions === true;
 
-  // 2. If suggestions are enabled, prepare the list
+  // if suggestions are enabled, prepare the list
   let uniqueOptions: string[] = [];
 
   if (useSuggestions) {
@@ -26,7 +26,7 @@ function EntityFilter({
 
     const options = Object.values(dictionary)
       .filter((entity) => {
-        // Filter by type if specified (e.g., "Place" or "Person")
+        // Filter by type if specified
         if (params?.suggestionType) {
           return (
             entity.type?.toLowerCase() === params.suggestionType.toLowerCase()

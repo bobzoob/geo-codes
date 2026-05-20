@@ -36,7 +36,7 @@ const evaluateBaseFilter = (
     return true;
   }
 
-  // TYPE GUARD: If it's not a LogicalFilter, it MUST be a SingleFilter
+  // TYPE GUARD: If its not a LogicalFilter, it MUST be a SingleFilter
   if ("field" in filter && filter.operator) {
     const { field, operator, value } = filter;
     const featVal = feature.properties[field];

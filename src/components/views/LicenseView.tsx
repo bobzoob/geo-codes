@@ -42,10 +42,9 @@ export default function LicenseView() {
         </Button>
 
         <Paper sx={{ p: 4, bgcolor: "background.paper" }}>
-          {/* 2. Render the Markdown and map tags to MUI components */}
           <ReactMarkdown
             components={{
-              // Map # to Typography h4
+              // map # to Typography h4
               h1: ({ node, ...props }) => (
                 <Typography
                   variant="h4"
@@ -54,7 +53,7 @@ export default function LicenseView() {
                   {...props}
                 />
               ),
-              // Map ## to Typography h5
+              // map ## to Typography h5
               h2: ({ node, ...props }) => (
                 <Typography
                   variant="h5"
@@ -81,7 +80,7 @@ export default function LicenseView() {
                   {...props}
                 />
               ),
-              // Map list items
+              // map list items
               li: ({ node, ...props }) => (
                 <Typography
                   component="li"

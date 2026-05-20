@@ -1,5 +1,3 @@
-// src/hooks/useMapInteraction.ts
-
 import { useState, useCallback, useEffect } from "react";
 import type { MapLayerMouseEvent } from "react-map-gl/maplibre";
 import { useAppState } from "../state/appContext";
@@ -16,7 +14,7 @@ export interface SelectionState {
 }
 
 /**
- * HoverState represents a feature currently under the mouse.
+ * HoverState represents a feature currently under the mouse
  */
 export interface HoverState {
   id: string;
@@ -42,7 +40,7 @@ export function useMapInteraction() {
   /**
    * APP SELECTION LISTENER
    * Listens for custom 'app:select-feature' events.
-   * Used when clicking the "Eye" in the Table or an item in a Hub list.
+   * Used when clicking the "eye" in the Table or an item in a HubList.
    */
   useEffect(() => {
     const handleAppSelect = (e: any) => {
@@ -50,7 +48,7 @@ export function useMapInteraction() {
 
       if (!feature || !layerId) return;
 
-      // 1. Determine coordinates for map centering
+      // we determine coordinates for map centering
       let coords = [0, 0];
       if (feature.geometry?.type === "Point") {
         coords = feature.geometry.coordinates;
@@ -58,7 +56,7 @@ export function useMapInteraction() {
         coords = feature.geometry.coordinates[0]; // Center on origin
       }
 
-      // 2. GENERIC DRILL-DOWN:
+      // GENERIC DRILL-DOWN:
       if (isDrillDown) {
         dispatch({
           type: "SET_HIGHLIGHTED_FEATURES",
@@ -67,13 +65,12 @@ export function useMapInteraction() {
           ],
         });
 
-        // This dispatch must be INSIDE the if block!
         dispatch({
           type: "SET_LAYER_DRILL_DOWN",
           payload: { layerId, parentFeature: feature },
         });
       }
-      // 3. GENERIC SELECTION:
+      // GENERIC SELECTION:
       else {
         dispatch({
           type: "SELECT_FEATURE",
@@ -102,7 +99,7 @@ export function useMapInteraction() {
 
       if (!feature) {
         dispatch({ type: "SELECT_FEATURE", payload: null });
-        // If clicking empty map, clear drill-down for the currently active layer
+        // if clicking empty map, clear drill-down for the currently active layer
         if (state.selectedLayerId) {
           dispatch({
             type: "SET_LAYER_DRILL_DOWN",
@@ -118,19 +115,19 @@ export function useMapInteraction() {
 
       if (!config || !source) return;
 
-      // GENERIC LOGIC: Check mapping for children and config for click action
+      // GENERIC LOGIC: chekc for mapping for children and config for click action
       const childKey = source.mapping.children || "children";
       const rawChildren = feature.properties[childKey];
       const hasChildren = rawChildren && rawChildren !== "[]";
 
       const clickAction = config.interactionConfig?.clickTrigger || "detail";
 
-      // NEW CASE: Dynamic Grouping (e.g., grouping letters by topic or thread)
+      // DDynamic Grouping
       const groupingField = config.interactionConfig?.groupingField;
       if (groupingField) {
         let rawGroupValue = feature.properties[groupingField];
 
-        // 1. MapLibre stringification fix (safely parse arrays/objects)
+        // safely parse arrays/objects
         if (
           typeof rawGroupValue === "string" &&
           (rawGroupValue.startsWith("[") || rawGroupValue.startsWith("{"))
@@ -145,17 +142,17 @@ export function useMapInteraction() {
           rawGroupValue !== null &&
           rawGroupValue !== ""
         ) {
-          // 2. Normalize to an array so we can easily compare single strings OR arrays
+          // we normalize to an array so we can easily compare single strings OR arrays
           const groupValuesArray = Array.isArray(rawGroupValue)
             ? rawGroupValue
             : [rawGroupValue];
 
-          // 3. Find all features in this layer that share ANY value in this array
+          //we find all features in this layer that share ANY value in this array
           const allFeatures = state.processedData[layerId]?.features || [];
           const groupedFeatures = allFeatures.filter((f: any) => {
             let fVal = f.properties[groupingField];
 
-            // Parse the target feature's value as well
+            // we parse the target features value
             if (
               typeof fVal === "string" &&
               (fVal.startsWith("[") || fVal.startsWith("{"))
@@ -170,26 +167,26 @@ export function useMapInteraction() {
 
             const fValArray = Array.isArray(fVal) ? fVal : [fVal];
 
-            // Check for intersection: Does fValArray share any elements with groupValuesArray?
+            // does fValArray share any elements with groupValuesArray? - dedoupling
             return fValArray.some((v: any) => groupValuesArray.includes(v));
           });
 
           if (groupedFeatures.length > 1) {
-            // 4. Highlight all of them on the map
+            // we hightlight
             const highlights = groupedFeatures.map((f: any) => ({
               id: String(f.id || f.properties?.id),
               layerId,
             }));
             dispatch({ type: "SET_HIGHLIGHTED_FEATURES", payload: highlights });
 
-            // 5. Mock a parent feature to trick the generic drill-down table!
+            // here we mock a parent feature to trick the generic drill-down table - this needs refactoring!
             const displayTitle = groupValuesArray.join(", ");
             const mockParent = {
               id: `group-${displayTitle}`,
               properties: {
                 ...feature.properties,
-                title: `Group: ${displayTitle}`, // Fallback title
-                [childKey]: groupedFeatures, // Inject the grouped features as children
+                title: `Group: ${displayTitle}`, // fallback title
+                [childKey]: groupedFeatures, // inject the grouped features as children
               },
             };
 
@@ -198,12 +195,12 @@ export function useMapInteraction() {
               payload: { layerId, parentFeature: mockParent },
             });
             dispatch({ type: "SELECT_FEATURE", payload: null });
-            return; // Stop execution here
+            return; // stop execution here
           }
         }
       }
 
-      // CASE: Drill-down (e.g. City Hubs)
+      // CASE: Drill-down (Hubs)
       else if (clickAction === "table" && hasChildren) {
         dispatch({
           type: "SET_HIGHLIGHTED_FEATURES",
@@ -218,7 +215,7 @@ export function useMapInteraction() {
         });
         dispatch({ type: "SELECT_FEATURE", payload: null });
       }
-      // CASE: Selection (e.g. Individual Letters/Points)
+      // CASE: Selection (individual)
       else if (config.templateId) {
         dispatch({
           type: "SELECT_FEATURE",

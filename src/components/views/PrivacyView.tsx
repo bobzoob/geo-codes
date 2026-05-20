@@ -67,7 +67,7 @@ export default function PrivacyView() {
         </Button>
 
         <Paper sx={{ p: 4, bgcolor: "background.paper" }}>
-          {/* 2. Render the Markdown and map tags to MUI components */}
+          {/* Douplicated logic here from lisence view, better merge later! */}
           <ReactMarkdown
             components={{
               // Map # to Typography h4

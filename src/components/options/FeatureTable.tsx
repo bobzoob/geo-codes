@@ -64,11 +64,11 @@ const getDisplayValue = (
 };
 /**
  * SUB-COMPONENT: LayerList
- * A "Blind" renderer that displays whatever array of features it is given.
+ * "blind" renderer that displays whatever array of features it is given.
  */
 function LayerList({
   layer,
-  features, // The array of features to display (top-level or nested)
+  features, // array of features to display (top-level or nested)
   source,
   entities,
   page,
@@ -78,14 +78,14 @@ function LayerList({
   selectedId,
   isDrilledIn,
 }: any) {
-  // 1. Pagination
+  // Pagination
   const totalPages = Math.ceil(features.length / ITEMS_PER_PAGE);
   const currentPageFeatures = features.slice(
     page * ITEMS_PER_PAGE,
     (page + 1) * ITEMS_PER_PAGE
   );
 
-  // 2. Config Resolution (Uses childTableConfig if drilled in)
+  // Config Resolution (uses childTableConfig if drilled in)
   const tConf =
     isDrilledIn && layer.childTableConfig
       ? layer.childTableConfig
@@ -156,7 +156,7 @@ function LayerList({
                     sx: { fontSize: "0.65rem", opacity: 0.6 },
                   }}
                 />
-                {/* Only show drill-down icon if not already drilled in and children exist */}
+                {/* only show drill-dowwn icon if not already drilled in and children exist */}
                 {hasChildren && !isDrilledIn && (
                   <IconButton
                     size="small"
@@ -209,7 +209,7 @@ export function FeatureTable() {
     selectedLayerId,
     tablePage,
     dictionaries,
-    layerSubState, // The new Record-based sub-state
+    layerSubState, // record-based sub-state
   } = state;
 
   const isMobile = useMediaQuery((theme: Theme) =>
@@ -267,12 +267,12 @@ export function FeatureTable() {
           // get List Name
           let parentName = "";
           if (isDrilledIn && subState.parentId) {
-            // 1. Find the parent feature in the top-level data
+            //find the parent feature in the top-level data
             const parentFeature = processedData[layer.id]?.features?.find(
               (f: any) => String(f.id || f.properties?.id) === subState.parentId
             );
 
-            // 2. Format its name using the Data Blind helper
+            // format its name using the Data Blind helper
             if (parentFeature) {
               const tConf = layer.tableConfig || {
                 primaryField: source?.mapping?.title,
@@ -288,18 +288,18 @@ export function FeatureTable() {
                 dictionary
               );
             } else {
-              // Fallback if feature isn't found (e.g., just show the ID or Dictionary name)
+              // fallback - feature isnt found
               parentName =
                 dictionary[subState.parentId]?.name || subState.parentId;
             }
           }
 
-          // Determine what to show in this accordion
+          // wedetermine what to show in this accordion
           const displayFeatures = isDrilledIn
             ? subState.data
             : processedData[layer.id]?.features || [];
 
-          // SMART EXPANSION: Open if layer is selected OR a feature from this layer is selected
+          // SMART EXPANSION if layer is selected OR a feature from this layer is selected
           const isExpanded =
             selectedLayerId === layer.id ||
             selectedFeature?.layerId === layer.id;
@@ -310,16 +310,12 @@ export function FeatureTable() {
               expanded={isExpanded}
               onChange={(_, isNowExpanded) => {
                 if (!isNowExpanded) {
-                  // 1. Clear the selected layer
                   dispatch({ type: "SELECT_LAYER", payload: null });
 
-                  // 2. Clear the selected feature if it belongs to this layer.
-                  // (Because of your appReducer, setting this to null automatically closes the Detail Panel!)
                   if (selectedFeature?.layerId === layer.id) {
                     dispatch({ type: "SELECT_FEATURE", payload: null });
                   }
                 } else {
-                  // If they are opening it, select the layer
                   dispatch({ type: "SELECT_LAYER", payload: layer.id });
                 }
               }}

@@ -18,7 +18,7 @@ interface ArrowLayerProps extends LayerComponentProps {
 function ArrowLayer({
   id,
   data,
-  highlightedIds = [], // Default to empty array
+  highlightedIds = [],
   hoveredId,
 }: ArrowLayerProps) {
   const { current: map } = useMap();
@@ -50,13 +50,13 @@ function ArrowLayer({
   }, [map]);
 
   // HIGHLIGHT LOGIC
-  // We use a dummy "__none__" if the array is empty to prevent MapLibre parsing errors
+  // her we use a dummy "__none__" if the array is empty to prevent MapLibre parsing errors
   const safeHighlightedIds =
     highlightedIds.length > 0 ? highlightedIds : ["__none__"];
 
   const isHighlighted = [
     "in",
-    ["to-string", ["get", "id"]], // Safely get the ID as a string
+    ["to-string", ["get", "id"]], // to safely get the ID as a string
     ["literal", safeHighlightedIds],
   ];
 
@@ -68,7 +68,7 @@ function ArrowLayer({
 
   // DYNAMIC LINE STYLE
 
-  // Layer A: Lines
+  // Lines
   const lineColor = [
     "case",
     isHighlighted,
@@ -87,20 +87,20 @@ function ArrowLayer({
     [
       "case",
       isHighlighted,
-      5, // Fixed width if selected
+      5,
       isHovered,
-      4, // Fixed width if hovered
-      1, // Default width at zoom 5
+      4, //  width if hovered
+      1, // default width at zoom 5
     ],
     // At Zoom 12:
     12,
     [
       "case",
       isHighlighted,
-      8, // Grow slightly at high zoom even if selected
+      8, // slight grow
       isHovered,
       6,
-      3, // Default width at zoom 12
+      3, // default width at zoom 12
     ],
   ] as any;
 
@@ -132,7 +132,7 @@ function ArrowLayer({
     },
   };
 
-  // Highlight Layer (The glowing orange line underneath)
+  // Highlight Layer
   const highlightStyle: LayerProps = {
     id: highlightLayerId,
     type: "line",
@@ -150,7 +150,7 @@ function ArrowLayer({
     },
   };
 
-  // 3. ARROW HEADS (Symbols)
+  // ARROW HEADS (Symbols)
   const arrowStyle: LayerProps = {
     id: symbolLayerId,
     type: "symbol",
@@ -168,14 +168,14 @@ function ArrowLayer({
       "icon-size": [
         "case",
         ["any", isHighlighted, isHovered],
-        1.0, // Slightly larger icon when active
+        1.0, //  larger icon when active
         0.8,
       ] as any,
       "icon-allow-overlap": true,
-      "icon-rotate": 90, // Adjust based on your SVG orientation
+      "icon-rotate": 90, //?
       visibility: "visible",
     },
-    // Only show arrow heads when zoomed in enough to see direction clearly
+    // but we only want to show the arrow heads when zoomed in
     minzoom: 6,
   };
 

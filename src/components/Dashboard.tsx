@@ -28,7 +28,7 @@ function Dashboard() {
 
       {/* GRID CONTAINER */}
       <Grid container spacing={4} justifyContent="center">
-        {/* Card 1: Explore Map */}
+        {/* Explore Map */}
         <Grid>
           <Card sx={{ maxWidth: 345 }}>
             <CardContent>
@@ -86,7 +86,7 @@ function Dashboard() {
                     textAlign="center"
                     sx={{ mt: 2, mb: 1 }}
                   >
-                    {/* Ready text could go here */}
+                    {/* ready text could go here */}
                   </Typography>
                 </Fade>
               )}
@@ -106,7 +106,7 @@ function Dashboard() {
           </Card>
         </Grid>
 
-        {/* Card 2: Documentation */}
+        {/*Documentation */}
         <Grid>
           <Card
             sx={{

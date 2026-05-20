@@ -150,7 +150,7 @@ function MapViewLayout() {
               display: "flex",
               alignItems: "center",
               gap: 1,
-              pointerEvents: "none", // So it doesn't block map clicks underneath
+              pointerEvents: "none", // so it doesnt block map clicks underneath
             }}
           >
             <Typography
@@ -237,7 +237,7 @@ function MapViewLayout() {
         <Box
           sx={{
             position: "absolute",
-            top: 70, // Push down to clear the FAB on all screens
+            top: 70,
             left: 0,
             right: 0,
             bottom: `${timelineHeight}px`,

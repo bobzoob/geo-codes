@@ -6,9 +6,9 @@ import type { LayerComponentProps } from "../types/state";
 
 /**
  * HELPER: Calculates the approximate area of a polygon.
- * We use the Shoelace formula on raw coordinates. It doesn't need to be
- * perfectly accurate in square meters; it just needs to give us a relative
- * size so we can sort overlapping polygons correctly!
+ * We use the Shoelace formula on raw coordinates. Doesent need to be
+ * perfectly accurate in square meters it just needs to give us a relative
+ * size so we can sort overlapping polygons correctly.
  */
 const calculateGeometryArea = (geometry: any): number => {
   if (!geometry || !geometry.coordinates) return 0;
@@ -45,9 +45,9 @@ const PolygonLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
   const outlineLayerId = `${id}-outline`;
 
   // DATA BLIND SORTING:
-  // Sort features by area descending (largest first, smallest last).
+  // we sort features by area descending (largest first, smallest last).
   // MapLibre draws features in array order, so drawing the largest first
-  // ensures the smaller ones are drawn on top and remain clickable!
+  // ensures the smaller ones are drawn on top and remain clickable.
   const sortedData = useMemo(() => {
     if (!data || !data.features) return data;
 

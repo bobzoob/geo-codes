@@ -10,6 +10,7 @@ import type {
 import type { HistoricalFeatureCollection, EntityMap } from "../types/geojson";
 import { initialLayerConfig } from "../config/layers";
 
+// ALL ACTIONS
 export type AppAction =
   | { type: "TOGGLE_LAYER_PANEL" }
   | { type: "TOGGLE_OPTIONS_PANEL" }
@@ -58,9 +59,9 @@ export type AppAction =
   | { type: "SET_STORY_FRAME"; payload: number }
   | { type: "EXIT_STORY" };
 
+// ALL CASES
 export const appReducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
-    // --- INDEPENDENT PANEL TOGGLES ---
     case "TOGGLE_LAYER_PANEL":
       return { ...state, isLayerPanelCollapsed: !state.isLayerPanelCollapsed };
 
@@ -85,7 +86,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         isActiveFiltersPanelCollapsed: !state.isActiveFiltersPanelCollapsed,
       };
 
-    // --- DATA & PAGINATION ---
+    // DATA & PAGINATION
     case "SET_TABLE_LOADED":
       return { ...state, isTableLoaded: action.payload, tablePage: {} };
 
@@ -106,7 +107,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         layerSubState: {},
       };
 
-    // --- NAVIGATION & VIEW ---
+    // NAVIGATION & VIEW
     case "SET_ACTIVE_MOBILE_PANEL":
       return { ...state, activeMobilePanel: action.payload };
 
@@ -116,12 +117,12 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
     case "SET_LOADING_PROGRESS":
       return { ...state, loadingProgress: action.payload };
 
-    // --- LAYER CONFIGURATION ---
+    //LAYER CONFIGURATION
     case "SELECT_LAYER":
       return {
         ...state,
         selectedLayerId: action.payload,
-        // Auto-open options when a layer is selected
+        // we auto-open options when a layer is selected, not nessasry
         isOptionsPanelCollapsed: action.payload
           ? false
           : state.isOptionsPanelCollapsed,
@@ -147,11 +148,11 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         ),
       };
 
-    // --- GENERIC DRILL-DOWN (The "Data Blind" Engine) ---
+    //GENERIC DRILL-DOWN (
     case "SET_LAYER_DRILL_DOWN": {
       const { layerId, parentFeature } = action.payload;
 
-      // 1. If clearing the drill-down for this layer
+      // if clearing the drill-down for this layer
       if (!parentFeature) {
         const newSubState = { ...state.layerSubState };
         delete newSubState[layerId];
@@ -162,7 +163,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         };
       }
 
-      // 2. If drilling in: Resolve the children key from the source mapping
+      // if drilling in: Resolve the children key from the source mapping
       const layer = state.layerConfig.find((l) => l.id === layerId);
       const source = state.sources[layer?.sourceId || ""];
       const childKey = source?.mapping?.children || "children";
@@ -182,14 +183,14 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
             data: childrenData,
           },
         },
-        // UI Feedback: Focus the layer and open the table
+        // UI feedback: Focus the layer and open the table
         selectedLayerId: layerId,
         isTablePanelCollapsed: false,
         tablePage: { ...state.tablePage, [layerId]: 0 },
       };
     }
 
-    // --- FILTERING ---
+    // FILTERING
     case "UPDATE_FILTER_VALUE":
       return {
         ...state,
@@ -253,7 +254,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         ),
       };
 
-    // --- TEMPORAL CONTROL ---
+    // TEMPORAL CONTROL
     case "SET_COMMITTED_TIME_RANGE":
       return {
         ...state,
@@ -264,16 +265,16 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
     case "SET_LIVE_TIME_RANGE":
       return { ...state, liveTimeRange: action.payload };
 
-    // --- DATA SOURCES & DICTIONARIES ---
+    // DATA SOURCES & DICTIONARIES
     case "SET_DICTIONARIES":
       return { ...state, dictionaries: action.payload };
 
-    // --- FEATURE SELECTION (Detail Panel) ---
+    // FEATURE SELECTION (Detail Panel)
     case "SELECT_FEATURE":
       return {
         ...state,
         selectedFeature: action.payload,
-        // Auto-open detail panel if a feature is selected
+        // we auto-open detail panel if a feature is selected, better keep!
         isDetailPanelCollapsed: action.payload ? false : true,
         activeMobilePanel: action.payload
           ? "detail"
@@ -295,24 +296,24 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         storyManifest: manifest,
         currentStoryIndex: 0,
 
-        // 1. Apply first frame's time
+        // first frames time
         committedTimeRange: firstFrame.timeRange,
         liveTimeRange: firstFrame.timeRange,
 
-        // 2. Apply first frame's highlights
+        // first frames highlights
         highlightedFeatures: firstFrame.highlights.map((h) => ({
           id: h.featureId,
           layerId: h.layerId,
         })),
 
-        // 3. Clear all filters and apply frame's layer visibility
+        //we clear all filters and apply frames layer visibility
         layerConfig: state.layerConfig.map((l) => ({
           ...l,
           filterValues: {},
           visible: firstFrame.visibleLayers.includes(l.id),
         })),
 
-        // 4. Close all standard panels to focus on the story
+        // we close all standard panels
         isLayerPanelCollapsed: true,
         isOptionsPanelCollapsed: true,
         isActiveFiltersPanelCollapsed: true,
@@ -340,7 +341,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
           ...l,
           visible: frame.visibleLayers.includes(l.id),
         })),
-        // Ensure detail panels stay closed when jumping frames
+        // do we want the detAIL panel to open?
         selectedFeature: null,
         layerSubState: {},
       };
@@ -353,7 +354,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         storyManifest: null,
         currentStoryIndex: 0,
         highlightedFeatures: [],
-        // Reset time to full range
+        // Reset time
         committedTimeRange: [
           state.settings.timeRange.min,
           state.settings.timeRange.max,
@@ -362,15 +363,15 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
           state.settings.timeRange.min,
           state.settings.timeRange.max,
         ],
-        // Reset layers to their initial visibility and clear filters
+        // Reset layers
         layerConfig: state.layerConfig.map((l) => {
           const initialLayer = initialLayerConfig.find(
             (init) => init.id === l.id
           );
           return {
             ...l,
-            filterValues: {}, // Clear any leftover filters
-            visible: initialLayer ? initialLayer.visible : true, // Restore default visibility
+            filterValues: {}, // clear filters
+            visible: initialLayer ? initialLayer.visible : true, // restore default layers vis
           };
         }),
       };

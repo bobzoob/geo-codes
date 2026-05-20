@@ -4,7 +4,6 @@ import { useAppState } from "../../state/appContext";
 function Header() {
   const { dispatch } = useAppState();
 
-  // Brought over from the old Footer
   const linkStyle = {
     fontSize: "0.8rem",
     color: "text.secondary",
@@ -34,7 +33,7 @@ function Header() {
         maxWidth="xl"
         margin="0 auto"
       >
-        {/* Left side: Legal Links (formerly in Footer) */}
+        {/* Left side */}
         <Stack direction="row" spacing={2} alignItems="center">
           <Button
             sx={linkStyle}
@@ -58,7 +57,7 @@ function Header() {
           </Button>
         </Stack>
 
-        {/* Right side: Logo as serves as Home-button */}
+        {/* Right side */}
         <ButtonBase
           onClick={() => dispatch({ type: "SET_VIEW", payload: "dashboard" })}
           aria-label="Go to dashboard"

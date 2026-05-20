@@ -231,8 +231,8 @@ export default function FeatureDetailPanel() {
                           fontStyle: "italic",
                           borderLeft: "3px solid",
                           borderColor: "secondary.main",
-                          maxHeight: "150px", // Restored height limit
-                          overflowY: "auto", // Restored scrolling
+                          maxHeight: "150px",
+                          overflowY: "auto",
                         }}
                       >
                         <Typography
@@ -254,7 +254,7 @@ export default function FeatureDetailPanel() {
                     );
                   }
 
-                  // 1. RENDER STANDARD LISTS (e.g., born, died, gnd_activity)
+                  // RENDER STANDARD LISTS
                   if (field.type === "list" && Array.isArray(field.value)) {
                     return (
                       <Box key={index} sx={{ mb: 2 }}>
@@ -284,7 +284,7 @@ export default function FeatureDetailPanel() {
                     );
                   }
 
-                  // 2. RENDER TIMED-LISTS (e.g., activity_log)
+                  // RENDER TIMED-LISTS (activity_log in demo version)
                   if (
                     field.type === "timed-list" &&
                     Array.isArray(field.value)

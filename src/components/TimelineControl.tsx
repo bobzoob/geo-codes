@@ -149,7 +149,6 @@ function TimelineControl({
       {/* LEFT CONTROLS: Story Toggle + Play/Nav Buttons */}
       {isStoryModeActive ? (
         <Stack direction="row" spacing={1}>
-          {/* Exit Button replaces the Enter button */}
           <Tooltip title="Exit Story Mode">
             <IconButton
               color="error"
@@ -196,15 +195,14 @@ function TimelineControl({
         </Stack>
       ) : (
         <Stack direction="row" spacing={1}>
-          {/* Enter Story Mode Button (Left of Play) */}
+          {/* Enter Story Mode Button */}
           <Tooltip title="Start Story Mode">
             <IconButton
               color="info"
               onClick={() => {
                 stopAnimation();
-                // For now, we hardcode the sample story.
                 setStoryDialogOpen(true);
-                // dispatch({ type: "START_STORY", payload: sampleStory });
+                // dispatch({ type: "START_STORY", payload: sampleStory }); // un-comment if you dont want a dialog
               }}
             >
               <AutoStoriesIcon />
@@ -261,7 +259,7 @@ function TimelineControl({
           max={max}
           step={1}
           marks={marks}
-          disabled={isStoryModeActive} // Lock slider during story mode
+          disabled={isStoryModeActive} // we lock slider during story mode
           valueLabelDisplay="auto"
           onChange={(_e, val) => {
             stopAnimation();
@@ -294,7 +292,7 @@ function TimelineControl({
         />
       </Box>
 
-      {/* RIGHT CONTROLS: Just the Reset Button */}
+      {/* RIGHT CONTROLS*/}
       {!isStoryModeActive && (
         <Tooltip title="Reset to Full Range">
           <IconButton
@@ -340,12 +338,12 @@ function TimelineControl({
                   <ListItemButton
                     onClick={() => {
                       setStoryDialogOpen(false);
-                      // Dispatch the specific story the user clicked!
+                      // you can dispatch in Button as well, and delete the Dialog Section
                       dispatch({ type: "START_STORY", payload: story });
                     }}
                     sx={{
                       py: 1.5,
-                      "&:hover": { bgcolor: "rgba(41, 182, 246, 0.1)" }, // Light blue hover
+                      "&:hover": { bgcolor: "rgba(41, 182, 246, 0.1)" }, // light blue hover - bad placement, move to theme later!
                     }}
                   >
                     <ListItemText
