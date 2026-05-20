@@ -61,6 +61,14 @@ export function useMapInteraction() {
       // 2. GENERIC DRILL-DOWN:
       if (isDrillDown) {
         dispatch({
+          type: "SET_HIGHLIGHTED_FEATURES",
+          payload: [
+            { id: String(feature.id || feature.properties?.id), layerId },
+          ],
+        });
+
+        // This dispatch must be INSIDE the if block!
+        dispatch({
           type: "SET_LAYER_DRILL_DOWN",
           payload: { layerId, parentFeature: feature },
         });
@@ -117,8 +125,93 @@ export function useMapInteraction() {
 
       const clickAction = config.interactionConfig?.clickTrigger || "detail";
 
+      // NEW CASE: Dynamic Grouping (e.g., grouping letters by topic or thread)
+      const groupingField = config.interactionConfig?.groupingField;
+      if (groupingField) {
+        let rawGroupValue = feature.properties[groupingField];
+
+        // 1. MapLibre stringification fix (safely parse arrays/objects)
+        if (
+          typeof rawGroupValue === "string" &&
+          (rawGroupValue.startsWith("[") || rawGroupValue.startsWith("{"))
+        ) {
+          try {
+            rawGroupValue = JSON.parse(rawGroupValue);
+          } catch (e) {}
+        }
+
+        if (
+          rawGroupValue !== undefined &&
+          rawGroupValue !== null &&
+          rawGroupValue !== ""
+        ) {
+          // 2. Normalize to an array so we can easily compare single strings OR arrays
+          const groupValuesArray = Array.isArray(rawGroupValue)
+            ? rawGroupValue
+            : [rawGroupValue];
+
+          // 3. Find all features in this layer that share ANY value in this array
+          const allFeatures = state.processedData[layerId]?.features || [];
+          const groupedFeatures = allFeatures.filter((f: any) => {
+            let fVal = f.properties[groupingField];
+
+            // Parse the target feature's value as well
+            if (
+              typeof fVal === "string" &&
+              (fVal.startsWith("[") || fVal.startsWith("{"))
+            ) {
+              try {
+                fVal = JSON.parse(fVal);
+              } catch (e) {}
+            }
+
+            if (fVal === undefined || fVal === null || fVal === "")
+              return false;
+
+            const fValArray = Array.isArray(fVal) ? fVal : [fVal];
+
+            // Check for intersection: Does fValArray share any elements with groupValuesArray?
+            return fValArray.some((v: any) => groupValuesArray.includes(v));
+          });
+
+          if (groupedFeatures.length > 1) {
+            // 4. Highlight all of them on the map
+            const highlights = groupedFeatures.map((f: any) => ({
+              id: String(f.id || f.properties?.id),
+              layerId,
+            }));
+            dispatch({ type: "SET_HIGHLIGHTED_FEATURES", payload: highlights });
+
+            // 5. Mock a parent feature to trick the generic drill-down table!
+            const displayTitle = groupValuesArray.join(", ");
+            const mockParent = {
+              id: `group-${displayTitle}`,
+              properties: {
+                ...feature.properties,
+                title: `Group: ${displayTitle}`, // Fallback title
+                [childKey]: groupedFeatures, // Inject the grouped features as children
+              },
+            };
+
+            dispatch({
+              type: "SET_LAYER_DRILL_DOWN",
+              payload: { layerId, parentFeature: mockParent },
+            });
+            dispatch({ type: "SELECT_FEATURE", payload: null });
+            return; // Stop execution here
+          }
+        }
+      }
+
       // CASE: Drill-down (e.g. City Hubs)
-      if (clickAction === "table" && hasChildren) {
+      else if (clickAction === "table" && hasChildren) {
+        dispatch({
+          type: "SET_HIGHLIGHTED_FEATURES",
+          payload: [
+            { id: String(feature.id || feature.properties?.id), layerId },
+          ],
+        });
+
         dispatch({
           type: "SET_LAYER_DRILL_DOWN",
           payload: { layerId, parentFeature: feature },
@@ -139,7 +232,13 @@ export function useMapInteraction() {
         });
       }
     },
-    [state.layerConfig, state.selectedLayerId, state.sources, dispatch]
+    [
+      state.layerConfig,
+      state.selectedLayerId,
+      state.sources,
+      state.processedData,
+      dispatch,
+    ]
   );
 
   /**

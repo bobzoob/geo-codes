@@ -23,6 +23,7 @@ export interface LayerComponentProps {
   styleConfig?: PointStyleConfig;
   selectedId?: string | null;
   hoveredId?: string | null;
+  highlightedIds?: string[];
 }
 
 export type PopupFieldType =
@@ -136,6 +137,7 @@ export interface LayerConfig {
   // config which panel is triggert
   interactionConfig?: {
     clickTrigger?: "detail" | "table"; // Default is "detail"
+    groupingField?: string; // multiselected features
   };
 
   interaction?: {
@@ -159,6 +161,29 @@ export interface SelectionState {
 export interface LayerSubState {
   parentId: string | null;
   data: any[] | null;
+}
+
+// multifeatures highlighting
+export interface HighlightState {
+  id: string;
+  layerId: string;
+}
+
+//STORY MODE
+export interface StoryFrame {
+  id: string;
+  title: string;
+  text: string; // Markdown supported
+  timeRange: [number, number]; // timeline jumps
+  visibleLayers: string[]; // layer IDs that should be turned ON
+  highlights: { layerId: string; featureId: string }[]; // features to highlight
+}
+
+export interface StoryConfig {
+  id: string;
+  title: string;
+  author: string;
+  frames: StoryFrame[];
 }
 
 // interface that structures the data pipline
@@ -227,4 +252,12 @@ export interface AppState {
 
   // drill down list
   drilledDownFeature: any | null;
+
+  // multifeature highlighting
+  highlightedFeatures: HighlightState[];
+
+  // story mode
+  isStoryModeActive: boolean;
+  currentStoryIndex: number;
+  storyManifest: StoryConfig | null;
 }

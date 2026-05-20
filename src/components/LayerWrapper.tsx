@@ -45,6 +45,16 @@ export function LayerWrapper({ layer }: LayerWrapperProps) {
       ? dictionaries[dictionaryId]
       : Object.values(dictionaries)[0] || {};
 
+  // Extract all highlighted IDs for this specific layer
+  const highlightedIds = state.highlightedFeatures
+    .filter((h) => h.layerId === layer.id)
+    .map((h) => h.id);
+
+  // If there is a single selected feature, ensure it is also in the highlight array
+  if (selectedId && !highlightedIds.includes(selectedId)) {
+    highlightedIds.push(selectedId);
+  }
+
   return (
     <plugin.Component
       id={layer.id}
@@ -55,6 +65,7 @@ export function LayerWrapper({ layer }: LayerWrapperProps) {
       styleConfig={layer.styleConfig}
       selectedId={selectedId}
       hoveredId={hoveredId}
+      highlightedIds={highlightedIds}
     />
   );
 }

@@ -8,12 +8,32 @@ import {
   Tooltip,
   useMediaQuery,
   type Theme,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
 } from "@mui/material";
+
+// icons
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import ReplayIcon from "@mui/icons-material/Replay";
+
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import CloseIcon from "@mui/icons-material/Close";
+
 import type { TimeRange } from "../types/state";
 import { useAppState } from "../state/appContext";
+import { availableStories } from "../config/storyConfig"; // story mode
 
 /**
  * TIMERANGE is retrieved from the global application state
@@ -29,9 +49,10 @@ function TimelineControl({
   onTimeChangeCommitted,
 }: TimelineControlProps) {
   // get boundaries from state
-  const { state } = useAppState();
+  const { state, dispatch } = useAppState();
   const { min, max } = state.settings.timeRange;
   const { speed, step, defaultWindow } = state.settings.animation;
+  const { isStoryModeActive, currentStoryIndex, storyManifest } = state;
 
   //mobile?
   const isMobile = useMediaQuery((theme: Theme) =>
@@ -40,6 +61,7 @@ function TimelineControl({
 
   // animation
   const [isPlaying, setIsPlaying] = useState(false);
+  const [storyDialogOpen, setStoryDialogOpen] = useState(false); // massage dialog
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const stopAnimation = () => {
@@ -115,6 +137,8 @@ function TimelineControl({
     return result;
   }, [min, max]);
 
+  const themeColor = isStoryModeActive ? "info.main" : "primary.main";
+
   return (
     <Stack
       direction="row"
@@ -122,16 +146,84 @@ function TimelineControl({
       alignItems="center"
       sx={{ width: "100%" }}
     >
-      <Tooltip title={isPlaying ? "Pause" : "Play Time-lapse"}>
-        <IconButton
-          onClick={() => (isPlaying ? stopAnimation() : startAnimation())}
-          color="primary"
-          sx={{ border: "1px solid", borderColor: "primary.main" }}
-        >
-          {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-        </IconButton>
-      </Tooltip>
+      {/* LEFT CONTROLS: Story Toggle + Play/Nav Buttons */}
+      {isStoryModeActive ? (
+        <Stack direction="row" spacing={1}>
+          {/* Exit Button replaces the Enter button */}
+          <Tooltip title="Exit Story Mode">
+            <IconButton
+              color="error"
+              onClick={() => dispatch({ type: "EXIT_STORY" })}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Previous Frame">
+            <span>
+              <IconButton
+                color="info"
+                disabled={currentStoryIndex === 0}
+                onClick={() =>
+                  dispatch({
+                    type: "SET_STORY_FRAME",
+                    payload: currentStoryIndex - 1,
+                  })
+                }
+              >
+                <SkipPreviousIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
+          <Tooltip title="Next Frame">
+            <span>
+              <IconButton
+                color="info"
+                disabled={
+                  !storyManifest ||
+                  currentStoryIndex === storyManifest.frames.length - 1
+                }
+                onClick={() =>
+                  dispatch({
+                    type: "SET_STORY_FRAME",
+                    payload: currentStoryIndex + 1,
+                  })
+                }
+              >
+                <SkipNextIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
+        </Stack>
+      ) : (
+        <Stack direction="row" spacing={1}>
+          {/* Enter Story Mode Button (Left of Play) */}
+          <Tooltip title="Start Story Mode">
+            <IconButton
+              color="info"
+              onClick={() => {
+                stopAnimation();
+                // For now, we hardcode the sample story.
+                setStoryDialogOpen(true);
+                // dispatch({ type: "START_STORY", payload: sampleStory });
+              }}
+            >
+              <AutoStoriesIcon />
+            </IconButton>
+          </Tooltip>
+          {/* Standard Play/Pause Button */}
+          <Tooltip title={isPlaying ? "Pause" : "Play Time-lapse"}>
+            <IconButton
+              onClick={() => (isPlaying ? stopAnimation() : startAnimation())}
+              color="secondary"
+              sx={{ border: "1px solid", borderColor: "primary.main" }}
+            >
+              {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+            </IconButton>
+          </Tooltip>
+        </Stack>
+      )}
 
+      {/* TIMELINE SLIDER */}
       <Box sx={{ flexGrow: 1, px: 2 }}>
         <Box
           sx={{
@@ -145,15 +237,19 @@ function TimelineControl({
             variant="caption"
             sx={{
               fontWeight: "bold",
-              color: "primary.main",
+              color: themeColor,
               textTransform: "uppercase",
             }}
           >
-            Timeline
+            {isStoryModeActive ? "Story Timeline" : "Timeline"}
           </Typography>
           <Typography
             variant="h6"
-            sx={{ fontFamily: "monospace", fontWeight: "bold" }}
+            sx={{
+              fontFamily: "monospace",
+              fontWeight: "bold",
+              color: isStoryModeActive ? "info.main" : "inherit",
+            }}
           >
             {range[0] === range[1] ? range[0] : `${range[0]} — ${range[1]}`}
           </Typography>
@@ -164,7 +260,8 @@ function TimelineControl({
           min={min}
           max={max}
           step={1}
-          marks={marks} // <--- ADDED MARKS HERE
+          marks={marks}
+          disabled={isStoryModeActive} // Lock slider during story mode
           valueLabelDisplay="auto"
           onChange={(_e, val) => {
             stopAnimation();
@@ -175,14 +272,14 @@ function TimelineControl({
           }
           sx={{
             height: 6,
-            // Custom styling for the ticks/labels
+            color: themeColor,
             "& .MuiSlider-markLabel": {
               fontSize: "0.75rem",
               opacity: 0.6,
-              top: "30px", // Move labels further down
+              top: "30px",
             },
             "& .MuiSlider-mark": {
-              backgroundColor: "primary.main",
+              backgroundColor: themeColor,
               height: "4px",
               width: "1px",
             },
@@ -197,18 +294,84 @@ function TimelineControl({
         />
       </Box>
 
-      <Tooltip title="Reset to Full Range">
-        <IconButton
-          size="small"
-          onClick={() => {
-            stopAnimation();
-            onTimeChangeCommitted([min, max]);
-          }}
-          sx={{ opacity: 0.5 }}
-        >
-          <ReplayIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
+      {/* RIGHT CONTROLS: Just the Reset Button */}
+      {!isStoryModeActive && (
+        <Tooltip title="Reset to Full Range">
+          <IconButton
+            size="small"
+            onClick={() => {
+              stopAnimation();
+              onTimeChangeCommitted([min, max]);
+            }}
+            sx={{ opacity: 0.5 }}
+          >
+            <ReplayIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      )}
+      {/* STORY DIALOG */}
+      <Dialog
+        open={storyDialogOpen}
+        onClose={() => setStoryDialogOpen(false)}
+        PaperProps={{
+          sx: {
+            bgcolor: "background.paper",
+            border: "1px solid rgba(255,255,255,0.1)",
+            minWidth: { xs: "90vw", sm: "400px" },
+          },
+        }}
+      >
+        <DialogTitle color="info.main">Story Mode</DialogTitle>
+        <DialogContent>
+          <DialogContentText color="text.secondary" sx={{ mb: 2 }}>
+            Starting a story will clear your current filters and reset the layer
+            visibility.
+          </DialogContentText>
+
+          {/* LIST OF AVAILABLE STORIES */}
+          <List
+            disablePadding
+            sx={{ border: "1px solid rgba(255,255,255,0.1)", borderRadius: 1 }}
+          >
+            {availableStories.map((story, index) => (
+              <Box key={story.id}>
+                {index > 0 && <Divider />}
+                <ListItem disablePadding>
+                  <ListItemButton
+                    onClick={() => {
+                      setStoryDialogOpen(false);
+                      // Dispatch the specific story the user clicked!
+                      dispatch({ type: "START_STORY", payload: story });
+                    }}
+                    sx={{
+                      py: 1.5,
+                      "&:hover": { bgcolor: "rgba(41, 182, 246, 0.1)" }, // Light blue hover
+                    }}
+                  >
+                    <ListItemText
+                      primary={story.title}
+                      secondary={`By ${story.author}`}
+                      primaryTypographyProps={{
+                        color: "info.main",
+                        fontWeight: "bold",
+                      }}
+                      secondaryTypographyProps={{
+                        color: "text.secondary",
+                        variant: "caption",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Box>
+            ))}
+          </List>
+        </DialogContent>
+        <DialogActions sx={{ p: 2 }}>
+          <Button onClick={() => setStoryDialogOpen(false)} color="inherit">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Stack>
   );
 }

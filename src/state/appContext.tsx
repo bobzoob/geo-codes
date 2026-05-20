@@ -34,6 +34,9 @@ const initialState: AppState = {
   sources: sourcesRegistry,
   layerConfig: initialLayerConfig,
 
+  // multifeature highlighting
+  highlightedFeatures: [],
+
   // settings
   settings: {
     ...PROJECT_SETTINGS,
@@ -69,6 +72,11 @@ const initialState: AppState = {
   selectedFeature: null,
   drilledDownFeature: null,
   layerSubState: {},
+
+  // story mode state
+  isStoryModeActive: false,
+  currentStoryIndex: 0,
+  storyManifest: null,
 };
 
 const AppStateContext = createContext<{

@@ -28,6 +28,7 @@ import FeatureDetailPanel from "./panels/FeatureDetailPanel";
 import MapContainer from "../MapContainer";
 import { mapTheme } from "../../config/mapTheme";
 import TimelineControl from "../TimelineControl";
+import StoryPanel from "./panels/StoryPanel"; // story mode
 
 function MapViewLayout() {
   const { state, dispatch } = useAppState();
@@ -41,6 +42,7 @@ function MapViewLayout() {
     liveTimeRange,
     selectedLayerId,
     layerConfig,
+    isStoryModeActive,
   } = state;
 
   const isMobile = useMediaQuery((theme: Theme) =>
@@ -249,6 +251,15 @@ function MapViewLayout() {
             alignItems: "flex-start",
           }}
         >
+          <CollapsiblePanel
+            label="Story"
+            isCollapsed={!isStoryModeActive}
+            onToggle={() => {}} // StoryPanel cant be toggled manually, only via exit button
+            maxWidth={400}
+          >
+            <StoryPanel />
+          </CollapsiblePanel>
+
           <CollapsiblePanel
             label="Layers"
             isCollapsed={!isLayerVisible}

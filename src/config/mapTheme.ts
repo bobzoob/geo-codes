@@ -48,7 +48,13 @@ export const mapTheme = createTheme({
       contrastText: "#ffffff",
     },
     secondary: {
-      main: "#ff9800",
+      main: "#ff9800", // Standard Orange
+      contrastText: "#000000",
+    },
+    info: {
+      main: "#29b6f6", // STORY MODE: Light Blue
+      light: "#4fc3f7",
+      dark: "#0288d1",
       contrastText: "#000000",
     },
     background: {
@@ -104,16 +110,12 @@ export const mapTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: ({ theme }) => ({
-          // transparent panel
-          // disable the white elevation overlay
           backgroundImage: "none",
           backgroundColor: "rgba(20, 20, 20, 0.75)",
           backdropFilter: "blur(3px)",
-
           border: "1px solid rgba(255, 255, 255, 0.1)",
           color: "#ffffff",
 
-          // specific style for Layer Cards inside the panel
           "&.LayerCard": {
             padding: theme.spacing(1, 2),
             marginBottom: theme.spacing(1),
@@ -121,7 +123,6 @@ export const mapTheme = createTheme({
             transition: "all 0.2s ease-in-out",
             borderWidth: "1px",
             borderStyle: "solid",
-            // darker card background
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             borderColor: "rgba(255, 255, 255, 0.15)",
 
@@ -142,7 +143,7 @@ export const mapTheme = createTheme({
       },
     },
 
-    // BUTTONS
+    // BUTTONS (Dynamic Color Support)
     MuiButton: {
       styleOverrides: {
         root: {
@@ -151,33 +152,51 @@ export const mapTheme = createTheme({
           whiteSpace: "nowrap",
           boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
         },
-        contained: {
-          backgroundColor: "#424242",
-          color: "#ff9800",
-          border: "1px solid rgba(255, 255, 255, 0.3)",
-          "&:hover": {
-            backgroundColor: "#616161",
-            color: "#ffffff",
-            borderColor: "#ffffff",
-            boxShadow: "0 0 8px rgba(255, 255, 255, 0.3)",
-          },
+        contained: ({ ownerState, theme }) => {
+          // Determine color based on the prop passed (defaults to secondary/orange)
+          const isInfo = ownerState.color === "info";
+          const mainColor = isInfo
+            ? theme.palette.info.main
+            : theme.palette.secondary.main;
+
+          return {
+            backgroundColor: "#424242",
+            color: mainColor,
+            border: "1px solid rgba(255, 255, 255, 0.3)",
+            "&:hover": {
+              backgroundColor: "#616161",
+              color: "#ffffff",
+              borderColor: "#ffffff",
+              boxShadow: "0 0 8px rgba(255, 255, 255, 0.3)",
+            },
+          };
         },
       },
     },
 
-    // ICON BUTTONS
+    // ICON BUTTONS (Dynamic Color Support)
     MuiIconButton: {
       styleOverrides: {
-        root: {
-          backgroundColor: "#424242",
-          color: "#ff9800",
-          border: "1px solid rgba(255, 255, 255, 0.3)",
-          boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
-          "&:hover": {
-            backgroundColor: "#616161",
-            color: "#ffffff",
-            borderColor: "#ffffff",
-          },
+        root: ({ ownerState, theme }) => {
+          // Determine color based on the prop passed
+          let mainColor = theme.palette.secondary.main; // Default Orange
+          if (ownerState.color === "info") mainColor = theme.palette.info.main; // Story Blue
+          if (ownerState.color === "primary")
+            mainColor = theme.palette.primary.main; // Grey
+          if (ownerState.color === "error")
+            mainColor = theme.palette.error.main; // Red
+
+          return {
+            backgroundColor: "#424242",
+            color: mainColor,
+            border: "1px solid rgba(255, 255, 255, 0.3)",
+            boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+            "&:hover": {
+              backgroundColor: "#616161",
+              color: "#ffffff",
+              borderColor: "#ffffff",
+            },
+          };
         },
         sizeSmall: {
           padding: "5px",
@@ -232,7 +251,7 @@ export const mapTheme = createTheme({
       },
     },
 
-    // SWTCH/SLIDER
+    // SWITCH
     MuiSwitch: {
       styleOverrides: {
         switchBase: {
@@ -242,9 +261,17 @@ export const mapTheme = createTheme({
         },
       },
     },
+
+    // SLIDER (Dynamic Color Support)
     MuiSlider: {
       styleOverrides: {
-        root: { color: "#ff9800" },
+        root: ({ ownerState, theme }) => ({
+          // If color="info" is passed, use blue. Otherwise, use orange.
+          color:
+            ownerState.color === "info"
+              ? theme.palette.info.main
+              : theme.palette.secondary.main,
+        }),
       },
     },
   },

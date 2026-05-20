@@ -10,9 +10,17 @@ interface ArrowLayerProps extends LayerComponentProps {
   data: HistoricalFeatureCollection;
   showAllTooltips: boolean;
   entities: EntityMap;
+  // array of highlighted IDs for multi-selection/grouping
+  highlightedIds?: string[];
+  hoveredId?: string | null;
 }
 
-function ArrowLayer({ id, data, selectedId, hoveredId }: ArrowLayerProps) {
+function ArrowLayer({
+  id,
+  data,
+  highlightedIds = [], // Default to empty array
+  hoveredId,
+}: ArrowLayerProps) {
   const { current: map } = useMap();
 
   const sourceId = `${id}-source`;
@@ -41,14 +49,31 @@ function ArrowLayer({ id, data, selectedId, hoveredId }: ArrowLayerProps) {
     img.src = `data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' viewBox='0 0 24 24'%3E%3Cpath fill='%233388ff' d='M12 2L22 22L12 18L2 22L12 2Z' /%3E%3C/svg%3E`;
   }, [map]);
 
+  // HIGHLIGHT LOGIC
+  // We use a dummy "__none__" if the array is empty to prevent MapLibre parsing errors
+  const safeHighlightedIds =
+    highlightedIds.length > 0 ? highlightedIds : ["__none__"];
+
+  const isHighlighted = [
+    "in",
+    ["to-string", ["get", "id"]], // Safely get the ID as a string
+    ["literal", safeHighlightedIds],
+  ];
+
+  const isHovered = [
+    "==",
+    ["to-string", ["get", "id"]],
+    hoveredId ? String(hoveredId) : "__none__",
+  ];
+
   // DYNAMIC LINE STYLE
 
   // Layer A: Lines
   const lineColor = [
     "case",
-    ["==", ["id"], selectedId || ""],
+    isHighlighted,
     "#ff9800",
-    ["==", ["id"], hoveredId || ""],
+    isHovered,
     "#ffffff",
     "#3388ff",
   ] as any;
@@ -61,9 +86,9 @@ function ArrowLayer({ id, data, selectedId, hoveredId }: ArrowLayerProps) {
     5,
     [
       "case",
-      ["==", ["id"], selectedId || ""],
+      isHighlighted,
       5, // Fixed width if selected
-      ["==", ["id"], hoveredId || ""],
+      isHovered,
       4, // Fixed width if hovered
       1, // Default width at zoom 5
     ],
@@ -71,9 +96,9 @@ function ArrowLayer({ id, data, selectedId, hoveredId }: ArrowLayerProps) {
     12,
     [
       "case",
-      ["==", ["id"], selectedId || ""],
+      isHighlighted,
       8, // Grow slightly at high zoom even if selected
-      ["==", ["id"], hoveredId || ""],
+      isHovered,
       6,
       3, // Default width at zoom 12
     ],
@@ -81,7 +106,7 @@ function ArrowLayer({ id, data, selectedId, hoveredId }: ArrowLayerProps) {
 
   const lineOpacity = [
     "case",
-    ["any", ["==", ["id"], selectedId || ""], ["==", ["id"], hoveredId || ""]],
+    ["any", isHighlighted, isHovered],
     1,
     0.6,
   ] as any;
@@ -97,9 +122,9 @@ function ArrowLayer({ id, data, selectedId, hoveredId }: ArrowLayerProps) {
       false,
     ],
     paint: {
-      "line-color": lineColor as any,
-      "line-width": lineWidth as any,
-      "line-opacity": lineOpacity as any,
+      "line-color": lineColor,
+      "line-width": lineWidth,
+      "line-opacity": lineOpacity,
     },
     layout: {
       "line-cap": "round",
@@ -107,7 +132,7 @@ function ArrowLayer({ id, data, selectedId, hoveredId }: ArrowLayerProps) {
     },
   };
 
-  //
+  // Highlight Layer (The glowing orange line underneath)
   const highlightStyle: LayerProps = {
     id: highlightLayerId,
     type: "line",
@@ -121,12 +146,7 @@ function ArrowLayer({ id, data, selectedId, hoveredId }: ArrowLayerProps) {
     paint: {
       "line-color": "#ff9800",
       "line-width": 4,
-      "line-opacity": [
-        "case",
-        ["==", ["get", "id"], selectedId || ""], // Check if this feature is selected
-        1,
-        0,
-      ],
+      "line-opacity": ["case", isHighlighted, 1, 0] as any,
     },
   };
 
@@ -147,11 +167,7 @@ function ArrowLayer({ id, data, selectedId, hoveredId }: ArrowLayerProps) {
       "icon-image": "arrow-head",
       "icon-size": [
         "case",
-        [
-          "any",
-          ["==", ["id"], selectedId || ""],
-          ["==", ["id"], hoveredId || ""],
-        ],
+        ["any", isHighlighted, isHovered],
         1.0, // Slightly larger icon when active
         0.8,
       ] as any,

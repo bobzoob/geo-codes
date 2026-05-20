@@ -85,6 +85,11 @@ export const initialLayerConfig: LayerConfig[] = [
       secondaryField: "sender_ids",
       resolveSecondary: true, // turn GND IDs into names
     },
+
+    // // group features based on values
+    // interactionConfig: {
+    //   groupingField: "sender_ids", // based on the value of this field
+    // },
   },
 
   {

@@ -21,8 +21,8 @@ interface PointLayerProps extends LayerComponentProps {
   showAllTooltips: boolean;
   intensityField?: string; // thats where the scaling comes from
   styleConfig?: PointStyleConfig;
-  // color hightlighting
-  selectedId?: string | null;
+  // NEW: Array of highlighted IDs for multi-selection/grouping
+  highlightedIds?: string[];
   hoveredId?: string | null;
 }
 
@@ -30,10 +30,9 @@ function PointLayer({
   id,
   data,
   showAllTooltips,
-  //entities,
   intensityField,
   styleConfig,
-  selectedId,
+  highlightedIds = [], // Default to empty array
   hoveredId,
 }: PointLayerProps) {
   const sourceId = `${id}-source`;
@@ -81,22 +80,37 @@ function PointLayer({
     ];
   }
 
-  // highlighting
+  // --- NEW: HIGHLIGHT LOGIC EXPRESSIONS ---
+  // We use a dummy "__none__" if the array is empty to prevent MapLibre parsing errors
+  const safeHighlightedIds =
+    highlightedIds.length > 0 ? highlightedIds : ["__none__"];
+
+  const isHighlighted = [
+    "in",
+    ["to-string", ["get", "id"]], // Ensure we are comparing strings
+    ["literal", safeHighlightedIds],
+  ];
+
+  const isHovered = [
+    "==",
+    ["to-string", ["get", "id"]],
+    hoveredId ? String(hoveredId) : "__none__",
+  ];
+
+  // HIGHLIGHTING RADIUS
   const finalRadius = [
     "case",
-    ["==", ["id"], selectedId || ""],
-    ["+", circleRadius, 5], //grow by 5px if selected / 3px if hovered
-    ["==", ["id"], hoveredId || ""],
-    ["+", circleRadius, 3],
+    isHighlighted,
+    ["+", circleRadius, 5], // grow by 5px if highlighted
+    isHovered,
+    ["+", circleRadius, 3], // grow by 3px if hovered
     circleRadius,
   ];
 
   // COLOR EXPRESSION
   let circleColor: any;
   if (intensityField && Array.isArray(baseColor)) {
-    // color ramp: [interpolate, linear, get(field), val1, color1, val2, color2...]
     circleColor = ["interpolate", ["linear"], ["get", intensityField]];
-
     const stops = [1, 10, 50, 150, 300];
 
     baseColor.forEach((color, index) => {
@@ -104,28 +118,27 @@ function PointLayer({
         (index / (baseColor.length - 1)) * (stops.length - 1)
       );
       const stopValue = stops[stopIndex];
-
       circleColor.push(stopValue, color);
     });
   } else {
     circleColor = baseColor;
   }
 
-  // CIRCLE LAYER DEFINITION and HIGHTLIGHT LOGIC
+  // CIRCLE LAYER DEFINITION and HIGHLIGHT LOGIC
   const strokeWidth = [
     "case",
-    ["==", ["id"], selectedId || ""],
+    isHighlighted,
     4, // border for selection
-    ["==", ["id"], hoveredId || ""],
-    2.5, // finter border for hover
+    isHovered,
+    2.5, // finer border for hover
     config.strokeWidth ?? 1, // default is 1
   ];
 
   const strokeColor = [
     "case",
-    ["==", ["id"], selectedId || ""],
+    isHighlighted,
     "#ff9800",
-    ["==", ["id"], hoveredId || ""],
+    isHovered,
     "#ffffff",
     config.strokeColor || "#ffffff",
   ];
@@ -140,19 +153,16 @@ function PointLayer({
       "circle-stroke-width": strokeWidth as any,
       "circle-stroke-color": strokeColor as any,
       "circle-opacity": config.opacity ?? 0.8,
-      // Optional: make selected points fully opaque
+      // Make selected/hovered points fully opaque
       "circle-stroke-opacity": [
         "case",
-        [
-          "any",
-          ["==", ["id"], selectedId || ""],
-          ["==", ["id"], hoveredId || ""],
-        ],
+        ["any", isHighlighted, isHovered],
         1,
         0.8,
-      ],
+      ] as any,
     },
   };
+
   // LABEL LAYER DEFINITION
   const labelStyle: LayerProps = {
     id: labelLayerId,
@@ -165,7 +175,6 @@ function PointLayer({
       "text-offset": [0, 1.5],
       "text-anchor": "top",
       "text-optional": true,
-      // visibility is controlled by "Flashlight" toggle in UI
       visibility: showAllTooltips ? "visible" : "none",
     },
     paint: {

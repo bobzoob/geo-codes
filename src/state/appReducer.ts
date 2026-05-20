@@ -4,8 +4,11 @@ import type {
   TimeRange,
   View,
   SelectionState,
+  HighlightState,
+  StoryConfig,
 } from "../types/state";
 import type { HistoricalFeatureCollection, EntityMap } from "../types/geojson";
+import { initialLayerConfig } from "../config/layers";
 
 export type AppAction =
   | { type: "TOGGLE_LAYER_PANEL" }
@@ -45,10 +48,15 @@ export type AppAction =
       payload: Record<string, HistoricalFeatureCollection>;
     }
   | { type: "SELECT_FEATURE"; payload: SelectionState | null }
+  | { type: "SET_HIGHLIGHTED_FEATURES"; payload: HighlightState[] }
   | {
       type: "SET_LAYER_DRILL_DOWN";
       payload: { layerId: string; parentFeature: any | null };
-    };
+    }
+  // story mode actions
+  | { type: "START_STORY"; payload: StoryConfig }
+  | { type: "SET_STORY_FRAME"; payload: number }
+  | { type: "EXIT_STORY" };
 
 export const appReducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
@@ -147,7 +155,11 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
       if (!parentFeature) {
         const newSubState = { ...state.layerSubState };
         delete newSubState[layerId];
-        return { ...state, layerSubState: newSubState };
+        return {
+          ...state,
+          layerSubState: newSubState,
+          highlightedFeatures: [],
+        };
       }
 
       // 2. If drilling in: Resolve the children key from the source mapping
@@ -269,7 +281,100 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
           ? "none"
           : state.activeMobilePanel,
       };
+    case "SET_HIGHLIGHTED_FEATURES":
+      return { ...state, highlightedFeatures: action.payload };
 
+    // STORY MODE
+    case "START_STORY": {
+      const manifest = action.payload;
+      const firstFrame = manifest.frames[0];
+
+      return {
+        ...state,
+        isStoryModeActive: true,
+        storyManifest: manifest,
+        currentStoryIndex: 0,
+
+        // 1. Apply first frame's time
+        committedTimeRange: firstFrame.timeRange,
+        liveTimeRange: firstFrame.timeRange,
+
+        // 2. Apply first frame's highlights
+        highlightedFeatures: firstFrame.highlights.map((h) => ({
+          id: h.featureId,
+          layerId: h.layerId,
+        })),
+
+        // 3. Clear all filters and apply frame's layer visibility
+        layerConfig: state.layerConfig.map((l) => ({
+          ...l,
+          filterValues: {},
+          visible: firstFrame.visibleLayers.includes(l.id),
+        })),
+
+        // 4. Close all standard panels to focus on the story
+        isLayerPanelCollapsed: true,
+        isOptionsPanelCollapsed: true,
+        isActiveFiltersPanelCollapsed: true,
+        isTablePanelCollapsed: true,
+        isDetailPanelCollapsed: true,
+        selectedFeature: null,
+        layerSubState: {},
+      };
+    }
+
+    case "SET_STORY_FRAME": {
+      if (!state.storyManifest) return state;
+      const frame = state.storyManifest.frames[action.payload];
+
+      return {
+        ...state,
+        currentStoryIndex: action.payload,
+        committedTimeRange: frame.timeRange,
+        liveTimeRange: frame.timeRange,
+        highlightedFeatures: frame.highlights.map((h) => ({
+          id: h.featureId,
+          layerId: h.layerId,
+        })),
+        layerConfig: state.layerConfig.map((l) => ({
+          ...l,
+          visible: frame.visibleLayers.includes(l.id),
+        })),
+        // Ensure detail panels stay closed when jumping frames
+        selectedFeature: null,
+        layerSubState: {},
+      };
+    }
+
+    case "EXIT_STORY": {
+      return {
+        ...state,
+        isStoryModeActive: false,
+        storyManifest: null,
+        currentStoryIndex: 0,
+        highlightedFeatures: [],
+        // Reset time to full range
+        committedTimeRange: [
+          state.settings.timeRange.min,
+          state.settings.timeRange.max,
+        ],
+        liveTimeRange: [
+          state.settings.timeRange.min,
+          state.settings.timeRange.max,
+        ],
+        // Reset layers to their initial visibility and clear filters
+        layerConfig: state.layerConfig.map((l) => {
+          const initialLayer = initialLayerConfig.find(
+            (init) => init.id === l.id
+          );
+          return {
+            ...l,
+            filterValues: {}, // Clear any leftover filters
+            visible: initialLayer ? initialLayer.visible : true, // Restore default visibility
+          };
+        }),
+      };
+    }
     default:
       return state;
   }
