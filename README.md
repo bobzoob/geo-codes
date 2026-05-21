@@ -6,12 +6,11 @@
 
 This web-application is a specialized **Digital Humanities (DH) framework** for visualizing geospatial data through a multilayered interactive map. It is designed to display historical datasets across different spatial and temporal dimensions.
 
-The system serves a dual purpose, bridging exploratory research and science communication:
+The system combines exploratory research and science communication in a "data blind" system:
 
-- **Research Functionalities:** It provides tools for exploratory data analysis, allowing users to interact with the data through dynamic filtering, text search, timeline adjustments, and an integrated data table.
-- **Science Communication:** It allows for digital storytelling. Researchers can guide users through specific historical narratives and highlighting curated data points alongside contextual information.
-
-The engine acts as a generic, content-agnostic **"data blind" pipeline** that reads declarative configuration files to understand how to filter, process, and display raw GeoJSON data. This separation of concerns allows DH researchers to swap out entire datasets and completely change the narrative of the application without the need to rewrite the core logic.
+- **Research Functionalities:** Researcher can interact with the data through dynamic filtering, text search, timeline adjustments, and an integrated data table, allowing for exploratory data analysis.
+- **Science Communication:** User can expearience guided tours through specific historical narratives. Researcher can highlighting curated data points alongside contextual information.
+- **Data Blindness:** The engine acts as a generic, content-agnostic "data blind" pipeline that reads declarative configuration files to understand how to filter, process, and display raw GeoJSON data. This separation of concerns allows DH researchers to swap out entire datasets and completely change the narrative of the application without the need to rewrite the core logic.
 
 ## 🌐 Live Demo
 
@@ -20,8 +19,8 @@ The engine acts as a generic, content-agnostic **"data blind" pipeline** that re
 ---
 
 **Tech Stack:**
-The application is built for performance up to 10,0000 data points. In this range the timeline animation will run at 60 FPS and the filters will apply instantly. For up to 50,000 data points the map will aproximatly still render, but the timeline animation might stutter and the searches might take up longer.
-The application uses strict type safety, and a responsive UI design:
+The application is built for performance up to 10,000 data points. In this range the timeline animation will run at 60 FPS and the filters will apply instantly. For up to 50,000 data points the map will still render, but the timeline animation might stutter and the search might take too long.
+The application uses strict type safety and a responsive UI design:
 
 - **Frontend Framework:** React 18+
 
@@ -31,7 +30,7 @@ The application uses strict type safety, and a responsive UI design:
 
 - **Mapping Engine:** MapLibre GL JS via react-map-gl
 
-- **UI & Layout:** Material UI (MUI) v5. The layout utilizes a strict 100dvh viewport lock to ensure the map remains fixed while floating panels handle their own internal scrolling.
+- **UI & Layout:** Material UI (MUI) v5. The layout uses viewport lock to ensure the map remains fixed while floating panels handle their own internal scrolling.
 
 ---
 
@@ -75,13 +74,13 @@ The application should now be running on `http://localhost:5173`.
 
 ## 🧩 Architecture
 
-The framework is built on a strict **unidirectional data flow**. To achieve "Data Blindness," the core engine never hardcodes references to specific data fields. Instead, it relies entirely on configuration mappings to pass data through a predictable cycle: **State Mutation $\rightarrow$ Selector Pipeline $\rightarrow$ UI/Map Rendering**.
+The framework is built on a **unidirectional data flow**. To achieve "Data Blindness," the core engine holds no hardcoded references to specific data fields. Instead, it relies entirely on configuration mappings to pass data through a predictable cycle: **State Mutation $\rightarrow$ Selector Pipeline $\rightarrow$ UI/Map Rendering**.
 
 ### 3.1 State Management (`appContext.tsx` & `appReducer.ts`)
 
-The entire application state lives inside a single `AppState` object, defined in `types/state.ts` and provided globally by `appContext.tsx`. State mutations are exclusively handled by dispatched actions in `appReducer.ts`.
+The application state lives inside a single `AppState` object, defined in `types/state.ts` and provided globally by `appContext.tsx`. State mutations are exclusively handled by dispatched actions in `appReducer.ts`.
 
-The state is strictly divided into functional categories:
+The state is divided into functional categories:
 
 1.  **Data State:** Holds `rawSources` (the original fetched GeoJSON), `dictionaries` (entity resolution maps), and `processedData` (the final, sanitized data fed to the map).
 2.  **Control State:** Holds the `layerConfig` (visibility, active filters, base filters), `committedTimeRange` (the global timeline boundaries), and `highlightedFeatures` (arrays of IDs for multi-selection).
@@ -91,38 +90,38 @@ When a user interacts with the app, an action (like `SET_COMMITTED_TIME_RANGE`) 
 
 ### 3.2 The Processing Pipeline (`selectors.ts`)
 
-The heart of the Data Blind engine is the `computeProcessedData` function inside `selectors.ts`. This is a memoized selector that transforms raw GeoJSON into map-ready data whenever the Control State changes. It executes a strict three-step pipeline:
+The `computeProcessedData` function inside `selectors.ts` is a memoized selector that transforms raw GeoJSON into map-ready data whenever the Control State changes. It executes this pipeline:
 
 1.  **Filter (`filterUtils.ts`):**
     The engine evaluates every feature against the layer's configuration.
-    - _Base Filters:_ It runs `evaluateBaseFilter` to process complex, recursive `AND`/`OR` etc. logic.
+    - _Base Filters:_ It runs `evaluateBaseFilter` to process recursive `AND`/`OR` etc. logic.
     - _Temporal Filters:_ It uses `resolveMappedField` to check the feature's date against the global timeline and utilizing fallback chains.
-    - _Plugin Filters:_ It applies any active user-facing filters by calling the specific predicate functions defined in the `filterRegistry.ts`.
+    - _Plugin Filters:_ It applies active user-facing filters by calling the specific predicate functions defined in the `filterRegistry.ts`.
 2.  **Sanitize (ID Promotion):**
-    MapLibre requires every feature to have a unique, top-level string `id` for hover and selection states to work. The sanitizer reads the `mapping.id` from the source configuration, extracts that value from the feature's properties and promotes it to the top-level GeoJSON `id` field.
+    MapLibre requires every feature to have a unique, top-level string `id` for hover and selection states to work. The sanitizer reads the `mapping.id` from the source configuration, extracts that value from the feature's properties and promotes it to top-level GeoJSON `id` field.
 3.  **Process / Aggregate:**
-    If a layer has a `processor` configured, the engine runs mathematical transformations on the filtered data. By running this _after_ filtering, aggregations remain reactive to the timeline. For example, it calls functions from `processorRegistry.ts` (like `aggregateByProperty`) to dynamically group individual features together on the current time range.
+    If a layer has a `processor` configured, the engine runs mathematical transformations on the filtered data. By running this after filtering, aggregations remain reactive to the timeline. For example, it calls functions from `processorRegistry.ts` (like `aggregateByProperty`) to dynamically group individual features together on the current time range.
 
-The map and UI components _only_ ever consume the final `processedData` output by this pipeline.
+The map and UI components only consume the final `processedData` output of this pipeline.
 
 ### 3.3 The Registry Pattern
 
-To prevent the core engine from becoming bloated with specific rendering or filtering logic, the framework heavily utilizes the **Registry Pattern**. Features are decoupled into modular plugins, allowing developers to extend the app without touching the core engine files.
+The engine works with **Registry Patterns** to keep the core functionalities separated. A specific rendering or filtering logic can be decoupled into modular plugins, allowing developers to extend the app without touching the core engine files.
 
 - **`layerRegistry.ts`:** Maps a string type (like `"point"`, `"line"`, `"polygon"`) to a specific React component (like `PointLayer.tsx`, `ArrowLayer.tsx`). The `LayerWrapper.tsx` uses this registry to dynamically render the correct MapLibre layers based on the JSON config.
 - **`filterRegistry.ts`:** Maps a filter ID (like `"dateRange"`, `"entitySearch"`) to a specific UI component (for the Options Panel) and a `predicate` function. The engine passes the feature and the mapping to this predicate to determine if the feature should be rendered.
 - **`processorRegistry.ts`:** Maps a processor ID (like `"aggregateByProperty"`) to a data transformation function. This allows developers to write custom clustering or mathematical algorithms that the pipeline can execute during the "Process" step.
-- **`componentRegistry.ts`:** Maps custom UI component IDs to bespoke React components. If a popup template requires a highly specific layout (like a custom header), the `FeatureDetailPanel.tsx` looks it up here and injects it into the generic popup flow.
+- **`componentRegistry.ts`:** Maps custom UI component IDs to customized React components. If a popup template requires a highly specific layout (like a custom header), the `FeatureDetailPanel.tsx` looks it up here and injects it into the generic popup flow.
 
 ---
 
 ## 📝 The Data Contract (GeoJSON & Dictionaries)
 
-To maintain its "Data Blind" nature, the framework requires data to be provided in two distinct formats: **GeoJSON** (for spatial data and properties) and **Dictionaries** (for entity resolution).
+The framework requires data to be provided in two distinct formats: **GeoJSON** (for spatial data and properties) and **Dictionaries** (for entity resolution).
 
 ### The Dictionary Pattern
 
-Instead of human-readable names, the framework uses IDs the GeoJSON data set. These IDs are resolved at runtime using a Dictionary. This keeps the GeoJSON lightweight and allows for multilingual or updated labels without altering the spatial data. The Framework uses geospazial data directly inside the data set to increase its performance and therefore relies on the GeoJSON format. It is never the less recommended to include the geospazial data in the Dictionary to maintain human readability.
+Instead of human-readable names, the framework uses IDs in the GeoJSON data sets. These IDs are resolved at runtime using Dictionaries. This keeps the GeoJSON lightweight and allows for multilingual or updated labels without altering the spatial data. The Framework uses geospazial data directly inside the data sets to increase the performance and therefore utilizes the GeoJSON format. It is recommended to include the geospazial data in the Dictionaries to maintain human readability.
 
 **Example Dictionary (`entities.json`):**
 
