@@ -117,7 +117,7 @@ const PolygonLayer = ({ id, data, styleConfig }: LayerComponentProps) => {
     <Source
       id={sourceId}
       type="geojson"
-      data={sortedData as unknown as FeatureCollection} // Use the sorted data here!
+      data={sortedData as unknown as FeatureCollection}
       promoteId="id"
     >
       <Layer {...fillStyle} />
