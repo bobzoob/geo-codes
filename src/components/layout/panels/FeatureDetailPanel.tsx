@@ -155,7 +155,7 @@ export default function FeatureDetailPanel() {
                             border: "1px solid rgba(255,255,255,0.1)",
                           }}
                         />
-                        {field.meta?.caption && (
+                        {(field.meta as any)?.caption && (
                           <Typography
                             variant="caption"
                             color="text.secondary"
@@ -166,7 +166,7 @@ export default function FeatureDetailPanel() {
                               textAlign: "right",
                             }}
                           >
-                            {field.meta.caption}
+                            {(field.meta as any).caption}
                           </Typography>
                         )}
                       </Box>
