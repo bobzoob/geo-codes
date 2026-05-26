@@ -52,13 +52,13 @@ To set up and run this project on your own machine, follow these steps:
 1.  **Clone the repository:**
 
     \`\`\`bash
-    git clone https://github.com/bobzoob/historic-interactive-map.git
+    git clone https://github.com/bobzoob/geo-codes.git
     \`\`\`
 
 2.  **Navigate into the project directory:**
 
     \`\`\`bash
-    cd historic-interactive-map
+    cd geo-codes
     \`\`\`
 
 3.  **Install the dependencies:**
