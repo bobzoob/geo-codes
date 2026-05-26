@@ -14,6 +14,7 @@ export interface SingleFilter {
   field: string;
   operator: Operator;
   value?: any;
+  matchReferenceField?: string; // we want to pull values dynamically from clicked features for our group highlighting
 
   // therefore we explicitly forbid logical properties here
   logic?: never;

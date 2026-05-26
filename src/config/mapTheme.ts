@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material/styles";
+import { alpha, createTheme } from "@mui/material/styles";
 
 export const mapTheme = createTheme({
   // TYPOGRAPHY
@@ -224,11 +224,15 @@ export const mapTheme = createTheme({
     // LISTS
     MuiListItemButton: {
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           borderRadius: "4px",
           marginBottom: "2px",
           "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.08)" },
-        },
+          "&.story-item:hover": {
+            // takes info.main color and applies 10% opacity (0.1)
+            backgroundColor: alpha(theme.palette.info.main, 0.1),
+          },
+        }),
       },
     },
     MuiListItemText: {

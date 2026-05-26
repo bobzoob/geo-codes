@@ -70,6 +70,8 @@ To set up and run this project on your own machine, follow these steps:
 
 The application should now be running on `http://localhost:5173`.
 
+You mide have to install several packages/libraries based on your individual setup.
+
 ---
 
 ## 🧩 Architecture

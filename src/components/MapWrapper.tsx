@@ -2,9 +2,11 @@ import Map, {
   NavigationControl,
   ScaleControl,
   Popup,
+  type MapRef,
 } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { popupTemplates } from "../config/templates";
+import { useRef, useEffect } from "react";
 import type { ReactNode } from "react";
 import { useMapInteraction } from "../hooks/useMapInteraction"; // logic for this component
 
@@ -18,6 +20,7 @@ interface MapWrapperProps {
 }
 
 function MapWrapper({ children }: MapWrapperProps) {
+  const mapRef = useRef<MapRef>(null); // ref to map
   const { state } = useAppState();
   const { processedData, layerConfig, dictionaries, sources, settings } = state;
   const { hoverInfo, onMapClick, onMapMouseMove, onMapMouseLeave } =
@@ -110,8 +113,45 @@ function MapWrapper({ children }: MapWrapperProps) {
     };
   };
   const tooltipContent = getTooltipContent();
+
+  // camera: map adjustment for story mode
+  useEffect(() => {
+    if (state.isStoryModeActive && state.storyManifest) {
+      const frame = state.storyManifest.frames[state.currentStoryIndex];
+
+      if (frame && frame.camera) {
+        mapRef.current?.flyTo({
+          center: frame.camera.center,
+          zoom: frame.camera.zoom,
+          pitch: frame.camera.pitch || 0,
+          bearing: frame.camera.bearing || 0,
+          duration: 2500, // 2.5 seconds smooth flight
+          essential: true, // tihs esures animation happens even if user prefers reduced motion
+        });
+      }
+    } else if (!state.isStoryModeActive) {
+      // we fly back to default view when exiting story mode
+      mapRef.current?.flyTo({
+        center: [
+          state.settings.map.defaultCenter[1], // Longitude
+          state.settings.map.defaultCenter[0], // Latitude
+        ],
+        zoom: state.settings.map.defaultZoom,
+        pitch: 0,
+        bearing: 0,
+        duration: 2000,
+      });
+    }
+  }, [
+    state.isStoryModeActive,
+    state.currentStoryIndex,
+    state.storyManifest,
+    state.settings.map,
+  ]);
+
   return (
     <Map
+      ref={mapRef} // ref for the camera fly
       initialViewState={{
         longitude: settings.map.defaultCenter[1],
         latitude: settings.map.defaultCenter[0],

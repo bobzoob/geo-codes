@@ -3,8 +3,11 @@ import type {
   HistoricalFeature,
   HistoricalFeatureCollection,
 } from "../types/geojson";
-import { applyGenericFilters } from "../filters/filterUtils";
 import { processorRegistry } from "../processors/processorRegistry";
+import {
+  applyGenericFilters,
+  evaluateBaseFilter,
+} from "../filters/filterUtils";
 
 /**
  * ENGINE ROOM
@@ -14,55 +17,55 @@ import { processorRegistry } from "../processors/processorRegistry";
  * transforms raw sources into processed layers
  */
 
-// Helper to handle aggregate(base) locig (like "is_local")
-const evaluateBaseFilter = (
-  feature: HistoricalFeature,
-  filter?: any
-): boolean => {
-  if (!filter) return true;
+// // Helper to handle aggregate(base) locig (like "is_local")
+// const evaluateBaseFilter = (
+//   feature: HistoricalFeature,
+//   filter?: any
+// ): boolean => {
+//   if (!filter) return true;
 
-  // TYPE GUARD: Is this a LogicalFilter?
-  if ("logic" in filter && filter.logic) {
-    if (filter.logic === "OR" && Array.isArray(filter.conditions)) {
-      return filter.conditions.some((cond: any) =>
-        evaluateBaseFilter(feature, cond)
-      );
-    }
-    if (filter.logic === "AND" && Array.isArray(filter.conditions)) {
-      return filter.conditions.every((cond: any) =>
-        evaluateBaseFilter(feature, cond)
-      );
-    }
-    return true;
-  }
+//   // TYPE GUARD: Is this a LogicalFilter?
+//   if ("logic" in filter && filter.logic) {
+//     if (filter.logic === "OR" && Array.isArray(filter.conditions)) {
+//       return filter.conditions.some((cond: any) =>
+//         evaluateBaseFilter(feature, cond)
+//       );
+//     }
+//     if (filter.logic === "AND" && Array.isArray(filter.conditions)) {
+//       return filter.conditions.every((cond: any) =>
+//         evaluateBaseFilter(feature, cond)
+//       );
+//     }
+//     return true;
+//   }
 
-  // TYPE GUARD: If its not a LogicalFilter, it MUST be a SingleFilter
-  if ("field" in filter && filter.operator) {
-    const { field, operator, value } = filter;
-    const featVal = feature.properties[field];
+//   // TYPE GUARD: If its not a LogicalFilter, it MUST be a SingleFilter
+//   if ("field" in filter && filter.operator) {
+//     const { field, operator, value } = filter;
+//     const featVal = feature.properties[field];
 
-    switch (operator) {
-      case "eq":
-        return featVal === value;
-      case "neq":
-        return featVal !== value;
-      case "gt":
-        return featVal > value;
-      case "lt":
-        return featVal < value;
-      case "contains":
-        return String(featVal).includes(value);
-      case "isNull":
-        return featVal === null || featVal === undefined || featVal === "";
-      case "isNotNull":
-        return featVal !== null && featVal !== undefined && featVal !== "";
-      default:
-        return true;
-    }
-  }
+//     switch (operator) {
+//       case "eq":
+//         return featVal === value;
+//       case "neq":
+//         return featVal !== value;
+//       case "gt":
+//         return featVal > value;
+//       case "lt":
+//         return featVal < value;
+//       case "contains":
+//         return String(featVal).includes(value);
+//       case "isNull":
+//         return featVal === null || featVal === undefined || featVal === "";
+//       case "isNotNull":
+//         return featVal !== null && featVal !== undefined && featVal !== "";
+//       default:
+//         return true;
+//     }
+//   }
 
-  return true;
-};
+//   return true;
+// };
 
 export const computeProcessedData = (
   state: AppState

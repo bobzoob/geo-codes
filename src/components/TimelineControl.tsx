@@ -343,12 +343,11 @@ function TimelineControl({
                     }}
                     sx={{
                       py: 1.5,
-                      "&:hover": { bgcolor: "rgba(41, 182, 246, 0.1)" }, // light blue hover - bad placement, move to theme later!
                     }}
                   >
                     <ListItemText
                       primary={story.title}
-                      secondary={`By ${story.author}`}
+                      secondary={`${story.author}`}
                       primaryTypographyProps={{
                         color: "info.main",
                         fontWeight: "bold",

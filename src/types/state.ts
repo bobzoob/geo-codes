@@ -36,7 +36,8 @@ export type PopupFieldType =
   | "link-button"
   | "feature-list" // clickable list (generic)
   | "custom" // complex header
-  | "composite"; // concatinated string
+  | "composite" // concatinated string
+  | "image";
 
 export interface PopupFieldConfig {
   field: string; // key in the GeoJSON properties ("born", "activity_log")
@@ -44,6 +45,7 @@ export interface PopupFieldConfig {
   type: PopupFieldType;
   resolveEntities?: boolean; // if: look up GND IDs in dictionary
   entityTypeFilter?: string;
+  captionField?: string; // if image signature data exsitis in our source
 
   // for composit/ concatinated headers or fields
   fields?: string[];
@@ -101,6 +103,7 @@ export interface LayerConfig {
   visible: boolean;
   showInPanel?: boolean;
   type: string;
+  group?: string;
 
   //references
   sourceId: string;
@@ -138,6 +141,7 @@ export interface LayerConfig {
   interactionConfig?: {
     clickTrigger?: "detail" | "table"; // Default is "detail"
     groupingField?: string; // multiselected features
+    groupingFilter?: BaseFilter; // advanced grouping logic
   };
 
   interaction?: {
@@ -170,13 +174,22 @@ export interface HighlightState {
 }
 
 //STORY MODE
+export interface StoryCamera {
+  center: [number, number]; // [longitude, latitude]
+  zoom: number;
+  pitch?: number;
+  bearing?: number;
+}
+
 export interface StoryFrame {
   id: string;
   title: string;
   text: string; // Markdown supported
-  timeRange: [number, number]; // timeline jumps
-  visibleLayers: string[]; // layer IDs that should be turned ON
-  highlights: { layerId: string; featureId: string }[]; // features to highlight
+  timeRange?: [number, number]; // timeline jumps
+  visibleLayers?: string[]; // layer IDs that should be turned ON
+  highlights?: { layerId: string; featureId: string }[]; // features to highlight
+  camera?: StoryCamera;
+  image?: { url: string; signature?: string };
 }
 
 export interface StoryConfig {

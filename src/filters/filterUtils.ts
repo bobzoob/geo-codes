@@ -92,6 +92,88 @@ export const applyGenericFilters = (
       return false;
     }
   }
+  return true;
+};
+
+// GROUP FILTER
+export const evaluateBaseFilter = (
+  feature: any,
+  filter?: any,
+  referenceFeature?: any //for dynamic grouping
+): boolean => {
+  if (!filter) return true;
+
+  // RECURSIVE LOGIC (AND / OR)
+  if ("logic" in filter && filter.logic) {
+    if (filter.logic === "OR" && Array.isArray(filter.conditions)) {
+      return filter.conditions.some((cond: any) =>
+        evaluateBaseFilter(feature, cond, referenceFeature)
+      );
+    }
+    if (filter.logic === "AND" && Array.isArray(filter.conditions)) {
+      return filter.conditions.every((cond: any) =>
+        evaluateBaseFilter(feature, cond, referenceFeature)
+      );
+    }
+    return true;
+  }
+
+  // SINGLE CONDITION EVALUATION
+  if ("field" in filter && filter.operator) {
+    const { field, operator, value, matchReferenceField } = filter;
+
+    // get the value from the feature being evaluated
+    let featVal = feature.properties[field];
+    if (
+      typeof featVal === "string" &&
+      (featVal.startsWith("[") || featVal.startsWith("{"))
+    ) {
+      try {
+        featVal = JSON.parse(featVal);
+      } catch (e) {}
+    }
+
+    // determine the target value
+    // this will be hardcoded in layers config for the layers
+    // OR dynamically pulled from referenceFeature for highlighting
+    let targetValue = value;
+    if (matchReferenceField && referenceFeature) {
+      targetValue = referenceFeature.properties[matchReferenceField];
+      if (
+        typeof targetValue === "string" &&
+        (targetValue.startsWith("[") || targetValue.startsWith("{"))
+      ) {
+        try {
+          targetValue = JSON.parse(targetValue);
+        } catch (e) {}
+      }
+    }
+
+    switch (operator) {
+      case "eq":
+        return featVal === targetValue;
+      case "neq":
+        return featVal !== targetValue;
+      case "gt":
+        return featVal > targetValue;
+      case "lt":
+        return featVal < targetValue;
+      case "contains":
+        return String(featVal).includes(String(targetValue));
+      case "isNull":
+        return featVal === null || featVal === undefined || featVal === "";
+      case "isNotNull":
+        return featVal !== null && featVal !== undefined && featVal !== "";
+      case "in": // array intersection
+        if (featVal === undefined || featVal === null || featVal === "")
+          return false;
+        const fArray = Array.isArray(featVal) ? featVal : [featVal];
+        const tArray = Array.isArray(targetValue) ? targetValue : [targetValue];
+        return fArray.some((v: any) => tArray.includes(v));
+      default:
+        return true;
+    }
+  }
 
   return true;
 };

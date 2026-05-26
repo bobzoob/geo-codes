@@ -54,6 +54,11 @@ export type AppAction =
       type: "SET_LAYER_DRILL_DOWN";
       payload: { layerId: string; parentFeature: any | null };
     }
+  // layergroup
+  | {
+      type: "TOGGLE_LAYER_GROUP";
+      payload: { group: string; isVisible: boolean };
+    }
   // story mode actions
   | { type: "TOGGLE_STORY_PANEL" }
   | { type: "START_STORY"; payload: StoryConfig }
@@ -147,6 +152,18 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
             ? { ...l, showAllTooltips: action.payload.showAll }
             : l
         ),
+      };
+    case "TOGGLE_LAYER_GROUP":
+      return {
+        ...state,
+        layerConfig: state.layerConfig.map((l) => {
+          // if layer belongs to the group being toggled, we update its visibility
+          const layerGroup = l.group || "Ungrouped";
+          if (layerGroup === action.payload.group) {
+            return { ...l, visible: action.payload.isVisible };
+          }
+          return l;
+        }),
       };
 
     //GENERIC DRILL-DOWN (
@@ -291,6 +308,12 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
       const manifest = action.payload;
       const firstFrame = manifest.frames[0];
 
+      // fallback if no time range is provided
+      const newTimeRange = firstFrame.timeRange || [
+        state.settings.timeRange.min,
+        state.settings.timeRange.max,
+      ];
+
       return {
         ...state,
         isStoryPanelCollapsed: false,
@@ -300,11 +323,11 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         currentStoryIndex: 0,
 
         // first frames time
-        committedTimeRange: firstFrame.timeRange,
-        liveTimeRange: firstFrame.timeRange,
+        committedTimeRange: newTimeRange,
+        liveTimeRange: newTimeRange,
 
         // first frames highlights
-        highlightedFeatures: firstFrame.highlights.map((h) => ({
+        highlightedFeatures: (firstFrame.highlights || []).map((h) => ({
           id: h.featureId,
           layerId: h.layerId,
         })),
@@ -313,7 +336,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         layerConfig: state.layerConfig.map((l) => ({
           ...l,
           filterValues: {},
-          visible: firstFrame.visibleLayers.includes(l.id),
+          visible: (firstFrame.visibleLayers || []).includes(l.id),
         })),
 
         // we close all standard panels
@@ -333,19 +356,27 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
       if (!state.storyManifest) return state;
       const frame = state.storyManifest.frames[action.payload];
 
+      const newTimeRange = frame.timeRange || [
+        state.settings.timeRange.min,
+        state.settings.timeRange.max,
+      ];
+
       return {
         ...state,
         currentStoryIndex: action.payload,
-        committedTimeRange: frame.timeRange,
-        liveTimeRange: frame.timeRange,
-        highlightedFeatures: frame.highlights.map((h) => ({
+        committedTimeRange: newTimeRange,
+        liveTimeRange: newTimeRange,
+
+        highlightedFeatures: (frame.highlights || []).map((h) => ({
           id: h.featureId,
           layerId: h.layerId,
         })),
+
         layerConfig: state.layerConfig.map((l) => ({
           ...l,
-          visible: frame.visibleLayers.includes(l.id),
+          visible: (frame.visibleLayers || []).includes(l.id),
         })),
+
         // do we want the detAIL panel to open?
         selectedFeature: null,
         layerSubState: {},

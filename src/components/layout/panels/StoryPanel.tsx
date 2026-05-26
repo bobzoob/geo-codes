@@ -63,6 +63,34 @@ export default function StoryPanel() {
           {frame.title}
         </Typography>
 
+        {/* OPTIONAL IMAGE RENDERER */}
+        {frame.image && (
+          <Box sx={{ mb: 2 }}>
+            <Box
+              component="img"
+              src={frame.image.url}
+              alt={frame.title}
+              sx={{
+                width: "100%",
+                maxHeight: "250px",
+                objectFit: "cover",
+                borderRadius: 1,
+                border: "1px solid rgba(255,255,255,0.1)",
+              }}
+            />
+            {frame.image.signature && (
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                display="block"
+                sx={{ mt: 0.5, fontStyle: "italic", textAlign: "right" }}
+              >
+                {frame.image.signature}
+              </Typography>
+            )}
+          </Box>
+        )}
+
         <Box
           sx={{ color: "text.secondary", "& p": { mb: 2, lineHeight: 1.6 } }}
         >

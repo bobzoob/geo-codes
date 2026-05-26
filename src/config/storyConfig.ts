@@ -7,64 +7,81 @@ import type { StoryConfig } from "../types/state";
 export const availableStories: StoryConfig[] = [
   {
     id: "story-1",
-    title: "The Jena Network",
-    author: "DH Research Team",
+    title: "Das Jena Netzwerk",
+    author: "This serves as a subtitle", // this can serve as a subtitle
     frames: [
       {
         id: "frame-0",
-        title: "The Beginnings",
-        text: "In the early 1790s, a network formed arround the Schlegel Brothers Romantic movement.",
+        title: "Die Anfänge",
+        text: "In den frühen 1790ern formte sich ein Netzwerk um die Schlegel Brüder: der Beginn der deutschen Romantik.",
         timeRange: [1790, 1796],
         visibleLayers: ["letters-lines", "local-letter-hubs"],
         highlights: [],
+        camera: {
+          center: [11.5899, 50.92878],
+          zoom: 5,
+        },
       },
       {
         id: "frame-1",
-        title: "Introduction to Jena",
-        text: "In the late 1790s, [Jena](https://de.wikipedia.org/wiki/Jena) became the center of the early Romantic movement. Notice the concentration of local letters.",
+        title: "Die Jena Jahre",
+        text: "In den späten 1790ern, wurde [Jena](https://de.wikipedia.org/wiki/Jena) zum Zentrum dieser frühromantischen Bewegung. Viele Briefpartner des Netzwerks lebten in der Stadt selbst oder im nahen Umland.",
         timeRange: [1796, 1799],
+        image: {
+          url: "https://upload.wikimedia.org/wikipedia/commons/b/b6/View_of_Jena.jpg",
+          signature: "© 17-century view of Jena, Public Domain",
+        },
         visibleLayers: ["letters-lines", "local-letter-hubs"],
         highlights: [
           { layerId: "local-letter-hubs", featureId: "gnd:4028557-1" },
         ],
+        camera: {
+          center: [11.5899, 50.92878], // coordinates MUST have this format[lng, lat]!
+          zoom: 7, // soom level
+          pitch: 45, //  we can also change camera angle
+        },
       },
       {
         id: "frame-2",
-        title: "The Network Expands",
-        text: "By 1801, the correspondence network expanded significantly towards Berlin.",
+        title: "Der Kreis erweitert sich",
+        text: "Um 1801 expandiert das Netzwerk zunächst Richtung Frankreich und den Niederlanden bevor es sich schließlich stärker Richtung Berlin orientiert.",
         timeRange: [1800, 1802],
         visibleLayers: ["letters-lines", "local-letter-hubs"],
         highlights: [
           { layerId: "local-letter-hubs", featureId: "gnd:4028557-1" },
           { layerId: "local-letter-hubs", featureId: "gnd:2004272-3" },
         ],
+        camera: {
+          center: [13.41053, 52.52437],
+          zoom: 7,
+        },
       },
     ],
   },
   {
     id: "story-2",
-    title: "The Schlegel Brothers",
-    author: "August & Friedrich",
+    title: "Die Schlegel Brüder",
+    author: "Author Name",
     frames: [
       {
         id: "frame-0",
-        title: "Early Correspondence",
-        text: "This story focuses specifically on the letters exchanged between the Schlegel brothers before 1800.",
+        title: "Frühe Briefe",
+        text: "Hier konzentrieren wir uns auf die frühe Konversation zwischen August und Friedrich Schlegel vor 1800.",
         timeRange: [1790, 1799],
-        visibleLayers: ["letters-lines"],
+        visibleLayers: ["grouping-layer"],
         highlights: [
           // highlight the specific letter line using its GeoJSON ID
-          { layerId: "letters-lines", featureId: "AWS-aw-0002" },
-          { layerId: "letters-lines", featureId: "AWS-aw-07k6" },
+          { layerId: "grouping-layer", featureId: "AWS-aw-01ej" },
+          { layerId: "grouping-layer", featureId: "AWS-aw-02k2" },
         ],
       },
       {
         id: "frame-1",
-        title: "The Network Expands",
-        text: "By 1801, the correspondence network expanded significantly towards Berlin.",
+        title: "Spätere Jahre",
+        text: "Nach 1801 nimmt der Briefverkehr andere Züge an.",
         timeRange: [1800, 1802],
-        visibleLayers: ["letters-lines", "local-letter-hubs"],
-        highlights: [{ layerId: "letters-lines", featureId: "gnd:4005728-8" }],
+        visibleLayers: ["grouping-layer", "local-letter-hubs"],
+        highlights: [{ layerId: "grouping-layer", featureId: "AWS-aw-09ge" }],
       },
     ],
   },

@@ -4,13 +4,13 @@ import type { LayerProps } from "react-map-gl/maplibre";
 import type { FeatureCollection } from "geojson";
 import type { HistoricalFeatureCollection, EntityMap } from "../types/geojson";
 import type { LayerComponentProps } from "../types/state";
+import { getHighlightExpressions } from "../utils/layerUtils";
 
 interface ArrowLayerProps extends LayerComponentProps {
   id: string;
   data: HistoricalFeatureCollection;
   showAllTooltips: boolean;
   entities: EntityMap;
-  // array of highlighted IDs for multi-selection/grouping
   highlightedIds?: string[];
   hoveredId?: string | null;
 }
@@ -20,6 +20,7 @@ function ArrowLayer({
   data,
   highlightedIds = [],
   hoveredId,
+  styleConfig,
 }: ArrowLayerProps) {
   const { current: map } = useMap();
 
@@ -28,87 +29,69 @@ function ArrowLayer({
   const symbolLayerId = `${id}-symbol`;
   const highlightLayerId = `${id}-highlight`;
 
+  // we extract the base color and opacity from config but fallback to blue
+  const baseColor = (styleConfig?.color as string) || "#3388ff";
+  const baseOpacity = styleConfig?.opacity ?? 0.6;
+
+  // must make image name unique per layer so different layers can have different colored arrows
+  const imageName = `arrow-head-${id}`;
+
+  // hightlight
+  const { isHighlighted, isHovered } = getHighlightExpressions(
+    highlightedIds,
+    hoveredId
+  );
+
   // Arrow Icon
   useEffect(() => {
     if (!map) return;
-    if (!map || map.hasImage("arrow-head")) return;
+    if (map.hasImage(imageName)) return;
 
     const width = 24;
     const height = 24;
     const img = new Image(width, height);
     img.onload = () => {
-      if (!map.hasImage("arrow-head")) {
+      if (!map.hasImage(imageName)) {
         try {
-          map.addImage("arrow-head", img);
+          map.addImage(imageName, img);
         } catch (e) {
-          // but we ignore this error if another layer added it milliseconds ago
-          console.warn("Arrow image already added.");
+          console.warn(`Arrow image ${imageName} already added.`);
         }
       }
     };
-    img.src = `data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' viewBox='0 0 24 24'%3E%3Cpath fill='%233388ff' d='M12 2L22 22L12 18L2 22L12 2Z' /%3E%3C/svg%3E`;
-  }, [map]);
 
-  // HIGHLIGHT LOGIC
-  // her we use a dummy "__none__" if the array is empty to prevent MapLibre parsing errors
-  const safeHighlightedIds =
-    highlightedIds.length > 0 ? highlightedIds : ["__none__"];
-
-  const isHighlighted = [
-    "in",
-    ["to-string", ["get", "id"]], // to safely get the ID as a string
-    ["literal", safeHighlightedIds],
-  ];
-
-  const isHovered = [
-    "==",
-    ["to-string", ["get", "id"]],
-    hoveredId ? String(hoveredId) : "__none__",
-  ];
+    // hex color encode for SVG data URI
+    const encodedColor = encodeURIComponent(baseColor);
+    img.src = `data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' viewBox='0 0 24 24'%3E%3Cpath fill='${encodedColor}' d='M12 2L22 22L12 18L2 22L12 2Z' /%3E%3C/svg%3E`;
+  }, [map, imageName, baseColor]);
 
   // DYNAMIC LINE STYLE
 
-  // Lines
+  //  Lines
   const lineColor = [
     "case",
     isHighlighted,
     "#ff9800",
     isHovered,
     "#ffffff",
-    "#3388ff",
+    baseColor,
   ] as any;
 
   const lineWidth = [
     "interpolate",
     ["linear"],
     ["zoom"],
-    // At Zoom 5:
     5,
-    [
-      "case",
-      isHighlighted,
-      5,
-      isHovered,
-      4, //  width if hovered
-      1, // default width at zoom 5
-    ],
-    // At Zoom 12:
+    ["case", isHighlighted, 5, isHovered, 4, 1],
     12,
-    [
-      "case",
-      isHighlighted,
-      8, // slight grow
-      isHovered,
-      6,
-      3, // default width at zoom 12
-    ],
+    ["case", isHighlighted, 8, isHovered, 6, 3],
   ] as any;
 
   const lineOpacity = [
     "case",
     ["any", isHighlighted, isHovered],
     1,
-    0.6,
+    baseOpacity,
   ] as any;
 
   const lineStyle: LayerProps = {
@@ -150,7 +133,7 @@ function ArrowLayer({
     },
   };
 
-  // ARROW HEADS (Symbols)
+  // ARROW HEADS
   const arrowStyle: LayerProps = {
     id: symbolLayerId,
     type: "symbol",
@@ -164,18 +147,12 @@ function ArrowLayer({
     layout: {
       "symbol-placement": "line",
       "symbol-spacing": 100,
-      "icon-image": "arrow-head",
-      "icon-size": [
-        "case",
-        ["any", isHighlighted, isHovered],
-        1.0, //  larger icon when active
-        0.8,
-      ] as any,
+      "icon-image": imageName,
+      "icon-size": ["case", ["any", isHighlighted, isHovered], 1.0, 0.8] as any,
       "icon-allow-overlap": true,
-      "icon-rotate": 90, //?
+      "icon-rotate": 90,
       visibility: "visible",
     },
-    // but we only want to show the arrow heads when zoomed in
     minzoom: 6,
   };
 

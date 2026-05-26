@@ -1,5 +1,7 @@
 import { Box, Button, Container, Paper, Link, Typography } from "@mui/material";
 import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useAppState } from "../../state/appContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useMemo } from "react";
@@ -72,13 +74,15 @@ To set up and run this project on your own machine, follow these steps:
 
 The application should now be running on \`http://localhost:5173\`.
 
+You mide have to install several packages/ libraries based on your individual setup.
+
 ---
 
 ## 🧩 Architecture
 
-The framework is built on a **unidirectional data flow**. To achieve "Data Blindness," the core engine holds no hardcoded references to specific data fields. Instead, it relies entirely on configuration mappings to pass data through a predictable cycle: **State Mutation $\rightarrow$ Selector Pipeline $\rightarrow$ UI/Map Rendering**.
+The framework is built on a **unidirectional data flow**. To achieve the "Data Blindness", the core engine holds no hardcoded references to specific data fields. Instead, it relies entirely on configuration mappings to pass data through a predictable cycle: **State Mutation -> Selector Pipeline -> UI/Map Rendering**.
 
-### 3.1 State Management (\`appContext.tsx\` & \`appReducer.ts\`)
+### State Management (\`appContext.tsx\` & \`appReducer.ts\`)
 
 The application state lives inside a single \`AppState\` object, defined in \`types/state.ts\` and provided globally by \`appContext.tsx\`. State mutations are exclusively handled by dispatched actions in \`appReducer.ts\`.
 
@@ -90,7 +94,7 @@ The state is divided into functional categories:
 
 When a user interacts with the app, an action (like \`SET_COMMITTED_TIME_RANGE\`) is dispatched to \`appReducer.ts\`. The reducer updates the Control State, which automatically triggers the Selector Pipeline.
 
-### 3.2 The Processing Pipeline (\`selectors.ts\`)
+### The Processing Pipeline (\`selectors.ts\`)
 
 The \`computeProcessedData\` function inside \`selectors.ts\` is a memoized selector that transforms raw GeoJSON into map-ready data whenever the Control State changes. It executes this pipeline:
 
@@ -106,7 +110,7 @@ The \`computeProcessedData\` function inside \`selectors.ts\` is a memoized sele
 
 The map and UI components only consume the final \`processedData\` output of this pipeline.
 
-### 3.3 The Registry Pattern
+### The Registry Pattern
 
 The engine works with **Registry Patterns** to keep the core functionalities separated. A specific rendering or filtering logic can be decoupled into modular plugins, allowing developers to extend the app without touching the core engine files.
 
@@ -117,7 +121,7 @@ The engine works with **Registry Patterns** to keep the core functionalities sep
 
 ---
 
-## 🤝 The Data Contract (GeoJSON & Dictionaries)
+## 🤝 The Data Contract
 
 The framework requires data to be provided in two distinct formats: **GeoJSON** (for spatial data and properties) and **Dictionaries** (for entity resolution).
 
@@ -175,11 +179,11 @@ Spatial data must be provided as a standard GeoJSON \`FeatureCollection\`. Prope
 
 ---
 
-## 💪 Developer Guide (Configuration & Usage)
+## 💪 Developer Guide
 
 Because the engine is content-agnostic, developers can build the application entirely through configuration files.
 
-### Step 1: Registering Sources (\`sources.ts\`)
+### Registering Sources (\`sources.ts\`)
 
 Sources define where the data lives and how the engine should read it. The \`mapping\` object translates your specific GeoJSON properties into concepts the engine understands.
 
@@ -205,7 +209,7 @@ export const sources: Record<string, SourceConfig> = {
 };
 \`\`\`
 
-### Step 2: Configuring Layers (\`layers.ts\`)
+### Configuring Layers (\`layers.ts\`)
 
 Layers define how a source is filtered, processed, and rendered.
 
@@ -254,13 +258,13 @@ Layers define how a source is filtered, processed, and rendered.
   tableConfig: {
     primaryField: "title",
     secondaryField: "activity_log",
-    secondaryFormat: "count",               // Tells engine to count the array
-    secondarySuffix: "recorded activities"  // Appends text
+    secondaryFormat: "count",               // tells engine to count the array
+    secondarySuffix: "recorded activities"  // appends text
   }
 }
 \`\`\`
 
-### Step 3: Popup Templates (\'templates.ts\')
+### Popup Templates (\'templates.ts\')
 
 Templates define the UI layout for the \`FeatureDetailPanel\`, the panel that shows one unique feature. By setting \`resolveEntities: true\`, the engine automatically looks up the raw GeoJSON IDs in your Dictionary and renders human-readable names.
 
@@ -287,7 +291,7 @@ export const popupTemplates: Record<string, PopupFieldConfig[]> = {
 };
 \`\`\`
 
-### Step 4: Story Mode (\`storyConfig.ts\')
+### Story Mode (\`storyConfig.ts\')
 
 Story Mode allows researchers to create guided narrative tours. A story is an array of \`frames\`. Each frame controls the timeline, layer visibility, and an unrestricted array of features to highlight simultaneously.
 
@@ -313,7 +317,7 @@ export const availableStories: StoryConfig[] = [
 ];
 \`\`\`
 
-### Step 5: Theming (\`mapTheme.ts\')
+### Theming (\`mapTheme.ts\')
 
 All visual branding is centralized in \`src/config/mapTheme.ts\` using Material UI\'s \`createTheme\`.
 
@@ -347,7 +351,7 @@ MuiIconButton: {
 
 ## 🏆 Extending the Framework
 
-Because the framework relies on the **Registry Pattern**, extending its capabilities is safe and modular. You dont need to modify the core engine (like \`selectors.ts\` or \`appReducer.ts\`) to add new visual features or filtering logic. Instead, you create a new module and register it.
+Because the framework relies on the **Registry Pattern**, you dont need to modify the core engine (like \`selectors.ts\` or \`appReducer.ts\`) to add new visual features or filtering logic. Instead, you create a new module and register it.
 
 Here is how to implement the three most common extensions.
 
@@ -470,7 +474,7 @@ activeFilters: [
 
 ### Adding Custom UI Components (Popups)
 
-While the \`templates.ts\` file handles classig UI components (like lists, text, tags, etc.), you can still add customized layout (like a complex Correspondence Header with specific routing logic).
+While the \`templates.ts\` file handles classig UI components (like lists, text, tags, etc.), you can still add customized layout (like a complex "Correspondence Header" with specific routing logic).
 
 **Step 1: Create the Component**
 Create a React component that accepts the feature and the dictionary.
@@ -509,8 +513,12 @@ export const customPopupComponents: Record<string, React.FC<any>> = {
 };
 \`\`\`
 
-**Step 3: Use it in \`templates.ts\')**
+
+**Step 3: Use it in \`templates.ts\')** 
+
 Tell the popup template to use the \`custom\` type and reference your registered ID.
+
+
 
 \`\`\`typescript
 export const popupTemplates: Record<string, PopupFieldConfig[]> = {
@@ -530,8 +538,8 @@ export const popupTemplates: Record<string, PopupFieldConfig[]> = {
 const generateSlug = (text: string) => {
   return String(text)
     .toLowerCase()
-    .replace(/\s+/g, "-") // Replace spaces with -
-    .replace(/[^\w-]+/g, ""); // Remove all non-word chars
+    .replace(/\s+/g, "-") // spaces with -
+    .replace(/[^\w-]+/g, ""); // remove non-word chars
 };
 
 function DocumentationView() {
@@ -551,6 +559,7 @@ function DocumentationView() {
   }, []);
 
   // CREATE CUSTOM RENDERERS TO INJECT ANCHOR IDs
+  // HIGHLIGHT CODE
   const components = {
     h2: ({ node, ...props }: any) => {
       const slug = generateSlug(props.children);
@@ -559,6 +568,25 @@ function DocumentationView() {
     h3: ({ node, ...props }: any) => {
       const slug = generateSlug(props.children);
       return <h3 id={slug} {...props} />;
+    },
+    code: (props: any) => {
+      const { children, className, node, ...rest } = props;
+      const match = /language-(\w+)/.exec(className || "");
+
+      return match ? (
+        <SyntaxHighlighter
+          {...rest}
+          PreTag="div"
+          children={String(children).replace(/\n$/, "")}
+          language={match[1]}
+          style={vscDarkPlus}
+        />
+      ) : (
+        // fallback for inline code
+        <code {...rest} className={className}>
+          {children}
+        </code>
+      );
     },
   };
 

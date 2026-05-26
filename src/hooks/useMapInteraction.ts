@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import type { MapLayerMouseEvent } from "react-map-gl/maplibre";
 import { useAppState } from "../state/appContext";
+import { evaluateBaseFilter } from "../filters/filterUtils";
 
 /**
  * SelectionState represents a feature selected globally (via Click or Table).
@@ -124,79 +125,73 @@ export function useMapInteraction() {
 
       // DDynamic Grouping
       const groupingField = config.interactionConfig?.groupingField;
-      if (groupingField) {
-        let rawGroupValue = feature.properties[groupingField];
+      const groupingFilter = config.interactionConfig?.groupingFilter;
+      if (groupingFilter || groupingField) {
+        const allFeatures = state.processedData[layerId]?.features || [];
 
-        // safely parse arrays/objects
-        if (
-          typeof rawGroupValue === "string" &&
-          (rawGroupValue.startsWith("[") || rawGroupValue.startsWith("{"))
-        ) {
-          try {
-            rawGroupValue = JSON.parse(rawGroupValue);
-          } catch (e) {}
-        }
+        const groupedFeatures = allFeatures.filter((f: any) => {
+          // 1. Use the advanced BaseFilter logic if provided
+          if (groupingFilter) {
+            // Pass the clicked `feature` as the referenceFeature!
+            return evaluateBaseFilter(f, groupingFilter, feature);
+          }
 
-        if (
-          rawGroupValue !== undefined &&
-          rawGroupValue !== null &&
-          rawGroupValue !== ""
-        ) {
-          // we normalize to an array so we can easily compare single strings OR arrays
+          // 2. Fallback to the old groupingField logic
+          let rawGroupValue = feature.properties[groupingField!];
+          if (
+            typeof rawGroupValue === "string" &&
+            (rawGroupValue.startsWith("[") || rawGroupValue.startsWith("{"))
+          ) {
+            try {
+              rawGroupValue = JSON.parse(rawGroupValue);
+            } catch (e) {}
+          }
+          if (
+            rawGroupValue === undefined ||
+            rawGroupValue === null ||
+            rawGroupValue === ""
+          )
+            return false;
+
           const groupValuesArray = Array.isArray(rawGroupValue)
             ? rawGroupValue
             : [rawGroupValue];
-
-          //we find all features in this layer that share ANY value in this array
-          const allFeatures = state.processedData[layerId]?.features || [];
-          const groupedFeatures = allFeatures.filter((f: any) => {
-            let fVal = f.properties[groupingField];
-
-            // we parse the target features value
-            if (
-              typeof fVal === "string" &&
-              (fVal.startsWith("[") || fVal.startsWith("{"))
-            ) {
-              try {
-                fVal = JSON.parse(fVal);
-              } catch (e) {}
-            }
-
-            if (fVal === undefined || fVal === null || fVal === "")
-              return false;
-
-            const fValArray = Array.isArray(fVal) ? fVal : [fVal];
-
-            // does fValArray share any elements with groupValuesArray? - dedoupling
-            return fValArray.some((v: any) => groupValuesArray.includes(v));
-          });
-
-          if (groupedFeatures.length > 1) {
-            // we hightlight
-            const highlights = groupedFeatures.map((f: any) => ({
-              id: String(f.id || f.properties?.id),
-              layerId,
-            }));
-            dispatch({ type: "SET_HIGHLIGHTED_FEATURES", payload: highlights });
-
-            // here we mock a parent feature to trick the generic drill-down table - this needs refactoring!
-            const displayTitle = groupValuesArray.join(", ");
-            const mockParent = {
-              id: `group-${displayTitle}`,
-              properties: {
-                ...feature.properties,
-                title: `Group: ${displayTitle}`, // fallback title
-                [childKey]: groupedFeatures, // inject the grouped features as children
-              },
-            };
-
-            dispatch({
-              type: "SET_LAYER_DRILL_DOWN",
-              payload: { layerId, parentFeature: mockParent },
-            });
-            dispatch({ type: "SELECT_FEATURE", payload: null });
-            return; // stop execution here
+          let fVal = f.properties[groupingField!];
+          if (
+            typeof fVal === "string" &&
+            (fVal.startsWith("[") || fVal.startsWith("{"))
+          ) {
+            try {
+              fVal = JSON.parse(fVal);
+            } catch (e) {}
           }
+          if (fVal === undefined || fVal === null || fVal === "") return false;
+          const fValArray = Array.isArray(fVal) ? fVal : [fVal];
+          return fValArray.some((v: any) => groupValuesArray.includes(v));
+        });
+
+        if (groupedFeatures.length > 1) {
+          const highlights = groupedFeatures.map((f: any) => ({
+            id: String(f.id || f.properties?.id),
+            layerId,
+          }));
+          dispatch({ type: "SET_HIGHLIGHTED_FEATURES", payload: highlights });
+
+          const mockParent = {
+            id: `group-${feature.id}`,
+            properties: {
+              ...feature.properties,
+              title: `Grouped Features (${groupedFeatures.length})`,
+              [childKey]: groupedFeatures,
+            },
+          };
+
+          dispatch({
+            type: "SET_LAYER_DRILL_DOWN",
+            payload: { layerId, parentFeature: mockParent },
+          });
+          dispatch({ type: "SELECT_FEATURE", payload: null });
+          return;
         }
       }
 

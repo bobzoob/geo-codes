@@ -3,6 +3,7 @@ import type { LayerProps } from "react-map-gl/maplibre";
 import type { FeatureCollection } from "geojson";
 import type { HistoricalFeatureCollection } from "../types/geojson";
 import type { LayerComponentProps } from "../types/state";
+import { getHighlightExpressions } from "../utils/layerUtils";
 
 /**
  * Define the style configuration shape for Point Layers
@@ -44,6 +45,11 @@ function PointLayer({
   const baseColor = config.color || "#3388ff";
   const baseRadius = config.radius || 6;
 
+  const { isHighlighted, isHovered } = getHighlightExpressions(
+    highlightedIds,
+    hoveredId
+  );
+
   // RADIUS EXPRESSION
   let circleRadius: any;
   if (intensityField && Array.isArray(baseRadius)) {
@@ -79,23 +85,6 @@ function PointLayer({
       baseRadius * 1.5,
     ];
   }
-
-  //HIGHLIGHT LOGIC
-  // this is dupplicated logic from ArrowLayer "__none__" dummy etc.
-  const safeHighlightedIds =
-    highlightedIds.length > 0 ? highlightedIds : ["__none__"];
-
-  const isHighlighted = [
-    "in",
-    ["to-string", ["get", "id"]],
-    ["literal", safeHighlightedIds],
-  ];
-
-  const isHovered = [
-    "==",
-    ["to-string", ["get", "id"]],
-    hoveredId ? String(hoveredId) : "__none__",
-  ];
 
   // HIGHLIGHTING RADIUS
   const finalRadius = [

@@ -138,6 +138,40 @@ export default function FeatureDetailPanel() {
                         {field.value}
                       </Typography>
                     );
+                  // image
+                  if (field.type === "image") {
+                    if (!field.value) return null; // skip if no image URL is provided in the data
+                    return (
+                      <Box key={index} sx={{ mb: 2 }}>
+                        <Box
+                          component="img"
+                          src={String(field.value)}
+                          alt={field.label || "Feature Image"}
+                          sx={{
+                            width: "100%",
+                            maxHeight: "200px",
+                            objectFit: "cover",
+                            borderRadius: 1,
+                            border: "1px solid rgba(255,255,255,0.1)",
+                          }}
+                        />
+                        {field.meta?.caption && (
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            display="block"
+                            sx={{
+                              mt: 0.5,
+                              fontStyle: "italic",
+                              textAlign: "right",
+                            }}
+                          >
+                            {field.meta.caption}
+                          </Typography>
+                        )}
+                      </Box>
+                    );
+                  }
                   if (field.type === "text")
                     return (
                       <Typography key={index} variant="body2" gutterBottom>

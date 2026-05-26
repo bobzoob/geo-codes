@@ -8,6 +8,7 @@ import type { LayerConfig } from "../types/state";
 export const initialLayerConfig: LayerConfig[] = [
   {
     id: "letters-lines",
+    group: "briefe", // sorts layer to a certain group
     sourceId: "correspondence-data", // pointer to GeoJSON + Mapping in sources.ts
     templateId: "letter-detail", // pointer to popup structure in templates.ts
     name: "Briefe der Frühromantik I", // displayed title
@@ -94,6 +95,7 @@ export const initialLayerConfig: LayerConfig[] = [
 
   {
     id: "local-letter-hubs",
+    group: "briefe",
     sourceId: "correspondence-data", // same source as lines
     templateId: "city-detail", // different popup template
     name: "Briefe der Frühromantik II", // displayed title
@@ -255,6 +257,111 @@ export const initialLayerConfig: LayerConfig[] = [
     },
     tableConfig: {
       primaryField: "title",
+    },
+  },
+  {
+    id: "grouping-layer",
+    sourceId: "correspondence-data", // pointer to GeoJSON + Mapping in sources.ts
+    templateId: "letter-detail", // pointer to popup structure in templates.ts
+    name: "Gruppierte Briefe", // displayed title
+    subtitle: "Sender/Empfänger gleich", // displayed subtitle
+    tag: "GeoJSON", // displayed information tag
+    description: "Diese Ebene gruppiert die Briefdaten nach Kontaktpartnern.", // displayed description
+    visible: false, // layer toggled "on" from start
+    type: "line", // layer type
+
+    // DATA SPLITTER
+    // here we define: only render features where "is_local" is NOT true aka flase
+    baseFilter: { field: "is_local", operator: "neq", value: true },
+
+    activeFilters: [
+      { moduleId: "dateRange", placement: "search-area" },
+      { moduleId: "plainText", placement: "search-area" },
+      {
+        moduleId: "entitySearch",
+        placement: "search-area",
+        section: "advanced",
+      },
+      {
+        moduleId: "sender",
+        placement: "search-area",
+        section: "advanced",
+        params: {
+          useSuggestions: true, // enable fold-out
+          suggestionType: "Person", // suggestions
+          activeLabel: "Sender",
+        },
+      },
+      {
+        moduleId: "recipient",
+        placement: "search-area",
+        section: "advanced",
+        params: {
+          useSuggestions: true,
+          suggestionType: "Person",
+          activeLabel: "Recipient",
+        },
+      },
+      {
+        moduleId: "placeFilter",
+        placement: "search-area",
+        section: "advanced",
+        params: {
+          useSuggestions: true,
+          suggestionType: "Place",
+          activeLabel: "Location",
+        },
+      },
+      {
+        moduleId: "dataStatus",
+        placement: "search-area",
+        section: "toggles",
+        params: {
+          availableToggles: [
+            { id: "gndOnly", label: "GND Verified Only" },
+            { id: "manualOnly", label: "Manual Verified Only" },
+            { id: "excludeInternal", label: "Hide Uncertain" },
+          ],
+        },
+      },
+    ],
+
+    styleConfig: {
+      // color of lines
+      color: "#90ee90",
+      opacity: 0.6,
+    },
+
+    // style the table
+    tableConfig: {
+      primaryField: "date_start",
+      secondaryField: "sender_ids",
+      resolveSecondary: true, // turn GND IDs into names
+    },
+
+    // group features based on values
+    interactionConfig: {
+      clickTrigger: "table",
+      //   groupingField: "sender_ids", // uncomment this, if you want to group based on a singel condition
+
+      // we can use the baseFilter logic to group features
+      // in this example we group all letters sharing the same sender
+      // AND the same recipient
+      groupingFilter: {
+        logic: "AND",
+        conditions: [
+          {
+            field: "sender_ids",
+            operator: "in",
+            matchReferenceField: "sender_ids",
+          },
+          {
+            field: "recipient_ids",
+            operator: "in",
+            matchReferenceField: "recipient_ids",
+          },
+        ],
+      },
     },
   },
 ];

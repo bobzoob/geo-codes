@@ -79,6 +79,7 @@ export const popupTemplates: Record<string, PopupFieldConfig[]> = {
   // template for Aggregated views
   "city-detail": [
     { field: "title", type: "header" },
+    // { field: "image_url", type: "image",  captionField: "image_copyright" }, // uncomment if you have image_urls in your data
     { field: "count", label: "Letters in this city", type: "text" },
     {
       field: "children",
