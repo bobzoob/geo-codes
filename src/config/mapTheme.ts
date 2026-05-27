@@ -1,5 +1,9 @@
 import { alpha, createTheme } from "@mui/material/styles";
 
+/**
+ * THIS IS WHERE YOU STYLE YOUR WEBSITE
+ */
+
 export const mapTheme = createTheme({
   // TYPOGRAPHY
   typography: {

@@ -339,13 +339,14 @@ export const initialLayerConfig: LayerConfig[] = [
       resolveSecondary: true, // turn GND IDs into names
     },
 
-    // group features based on values
+    // GROUP features based on values
     interactionConfig: {
       clickTrigger: "table",
-      //   groupingField: "sender_ids", // uncomment this, if you want to group based on a singel condition
+      //   groupingField: "sender_ids", // SIMPLE: uncomment this, if you want to group based on a singel condition
 
-      // we can use the baseFilter logic to group features
-      // in this example we group all letters sharing the same sender
+      // COMPLEX
+      // we can use the baseFilter logic to group features.
+      // In this example we group all letters sharing the same sender
       // AND the same recipient
       groupingFilter: {
         logic: "AND",

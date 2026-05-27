@@ -23,6 +23,7 @@ export const availableStories: StoryConfig[] = [
         },
 
         // we can filter the map data for this frame (logic hidden for user)
+        // we use the baseFilter logic here
         storyFilters: {
           "letters-lines": {
             field: "full_text",
