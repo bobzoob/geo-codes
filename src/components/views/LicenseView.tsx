@@ -12,7 +12,7 @@ Permission is granted as [CC BY-SA 4.0](https://de.wikipedia.org/wiki/Creative_C
 You can copy and use this software free of charge. You are allowed to copy, share, modify, and even commercially use this work. You must always give proper attribution to the original creator and release any modified versions under the same [CC BY-SA 4.0](https://de.wikipedia.org/wiki/Creative_Commons) license.
 
 ## Citation
-Author Name: *geocodes. Framework designed to visualize historical datasets in a multilayered and interactive map*, University City 2026, licensed under CC BY-SA 4.0. Source: [https://historic-interactive-map.vercel.app/](https://historic-interactive-map.vercel.app/) 
+Inka Jurk: *geocodes. DH Framework designed to visualize historical datasets in a multilayered and interactive map*, University City 2026, licensed under CC BY-SA 4.0. Source: [https://historic-interactive-map.vercel.app/](https://historic-interactive-map.vercel.app/) 
 
 You must specify if original source was modified.
 

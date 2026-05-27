@@ -190,6 +190,7 @@ export interface StoryFrame {
   highlights?: { layerId: string; featureId: string }[]; // features to highlight
   camera?: StoryCamera;
   image?: { url: string; signature?: string };
+  storyFilters?: Record<string, BaseFilter>; // baseFilter
 }
 
 export interface StoryConfig {

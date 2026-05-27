@@ -19,6 +19,7 @@ export interface ProcessedField {
     listLabelField?: string;
     listSecondaryField?: string;
     detailTemplateId?: string;
+    caption?: string;
   };
 }
 
@@ -253,12 +254,17 @@ export const extractGenericPopupData = (
         }
       }
     }
+    let captionText = undefined;
+    if (conf.captionField) {
+      captionText = props[conf.captionField] ?? feature[conf.captionField];
+    }
 
     fields.push({
       label: conf.label,
       type: conf.type,
       value: processedValue,
       url: fieldUrl,
+      meta: { caption: captionText },
     });
   });
 

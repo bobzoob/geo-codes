@@ -48,13 +48,13 @@ To set up and run this project on your own machine, follow these steps:
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/bobzoob/historic-interactive-map.git
+    git clone https://github.com/bobzoob/geo-codes.git
     ```
 
 2.  **Navigate into the project directory:**
 
     ```bash
-    cd historic-interactive-map
+    cd geo-codes
     ```
 
 3.  **Install the dependencies:**
@@ -78,7 +78,7 @@ You mide have to install several packages/libraries based on your individual set
 
 The framework is built on a **unidirectional data flow**. To achieve "Data Blindness," the core engine holds no hardcoded references to specific data fields. Instead, it relies entirely on configuration mappings to pass data through a predictable cycle: **State Mutation $\rightarrow$ Selector Pipeline $\rightarrow$ UI/Map Rendering**.
 
-### 3.1 State Management (`appContext.tsx` & `appReducer.ts`)
+### State Management (`appContext.tsx` & `appReducer.ts`)
 
 The application state lives inside a single `AppState` object, defined in `types/state.ts` and provided globally by `appContext.tsx`. State mutations are exclusively handled by dispatched actions in `appReducer.ts`.
 
@@ -90,7 +90,7 @@ The state is divided into functional categories:
 
 When a user interacts with the app, an action (like `SET_COMMITTED_TIME_RANGE`) is dispatched to `appReducer.ts`. The reducer updates the Control State, which automatically triggers the Selector Pipeline.
 
-### 3.2 The Processing Pipeline (`selectors.ts`)
+### The Processing Pipeline (`selectors.ts`)
 
 The `computeProcessedData` function inside `selectors.ts` is a memoized selector that transforms raw GeoJSON into map-ready data whenever the Control State changes. It executes this pipeline:
 
@@ -106,7 +106,7 @@ The `computeProcessedData` function inside `selectors.ts` is a memoized selector
 
 The map and UI components only consume the final `processedData` output of this pipeline.
 
-### 3.3 The Registry Pattern
+### The Registry Pattern
 
 The engine works with **Registry Patterns** to keep the core functionalities separated. A specific rendering or filtering logic can be decoupled into modular plugins, allowing developers to extend the app without touching the core engine files.
 

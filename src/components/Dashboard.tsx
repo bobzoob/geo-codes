@@ -145,10 +145,11 @@ function Dashboard() {
                 </Box>
 
                 <Typography variant="body2" sx={{ textAlign: "justify" }}>
-                  Complete documentation of the technical architecture of this
-                  application, including the reactive data pipeline, component
-                  structure, and guides for extending the functionality with new
-                  layers, filters, or datasets.
+                  This complete documentation provides information about the
+                  technical architecture of this application, the data pipeline
+                  and the registry pattern. It also provides a developer guide
+                  for configuring the existing framework and extending the
+                  functionality with new layers, filters or datasets.
                 </Typography>
               </CardContent>
 

@@ -5,29 +5,30 @@ const privacyMarkdown = `
 ## Responsible Party
 
 Responsible for collection, processing, and use of your personal data:
+ 
+**Vercel Inc.**  
+**440 N Barranca Avenue #4133**  
+**Covina, CA 91723**
 
-**Author Name**  
-**Author Street 1**  
-**55122 Place**  
-**Germany**
+**United States**
 
 ---
 
 ## Data Subject Rights
 
-You have the right to request, free of charge, information about the personal data stored by us. You also have the right to request the correction, restriction, or deletion of your personal data.
+You have the right to request, free of charge, information about the personal data stored by us. You also have the right to request the correction, restriction, or deletion of your personal data. For detailed information go to the [Vercel Privacy Policy](https://vercel.com/legal/privacy-policy#your-privacy-rights).
 
 Restriction or deletion may not be possible where legal obligations require continued storage of the data.
 
-Please contact our data protection officer at:
+Please contact the Vercel Inc. protection officer at:
 
-**privacy@this-site.app**
+**privacy@vercel.com**
 
 ---
 
 ## Collection of General Information
 
-Hosting of this website is provided by Vercel Inc. When accessing this website, technical connection data (e.g. IP address, browser information, timestamps) may be processed in server log files for security and operational purposes.  
+Hosting of this website is provided by Vercel Inc. When accessing this website, technical connection data (like your IP address, your browser information or timestamps) may be processed in server log files for security and operational purposes.  
 
 Log files are general in nature and do not allow conclusions to be drawn about your identity. 
 

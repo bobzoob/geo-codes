@@ -21,6 +21,15 @@ export const availableStories: StoryConfig[] = [
           center: [11.5899, 50.92878],
           zoom: 5,
         },
+
+        // we can filter the map data for this frame (logic hidden for user)
+        storyFilters: {
+          "letters-lines": {
+            field: "full_text",
+            operator: "contains",
+            value: "Jena",
+          },
+        },
       },
       {
         id: "frame-1",
@@ -74,6 +83,13 @@ export const availableStories: StoryConfig[] = [
           { layerId: "grouping-layer", featureId: "AWS-aw-01ej" },
           { layerId: "grouping-layer", featureId: "AWS-aw-02k2" },
         ],
+        storyFilters: {
+          "grouping-layer": {
+            field: "full_text",
+            operator: "contains",
+            value: "Schlegel",
+          },
+        },
       },
       {
         id: "frame-1",
